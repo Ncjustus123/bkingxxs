@@ -6,6 +6,8 @@ import 'package:http/http.dart' as http;
 
 import 'package:Libmot_Mobile/resources/networking/end_points.dart';
 
+import 'end_points.dart';
+import 'getBase.dart';
 import 'getBase.dart';
 
 class ApiCalls {
@@ -31,6 +33,12 @@ class ApiCalls {
     final header = await init();
     final url = baseInstance.base.baseUrl + EndPoints.getProfile;
     final response = await http.get(url, headers: header);
+    return response;
+  }
+  Future<http.Response> getAllRoutes() async {
+    final header = await init();
+    final url = baseInstance.base.baseUrl + EndPoints.getTerminals;
+    final response = await http.get(url,headers: header);
     return response;
   }
 }

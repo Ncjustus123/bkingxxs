@@ -2,6 +2,7 @@ import 'package:Libmot_Mobile/repository/user_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import 'repository/booking_repository.dart';
 import 'routes.dart';
 
 void main() {
@@ -15,6 +16,9 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(
           create: (_) => UserRepository(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => BookingRepository(),
         ),
       ],
       child: MaterialApp(
