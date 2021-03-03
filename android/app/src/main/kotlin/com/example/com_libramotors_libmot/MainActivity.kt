@@ -1,5 +1,4 @@
-package com.example.libmot_mobile_flutter
-
+package com.libramotors.libmot
 import io.flutter.embedding.android.FlutterActivity
 
 class MainActivity: FlutterActivity() {
