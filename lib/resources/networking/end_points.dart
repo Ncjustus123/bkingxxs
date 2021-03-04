@@ -2,6 +2,8 @@ class EndPoints {
   static String getToken = "api/Token";
   static String getProfile = "api/Account/getProfile";
   static String getTerminals = "api/Terminal/Get";
+  static String getDestinationTerminal = "api/Route/GetDestinationTerminals/";
+  static String searchBuses = "api/Booking/Search";
 
   // @GET("api/Terminal/Get")
   // Call<DepartureTerminalResponse> getAllTerminals();

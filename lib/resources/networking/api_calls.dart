@@ -7,6 +7,8 @@ import 'package:http/http.dart' as http;
 import 'package:Libmot_Mobile/resources/networking/end_points.dart';
 
 import 'end_points.dart';
+import 'end_points.dart';
+import 'getBase.dart';
 import 'getBase.dart';
 import 'getBase.dart';
 
@@ -41,4 +43,17 @@ class ApiCalls {
     final response = await http.get(url,headers: header);
     return response;
   }
-}
+  Future<http.Response> getDestinationTerminals(int id) async {
+    final header = await init();
+    final url = baseInstance.base.baseUrl + EndPoints.getDestinationTerminal + id.toString();
+    final response = await http.get(url,headers:header);
+    return response;
+
+  }
+  Future<http.Response> searchBuses()async{
+    final header = await init();
+    final url = baseInstance.base.baseUrl + EndPoints.searchBuses;
+    final response = await http.get(url,headers:header);
+    return response;
+  }
+  }

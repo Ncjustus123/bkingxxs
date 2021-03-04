@@ -61,9 +61,7 @@ class UserRepository with ChangeNotifier {
         profile = await getProfile(tokenData.object.token);
         preference.setLoggedInState(true);
         preference.saveProfile(profile);
-
         _loggedInStatus = LoggedInStatus.LoggedIn;
-
         notifyListeners();
       }
     } else {

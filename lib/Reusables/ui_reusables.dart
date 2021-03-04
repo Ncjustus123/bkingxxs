@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 class UIReusable{
-  void showLoading( {@required Color progressColor, Color backgroundColor, Color indicatorColor,Color textColor,  
+  static void showLoading( {@required Color progressColor, Color backgroundColor, Color indicatorColor,Color textColor,  
  EasyLoadingIndicatorType indicatorType, status}){
   EasyLoading.instance
   ..displayDuration =  const Duration(milliseconds: 1000)
