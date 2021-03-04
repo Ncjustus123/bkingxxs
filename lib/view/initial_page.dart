@@ -12,17 +12,27 @@ class InitialPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<UserRepository>(context);
+
     user.checkLogin();
     switch (user.loggedInStatus) {
       case LoggedInStatus.LoggedIn:
+        //Navigator.of(context).pushNamed(dashboardRoute);
         return DashboardPage();
         break;
       case LoggedInStatus.LoggedOut:
+        //Navigator.of(context).pushNamed(dashboardRoute);
         return WelcomePage();
-      default:
-        return Waiting();
+        break;
+      case LoggedInStatus.Unknown:
+        Waiting();
         break;
     }
+
+    return Scaffold(
+      body: Container(
+        color: Colors.red,
+      ),
+    );
   }
 }
 

@@ -5,6 +5,7 @@ import 'view/initial_page.dart';
 import 'view/welcome_page.dart';
 import 'view/dashboard_page.dart';
 import 'view/login_page.dart';
+import 'view/bus_hire_page.dart';
 
 Route routes(RouteSettings settings) {
   switch (settings.name) {
@@ -41,6 +42,11 @@ Route routes(RouteSettings settings) {
     case "/bookASeat":
       {
         return MaterialPageRoute(builder: (context) => BookASeatPage());
+      }
+      break;
+    case "/busHire":
+      {
+        return MaterialPageRoute(builder: (context) => BusHirePage());
       }
       break;
     default:
