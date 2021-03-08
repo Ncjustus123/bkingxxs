@@ -1,7 +1,8 @@
 class EndPoints {
-  static String getToken = "api/Token";
-  static String getProfile = "api/Account/getProfile";
-  static String getTerminals = "api/Terminal/Get";
+  static final String getToken = "api/Token";
+  static final String getProfile = "api/Account/getProfile";
+  static final String getTerminals = "api/Terminal/Get";
+  static final String postHireBus = "api/HireRequest/Add";
 
   // @GET("api/Terminal/Get")
   // Call<DepartureTerminalResponse> getAllTerminals();
