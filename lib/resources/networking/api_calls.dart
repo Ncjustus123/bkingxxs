@@ -11,7 +11,6 @@ import 'end_points.dart';
 import 'end_points.dart';
 import 'getBase.dart';
 import 'getBase.dart';
-import 'getBase.dart';
 
 class ApiCalls {
   Future<Map<String, String>> init() async {
@@ -38,10 +37,18 @@ class ApiCalls {
     final response = await http.get(url, headers: header);
     return response;
   }
+
   Future<http.Response> getAllRoutes() async {
     final header = await init();
     final url = baseInstance.base.baseUrl + EndPoints.getTerminals;
-    final response = await http.get(url,headers: header);
+    final response = await http.get(url, headers: header);
+    return response;
+  }
+
+  Future<http.Response> postHireBus(Map<String, dynamic> body) async {
+    final header = await init();
+    final url = baseInstance.base.baseUrl + EndPoints.postHireBus;
+    final response = await http.post(url, headers: header);
     return response;
   }
   Future<http.Response> getDestinationTerminals(int id) async {

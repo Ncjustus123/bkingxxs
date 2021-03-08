@@ -8,6 +8,7 @@ class BusHirePage extends StatelessWidget {
   final fromController = TextEditingController();
   final toController = TextEditingController();
   final dateController = TextEditingController();
+  final busHireDetailsPage = "/busHireDetails";
 
   HireBusRepository hireBus;
 
@@ -24,10 +25,10 @@ class BusHirePage extends StatelessWidget {
             key: _formKeyBusHire,
             child: Column(
               children: [
-                fromField(),
-                toField(),
+                fromField(context),
+                toField(context),
                 dateField(context),
-                proceedButton(),
+                proceedButton(context),
               ],
             ),
           ),
@@ -36,20 +37,24 @@ class BusHirePage extends StatelessWidget {
     ));
   }
 
-  fromField() {
+  fromField(BuildContext context) {
     return TextFormField(
-      controller: fromController,
-      validator: (value) {
-        if (value.isEmpty) {
-          return 'Please input a departure address';
-        }
-        return null;
-      },
-    );
+        readOnly: true,
+        controller: fromController,
+        validator: (value) {
+          if (value.isEmpty) {
+            return 'Please input a departure address';
+          }
+          return null;
+        },
+        onTap: () async {
+          fromController.text = await hireBus.getAddress(context);
+        });
   }
 
-  toField() {
+  toField(BuildContext context) {
     return TextFormField(
+      readOnly: true,
       controller: toController,
       validator: (value) {
         if (value.isEmpty) {
@@ -57,7 +62,9 @@ class BusHirePage extends StatelessWidget {
         }
         return null;
       },
-      onTap: () {},
+      onTap: () async {
+        toController.text = await hireBus.getAddress(context);
+      },
     );
   }
 
@@ -81,15 +88,22 @@ class BusHirePage extends StatelessWidget {
             helpText: "Select travelling date");
 
         dateController.text = '${DateFormat('yMMMd').format(selectedTime)}';
+        hireBus.hireBus.departureDate =
+            '${DateFormat('yyyy-MM-dd').format(selectedTime)}';
       },
     );
   }
 
-  proceedButton() {
+  proceedButton(context) {
     return ElevatedButton(
       child: Text("Proceed"),
       onPressed: () {
-        // hireBus.hireBus.
+        if (_formKeyBusHire.currentState.validate()) {
+          hireBus.hireBus.departure = fromController.text;
+          hireBus.hireBus.destination = toController.text;
+
+          Navigator.of(context).pushNamed(busHireDetailsPage);
+        }
       },
     );
   }

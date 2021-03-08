@@ -6,7 +6,9 @@ import 'view/initial_page.dart';
 import 'view/welcome_page.dart';
 import 'view/dashboard_page.dart';
 import 'view/login_page.dart';
-import 'view/bus_hire_page.dart';
+import 'view/bus_hire/bus_hire_page.dart';
+import 'view/bus_hire/bus_hire_details_page.dart';
+import 'view/bus_hire/bus_hire_success_page.dart';
 
 Route routes(RouteSettings settings) {
   switch (settings.name) {
@@ -53,6 +55,16 @@ Route routes(RouteSettings settings) {
       case "/selectBus":
       {
         return MaterialPageRoute(builder: (context) => SelectBusPage());
+      }
+      break;
+    case "/busHireDetails":
+      {
+        return MaterialPageRoute(builder: (context) => BusHIreDetailsPage());
+      }
+      break;
+    case "/busHireSuccess":
+      {
+        return MaterialPageRoute(builder: (context) => BusHireSuccessPage());
       }
       break;
     default:

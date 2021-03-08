@@ -34,7 +34,7 @@ dependencies:
   flutter_easyloading: ^2.2.2
   bubble_tab_indicator: "^0.1.4"
   intl: ^0.16.0
-
+  flutter_google_places: ^0.2.8
 
 
 
