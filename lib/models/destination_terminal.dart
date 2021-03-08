@@ -1,18 +1,20 @@
-class DepatureTerminalModel {
+class DestinationTerminalModel {
   String code;
   String shortDescription;
-  List<DepatureObject> object;
+  List<DestinationObject> object;
 
-  DepatureTerminalModel({this.code, this.shortDescription, this.object});
+  DestinationTerminalModel({this.code, this.shortDescription, this.object});
 
-  DepatureTerminalModel.fromJson(Map<String, dynamic> json) {
+  DestinationTerminalModel.fromJson(Map<String, dynamic> json) {
     code = json['code'];
     shortDescription = json['shortDescription'];
     if (json['object'] != null) {
-      object = new List<DepatureObject>();
+      object = new List<DestinationObject>();
       json['object'].forEach((v) {
-        object.add(new DepatureObject.fromJson(v));
+        object.add(new DestinationObject.fromJson(v));
       });
+    } else {
+      object = [];
     }
   }
 
@@ -27,7 +29,7 @@ class DepatureTerminalModel {
   }
 }
 
-class DepatureObject {
+class DestinationObject {
   int id;
   String name;
   double latitude;
@@ -41,7 +43,7 @@ class DepatureObject {
   double onlineDiscount;
   bool isOnlineDiscount;
 
-  DepatureObject(
+  DestinationObject(
       {this.id,
       this.name,
       this.latitude,
@@ -55,7 +57,7 @@ class DepatureObject {
       this.onlineDiscount,
       this.isOnlineDiscount});
 
-  DepatureObject.fromJson(Map<String, dynamic> json) {
+  DestinationObject.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
     latitude = json['latitude'];

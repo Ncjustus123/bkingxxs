@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:Libmot_Mobile/models/get_buses_model.dart';
 import 'package:Libmot_Mobile/resources/database/user_preference.dart';
 import 'package:http/http.dart' as http;
 
@@ -50,10 +51,11 @@ class ApiCalls {
     return response;
 
   }
-  Future<http.Response> searchBuses()async{
+  Future<http.Response> searchBuses(Map<String, dynamic> body)async{
     final header = await init();
     final url = baseInstance.base.baseUrl + EndPoints.searchBuses;
-    final response = await http.get(url,headers:header);
+    //final body = json.encode(body);
+    final response = await http.post(url, body: json.encode(body), headers:header);
     return response;
   }
   }

@@ -1,3 +1,4 @@
+import 'package:Libmot_Mobile/view/select_bus_page.dart';
 import 'package:flutter/material.dart';
 
 import 'view/book_a_seat.dart';
@@ -47,6 +48,11 @@ Route routes(RouteSettings settings) {
     case "/busHire":
       {
         return MaterialPageRoute(builder: (context) => BusHirePage());
+      }
+      break;
+      case "/selectBus":
+      {
+        return MaterialPageRoute(builder: (context) => SelectBusPage());
       }
       break;
     default:
