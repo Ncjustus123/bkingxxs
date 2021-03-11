@@ -1,3 +1,4 @@
+import 'package:Libmot_Mobile/repository/booking_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 
@@ -22,4 +23,22 @@ class UIReusable{
   
   
 }
+}
+class DropdownWidget extends StatelessWidget {
+  const DropdownWidget(
+      {Key key, @required this.booking, this.items, this.onchange})
+      : super(key: key);
+
+  final BookingRepository booking;
+  final List<DropdownMenuItem<String>>  items;
+  final Function onchange;
+
+  @override
+  Widget build(BuildContext context) {
+    return DropdownButtonFormField<String>(
+      items: items,
+      onChanged: onchange,
+    );
+  }
+  
 }

@@ -10,12 +10,15 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 
 import '../resources/networking/api_calls.dart';
-import '../resources/networking/api_calls.dart';
-import '../resources/networking/api_calls.dart';
+
 
 class BookingRepository with ChangeNotifier {
-  bool depatureAvailable;
-  bool arrivalAvailable;
+  //bool depatureAvailable;
+  //bool arrivalAvailable;
+CurrentBookingStatus currentBookingStatus;
+
+
+  
 
   final booking = new BookingModel();
   final getBuses = new GetBusesModel();
@@ -66,7 +69,7 @@ class BookingRepository with ChangeNotifier {
       final Map<String, dynamic> responseData = json.decode(response.body);
       getBusesResponseModel = GetBusesResponseModel.fromJson(responseData);
       if (getBusesResponseModel.object == null) {
-        depatureAvailable = false;
+        //depatureAvailable = false;
 
       
         _scaffoldKey.currentState.showSnackBar(
@@ -74,12 +77,14 @@ class BookingRepository with ChangeNotifier {
 
         
       } else {
-        Navigator.of(context).pushNamed(busSearch);
+        currentBookingStatus = CurrentBookingStatus.Departure;
+        Navigator.of(context).pushNamed(busSearch,);
       }
     } else {
       return null;
     }
   }
+  
 
   void tripTypeChange(int i) {
     getBuses.tripType = i;
@@ -95,4 +100,9 @@ class BookingRepository with ChangeNotifier {
         lastDate: now.add(Duration(days: 14)), //TODO days from firebase//open for only two weeks
         helpText: "Select travelling date");
   }
+}
+
+enum CurrentBookingStatus {
+  Departure,
+  Arrival
 }

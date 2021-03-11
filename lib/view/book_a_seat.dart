@@ -1,5 +1,6 @@
 import 'package:Libmot_Mobile/models/destination_terminal.dart';
 import 'package:Libmot_Mobile/models/get_route.dart';
+import 'package:Libmot_Mobile/view/passenger_info_page.dart';
 import 'package:bubble_tab_indicator/bubble_tab_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:Libmot_Mobile/repository/booking_repository.dart';
@@ -28,7 +29,6 @@ class _BookASeatPageState extends State<BookASeatPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    
   }
 
   @override
@@ -69,13 +69,14 @@ class _BookASeatPageState extends State<BookASeatPage> {
                         ],
                         onTap: (index) {
                           print('$index');
-                         // booking.getBuses.tripType = index;
+                          // booking.getBuses.tripType = index;
                           booking.tripTypeChange(index);
                         },
                       ),
                     ),
                   ),
-                  DropdownButtonFormField<String>(
+                  DropdownWidget(
+                    booking: booking,
                     items: (booking.getRouteModel == null)
                         ? []
                         : booking.getRouteModel.object.items
@@ -85,13 +86,14 @@ class _BookASeatPageState extends State<BookASeatPage> {
                               value: route.id.toString(),
                             );
                           }).toList(),
-                    onChanged: (String id) {
+                    onchange: (String id) {
                       booking.getBuses.departureTerminalId = int.parse(id);
                       booking.getDestinationTerminals(
                           booking.getBuses.departureTerminalId);
                     },
                   ),
-                  DropdownButtonFormField<String>(
+                  DropdownWidget(
+                    booking: booking,
                     items: (booking.destinationTerminalModel == null)
                         ? []
                         : booking.destinationTerminalModel.object
@@ -101,22 +103,27 @@ class _BookASeatPageState extends State<BookASeatPage> {
                               value: object.id.toString(),
                             );
                           }).toList(),
-                    onChanged: (String id) {
+                    onchange: (String id) {
                       booking.getBuses.destinationTerminalId = int.tryParse(id);
                     },
                   ),
                   depatureDateField(context),
                   (booking.getBuses.tripType == 1)
-                    ?  arrivalDateField(context)
+                      ? arrivalDateField(context)
                       : SizedBox(),
                   fromField(),
                   proceedButton(context),
+                  GestureDetector(
+                    onTap: (){
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => PassengerInfoPage()));
+                    },
+                    child: Icon(Icons.ac_unit_outlined)),
                 ],
               )),
         ));
   }
 
-   FlatButton proceedButton(BuildContext context) {
+  FlatButton proceedButton(BuildContext context) {
     return FlatButton(
       onPressed: () {
         booking.getBuses.numberOfAdults = int.parse(passenger.text);

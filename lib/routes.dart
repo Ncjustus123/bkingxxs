@@ -1,3 +1,5 @@
+
+import 'package:Libmot_Mobile/view/passenger_info_page.dart';
 import 'package:Libmot_Mobile/view/select_bus_page.dart';
 import 'package:flutter/material.dart';
 
@@ -9,8 +11,11 @@ import 'view/login_page.dart';
 import 'view/bus_hire/bus_hire_page.dart';
 import 'view/bus_hire/bus_hire_details_page.dart';
 import 'view/bus_hire/bus_hire_success_page.dart';
+import 'Reusables/select_seat_page.dart';
 
 Route routes(RouteSettings settings) {
+  final args = settings.arguments;
+
   switch (settings.name) {
     case "initial":
       {
@@ -57,6 +62,13 @@ Route routes(RouteSettings settings) {
         return MaterialPageRoute(builder: (context) => SelectBusPage());
       }
       break;
+      case "/selectSeats":
+      {
+        return MaterialPageRoute(builder: (context) => SelectSeatPage(
+          bus : args,
+        ));
+      }
+      break;
     case "/busHireDetails":
       {
         return MaterialPageRoute(builder: (context) => BusHIreDetailsPage());
@@ -65,6 +77,12 @@ Route routes(RouteSettings settings) {
     case "/busHireSuccess":
       {
         return MaterialPageRoute(builder: (context) => BusHireSuccessPage());
+      }
+      break;
+      case "/passengerInfomation":
+      {
+        return MaterialPageRoute(builder: (context) => PassengerInfoPage());
+
       }
       break;
     default:
