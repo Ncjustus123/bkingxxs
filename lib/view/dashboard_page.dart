@@ -51,6 +51,9 @@ class DashboardPage extends StatelessWidget {
                 // corperWee(),
                 // openExpress(),
                 // libmotDrive(context),
+                helpSupport(context),
+                checkBookingStatus(context),
+                becomeAgent(context),
                 ElevatedButton(
                   child: Text("Log out"),
                   onPressed: () {
@@ -99,4 +102,30 @@ class DashboardPage extends StatelessWidget {
   // Widget logOut(user, context) {
   //   return
   // }
+
+  Widget helpSupport(BuildContext context) {
+    return ElevatedButton(
+      child: Text("Help & Support"),
+      onPressed: () {
+        Navigator.of(context).pushNamed("/helpSupportPage");
+      },
+    );
+  }
+
+  Widget checkBookingStatus(BuildContext context) {
+    return ElevatedButton(
+        child: Text("Check booking status"),
+        onPressed: () {
+          Navigator.of(context).pushNamed("/checkBookingStatus");
+        });
+  }
+
+  Widget becomeAgent(BuildContext context) {
+    return ElevatedButton(
+      child: Text("Become an Agent"),
+      onPressed: () {
+        Navigator.of(context).pushNamed("/becomeAnAgentPage");
+      },
+    );
+  }
 }

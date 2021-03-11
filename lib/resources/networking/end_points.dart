@@ -5,6 +5,8 @@ class EndPoints {
   static String getDestinationTerminal = "api/Route/GetDestinationTerminals/";
   static String searchBuses = "api/Booking/Search";
   static final String postHireBus = "api/HireRequest/Add";
+  static final String getBookingDetails = "api/Booking/Details/";
+  static final String postAgentRequest = "api/Agents/AddApplicant";
 
   // @GET("api/Terminal/Get")
   // Call<DepartureTerminalResponse> getAllTerminals();

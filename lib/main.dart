@@ -1,3 +1,4 @@
+import 'package:Libmot_Mobile/repository/booking_status_repository.dart';
 import 'package:Libmot_Mobile/repository/hire_bus_repository.dart';
 import 'package:Libmot_Mobile/repository/user_repository.dart';
 import 'package:flutter/material.dart';
@@ -25,6 +26,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (_) => HireBusRepository(),
         ),
+        ChangeNotifierProvider(create: (_) => BookingStatusRepository()),
       ],
       child: MaterialApp(
         title: "Libmot Mobile",

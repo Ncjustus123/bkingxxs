@@ -87,9 +87,11 @@ class BusHirePage extends StatelessWidget {
             lastDate: now.add(Duration(days: 14)), //open for only two weeks
             helpText: "Select travelling date");
 
-        dateController.text = '${DateFormat('yMMMd').format(selectedTime)}';
-        hireBus.hireBus.departureDate =
-            '${DateFormat('yyyy-MM-dd').format(selectedTime)}';
+        dateController.text =
+            '${DateFormat('dd MMMM yyyy').format(selectedTime)}';
+
+        print(dateController.text);
+        print(hireBus.hireBus.departureDate);
       },
     );
   }
@@ -101,6 +103,7 @@ class BusHirePage extends StatelessWidget {
         if (_formKeyBusHire.currentState.validate()) {
           hireBus.hireBus.departure = fromController.text;
           hireBus.hireBus.destination = toController.text;
+          hireBus.hireBus.departureDate = dateController.text;
 
           Navigator.of(context).pushNamed(busHireDetailsPage);
         }

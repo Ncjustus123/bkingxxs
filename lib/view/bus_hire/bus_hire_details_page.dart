@@ -1,5 +1,6 @@
 import 'package:Libmot_Mobile/repository/hire_bus_repository.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class BusHIreDetailsPage extends StatelessWidget {
@@ -146,7 +147,14 @@ class BusHIreDetailsPage extends StatelessWidget {
           hireBus.hireBus.numberOfBuses = int.tryParse(numBusesController.text);
           hireBus.hireBus.nextOfKinName = nextKinNameController.text;
           hireBus.hireBus.nextOfKinPhoneNumber = nextKinPhoneController.text;
+          hireBus.hireBus.address = "";
+          hireBus.hireBus.gender = "";
+          hireBus.hireBus.middleName = "";
+          hireBus.hireBus.requestDate = hireBus.hireBus.departureDate;
+          //'${DateFormat('dd MMMM yyyy').format(DateTime.now())}';
 
+          hireBus.hireBus.requestDate = "12 March, 2021";
+          hireBus.hireBus.departureDate = "12 March, 2021";
           hireBus.postHireBus();
         }
       },
