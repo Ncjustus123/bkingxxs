@@ -1,11 +1,8 @@
-<<<<<<< HEAD
 
 import 'package:Libmot_Mobile/view/passenger_info_page.dart';
-=======
 import 'package:Libmot_Mobile/view/check_booking_status.dart';
 import 'package:Libmot_Mobile/view/help_support/complaints_page.dart';
 import 'package:Libmot_Mobile/view/help_support/help_support_page.dart';
->>>>>>> a928542d36956e31b738e45d7409180409cf954e
 import 'package:Libmot_Mobile/view/select_bus_page.dart';
 import 'package:flutter/material.dart';
 
