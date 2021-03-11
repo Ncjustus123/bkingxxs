@@ -1,6 +1,10 @@
+import 'package:Libmot_Mobile/view/check_booking_status.dart';
+import 'package:Libmot_Mobile/view/help_support/complaints_page.dart';
+import 'package:Libmot_Mobile/view/help_support/help_support_page.dart';
 import 'package:Libmot_Mobile/view/select_bus_page.dart';
 import 'package:flutter/material.dart';
 
+import 'view/become_agent/become_an_agent.dart';
 import 'view/book_a_seat.dart';
 import 'view/initial_page.dart';
 import 'view/welcome_page.dart';
@@ -52,7 +56,7 @@ Route routes(RouteSettings settings) {
         return MaterialPageRoute(builder: (context) => BusHirePage());
       }
       break;
-      case "/selectBus":
+    case "/selectBus":
       {
         return MaterialPageRoute(builder: (context) => SelectBusPage());
       }
@@ -67,6 +71,25 @@ Route routes(RouteSettings settings) {
         return MaterialPageRoute(builder: (context) => BusHireSuccessPage());
       }
       break;
+    case "/helpSupportPage":
+      {
+        return MaterialPageRoute(builder: (context) => HelpSupportPage());
+      }
+      break;
+    case "/complaintsPage":
+      {
+        return MaterialPageRoute(builder: (context) => ComplaintsPage());
+      }
+      break;
+    case "/checkBookingStatus":
+      {
+        return MaterialPageRoute(builder: (context) => CheckBooking());
+      }
+      break;
+    case "/becomeAnAgentPage":
+      {
+        return MaterialPageRoute(builder: (context) => BecomeAnAgent());
+      }
     default:
       {
         // return MaterialPageRoute(builder: (context) => DashBoard());  //404 page

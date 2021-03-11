@@ -58,6 +58,22 @@ class UserPreference {
     preferences.setInt(companyId, profile.object.companyId);
   }
 
+  Future<Profile> getProfile() async {
+    final profile = Profile();
+    profile.object.firstName = preferences.getString(firstName);
+    profile.object.lastName = preferences.getString(lastName);
+    profile.object.email = preferences.getString(email);
+    profile.object.phoneNumber = preferences.getString(phoneNumber);
+    profile.object.gender = preferences.getString(gender);
+    profile.object.nextOfKin = preferences.getString(nextOfKin);
+    profile.object.nextOfKinPhone = preferences.getString(nextOfKinPhone);
+    profile.object.referralCode = preferences.getString(referralCode);
+    profile.object.userType = preferences.getInt(userType);
+    profile.object.companyId = preferences.getInt(companyId);
+
+    return profile;
+  }
+
   Future<String> getToken() async {
     String token = preferences.getString("token");
     return token;

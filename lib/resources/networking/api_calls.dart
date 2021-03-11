@@ -48,21 +48,41 @@ class ApiCalls {
   Future<http.Response> postHireBus(Map<String, dynamic> body) async {
     final header = await init();
     final url = baseInstance.base.baseUrl + EndPoints.postHireBus;
-    final response = await http.post(url, headers: header);
+    final response =
+        await http.post(url, body: json.encode(body), headers: header);
     return response;
   }
+
   Future<http.Response> getDestinationTerminals(int id) async {
     final header = await init();
-    final url = baseInstance.base.baseUrl + EndPoints.getDestinationTerminal + id.toString();
-    final response = await http.get(url,headers:header);
+    final url = baseInstance.base.baseUrl +
+        EndPoints.getDestinationTerminal +
+        id.toString();
+    final response = await http.get(url, headers: header);
     return response;
-
   }
-  Future<http.Response> searchBuses(Map<String, dynamic> body)async{
+
+  Future<http.Response> searchBuses(Map<String, dynamic> body) async {
     final header = await init();
     final url = baseInstance.base.baseUrl + EndPoints.searchBuses;
     //final body = json.encode(body);
-    final response = await http.post(url, body: json.encode(body), headers:header);
+    final response =
+        await http.post(url, body: json.encode(body), headers: header);
     return response;
   }
+
+  Future<http.Response> getBookingStatus(String bookingRef) async {
+    final header = await init();
+    final url =
+        baseInstance.base.baseUrl + EndPoints.getBookingDetails + bookingRef;
+    final response = await http.get(url, headers: header);
+    return response;
   }
+
+  Future<http.Response> individualAgentReuest() async {
+    final header = await init();
+    final url = baseInstance.base.baseUrl + EndPoints.postAgentRequest;
+    final response = await http.post(url);
+    return response;
+  }
+}

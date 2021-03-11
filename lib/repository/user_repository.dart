@@ -82,4 +82,10 @@ class UserRepository with ChangeNotifier {
       return null;
     }
   }
+
+  Future<Profile> getSavedProfile() async {
+    final preference = await UserPreference.getInstance();
+    profile = await preference.getProfile();
+    return profile;
+  }
 }
