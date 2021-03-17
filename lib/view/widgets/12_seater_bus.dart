@@ -11,7 +11,6 @@ class TwelveSeaterBus extends StatelessWidget {
 
   BookingRepository booking;
   SeatSelectionRepository seatSelection;
-  
 
   @override
   Widget build(BuildContext context) {
@@ -121,10 +120,6 @@ class TwelveSeaterBus extends StatelessWidget {
 
             return;
           }
-            
-
-          
-          
 
           seatSelection.selectSeat(seatObject);
         } else if (seatObject.status == SeatStatus.selected) {

@@ -16,19 +16,23 @@ class UserPreference {
     }
   }
 
-  static const String loggedIn = "loggedIn";
-  static const String firstName = "firstName";
-  static const String lastName = "lastName";
-  static const String email = "email";
-  static const String phoneNumber = "phoneNumber";
-  static const String gender = "gender";
-  static const String nextOfKin = "nextOfKin";
-  static const String nextOfKinPhone = "nextOfKinPhone";
+  static final String token = "token";
+  static final String refreshToken = "refreshToken";
+  static final String expiresIn = "expiresIn";
 
-  static const String referralCode = "referralCode";
-  static const String userType = "userType";
-  static const String companyId = "companyId";
-  static const String dateJoined = "dateJoined";
+  static final String loggedIn = "loggedIn";
+  static final String firstName = "firstName";
+  static final String lastName = "lastName";
+  static final String email = "email";
+  static final String phoneNumber = "phoneNumber";
+  static final String gender = "gender";
+  static final String nextOfKin = "nextOfKin";
+  static final String nextOfKinPhone = "nextOfKinPhone";
+
+  static final String referralCode = "referralCode";
+  static final String userType = "userType";
+  static final String companyId = "companyId";
+  static final String dateJoined = "dateJoined";
 
   void setLoggedInState(bool isLoggedIn) {
     preferences.setBool(loggedIn, isLoggedIn);
@@ -38,10 +42,10 @@ class UserPreference {
     return preferences.getBool(loggedIn);
   }
 
-  void saveToken(GetTokenResponse token) async {
-    preferences.setString("token", token.object.token);
-    preferences.setString("refreshToken", token.object.refreshToken);
-    preferences.setString("expiresIn", token.object.expires);
+  void saveToken(GetTokenResponse tokenResponse) async {
+    preferences.setString(token, tokenResponse.object.token);
+    preferences.setString(refreshToken, tokenResponse.object.refreshToken);
+    preferences.setString(expiresIn, tokenResponse.object.expires);
   }
 
   void saveProfile(Profile profile) {

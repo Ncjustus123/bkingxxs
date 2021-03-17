@@ -3,7 +3,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 class HelpSupportPage extends StatelessWidget {
   final initialText =
-      "Thank you for choosing Libmot. Please use any ofthe channels below to reach us and know more about our services";
+      "Thank you for choosing Libmot. Please use any of the channels below to reach us and know more about our services";
   final libmotPhone = "tel:09031565022";
   final termsConditionUrl = "https://libmot.com/terms.aspx";
   final faqUrl = "https://libmot.com/FAQ.aspx";

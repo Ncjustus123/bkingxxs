@@ -79,10 +79,11 @@ class ApiCalls {
     return response;
   }
 
-  Future<http.Response> individualAgentReuest() async {
+  Future<http.Response> agentRequest(Map<String, dynamic> body) async {
     final header = await init();
     final url = baseInstance.base.baseUrl + EndPoints.postAgentRequest;
-    final response = await http.post(url);
+    final response =
+        await http.post(url, body: json.encode(body), headers: header);
     return response;
   }
 }

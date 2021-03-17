@@ -1,5 +1,8 @@
+import 'package:Libmot_Mobile/models/agent_Registration_model.dart';
+import 'package:Libmot_Mobile/repository/agent_provider.dart';
 import 'package:bubble_tab_indicator/bubble_tab_indicator.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class BecomeAnAgent extends StatefulWidget {
   @override
@@ -43,14 +46,20 @@ class _BecomeAnAgentState extends State<BecomeAnAgent> {
 
   Widget switchBetween;
 
+  AgentProvider agentProvider;
+  AgentRegistration agentRegistration = AgentRegistration();
+
   @override
   void initState() {
     switchBetween = individualForm();
+
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    agentProvider = Provider.of<AgentProvider>(context);
+
     return Scaffold(
         body: SafeArea(
       child: SingleChildScrollView(
@@ -91,7 +100,7 @@ class _BecomeAnAgentState extends State<BecomeAnAgent> {
             ),
             AnimatedSwitcher(
               child: switchBetween,
-              duration: const Duration(microseconds: 600),
+              duration: const Duration(milliseconds: 400),
             ),
           ],
         ),
@@ -297,8 +306,80 @@ class _BecomeAnAgentState extends State<BecomeAnAgent> {
     return ElevatedButton(
       child: Text("Apply"),
       onPressed: () {
-        index == 0 ? {if (_individualFormkey.currentState.validate()) {}} : {};
+        (index == 0)
+            ? {
+                if (_individualFormkey.currentState.validate())
+                  {fillIndividualRegistrationModel()}
+              }
+            : {
+                if (_coporationFormKey.currentState.validate())
+                  {fillCoporationRegistrationModel()}
+              };
       },
     );
+  }
+
+  fillIndividualRegistrationModel() {
+    agentRegistration.firstName = firstNameController.text;
+    agentRegistration.middleName = middleNameController.text;
+    agentRegistration.lastName = lastNameController.text;
+    agentRegistration.address = addressController.text;
+    agentRegistration.email = emailController.text;
+    //agentRegistration.gender = firstNameController.text;  //female 0, male 1
+    agentRegistration.phone = phoneNumberController.text;
+    agentRegistration.nextOfKin = nextOfKinNameController.text;
+    agentRegistration.nextOfKinPhone = firstNameController.text;
+
+    agentRegistration.companyName = null;
+    agentRegistration.natureOfBusiness = null;
+    agentRegistration.companyAddress = null;
+    agentRegistration.companyEmail = null;
+    agentRegistration.businessPhone = null;
+
+    agentRegistration.agentType = index;
+
+    agentProvider.agentRequest(agentRegistration);
+  }
+
+  fillCoporationRegistrationModel() {
+    agentRegistration.companyName = companyNameController.text;
+    agentRegistration.natureOfBusiness = natureBusinessController.text;
+    agentRegistration.companyAddress = companyAddressController.text;
+    agentRegistration.companyEmail = companyEmailController.text;
+    agentRegistration.businessPhone = companyPhoneController.text;
+
+    agentRegistration.firstName = null;
+    agentRegistration.middleName = null;
+    agentRegistration.lastName = null;
+    agentRegistration.address = null;
+    agentRegistration.gender = null;
+    agentRegistration.phone = null;
+    agentRegistration.email = null;
+    agentRegistration.nextOfKin = null;
+    agentRegistration.nextOfKinPhone = null;
+
+    agentRegistration.agentType = index;
+
+    agentProvider.agentRequest(agentRegistration);
+  }
+
+  @override
+  void dispose() {
+    companyEmailController.dispose();
+    companyPhoneController.dispose();
+    companyAddressController.dispose();
+    natureBusinessController.dispose();
+    companyNameController.dispose();
+    nextOfKinNumberController.dispose();
+    nextOfKinNameController.dispose();
+    emailController.dispose();
+    phoneNumberController.dispose();
+    genderController.dispose();
+    addressController.dispose();
+    lastNameController.dispose();
+    middleNameController.dispose();
+    firstNameController.dispose();
+
+    super.dispose();
   }
 }
