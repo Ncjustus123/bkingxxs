@@ -83,9 +83,11 @@ class UserRepository with ChangeNotifier {
     }
   }
 
-  Future<Profile> getSavedProfile() async {
+  Future<void> getSavedProfile() async {
     final preference = await UserPreference.getInstance();
-    profile = await preference.getProfile();
-    return profile;
+    profile = new Profile();
+    profile.object = await preference.getProfile();
+    notifyListeners();
+    //return profile;
   }
 }

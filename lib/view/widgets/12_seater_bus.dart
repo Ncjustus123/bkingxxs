@@ -121,10 +121,7 @@ class TwelveSeaterBus extends StatelessWidget {
 
             return;
           }
-            
-
-          
-          
+       
 
           seatSelection.selectSeat(seatObject);
         } else if (seatObject.status == SeatStatus.selected) {
