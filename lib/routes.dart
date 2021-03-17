@@ -1,4 +1,5 @@
 
+import 'package:Libmot_Mobile/view/apply_coupon_page.dart';
 import 'package:Libmot_Mobile/view/passenger_info_page.dart';
 import 'package:Libmot_Mobile/view/check_booking_status.dart';
 import 'package:Libmot_Mobile/view/help_support/complaints_page.dart';
@@ -87,6 +88,11 @@ Route routes(RouteSettings settings) {
       {
         return MaterialPageRoute(builder: (context) => PassengerInfoPage());
 
+      }
+      break;
+      case "/applyCoupon":
+      {
+        return MaterialPageRoute(builder: (context)=> ApplyCoupon());
       }
       break;
     case "/helpSupportPage":

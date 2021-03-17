@@ -1,7 +1,7 @@
 class Profile {
   String code;
   String shortDescription;
-  Object object;
+  ProfileObject object;
 
   Profile({this.code, this.shortDescription, this.object});
 
@@ -9,7 +9,7 @@ class Profile {
     code = json['code'];
     shortDescription = json['shortDescription'];
     object =
-        json['object'] != null ? new Object.fromJson(json['object']) : null;
+        json['object'] != null ? new ProfileObject.fromJson(json['object']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -23,7 +23,7 @@ class Profile {
   }
 }
 
-class Object {
+class ProfileObject {
   String nextOfKin;
   String nextOfKinPhone;
   String firstName;
@@ -36,7 +36,7 @@ class Object {
   int userType;
   int companyId;
 
-  Object(
+  ProfileObject(
       {this.nextOfKin,
       this.nextOfKinPhone,
       this.firstName,
@@ -49,7 +49,7 @@ class Object {
       this.userType,
       this.companyId});
 
-  Object.fromJson(Map<String, dynamic> json) {
+  ProfileObject.fromJson(Map<String, dynamic> json) {
     nextOfKin = json['nextOfKin'];
     nextOfKinPhone = json['nextOfKinPhone'];
     firstName = json['firstName'];
