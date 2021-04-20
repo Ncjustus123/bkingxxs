@@ -11,14 +11,10 @@ import 'package:http/http.dart';
 
 import '../resources/networking/api_calls.dart';
 
-
 class BookingRepository with ChangeNotifier {
   //bool depatureAvailable;
   //bool arrivalAvailable;
-CurrentBookingStatus currentBookingStatus;
-
-
-  
+  CurrentBookingStatus currentBookingStatus;
 
   final booking = new BookingModel();
   final getBuses = new GetBusesModel();
@@ -56,12 +52,21 @@ CurrentBookingStatus currentBookingStatus;
   }
 
   searchBuses(_scaffoldKey, BuildContext context) async {
+    // model = GetBusesModel(
+    //     tripType: getBuses.tripType ?? 0,
+    //     departureTerminalId: getBuses.departureTerminalId,
+    //     destinationTerminalId: getBuses.destinationTerminalId,
+    //     numberOfAdults: getBuses.numberOfAdults,
+    //     numberOfChildren: getBuses.numberOfChildren ?? 0,
+    //     departureDate: getBuses.departureDate,
+    //     returnDate: getBuses.returnDate);
+
     model = GetBusesModel(
-        tripType: getBuses.tripType ?? 0,
-        departureTerminalId: getBuses.departureTerminalId,
-        destinationTerminalId: getBuses.destinationTerminalId,
-        numberOfAdults: getBuses.numberOfAdults,
-        numberOfChildren: getBuses.numberOfChildren ?? 0,
+        tripType: 0,
+        departureTerminalId: 17,
+        destinationTerminalId: 15,
+        numberOfAdults: 3,
+        numberOfChildren: 2,
         departureDate: getBuses.departureDate,
         returnDate: getBuses.returnDate);
     Response response = await ApiCalls().searchBuses(model.toJson());
@@ -71,20 +76,18 @@ CurrentBookingStatus currentBookingStatus;
       if (getBusesResponseModel.object == null) {
         //depatureAvailable = false;
 
-      
         _scaffoldKey.currentState.showSnackBar(
             new SnackBar(content: new Text("No buses available")));
-
-        
       } else {
         currentBookingStatus = CurrentBookingStatus.Departure;
-        Navigator.of(context).pushNamed(busSearch,);
+        Navigator.of(context).pushNamed(
+          busSearch,
+        );
       }
     } else {
       return null;
     }
   }
-  
 
   void tripTypeChange(int i) {
     getBuses.tripType = i;
@@ -97,12 +100,10 @@ CurrentBookingStatus currentBookingStatus;
         context: context,
         initialDate: now.add(Duration(days: 1)), //tomorrow initial date
         firstDate: now,
-        lastDate: now.add(Duration(days: 14)), //TODO days from firebase//open for only two weeks
+        lastDate: now.add(Duration(
+            days: 14)), //TODO days from firebase//open for only two weeks
         helpText: "Select travelling date");
   }
 }
 
-enum CurrentBookingStatus {
-  Departure,
-  Arrival
-}
+enum CurrentBookingStatus { Departure, Arrival }

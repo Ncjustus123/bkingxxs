@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'repository/booking_repository.dart';
+import 'repository/seat_selection_repository.dart';
 import 'routes.dart';
 
 void main() {

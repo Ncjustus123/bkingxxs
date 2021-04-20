@@ -1,5 +1,7 @@
-
+import 'package:Libmot_Mobile/models/booking_model.dart';
+import 'package:Libmot_Mobile/models/profile_model.dart';
 import 'package:Libmot_Mobile/repository/booking_repository.dart';
+import 'package:Libmot_Mobile/repository/seat_selection_repository.dart';
 import 'package:Libmot_Mobile/repository/user_repository.dart';
 import 'package:after_layout/after_layout.dart';
 import 'package:flutter/material.dart';
@@ -11,7 +13,7 @@ class PassengerInfoPage extends StatefulWidget {
 }
 
 class _PassengerInfoPageState extends State<PassengerInfoPage>
-    with AfterLayoutMixin<PassengerInfoPage> {
+    with AfterLayoutMixin<PassengerInfoPage>, SingleTickerProviderStateMixin {
   final String applyCouponPage = "/applyCoupon";
 
   List<String> genderType = [
@@ -33,13 +35,26 @@ class _PassengerInfoPageState extends State<PassengerInfoPage>
 
   UserRepository repository;
   BookingRepository booking;
+  SeatSelectionRepository seatSelection;
+
+  AnimationController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _controller = AnimationController(
+      vsync: this,
+      lowerBound: 0.5,
+      duration: Duration(seconds: 3),
+    )..repeat();
+  }
 
   @override
   Widget build(BuildContext context) {
     repository = Provider.of<UserRepository>(context);
     booking = Provider.of<BookingRepository>(context);
-    int numberOfPassenger =
-        booking.model.numberOfChildren + booking.model.numberOfAdults;
+    seatSelection = Provider.of<SeatSelectionRepository>(context);
 
     return Scaffold(
       appBar: PreferredSize(
@@ -94,39 +109,19 @@ class _PassengerInfoPageState extends State<PassengerInfoPage>
             SizedBox(
               height: 5,
             ),
-            (numberOfPassenger > 1)
-                ? AnimatedContainer(
-                    duration: Duration(seconds: 5),
-                    height: 200,
-                    width: 250,
-                    curve: Curves.fastOutSlowIn,
-                    color: Colors.grey,
-                    child: GestureDetector(
-                        onTap: () {
-                          return popupDialog(context);
-                        },
-                        child: Icon(Icons.add)),
-                  )
-                : SizedBox(),
-            Container(
-              // height: 500,
-              width: 400,
-              color: Colors.white,
-              child: Column(children: [
-                firstNameField(),
-                lastNameField(),
-                phoneNumberField(),
-                genderDropdownButtonFormField(),
-                emailField(),
-                SizedBox(
-                  height: 30,
-                ),
-                nextOfKinField(),
-                nextOfKinPhoneField(),
-                SizedBox(
-                  height: 50,
-                ),
-              ]),
+            beneficaryField(),
+            firstNameField(),
+            lastNameField(),
+            phoneNumberField(),
+            genderDropdownButtonFormField(),
+            emailField(),
+            SizedBox(
+              height: 30,
+            ),
+            nextOfKinField(),
+            nextOfKinPhoneField(),
+            SizedBox(
+              height: 50,
             ),
             proceedButton(context),
           ]),
@@ -236,6 +231,8 @@ class _PassengerInfoPageState extends State<PassengerInfoPage>
 
   @override
   void afterFirstLayout(BuildContext context) {
+    myList = seatSelection.selectedSeats;
+    myList.removeAt(0);
     repository.getSavedProfile().then((_) {
       setState(() {
         firstNamecontroller.text = repository.profile.object.firstName ?? "";
@@ -249,27 +246,178 @@ class _PassengerInfoPageState extends State<PassengerInfoPage>
             repository.profile.object.nextOfKinPhone ?? "";
       });
     });
+    // noOfBenefiaries =
+    //     booking.model.numberOfAdults + booking.model.numberOfChildren - 1;
+    beneficiaryList = [
+      Container(
+        padding: EdgeInsets.all(7.5),
+        width: 400,
+        color: Colors.redAccent,
+        child: Text("Extra Adult Traveller(s)"),
+      ),
+      InkWell(
+          onTap: () {
+            int seatNumber = myList.first;
+
+            popupDialog(context, beneficiaryList.length - 1, seatNumber);
+          },
+          child: animationBuilder(Text("Click here to add adult passenger")))
+    ];
+
+    // childrenBeneficiaryList = [
+    //   Container(
+    //     padding: EdgeInsets.all(7.5),
+    //     width: 400,
+    //     color: Colors.redAccent,
+    //     child: Text("Extra Children Traveller(s)"),
+    //   ),
+    //   InkWell(
+    //       onTap: () {
+    //         popupDialog(
+    //           context,
+    //           childrenBeneficiaryList.length - 1,
+    //         );
+    //       },
+    //       child: animationBuilder(Text("Click here to add children passenger")))
+    // ];
   }
 
-   popupDialog(context){
-     showDialog(
-       context: context,
-       builder: (context){
-         return AlertDialog(
-           title: Text("hahah"),
-           content: Text("csjjsnsj"),
-           actions: <Widget>[
-             Row(
-               children: [
-                 FlatButton(onPressed: (){}, child: Text("data")),
-                 FlatButton(onPressed: (){}, child: Text("data")),
-               ],
-             ),
-           ]
-         );
-         
-       }
-       );
+  var myList = [];
+  List<Widget> beneficiaryList = [];
 
-   }
+  List<Widget> childrenBeneficiaryList = [];
+
+  List<Beneficiaries> adultBeneficiary = [];
+
+  Widget beneficaryField() {
+    return Column(children: [
+      (booking.model.numberOfAdults > 1)
+          ? Column(
+              children: beneficiaryList,
+            )
+          : SizedBox(),
+      (booking.model.numberOfChildren > 0)
+          ? Column(
+              children: childrenBeneficiaryList,
+            )
+          : SizedBox(),
+
+      //add children field
+    ]);
+  }
+
+  Widget animationBuilder(Widget textChild) {
+    return AnimatedBuilder(
+      animation:
+          CurvedAnimation(parent: _controller, curve: Curves.fastOutSlowIn),
+      builder: (context, child) {
+        return Container(
+          padding: EdgeInsets.all(7.5),
+          width: 400,
+          decoration: BoxDecoration(
+            shape: BoxShape.rectangle,
+            color: Colors.blue.withOpacity(1 - _controller.value),
+          ),
+          //height: 300,
+          //width: 200,
+          child: textChild,
+        );
+      },
+    );
+  }
+
+  var beneficiaryController = TextEditingController();
+  popupDialog(context, int index, int seatNumber) {
+    beneficiaryController.clear();
+
+    Beneficiaries beneficial = Beneficiaries();
+    Gender selectedGender = Gender.male;
+
+    showDialog(
+        context: context,
+        builder: (context) {
+          return Dialog(
+            child: Container(
+              height: 200,
+              child: Column(
+                children: [
+                  TextField(
+                    decoration: InputDecoration(
+                      hintText: "Name of traveller",
+                    ),
+                    controller: beneficiaryController,
+                  ),
+                  Row(
+                    children: <Widget>[
+                      Expanded(
+                        child: ListTile(
+                          title: const Text('Male'),
+                          leading: Radio<Gender>(
+                            value: Gender.male,
+                            groupValue: selectedGender,
+                            onChanged: (Gender value) {
+                              setState(() {
+                                beneficial.gender = value.index;
+                                selectedGender = value;
+                              });
+                            },
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        child: ListTile(
+                          title: const Text('Female'),
+                          leading: Radio<Gender>(
+                            value: Gender.female,
+                            groupValue: selectedGender,
+                            onChanged: (Gender value) {
+                              setState(() {
+                                beneficial.gender = value.index;
+                                selectedGender = value;
+                              });
+                            },
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  RaisedButton(
+                      child: Text("Add traveller"),
+                      onPressed: () {
+                        Widget listTile = ListTile(
+                          leading: Icon(Icons.person),
+                          title: Text(beneficiaryController.text),
+                          trailing: IconButton(
+                            icon: Icon(Icons.cancel),
+                            onPressed: () {},
+                          ),
+                        );
+
+                        setState(() {
+                          beneficiaryList.insert(index, listTile);
+
+                          beneficial.fullName = beneficiaryController.text;
+                          beneficial.passengerType = 0; //TODO: CONFIRM THIS
+                          beneficial.seatNumber = seatNumber;
+                          myList.remove(seatNumber);
+
+                          adultBeneficiary.add(beneficial);
+                        });
+                        Navigator.pop(context);
+                      })
+                ],
+              ),
+            ),
+          );
+        });
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    _controller.dispose();
+    super.dispose();
+  }
 }
+
+enum Gender { male, female }

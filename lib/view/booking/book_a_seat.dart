@@ -9,6 +9,7 @@ import 'package:provider/provider.dart';
 import 'package:Libmot_Mobile/Reusables/ui_reusables.dart';
 
 import '../../repository/booking_repository.dart';
+import 'passenger_info_page.dart';
 
 class BookASeatPage extends StatefulWidget {
   @override
@@ -18,7 +19,8 @@ class BookASeatPage extends StatefulWidget {
 class _BookASeatPageState extends State<BookASeatPage> {
   final dateController = TextEditingController();
 
-  final passenger = TextEditingController();
+  final adultController = TextEditingController();
+  final childrenController = TextEditingController();
 
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
@@ -106,15 +108,15 @@ class _BookASeatPageState extends State<BookASeatPage> {
                   (booking.getBuses.tripType == 1)
                       ? arrivalDateField(context)
                       : SizedBox(),
-                  fromField(),
+                  fromField(adultController),
+                  fromField(childrenController),
                   proceedButton(context),
                   GestureDetector(
                       onTap: () {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) =>
-                                    BookingConfirmationPage()));
+                                builder: (context) => PassengerInfoPage()));
                       },
                       child: Icon(Icons.ac_unit_outlined)),
                 ],
@@ -125,7 +127,10 @@ class _BookASeatPageState extends State<BookASeatPage> {
   FlatButton proceedButton(BuildContext context) {
     return FlatButton(
       onPressed: () {
-        booking.getBuses.numberOfAdults = int.parse(passenger.text);
+        //booking.getBuses.numberOfAdults = int.parse(adultController.text);
+        //booking.getBuses.numberOfChildren = int.parse(childrenController.text);
+        //TODO;;;;
+
         //booking.getBuses.departureDate = dateController.text.toString();
         booking.searchBuses(_scaffoldKey, context);
       },
@@ -137,9 +142,9 @@ class _BookASeatPageState extends State<BookASeatPage> {
     );
   }
 
-  fromField() {
+  fromField(controller) {
     return TextFormField(
-      controller: passenger,
+      controller: controller,
       validator: (value) {
         if (value.isEmpty) {
           return 'Please input a departure address';
