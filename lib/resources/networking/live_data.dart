@@ -1,7 +1,7 @@
 import 'getBase.dart';
 
 class LiveData implements TestLiveData {
-  String baseUrl = "http://client.libmot.com/";
+  String baseUrl = "https://client.libmot.com/";
   String flutterwaveEncryptionKey =
       "FLWPUBK-add64679c55bac888696922e372cecb5-X";
   String flutterwavePublicKey = "26c03b274b07e6a19b179978";

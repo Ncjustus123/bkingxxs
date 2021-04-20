@@ -1,8 +1,8 @@
 import 'package:Libmot_Mobile/repository/hire_bus_repository.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
+// ignore: must_be_immutable
 class BusHIreDetailsPage extends StatelessWidget {
   final _formKeyBusHireDetail = GlobalKey<FormState>();
   final firstNameController = TextEditingController();

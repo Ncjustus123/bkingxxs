@@ -45,7 +45,7 @@ class SelectBus extends StatelessWidget {
                   Text(" ${bus.farePrice} per child", style: TextStyle(decoration: TextDecoration.lineThrough,decorationColor: Colors.red),),
                   Text(" ${bus.farePrice} per child"),
                   Text(" ${bus.farePrice} per child"),
-                  FlatButton(onPressed: (){}, child: Text("view seat"),color: Colors.red,)
+                  FlatButton(onPressed: (){}, child: Text("view seat"),color: Colors.red,),
                 ]
               )
             ]),

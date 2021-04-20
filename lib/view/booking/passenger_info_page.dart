@@ -1,8 +1,5 @@
-import 'dart:js';
 
-import 'package:Libmot_Mobile/models/profile_model.dart';
 import 'package:Libmot_Mobile/repository/booking_repository.dart';
-import 'package:Libmot_Mobile/repository/seat_selection_repository.dart';
 import 'package:Libmot_Mobile/repository/user_repository.dart';
 import 'package:after_layout/after_layout.dart';
 import 'package:flutter/material.dart';
@@ -52,6 +49,7 @@ class _PassengerInfoPageState extends State<PassengerInfoPage>
           elevation: 5,
           backgroundColor: Colors.black,
           bottom: PreferredSize(
+            preferredSize: Size.fromHeight(100),
             child: Container(
               height: 60,
               child: Column(

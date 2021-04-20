@@ -2,11 +2,14 @@ import 'dart:convert';
 
 import 'package:Libmot_Mobile/models/get_token_model.dart';
 import 'package:Libmot_Mobile/models/profile_model.dart';
+import 'package:Libmot_Mobile/models/sign_up_model.dart';
 import 'package:Libmot_Mobile/resources/database/user_preference.dart';
-import 'package:Libmot_Mobile/view/welcome_page.dart';
+import 'package:http/http.dart';
 
 import '../resources/networking/api_calls.dart';
 import 'package:flutter/material.dart';
+
+final signUp = new SignUpCustomersObject();
 
 enum Status {
   NotLoggedIn,
@@ -25,6 +28,8 @@ class UserRepository with ChangeNotifier {
   var _status = Status.NotLoggedIn;
   final _api = ApiCalls();
   Profile profile;
+  SignUpCustomersObject signUp;
+  SignUpCustomers signedUpCustomers;
 
   Status get status => _status;
 
@@ -89,5 +94,27 @@ class UserRepository with ChangeNotifier {
     profile.object = await preference.getProfile();
     notifyListeners();
     //return profile;
+  }
+
+  signUpCustomer() async {
+    signUp = SignUpCustomersObject(
+      firstName: signUp.firstName,
+      lastName: signUp.lastName,
+      email: signUp.email,
+      password: signUp.email,
+      phoneNumber: signUp.phoneNumber,
+      referralCode: signUp.referralCode,
+      gender: signUp.gender,
+    );
+    Response response = await ApiCalls().signUpCustomer(signUp.toJson());
+    if (response.statusCode == 200){
+      final Map<String,dynamic> responseData = json.decode(response.body);
+      signedUpCustomers = SignUpCustomers.fromJson(responseData);
+      if(signedUpCustomers.object.isActive == false){
+        
+      }
+
+
+    }
   }
 }

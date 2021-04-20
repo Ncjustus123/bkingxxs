@@ -1,4 +1,4 @@
-import 'package:Libmot_Mobile/view/dashboard_page.dart';
+
 import 'package:flutter/material.dart';
 
 class WelcomePage extends StatelessWidget {

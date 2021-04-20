@@ -1,15 +1,14 @@
 import 'package:Libmot_Mobile/models/destination_terminal.dart';
 import 'package:Libmot_Mobile/models/get_route.dart';
-import 'package:Libmot_Mobile/view/passenger_info_page.dart';
+import 'package:Libmot_Mobile/view/booking/Booking_confirmation_page.dart';
 import 'package:bubble_tab_indicator/bubble_tab_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:Libmot_Mobile/repository/booking_repository.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:Libmot_Mobile/Reusables/ui_reusables.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 
-import '../repository/booking_repository.dart';
+import '../../repository/booking_repository.dart';
 
 class BookASeatPage extends StatefulWidget {
   @override
@@ -80,14 +79,13 @@ class _BookASeatPageState extends State<BookASeatPage> {
                     items: (booking.getRouteModel == null)
                         ? []
                         : booking.getRouteModel.object.items
-                            .map((RouteItems route) {
-                            return DropdownMenuItem<String>(
-                              child: Text(route.name),
-                              value: route.id.toString(),
-                            );
-                          }).toList(),
-                    onchange: (String id) {
-                      booking.getBuses.departureTerminalId = int.parse(id);
+                            .map((RouteItems route) => route.name)
+                            .toList(),
+                    onchange: (String name) {
+                      RouteItems route = booking.getRouteModel.object.items
+                          .singleWhere((element) => element.name == name);
+
+                      booking.getBuses.departureTerminalId = route.id;
                       booking.getDestinationTerminals(
                           booking.getBuses.departureTerminalId);
                     },
@@ -97,14 +95,11 @@ class _BookASeatPageState extends State<BookASeatPage> {
                     items: (booking.destinationTerminalModel == null)
                         ? []
                         : booking.destinationTerminalModel.object
-                            .map((DestinationObject object) {
-                            return DropdownMenuItem<String>(
-                              child: Text(object.name),
-                              value: object.id.toString(),
-                            );
-                          }).toList(),
-                    onchange: (String id) {
-                      booking.getBuses.destinationTerminalId = int.tryParse(id);
+                            .map((DestinationObject object) => object.name)
+                            .toList(),
+                    onchange: (String name) {
+                      DestinationObject object = booking.destinationTerminalModel.object.singleWhere((element) => element.name == name);
+                      booking.getBuses.destinationTerminalId = object.id ;
                     },
                   ),
                   depatureDateField(context),
@@ -114,10 +109,14 @@ class _BookASeatPageState extends State<BookASeatPage> {
                   fromField(),
                   proceedButton(context),
                   GestureDetector(
-                    onTap: (){
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => PassengerInfoPage()));
-                    },
-                    child: Icon(Icons.ac_unit_outlined)),
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    BookingConfirmationPage()));
+                      },
+                      child: Icon(Icons.ac_unit_outlined)),
                 ],
               )),
         ));

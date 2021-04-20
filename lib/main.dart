@@ -26,8 +26,10 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (_) => HireBusRepository(),
         ),
-        ChangeNotifierProvider(create: (_) => BookingStatusRepository()),
-        ChangeNotifierProvider(create: (_) => AgentProvider()),
+        ChangeNotifierProvider(
+          create: (_) => BookingStatusRepository()),
+        ChangeNotifierProvider(
+          create: (_) => AgentProvider()),
       ],
       child: MaterialApp(
         title: "Libmot Mobile",

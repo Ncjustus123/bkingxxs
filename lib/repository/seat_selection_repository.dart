@@ -1,8 +1,5 @@
 import 'package:Libmot_Mobile/models/get_buses_response.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:provider/provider.dart';
-
-import 'booking_repository.dart';
 
 class SeatSelectionRepository extends ChangeNotifier {
   List<int> selectedSeats = [];

@@ -24,7 +24,7 @@ class Object {
   Object.fromJson(Map<String, dynamic> json) {
     tripType = json['tripType'];
     if (json['departures'] != null) {
-      departures = new List<Buses>();
+      departures =  [];
       json['departures'].forEach((v) {
         departures.add(new Buses.fromJson(v));
       });
@@ -32,7 +32,7 @@ class Object {
       departures = [];
     }
     if (json['arrivals'] != null) {
-      arrivals = new List<Buses>();
+      arrivals = [];
       json['arrivals'].forEach((v) {
         arrivals.add(new Buses.fromJson(v));
       });

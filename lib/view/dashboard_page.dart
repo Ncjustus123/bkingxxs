@@ -1,11 +1,12 @@
 import 'package:Libmot_Mobile/repository/user_repository.dart';
-import 'package:Libmot_Mobile/view/welcome_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+// ignore: must_be_immutable
 class DashboardPage extends StatelessWidget {
   static final getTicketPage = "/bookASeat";
   static final busHirePage = "/busHire";
+  static final forgotPasswordPage = "/forget_password";
 
   GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
@@ -54,6 +55,8 @@ class DashboardPage extends StatelessWidget {
                 helpSupport(context),
                 checkBookingStatus(context),
                 becomeAgent(context),
+                forgotPassword(context),
+                signUp(context),
                 ElevatedButton(
                   child: Text("Log out"),
                   onPressed: () {
@@ -125,6 +128,24 @@ class DashboardPage extends StatelessWidget {
       child: Text("Become an Agent"),
       onPressed: () {
         Navigator.of(context).pushNamed("/becomeAnAgentPage");
+      },
+    );
+  }
+
+   Widget signUp(BuildContext context) {
+    return ElevatedButton(
+      child: Text("Sign up"),
+      onPressed: () {
+        Navigator.of(context).pushNamed("/signUpPage");
+      },
+    );
+  }
+
+   Widget forgotPassword(BuildContext context) {
+    return ElevatedButton(
+      child: Text("Forgot Password"),
+      onPressed: () {
+        Navigator.of(context).pushNamed(forgotPasswordPage);
       },
     );
   }

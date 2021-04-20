@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:Libmot_Mobile/models/check_booking_details_response_model.dart';
 import 'package:Libmot_Mobile/resources/networking/api_calls.dart';
-import 'package:Libmot_Mobile/view/check_booking_status.dart';
 import 'package:flutter/cupertino.dart';
 
 class BookingStatusRepository with ChangeNotifier {

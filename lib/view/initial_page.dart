@@ -3,7 +3,6 @@ import 'package:Libmot_Mobile/view/dashboard_page.dart';
 import 'package:Libmot_Mobile/view/welcome_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../resources/database/user_preference.dart';
 
 class InitialPage extends StatelessWidget {
   final String welcomeRoute = "/welcome";

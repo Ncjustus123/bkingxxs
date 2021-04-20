@@ -9,7 +9,7 @@ class DestinationTerminalModel {
     code = json['code'];
     shortDescription = json['shortDescription'];
     if (json['object'] != null) {
-      object = new List<DestinationObject>();
+      object = [];
       json['object'].forEach((v) {
         object.add(new DestinationObject.fromJson(v));
       });

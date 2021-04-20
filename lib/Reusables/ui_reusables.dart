@@ -1,6 +1,7 @@
 import 'package:Libmot_Mobile/repository/booking_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:dropdown_search/dropdown_search.dart';
 
 class UIReusable{
   static void showLoading( {@required Color progressColor, Color backgroundColor, Color indicatorColor,Color textColor,  
@@ -19,9 +20,7 @@ class UIReusable{
   ..userInteractions = false
   ..dismissOnTap = false
   ;
-  EasyLoading.show(status: status);
-  
-  
+  EasyLoading.show(status: status); 
 }
 }
 class DropdownWidget extends StatelessWidget {
@@ -30,15 +29,16 @@ class DropdownWidget extends StatelessWidget {
       : super(key: key);
 
   final BookingRepository booking;
-  final List<DropdownMenuItem<String>>  items;
+  final List <String>  items;
   final Function onchange;
 
   @override
   Widget build(BuildContext context) {
-    return DropdownButtonFormField<String>(
+    return DropdownSearch<String>(
       items: items,
       onChanged: onchange,
+      showSearchBox: true,
     );
   }
-  
+
 }

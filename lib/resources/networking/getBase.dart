@@ -1,6 +1,5 @@
 import 'test_data.dart';
 
-import 'live_data.dart';
 
 class GetBase {
   final base = new TestData(); //Test
