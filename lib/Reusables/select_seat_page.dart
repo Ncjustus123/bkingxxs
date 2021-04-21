@@ -3,69 +3,82 @@ import 'package:Libmot_Mobile/repository/booking_repository.dart';
 import 'package:Libmot_Mobile/repository/seat_selection_repository.dart';
 import 'package:Libmot_Mobile/view/widgets/12_seater_bus.dart';
 import 'package:Libmot_Mobile/view/widgets/15_seater_bus.dart';
+import 'package:after_layout/after_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class SelectSeatPage extends StatelessWidget {
+class SelectSeatPage extends StatefulWidget {
   final Buses bus;
-  final String passengerInfo = "/passengerInfomation";
+
   SelectSeatPage({@required this.bus});
+
+  @override
+  _SelectSeatPageState createState() => _SelectSeatPageState();
+}
+
+class _SelectSeatPageState extends State<SelectSeatPage>
+    with AfterLayoutMixin<SelectSeatPage> {
+  final String passengerInfo = "/passengerInfomation";
+
   BookingRepository booking;
+  SeatSelectionRepository seatSelection;
+
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
-  //SeatSelectionRepository seatSelection;
+
+  @override
+  void afterFirstLayout(BuildContext context) {
+    seatSelection.allSeats.clear();
+    seatSelection.selectedSeats.clear();
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     booking = Provider.of<BookingRepository>(context);
-    //seatSelection = Provider.of<SeatSelectionRepository>(context);
+    seatSelection = Provider.of<SeatSelectionRepository>(context);
 
-    return ChangeNotifierProvider(
-      create: (_) => SeatSelectionRepository(),
-      child: Scaffold(
-        key: _scaffoldKey,
-        body: SafeArea(
-          child: Consumer<SeatSelectionRepository>(
-            builder: (context, seatSelection, child) => Column(
-              children: [
-                (bus.totalNumberOfSeats == 12)
-                    ? TwelveSeaterBus(bus: bus, scaffold: _scaffoldKey)
-                    : FifteenSeaterBus(bus: bus, scaffold: _scaffoldKey),
-                SizedBox(height: 20),
-                Padding(
-                  padding: const EdgeInsets.only(left: 90, right: 90),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      selectedSeat(),
-                      unselectedSeat(),
-                      blockedSeat(),
-                    ],
-                  ),
-                ),
-                SizedBox(height: 50),
-                ButtonTheme(
-                  height: 50,
-                  minWidth: 200,
-                  child: RaisedButton(
-                    /// validaion of seats
-                    onPressed: () {
-                      int numberOfBooking = booking.model.numberOfAdults +
-                          booking.model.numberOfChildren;
-
-                      if (numberOfBooking !=
-                          seatSelection.selectedSeats.length) {
-                        _scaffoldKey.currentState.showSnackBar(new SnackBar(
-                            content: new Text("$numberOfBooking")));
-                        print('$numberOfBooking');
-                        return;
-                      }
-                      Navigator.of(context).pushNamed(passengerInfo);
-                    },
-                    color: Colors.red,
-                  ),
-                ),
-              ],
+    return Scaffold(
+      key: _scaffoldKey,
+      body: SafeArea(
+        child: Column(
+          children: [
+            (widget.bus.totalNumberOfSeats == 12)
+                ? TwelveSeaterBus(bus: widget.bus, scaffold: _scaffoldKey)
+                : FifteenSeaterBus(bus: widget.bus, scaffold: _scaffoldKey),
+            SizedBox(height: 20),
+            Padding(
+              padding: const EdgeInsets.only(left: 90, right: 90),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  selectedSeat(),
+                  unselectedSeat(),
+                  blockedSeat(),
+                ],
+              ),
             ),
-          ),
+            SizedBox(height: 50),
+            ButtonTheme(
+              height: 50,
+              minWidth: 200,
+              child: RaisedButton(
+                /// validaion of seats
+                onPressed: () {
+                  int numberOfBooking = booking.model.numberOfAdults +
+                      booking.model.numberOfChildren;
+
+                  if (numberOfBooking != seatSelection.selectedSeats.length) {
+                    _scaffoldKey.currentState.showSnackBar(
+                        new SnackBar(content: new Text("$numberOfBooking")));
+                    print('$numberOfBooking');
+                    return;
+                  }
+                  Navigator.of(context).pushNamed(passengerInfo);
+                },
+                color: Colors.red,
+              ),
+            ),
+          ],
         ),
       ),
     );
