@@ -9,8 +9,9 @@ import 'package:http/http.dart';
 import '../resources/networking/api_calls.dart';
 import 'package:flutter/material.dart';
 
-final signUp = new SignUpCustomersObject();
-
+//final signUp = new SignUpCustomersObject();
+final String welcomeRoute = "/welcome";
+final String dashboardRoute = "/dashboard";
 enum Status {
   NotLoggedIn,
   NotRegistered,
@@ -35,13 +36,16 @@ class UserRepository with ChangeNotifier {
 
   LoggedInStatus get loggedInStatus => _loggedInStatus;
 
-  checkLogin() async {
+  checkLogin(BuildContext context) async {
     final preference = await UserPreference.getInstance();
     bool loggedIn = preference.isLoggedIn() ?? false;
-    (loggedIn)
-        ? _loggedInStatus = LoggedInStatus.LoggedIn
-        : _loggedInStatus = LoggedInStatus.LoggedOut;
-    notifyListeners();
+    if (loggedIn) {
+      _loggedInStatus = LoggedInStatus.LoggedIn;
+      Navigator.of(context).pushNamed(dashboardRoute);
+    } else {
+      _loggedInStatus = LoggedInStatus.LoggedOut;
+      Navigator.of(context).pushNamed(welcomeRoute);
+    }
   }
 
   logout() async {
@@ -76,7 +80,7 @@ class UserRepository with ChangeNotifier {
   }
 
   Future<Profile> getProfile(String token) async {
-    final response = await ApiCalls().profile(token);
+    final response = await _api.profile(token);
     if (response.statusCode == 200) {
       final Map<String, dynamic> responseData = json.decode(response.body);
       final profile = Profile.fromJson(responseData);
@@ -106,15 +110,11 @@ class UserRepository with ChangeNotifier {
       referralCode: signUp.referralCode,
       gender: signUp.gender,
     );
-    Response response = await ApiCalls().signUpCustomer(signUp.toJson());
-    if (response.statusCode == 200){
-      final Map<String,dynamic> responseData = json.decode(response.body);
+    Response response = await _api.signUpCustomer(signUp.toJson());
+    if (response.statusCode == 200) {
+      final Map<String, dynamic> responseData = json.decode(response.body);
       signedUpCustomers = SignUpCustomers.fromJson(responseData);
-      if(signedUpCustomers.object.isActive == false){
-        
-      }
-
-
+      if (signedUpCustomers.object.isActive == false) {}
     }
   }
 }

@@ -1,5 +1,6 @@
 import 'package:Libmot_Mobile/models/destination_terminal.dart';
 import 'package:Libmot_Mobile/models/get_route.dart';
+import 'package:after_layout/after_layout.dart';
 import 'package:bubble_tab_indicator/bubble_tab_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:Libmot_Mobile/repository/booking_repository.dart';
@@ -15,7 +16,8 @@ class BookASeatPage extends StatefulWidget {
   _BookASeatPageState createState() => _BookASeatPageState();
 }
 
-class _BookASeatPageState extends State<BookASeatPage> {
+class _BookASeatPageState extends State<BookASeatPage>
+    with AfterLayoutMixin<BookASeatPage> {
   final dateController = TextEditingController();
 
   final adultController = TextEditingController();
@@ -32,9 +34,13 @@ class _BookASeatPageState extends State<BookASeatPage> {
   }
 
   @override
+  void afterFirstLayout(BuildContext context) {
+    booking.getAllRoute();
+  }
+
+  @override
   Widget build(BuildContext context) {
     booking = Provider.of<BookingRepository>(context);
-    booking.getAllRoute();
 
     //TODO: show loading screen
     return Scaffold(
@@ -99,8 +105,10 @@ class _BookASeatPageState extends State<BookASeatPage> {
                             .map((DestinationObject object) => object.name)
                             .toList(),
                     onchange: (String name) {
-                      DestinationObject object = booking.destinationTerminalModel.object.singleWhere((element) => element.name == name);
-                      booking.getBuses.destinationTerminalId = object.id ;
+                      DestinationObject object = booking
+                          .destinationTerminalModel.object
+                          .singleWhere((element) => element.name == name);
+                      booking.getBuses.destinationTerminalId = object.id;
                     },
                   ),
                   depatureDateField(context),
