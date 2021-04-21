@@ -120,9 +120,12 @@ Route routes(RouteSettings settings) {
       {
         return MaterialPageRoute(builder: (context) => BecomeAnAgent());
       }
+      break;
     default:
       {
-        // return MaterialPageRoute(builder: (context) => DashBoard());  //404 page
+         return MaterialPageRoute(builder: (context) => InitialPage());  //404 page
       }
+      
   }
+  return null;
 }

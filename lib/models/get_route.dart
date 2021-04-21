@@ -45,7 +45,7 @@ class Object {
 
   Object.fromJson(Map<String, dynamic> json) {
     if (json['items'] != null) {
-      items = new List<RouteItems>();
+      items = [];
       json['items'].forEach((v) {
         items.add(new RouteItems.fromJson(v));
       });

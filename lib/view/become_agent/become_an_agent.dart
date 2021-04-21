@@ -306,15 +306,15 @@ class _BecomeAnAgentState extends State<BecomeAnAgent> {
     return ElevatedButton(
       child: Text("Apply"),
       onPressed: () {
-        (index == 0)
-            ? {
-                if (_individualFormkey.currentState.validate())
-                  {fillIndividualRegistrationModel()}
-              }
-            : {
-                if (_coporationFormKey.currentState.validate())
-                  {fillCoporationRegistrationModel()}
-              };
+        if (index == 0) {
+          if (_individualFormkey.currentState.validate()) {
+            fillIndividualRegistrationModel();
+          }
+        } else {
+          if (_coporationFormKey.currentState.validate()) {
+            fillCoporationRegistrationModel();
+          }
+        }
       },
     );
   }

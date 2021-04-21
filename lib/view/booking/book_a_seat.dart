@@ -1,6 +1,5 @@
 import 'package:Libmot_Mobile/models/destination_terminal.dart';
 import 'package:Libmot_Mobile/models/get_route.dart';
-import 'package:Libmot_Mobile/view/booking/Booking_confirmation_page.dart';
 import 'package:bubble_tab_indicator/bubble_tab_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:Libmot_Mobile/repository/booking_repository.dart';
@@ -28,7 +27,7 @@ class _BookASeatPageState extends State<BookASeatPage> {
 
   @override
   void initState() {
-    // TODO: implement initState
+  
     super.initState();
   }
 
@@ -124,8 +123,8 @@ class _BookASeatPageState extends State<BookASeatPage> {
         ));
   }
 
-  FlatButton proceedButton(BuildContext context) {
-    return FlatButton(
+  ElevatedButton proceedButton(BuildContext context) {
+    return ElevatedButton(
       onPressed: () {
         //booking.getBuses.numberOfAdults = int.parse(adultController.text);
         //booking.getBuses.numberOfChildren = int.parse(childrenController.text);
@@ -138,7 +137,7 @@ class _BookASeatPageState extends State<BookASeatPage> {
         "Proceed",
         style: TextStyle(color: Colors.white),
       ),
-      color: Colors.red,
+      // color: Colors.red,
     );
   }
 

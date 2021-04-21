@@ -21,7 +21,7 @@ class _ApplyCouponState extends State<ApplyCoupon> {
         Text("FarePrice:4000", style: TextStyle(color: Colors.red)),
         Text("Do you have a coupon ?", style: TextStyle(color: Colors.black)),
         TextField(),
-        RaisedButton(color: Colors.red, onPressed: () {}),
+        ElevatedButton(child: Text("data"), onPressed: () {}),
         Row(
           children: [
             Checkbox(
@@ -34,7 +34,7 @@ class _ApplyCouponState extends State<ApplyCoupon> {
             Text("i agree to", style: TextStyle(color: Colors.red)),
           ],
         ),
-        RaisedButton(color: Colors.red, onPressed: () {}),
+        ElevatedButton(child: Text("data"), onPressed: () {}),
       ]),
     );
   }

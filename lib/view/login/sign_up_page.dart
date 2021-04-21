@@ -47,7 +47,7 @@ class _SignUpPageState extends State<SignUpPage> {
     return ButtonTheme(
           height: 50,
           minWidth: 200,
-          child: RaisedButton(
+          child: ElevatedButton(
             child: Text("Sign up"),
             onPressed: () {
               userRepository.signUp.firstName=firstNamecontroller.text;

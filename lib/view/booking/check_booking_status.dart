@@ -2,6 +2,7 @@ import 'package:Libmot_Mobile/repository/booking_status_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+// ignore: must_be_immutable
 class CheckBooking extends StatelessWidget {
   final bookingRefController = TextEditingController();
 

@@ -1,5 +1,4 @@
 import 'package:Libmot_Mobile/models/booking_model.dart';
-import 'package:Libmot_Mobile/models/profile_model.dart';
 import 'package:Libmot_Mobile/repository/booking_repository.dart';
 import 'package:Libmot_Mobile/repository/seat_selection_repository.dart';
 import 'package:Libmot_Mobile/repository/user_repository.dart';
@@ -130,9 +129,10 @@ class _PassengerInfoPageState extends State<PassengerInfoPage>
     );
   }
 
-  RaisedButton proceedButton(BuildContext context) {
-    return RaisedButton(
-        color: Colors.red,
+  ElevatedButton proceedButton(BuildContext context) {
+    return ElevatedButton(
+        //color: Colors.red,
+        child: Text("Applycoupon"),
         onPressed: () {
           Navigator.of(context).pushNamed(applyCouponPage);
         });
@@ -381,7 +381,7 @@ class _PassengerInfoPageState extends State<PassengerInfoPage>
                       ),
                     ],
                   ),
-                  RaisedButton(
+                  ElevatedButton(
                       child: Text("Add traveller"),
                       onPressed: () {
                         Widget listTile = ListTile(

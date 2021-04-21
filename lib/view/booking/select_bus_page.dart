@@ -4,6 +4,7 @@ import 'package:Libmot_Mobile/view/widgets/select_bus_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+// ignore: must_be_immutable
 class SelectBusPage extends StatelessWidget {
   BookingRepository booking;
   //CurrentBookingStatus currentBookingStatus;
