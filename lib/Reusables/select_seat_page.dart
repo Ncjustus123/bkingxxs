@@ -1,11 +1,14 @@
+
 import 'package:Libmot_Mobile/models/get_buses_response.dart';
 import 'package:Libmot_Mobile/repository/booking_repository.dart';
 import 'package:Libmot_Mobile/repository/seat_selection_repository.dart';
+import 'package:Libmot_Mobile/view/booking/passenger_info_page.dart';
 import 'package:Libmot_Mobile/view/widgets/12_seater_bus.dart';
 import 'package:Libmot_Mobile/view/widgets/15_seater_bus.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+// ignore: must_be_immutable
 class SelectSeatPage extends StatelessWidget {
   final Buses bus;
   final String passengerInfo = "/passengerInfomation";
@@ -17,7 +20,6 @@ class SelectSeatPage extends StatelessWidget {
   Widget build(BuildContext context) {
     booking = Provider.of<BookingRepository>(context);
     //seatSelection = Provider.of<SeatSelectionRepository>(context);
-
     return ChangeNotifierProvider(
       create: (_) => SeatSelectionRepository(),
       child: Scaffold(
@@ -45,22 +47,23 @@ class SelectSeatPage extends StatelessWidget {
                 ButtonTheme(
                   height: 50,
                   minWidth: 200,
-                  child: RaisedButton(
+                  child: ElevatedButton(
+                    child: Text("data"),
+
                     /// validaion of seats
                     onPressed: () {
                       int numberOfBooking = booking.model.numberOfAdults +
                           booking.model.numberOfChildren;
-
                       if (numberOfBooking !=
                           seatSelection.selectedSeats.length) {
-                        _scaffoldKey.currentState.showSnackBar(new SnackBar(
+                        ScaffoldMessenger.of(context).showSnackBar(new SnackBar(
                             content: new Text("$numberOfBooking")));
                         print('$numberOfBooking');
                         return;
                       }
-                      Navigator.of(context).pushNamed(passengerInfo);
+                      Navigator.push(context, MaterialPageRoute(builder: (context) =>PassengerInfoPage()));
+                      //Navigator.of(context).pushNamed(passengerInfo);
                     },
-                    color: Colors.red,
                   ),
                 ),
               ],
