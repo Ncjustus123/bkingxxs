@@ -1,10 +1,10 @@
 import 'package:Libmot_Mobile/repository/agent_provider.dart';
 import 'package:Libmot_Mobile/repository/booking_status_repository.dart';
 import 'package:Libmot_Mobile/repository/hire_bus_repository.dart';
+import 'package:Libmot_Mobile/repository/seat_selection_repository.dart';
 import 'package:Libmot_Mobile/repository/user_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
 import 'repository/booking_repository.dart';
 import 'routes.dart';
 
@@ -20,17 +20,11 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (_) => UserRepository(),
         ),
-        ChangeNotifierProvider(
-          create: (_) => BookingRepository(),
-        ),
-        ChangeNotifierProvider(
-          create: (_) => HireBusRepository(),
-        ),
+        ChangeNotifierProvider(create: (_) => BookingRepository()),
+        ChangeNotifierProvider(create: (_) => HireBusRepository()),
         ChangeNotifierProvider(create: (_) => BookingStatusRepository()),
         ChangeNotifierProvider(create: (_) => AgentProvider()),
-        ChangeNotifierProvider(
-          create: (_) => SeatSelectionRepository(),
-        ),
+        ChangeNotifierProvider(create: (_) => SeatSelectionRepository()),
       ],
       child: MaterialApp(
         title: "Libmot Mobile",
