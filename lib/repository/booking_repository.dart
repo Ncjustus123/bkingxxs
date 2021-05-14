@@ -19,6 +19,7 @@ class BookingRepository with ChangeNotifier {
   final booking = new BookingModel();
   final getBuses = new GetBusesModel();
   final String busSearch = "/selectBus";
+  final String applyCouponPage = "/applyCoupon";
 
   GetRouteModel getRouteModel;
   DestinationTerminalModel destinationTerminalModel;
@@ -60,7 +61,9 @@ class BookingRepository with ChangeNotifier {
     //     numberOfChildren: getBuses.numberOfChildren ?? 0,
     //     departureDate: getBuses.departureDate,
     //     returnDate: getBuses.returnDate);
-
+    booking.paymentMethod = 5;
+    booking.passengerType = 0;
+    booking.bookingType = 2;
     model = GetBusesModel(
         tripType: 0,
         departureTerminalId: 17,
@@ -69,7 +72,9 @@ class BookingRepository with ChangeNotifier {
         numberOfChildren: 2,
         departureDate: getBuses.departureDate,
         returnDate: getBuses.returnDate);
+    //Response response = await ApiCalls().searchBuses(getBuses.toJson());
     Response response = await ApiCalls().searchBuses(model.toJson());
+
     if (response.statusCode == 200) {
       final Map<String, dynamic> responseData = json.decode(response.body);
       getBusesResponseModel = GetBusesResponseModel.fromJson(responseData);
@@ -80,9 +85,7 @@ class BookingRepository with ChangeNotifier {
             new SnackBar(content: new Text("No buses available")));
       } else {
         currentBookingStatus = CurrentBookingStatus.Departure;
-        Navigator.of(context).pushNamed(
-          busSearch,
-        );
+        Navigator.of(context).pushNamed(busSearch);
       }
     } else {
       return null;
@@ -91,6 +94,7 @@ class BookingRepository with ChangeNotifier {
 
   void tripTypeChange(int i) {
     getBuses.tripType = i;
+    booking.tripType = i;
     notifyListeners();
   }
 
@@ -103,6 +107,41 @@ class BookingRepository with ChangeNotifier {
         lastDate: now.add(Duration(
             days: 14)), //TODO days from firebase//open for only two weeks
         helpText: "Select travelling date");
+  }
+
+  /*** 
+   * PASSENGER INFO CODE START
+   */
+
+  void savePassengerInfo(BuildContext context) {
+    Navigator.of(context).pushNamed(applyCouponPage);
+  }
+
+  /**
+   * COUPON ACTIVITY CODE START
+   */
+  bool agreeTerms = false;
+
+  updateAgreeTerms(bool value) {
+    agreeTerms = value;
+    notifyListeners();
+  }
+
+  couponProceedButton(BuildContext context) async {
+    if (!agreeTerms) {
+      final snackBar = SnackBar(
+          content: Text(
+              'You need to agree to our terms and conditions before you can proceed'));
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      return;
+    }
+
+    final response = await ApiCalls().postBooking(booking.toJson());
+
+    if (response.statusCode == 200) {
+      final Map<String, dynamic> responseData = json.decode(response.body);
+      print(responseData);
+    }
   }
 }
 

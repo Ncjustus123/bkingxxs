@@ -73,6 +73,18 @@ class _SelectSeatPageState extends State<SelectSeatPage>
                     print('$numberOfBooking');
                     return;
                   }
+                  String guid = "${widget.bus.vehicleTripRegistrationId}:";
+                  if (numberOfBooking == 1) {
+                    guid = guid + seatSelection.selectedSeats.first.toString();
+                  } else {
+                    for (int i in seatSelection.selectedSeats) {
+                      guid = (i == seatSelection.selectedSeats.last)
+                          ? guid + i.toString()
+                          : guid + i.toString() + ",";
+                    }
+                    booking.booking.seatRegistrations = guid;
+                    booking.booking.routeId = widget.bus.routeId;
+                  }
                   Navigator.of(context).pushNamed(passengerInfo);
                 },
                 color: Colors.red,

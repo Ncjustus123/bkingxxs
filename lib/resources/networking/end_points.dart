@@ -1,13 +1,15 @@
 class EndPoints {
-  static String getToken = "api/Token";
-  static String getProfile = "api/Account/getProfile";
-  static String getTerminals = "api/Terminal/Get";
-  static String getDestinationTerminal = "api/Route/GetDestinationTerminals/";
-  static String searchBuses = "api/Booking/Search";
-  static final String postHireBus = "api/HireRequest/Add";
-  static final String getBookingDetails = "api/Booking/Details/";
-  static final String postAgentRequest = "api/Agents/AddApplicant";
-  static final String signUpCustomer = "api/Customer/Add";
+  static const String getToken = "api/Token";
+  static const String getProfile = "api/Account/getProfile";
+  static const String getTerminals = "api/Terminal/Get";
+  static const String getDestinationTerminal =
+      "api/Route/GetDestinationTerminals/";
+  static const String searchBuses = "api/Booking/Search";
+  static const String postHireBus = "api/HireRequest/Add";
+  static const String getBookingDetails = "api/Booking/Details/";
+  static const String postAgentRequest = "api/Agents/AddApplicant";
+  static const String signUpCustomer = "api/Customer/Add";
+  static const String postBooking = "api/Booking/PostBooking";
 
   // @GET("api/Terminal/Get")
   // Call<DepartureTerminalResponse> getAllTerminals();
