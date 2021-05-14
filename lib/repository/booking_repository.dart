@@ -53,6 +53,7 @@ class BookingRepository with ChangeNotifier {
   }
 
   searchBuses(_scaffoldKey, BuildContext context) async {
+    // TODO change back ====>
     // model = GetBusesModel(
     //     tripType: getBuses.tripType ?? 0,
     //     departureTerminalId: getBuses.departureTerminalId,
@@ -81,7 +82,7 @@ class BookingRepository with ChangeNotifier {
       if (getBusesResponseModel.object == null) {
         //depatureAvailable = false;
 
-        _scaffoldKey.currentState.showSnackBar(
+        ScaffoldMessenger.of(context).showSnackBar(
             new SnackBar(content: new Text("No buses available")));
       } else {
         currentBookingStatus = CurrentBookingStatus.Departure;

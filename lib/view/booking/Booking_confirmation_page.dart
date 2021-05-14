@@ -61,7 +61,7 @@ class BookingConfirmationPage extends StatelessWidget {
             ButtonTheme(
               height: 50,
               minWidth: 200,
-              child: RaisedButton(
+              child: ElevatedButton(
                 child: Text("done"),
                 onPressed: () {},
               ),
