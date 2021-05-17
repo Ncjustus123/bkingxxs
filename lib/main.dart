@@ -27,6 +27,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => SeatSelectionRepository()),
       ],
       child: MaterialApp(
+        debugShowCheckedModeBanner: false,
         title: "Libmot Mobile",
         initialRoute: "initial",
         onGenerateRoute: routes,

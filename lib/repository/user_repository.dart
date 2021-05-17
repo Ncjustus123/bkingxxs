@@ -114,7 +114,9 @@ class UserRepository with ChangeNotifier {
     if (response.statusCode == 200) {
       final Map<String, dynamic> responseData = json.decode(response.body);
       signedUpCustomers = SignUpCustomers.fromJson(responseData);
-      if (signedUpCustomers.object.isActive == false) {}
+      if (signedUpCustomers.object.isActive == false) {
+        //TODO send otp backend
+      }
     }
   }
 }

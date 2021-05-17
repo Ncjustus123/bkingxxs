@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:Libmot_Mobile/models/booking_model.dart';
 import 'package:Libmot_Mobile/models/destination_terminal.dart';
 import 'package:Libmot_Mobile/models/get_buses_model.dart';
@@ -95,6 +94,7 @@ class BookingRepository with ChangeNotifier {
     notifyListeners();
   }
 
+  //Andriod
   Future<DateTime> showDate(context) async {
     final now = DateTime.now();
     return await showDatePicker(
@@ -106,5 +106,26 @@ class BookingRepository with ChangeNotifier {
         helpText: "Select travelling date");
   }
 }
+//ios
+Future<DateTime> showiosDate(BuildContext context, Function ondateselect)async{
+  final now = DateTime.now();
+  showModalBottomSheet(
+    context: context,
+    builder: (BuildContext builder){
+      return Container(
+         height: MediaQuery.of(context).copyWith().size.height / 3,
+         color: Colors.white,
+          child: CupertinoDatePicker(
+            onDateTimeChanged: ondateselect,
+            mode: CupertinoDatePickerMode.date,
+            minimumDate: now,
+            maximumDate: now.add(Duration(days: 14)),
+      ),);
+
+    }
+  );
+}
+
+
 
 enum CurrentBookingStatus { Departure, Arrival }

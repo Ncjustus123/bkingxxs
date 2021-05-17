@@ -9,6 +9,7 @@ import 'package:provider/provider.dart';
 import 'package:Libmot_Mobile/Reusables/ui_reusables.dart';
 
 import '../../repository/booking_repository.dart';
+import '../welcome_page.dart';
 import 'passenger_info_page.dart';
 
 class BookASeatPage extends StatefulWidget {
@@ -27,11 +28,11 @@ class _BookASeatPageState extends State<BookASeatPage>
 
   BookingRepository booking;
 
-  @override
-  void initState() {
-  
-    super.initState();
-  }
+  // @override
+  // void initState() {
+
+  //   super.initState();
+  // }
 
   @override
   void afterFirstLayout(BuildContext context) {
@@ -118,14 +119,6 @@ class _BookASeatPageState extends State<BookASeatPage>
                   fromField(adultController),
                   fromField(childrenController),
                   proceedButton(context),
-                  GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => PassengerInfoPage()));
-                      },
-                      child: Icon(Icons.ac_unit_outlined)),
                 ],
               )),
         ));
@@ -137,7 +130,6 @@ class _BookASeatPageState extends State<BookASeatPage>
         //booking.getBuses.numberOfAdults = int.parse(adultController.text);
         //booking.getBuses.numberOfChildren = int.parse(childrenController.text);
         //TODO;;;;
-
         //booking.getBuses.departureDate = dateController.text.toString();
         booking.searchBuses(_scaffoldKey, context);
       },
