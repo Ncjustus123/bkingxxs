@@ -67,20 +67,31 @@ class ApiCalls {
     return response;
   }
 
+  Future<http.Response> postBooking(Map<String, dynamic> body) async {
+    final header = await init();
+    final url = Uri.parse(baseInstance.base.baseUrl + EndPoints.postBooking);
+    final response =
+        await http.post(url, body: json.encode(body), headers: header);
+    return response;
+  }
+
   Future<http.Response> getBookingStatus(String bookingRef) async {
     final header = await init();
-    final url = Uri.parse(baseInstance.base.baseUrl + EndPoints.getBookingDetails + bookingRef);
+    final url = Uri.parse(
+        baseInstance.base.baseUrl + EndPoints.getBookingDetails + bookingRef);
     final response = await http.get(url, headers: header);
     return response;
   }
 
   Future<http.Response> agentRequest(Map<String, dynamic> body) async {
     final header = await init();
-    final url = Uri.parse(baseInstance.base.baseUrl + EndPoints.postAgentRequest);
+    final url =
+        Uri.parse(baseInstance.base.baseUrl + EndPoints.postAgentRequest);
     final response =
         await http.post(url, body: json.encode(body), headers: header);
     return response;
   }
+
   Future<http.Response> signUpCustomer(Map<String, dynamic> body) async {
     final header = await init();
     final url = Uri.parse(baseInstance.base.baseUrl + EndPoints.signUpCustomer);

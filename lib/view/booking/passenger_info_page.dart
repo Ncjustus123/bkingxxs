@@ -2,6 +2,7 @@ import 'package:Libmot_Mobile/models/booking_model.dart';
 import 'package:Libmot_Mobile/repository/booking_repository.dart';
 import 'package:Libmot_Mobile/repository/seat_selection_repository.dart';
 import 'package:Libmot_Mobile/repository/user_repository.dart';
+import 'package:Libmot_Mobile/view/widgets/appBar_passenger_info.dart';
 import 'package:after_layout/after_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -13,8 +14,6 @@ class PassengerInfoPage extends StatefulWidget {
 
 class _PassengerInfoPageState extends State<PassengerInfoPage>
     with AfterLayoutMixin<PassengerInfoPage>, SingleTickerProviderStateMixin {
-  final String applyCouponPage = "/applyCoupon";
-
   List<String> genderType = [
     'Male',
     'Female',
@@ -38,10 +37,14 @@ class _PassengerInfoPageState extends State<PassengerInfoPage>
 
   AnimationController _controller;
 
+  var myList = [];
+
+  List<Beneficiaries> adultBeneficiary = [];
+  List<Beneficiaries> childrenBeneficiary = [];
+
   @override
   void initState() {
     super.initState();
-
     _controller = AnimationController(
       vsync: this,
       lowerBound: 0.5,
@@ -56,50 +59,7 @@ class _PassengerInfoPageState extends State<PassengerInfoPage>
     seatSelection = Provider.of<SeatSelectionRepository>(context);
 
     return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: Size.fromHeight(85),
-        child: AppBar(
-          automaticallyImplyLeading: false,
-          elevation: 5,
-          backgroundColor: Colors.black,
-          bottom: PreferredSize(
-            preferredSize: Size.fromHeight(100),
-            child: Container(
-              height: 60,
-              child: Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Text(
-                        "hdh",
-                        style: TextStyle(color: Colors.green),
-                      ),
-                      Text(
-                        "hdh",
-                        style: TextStyle(color: Colors.green),
-                      ),
-                      Spacer(),
-                      Text(
-                        "hdh",
-                        style: TextStyle(color: Colors.green),
-                      ),
-                      Text(
-                        "hdh",
-                        style: TextStyle(color: Colors.green),
-                      ),
-                    ],
-                  ),
-                  Divider(
-                    height: 3,
-                    color: Colors.white,
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ),
-      ),
+      appBar: appBarPassengerInfo(),
       backgroundColor: Colors.white,
       body: SafeArea(
         child: SingleChildScrollView(
@@ -129,13 +89,16 @@ class _PassengerInfoPageState extends State<PassengerInfoPage>
     );
   }
 
-  ElevatedButton proceedButton(BuildContext context) {
-    return ElevatedButton(
-        //color: Colors.red,
-        child: Text("Applycoupon"),
-        onPressed: () {
-          Navigator.of(context).pushNamed(applyCouponPage);
-        });
+  RaisedButton proceedButton(BuildContext context) {
+    return RaisedButton(
+      onPressed: () {
+        booking.booking.beneficiaries = [
+          ...adultBeneficiary,
+          ...childrenBeneficiary
+        ];
+        booking.savePassengerInfo(context);
+      },
+    );
   }
 
   ///TODO TST WITH GUEST LOGIN
@@ -153,6 +116,7 @@ class _PassengerInfoPageState extends State<PassengerInfoPage>
         setState(() {
           genderValue = value;
         });
+        booking.booking.gender = (value == "male") ? 0 : 1;
       },
     );
   }
@@ -160,6 +124,9 @@ class _PassengerInfoPageState extends State<PassengerInfoPage>
   firstNameField() {
     return TextFormField(
       controller: firstNamecontroller,
+      onChanged: (value) {
+        booking.booking.firstName = value;
+      },
       validator: (value) {
         if (value.isEmpty) {
           return 'error';
@@ -172,6 +139,7 @@ class _PassengerInfoPageState extends State<PassengerInfoPage>
   lastNameField() {
     return TextFormField(
       controller: lastNamecontroller,
+      onChanged: (value) => booking.booking.lastName = value,
       validator: (value) {
         if (value.isEmpty) {
           return 'error';
@@ -184,6 +152,7 @@ class _PassengerInfoPageState extends State<PassengerInfoPage>
   phoneNumberField() {
     return TextFormField(
       controller: phoneNumbercontroller,
+      onChanged: (value) => booking.booking.phoneNumber = value,
       validator: (value) {
         if (value.isEmpty) {
           return 'error';
@@ -196,6 +165,7 @@ class _PassengerInfoPageState extends State<PassengerInfoPage>
   emailField() {
     return TextFormField(
       controller: emailcontroller,
+      onChanged: (value) => booking.booking.email,
       validator: (value) {
         if (value.isEmpty) {
           return 'error';
@@ -208,6 +178,7 @@ class _PassengerInfoPageState extends State<PassengerInfoPage>
   nextOfKinField() {
     return TextFormField(
       controller: nextOfkincontroller,
+      onChanged: (value) => booking.booking.nextOfKinName,
       validator: (value) {
         if (value.isEmpty) {
           return 'error';
@@ -220,6 +191,7 @@ class _PassengerInfoPageState extends State<PassengerInfoPage>
   nextOfKinPhoneField() {
     return TextFormField(
       controller: kinNumbercontroller,
+      onChanged: (value) => booking.booking.nextOfKinPhone,
       validator: (value) {
         if (value.isEmpty) {
           return 'error';
@@ -234,76 +206,65 @@ class _PassengerInfoPageState extends State<PassengerInfoPage>
     myList = seatSelection.selectedSeats;
     myList.removeAt(0);
     repository.getSavedProfile().then((_) {
-      setState(() {
-        firstNamecontroller.text = repository.profile.object.firstName ?? "";
-        lastNamecontroller.text = repository.profile.object.lastName ?? "";
-        phoneNumbercontroller.text =
-            repository.profile.object.phoneNumber ?? "";
-        genderValue = repository.profile.object.gender;
-        emailcontroller.text = repository.profile.object.email ?? "";
-        nextOfkincontroller.text = repository.profile.object.nextOfKin ?? "";
-        kinNumbercontroller.text =
-            repository.profile.object.nextOfKinPhone ?? "";
-      });
+      firstNamecontroller.text = repository.profile.object.firstName ?? "";
+      lastNamecontroller.text = repository.profile.object.lastName ?? "";
+      phoneNumbercontroller.text = repository.profile.object.phoneNumber ?? "";
+      genderValue = repository.profile.object.gender;
+      emailcontroller.text = repository.profile.object.email ?? "";
+      nextOfkincontroller.text = repository.profile.object.nextOfKin ?? "";
+      kinNumbercontroller.text = repository.profile.object.nextOfKinPhone ?? "";
     });
-    // noOfBenefiaries =
-    //     booking.model.numberOfAdults + booking.model.numberOfChildren - 1;
-    beneficiaryList = [
-      Container(
-        padding: EdgeInsets.all(7.5),
-        width: 400,
-        color: Colors.redAccent,
-        child: Text("Extra Adult Traveller(s)"),
-      ),
-      InkWell(
-          onTap: () {
-            int seatNumber = myList.first;
-
-            popupDialog(context, beneficiaryList.length - 1, seatNumber);
-          },
-          child: animationBuilder(Text("Click here to add adult passenger")))
-    ];
-
-    // childrenBeneficiaryList = [
-    //   Container(
-    //     padding: EdgeInsets.all(7.5),
-    //     width: 400,
-    //     color: Colors.redAccent,
-    //     child: Text("Extra Children Traveller(s)"),
-    //   ),
-    //   InkWell(
-    //       onTap: () {
-    //         popupDialog(
-    //           context,
-    //           childrenBeneficiaryList.length - 1,
-    //         );
-    //       },
-    //       child: animationBuilder(Text("Click here to add children passenger")))
-    // ];
   }
 
-  var myList = [];
-  List<Widget> beneficiaryList = [];
-
-  List<Widget> childrenBeneficiaryList = [];
-
-  List<Beneficiaries> adultBeneficiary = [];
-
   Widget beneficaryField() {
+    int noOfAdultBeneficiaries = booking.model.numberOfAdults - 1 ?? 0;
+    int noOfChildrenBeneficiaries = booking.model.numberOfChildren ?? 0;
+
     return Column(children: [
       (booking.model.numberOfAdults > 1)
           ? Column(
-              children: beneficiaryList,
+              children: [
+                info("Extra Adult Traveller(s)"),
+                ...beneficiaryNames,
+                (noOfAdultBeneficiaries > beneficiaryNames.length)
+                    ? InkWell(
+                        onTap: () {
+                          popupDialog(context, BeneficiaryType.adult);
+                        },
+                        child: animationBuilder(
+                            Text("Click here to add adult passenger")))
+                    : SizedBox()
+              ],
             )
           : SizedBox(),
-      (booking.model.numberOfChildren > 0)
+      (noOfChildrenBeneficiaries > 0)
           ? Column(
-              children: childrenBeneficiaryList,
+              children: [
+                info("Extra Children Traveller(s)"),
+                ...childrenBeneficiaryNames,
+                (noOfChildrenBeneficiaries > childrenBeneficiaryNames.length)
+                    ? InkWell(
+                        onTap: () {
+                          popupDialog(context, BeneficiaryType.children);
+                        },
+                        child: animationBuilder(
+                            Text("Click here to add adult passenger")))
+                    : SizedBox()
+              ],
             )
           : SizedBox(),
 
       //add children field
     ]);
+  }
+
+  Container info(String info) {
+    return Container(
+      padding: EdgeInsets.all(7.5),
+      width: 400,
+      color: Colors.redAccent,
+      child: Text(info),
+    );
   }
 
   Widget animationBuilder(Widget textChild) {
@@ -326,13 +287,19 @@ class _PassengerInfoPageState extends State<PassengerInfoPage>
     );
   }
 
+  List<Widget> beneficiaryNames = [];
+  List<Widget> childrenBeneficiaryNames = [];
+
   var beneficiaryController = TextEditingController();
-  popupDialog(context, int index, int seatNumber) {
+  popupDialog(BuildContext context, BeneficiaryType beneficiaryType) {
     beneficiaryController.clear();
 
     Beneficiaries beneficial = Beneficiaries();
     Gender selectedGender = Gender.male;
-
+    int seatNumber = myList.last;
+    int index = (beneficiaryType.index == 0)
+        ? beneficiaryNames.length
+        : childrenBeneficiaryNames.length;
     showDialog(
         context: context,
         builder: (context) {
@@ -347,39 +314,37 @@ class _PassengerInfoPageState extends State<PassengerInfoPage>
                     ),
                     controller: beneficiaryController,
                   ),
-                  Row(
-                    children: <Widget>[
-                      Expanded(
-                        child: ListTile(
-                          title: const Text('Male'),
-                          leading: Radio<Gender>(
-                            value: Gender.male,
-                            groupValue: selectedGender,
-                            onChanged: (Gender value) {
-                              setState(() {
+                  StatefulBuilder(
+                    builder: (BuildContext context, StateSetter setState) {
+                      return Row(
+                        children: <Widget>[
+                          Expanded(
+                            child: RadioListTile(
+                              title: const Text('Male'),
+                              value: Gender.male,
+                              groupValue: selectedGender,
+                              onChanged: (Gender value) {
                                 beneficial.gender = value.index;
                                 selectedGender = value;
-                              });
-                            },
+                                setState(() {});
+                              },
+                            ),
                           ),
-                        ),
-                      ),
-                      Expanded(
-                        child: ListTile(
-                          title: const Text('Female'),
-                          leading: Radio<Gender>(
-                            value: Gender.female,
-                            groupValue: selectedGender,
-                            onChanged: (Gender value) {
-                              setState(() {
+                          Expanded(
+                            child: RadioListTile(
+                              title: const Text('Female'),
+                              groupValue: selectedGender,
+                              value: Gender.female,
+                              onChanged: (Gender value) {
                                 beneficial.gender = value.index;
                                 selectedGender = value;
-                              });
-                            },
+                                setState(() {});
+                              },
+                            ),
                           ),
-                        ),
-                      ),
-                    ],
+                        ],
+                      );
+                    },
                   ),
                   ElevatedButton(
                       child: Text("Add traveller"),
@@ -389,19 +354,35 @@ class _PassengerInfoPageState extends State<PassengerInfoPage>
                           title: Text(beneficiaryController.text),
                           trailing: IconButton(
                             icon: Icon(Icons.cancel),
-                            onPressed: () {},
+                            onPressed: () {
+                              myList.add(seatNumber);
+                              if (beneficiaryType.index == 0) {
+                                adultBeneficiary.remove(beneficial);
+                                beneficiaryNames.removeAt(index);
+                              } else {
+                                childrenBeneficiary.remove(beneficial);
+                                childrenBeneficiaryNames.removeAt(index);
+                              }
+
+                              setState(() {});
+                            },
                           ),
                         );
 
                         setState(() {
-                          beneficiaryList.insert(index, listTile);
-
                           beneficial.fullName = beneficiaryController.text;
                           beneficial.passengerType = 0; //TODO: CONFIRM THIS
                           beneficial.seatNumber = seatNumber;
-                          myList.remove(seatNumber);
 
-                          adultBeneficiary.add(beneficial);
+                          if (beneficiaryType.index == 0) {
+                            beneficiaryNames.insert(index, listTile);
+                            adultBeneficiary.add(beneficial);
+                          } else {
+                            childrenBeneficiaryNames.insert(index, listTile);
+                            childrenBeneficiary.add(beneficial);
+                          }
+
+                          myList.remove(seatNumber);
                         });
                         Navigator.pop(context);
                       })
@@ -421,3 +402,4 @@ class _PassengerInfoPageState extends State<PassengerInfoPage>
 }
 
 enum Gender { male, female }
+enum BeneficiaryType { adult, children }

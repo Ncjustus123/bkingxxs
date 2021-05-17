@@ -1,5 +1,6 @@
 import 'package:Libmot_Mobile/repository/agent_provider.dart';
 import 'package:Libmot_Mobile/repository/booking_status_repository.dart';
+import 'package:Libmot_Mobile/repository/coupon_repository.dart';
 import 'package:Libmot_Mobile/repository/hire_bus_repository.dart';
 import 'package:Libmot_Mobile/repository/seat_selection_repository.dart';
 import 'package:Libmot_Mobile/repository/user_repository.dart';
@@ -17,14 +18,13 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(
-          create: (_) => UserRepository(),
-        ),
+        ChangeNotifierProvider(create: (_) => UserRepository()),
         ChangeNotifierProvider(create: (_) => BookingRepository()),
         ChangeNotifierProvider(create: (_) => HireBusRepository()),
         ChangeNotifierProvider(create: (_) => BookingStatusRepository()),
         ChangeNotifierProvider(create: (_) => AgentProvider()),
         ChangeNotifierProvider(create: (_) => SeatSelectionRepository()),
+        ChangeNotifierProvider(create: (_) => CouponRepository()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
