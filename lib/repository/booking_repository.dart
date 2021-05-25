@@ -4,8 +4,15 @@ import 'package:Libmot_Mobile/models/destination_terminal.dart';
 import 'package:Libmot_Mobile/models/get_buses_model.dart';
 import 'package:Libmot_Mobile/models/get_buses_response.dart';
 import 'package:Libmot_Mobile/models/get_route.dart';
+import 'package:Libmot_Mobile/models/post_booking_response.dart';
+import 'package:Libmot_Mobile/resources/networking/getBase.dart';
+import 'package:Libmot_Mobile/view/widgets/flutterwavePayment.dart';
+import 'package:Libmot_Mobile/view/widgets/paymentPaystack.dart';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutterwave/flutterwave.dart';
+import 'package:flutterwave/models/responses/charge_response.dart';
 import 'package:http/http.dart';
 
 import '../resources/networking/api_calls.dart';
@@ -24,6 +31,7 @@ class BookingRepository with ChangeNotifier {
   DestinationTerminalModel destinationTerminalModel;
   GetBusesModel model;
   GetBusesResponseModel getBusesResponseModel;
+  PostBookingResponse postBookingResponse;
 
   getAllRoute() async {
     final response = await ApiCalls().getAllRoutes();
@@ -137,12 +145,129 @@ class BookingRepository with ChangeNotifier {
       return;
     }
 
+    //TODO: CHECK IF TWENTY MINUTES HAVE NOT ELAPSED AND THE BOOKING REFERENCE IS AVAILABLE.
+
     final response = await ApiCalls().postBooking(booking.toJson());
 
     if (response.statusCode == 200) {
       final Map<String, dynamic> responseData = json.decode(response.body);
       print(responseData);
+      postBookingResponse = PostBookingResponse.fromJson(responseData);
+
+      //TODO: end the first dialog box
+
+      //show dialog box
+      paymentOptionDialog(context);
     }
+  }
+
+  paymentOptionDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => Dialog(
+        child: Container(
+          height: 200,
+          child: Column(
+            children: [
+              ElevatedButton(
+                  child: Text("Pay with Paystack"),
+                  onPressed: () {
+                    Navigator.pop(context);
+                    payWithPaystack(context);
+                  }),
+              ElevatedButton(
+                  child: Text("Pay with Flutterwave"),
+                  onPressed: () {
+                    this.beginFlutterwavePayment(
+                        context,
+                        postBookingResponse.object.amount.toString(),
+                        booking.email,
+                        "${booking.lastName} ${booking.firstName}",
+                        postBookingResponse.object.bookingReferenceCode,
+                        booking.phoneNumber);
+
+                    // FlutterwavePayment flutterwavePayment =
+                    //     new FlutterwavePayment(
+                    //   context: context,
+                    //   email: booking.email,
+                    //   phoneNumber: booking.phoneNumber,
+                    //   fullName: "${booking.lastName} ${booking.firstName}",
+                    //   amount: postBookingResponse.object.amount.toString(),
+                    //   txref: postBookingResponse.object.bookingReferenceCode,
+                    // );
+                    // flutterwavePayment.beginFlutterwavePayment();
+                  }),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  payWithPaystack(BuildContext context) {
+    showDialog(context: context, builder: (context) => PaymentPaystack());
+  }
+
+  beginFlutterwavePayment(BuildContext context, String amount, String email,
+      String fullName, String txref, String phoneNumber) async {
+    final Flutterwave flutterwave = Flutterwave.forUIPayment(
+      context: context,
+      //encryptionKey: baseInstance.base.flutterwaveEncryptionKey,
+      encryptionKey: "26c03b274b07e6a19b179978",
+      //publicKey: baseInstance.base.flutterwavePublicKey,
+      publicKey: "FLWPUBK-add64679c55bac888696922e372cecb5-X",
+      currency: "NGN",
+      amount: "50",
+      email: email,
+      fullName: fullName,
+      txRef: txref,
+      isDebugMode: false,
+      phoneNumber: phoneNumber,
+      acceptCardPayment: true,
+      acceptUSSDPayment: true,
+      acceptAccountPayment: true,
+    );
+
+    try {
+      final ChargeResponse response =
+          await flutterwave.initializeForUiPayments();
+      if (response == null) {
+        // user didn't complete the transaction.
+        print("transaction not complete");
+      } else {
+        final isSuccessful = checkPaymentIsSuccessful(
+          response,
+          "NGN",
+          amount,
+          txref,
+        );
+        if (isSuccessful) {
+          print("Successful");
+          // provide value to customer
+        } else {
+          // check message
+          print(response.message);
+          // check status
+          print(response.status);
+
+          // check processor error
+          print(response.data.processorResponse);
+        }
+      }
+    } catch (error, stacktrace) {
+      // handleError(error);
+      print(error);
+      print(stacktrace);
+    }
+  }
+
+  bool checkPaymentIsSuccessful(final ChargeResponse response, String currency,
+      String amount, String txref) {
+    return response.data.status == FlutterwaveConstants.SUCCESSFUL &&
+        response.data.currency == currency &&
+        response.data.amount == amount &&
+        response.data.txRef == txref;
   }
 }
 //ios
