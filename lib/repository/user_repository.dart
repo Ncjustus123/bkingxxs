@@ -29,8 +29,9 @@ class UserRepository with ChangeNotifier {
   var _status = Status.NotLoggedIn;
   final _api = ApiCalls();
   Profile profile;
-  SignUpCustomersObject signUp;
+  SignUpCustomersObject signUp = new SignUpCustomersObject();
   SignUpCustomers signedUpCustomers;
+  TextEditingController otp = TextEditingController();
 
   Status get status => _status;
 
@@ -100,21 +101,37 @@ class UserRepository with ChangeNotifier {
     //return profile;
   }
 
-  signUpCustomer() async {
-    signUp = SignUpCustomersObject(
-      firstName: signUp.firstName,
-      lastName: signUp.lastName,
-      email: signUp.email,
-      password: signUp.email,
-      phoneNumber: signUp.phoneNumber,
-      referralCode: signUp.referralCode,
-      gender: signUp.gender,
-    );
+  signUpCustomer(context) async {
     Response response = await _api.signUpCustomer(signUp.toJson());
+    print(response.body);
     if (response.statusCode == 200) {
       final Map<String, dynamic> responseData = json.decode(response.body);
       signedUpCustomers = SignUpCustomers.fromJson(responseData);
+      print(signedUpCustomers.object.email);
       if (signedUpCustomers.object.isActive == false) {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text("Input your Otp"),
+              content: TextField(
+                controller: otp,
+              ),
+              actions: [
+                FlatButton(
+                  child: Text("OK"),
+                  onPressed: () async {
+                    final response = await _api.activateAccount(
+                        signedUpCustomers.object.phoneNumber, otp.text);
+                    print(response.body);
+                    if (response.statusCode == 200) {}
+                  },
+                ),
+              ],
+            );
+          },
+        );
+
         //TODO send otp backend
       }
     }

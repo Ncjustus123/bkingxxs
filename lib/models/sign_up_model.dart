@@ -71,7 +71,7 @@ class SignUpCustomersObject {
     data['firstName'] = this.firstName;
     data['lastName'] = this.lastName;
     data['email'] = this.email;
-    data['phoneNumber'] = this.phoneNumber;
+    data['phone'] = this.phoneNumber;
     data['accountIsDeleted'] = this.accountIsDeleted;
     data['gender'] = this.gender;
     data['referralCode'] = this.referralCode;

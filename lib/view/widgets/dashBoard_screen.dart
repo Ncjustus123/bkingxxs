@@ -1,3 +1,4 @@
+import 'package:Libmot_Mobile/Reusables/ui_reusables.dart';
 import 'package:Libmot_Mobile/view/welcome_page.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
@@ -98,63 +99,15 @@ class _DashBoardScreen extends State<DashBoardScreen> {
             ),
             Column(
               children: <Widget>[
-                SizedBox(height: 150),
-                CarouselSlider(
-                  options: CarouselOptions(
-                    height: 200.0,
-                    autoPlay: true,
-                    autoPlayInterval: Duration(seconds: 3),
-                    autoPlayAnimationDuration: Duration(milliseconds: 800),
-                    autoPlayCurve: Curves.fastOutSlowIn,
-                    pauseAutoPlayOnTouch: true,
-                    aspectRatio: 2.0,
-                    enlargeCenterPage: true,
-                    onPageChanged: (index, reason) {
-                      setState(() {
-                        _currentIndex = index;
-                      });
-                    },
-                  ),
-                  items: cardList.map((card) {
-                    return Builder(builder: (BuildContext context) {
-                      return Container(
-                        height: MediaQuery.of(context).size.height * 0.30,
-                        width: MediaQuery.of(context).size.width,
-                        child: Card(
-                          color: Colors.blueAccent,
-                          child: card,
-                        ),
-                      );
-                    });
-                  }).toList(),
-                ),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: map<Widget>(cardList, (index, url) {
-                    return Container(
-                      width: 10.0,
-                      height: 10.0,
-                      margin:
-                          EdgeInsets.symmetric(vertical: 10.0, horizontal: 2.0),
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: _currentIndex == index
-                            ? Colors.blueAccent
-                            : Colors.grey,
-                      ),
-                    );
-                  }),
+                  children: [
+                    ReusableCard(
+                      colour: Colors.red,
+                    ),
+                  ],
                 ),
-                // GestureDetector(
-                //     onTap: () {
-                //       Navigator.push(
-                //           context,
-                //           MaterialPageRoute(
-                //               builder: (context) => WelcomePage()));
-                //     },
-                //     child: Icon(Icons.ac_unit_outlined)),
                 SizedBox(
-                  height: 100,
+                  height: 500,
                 ),
               ],
             )

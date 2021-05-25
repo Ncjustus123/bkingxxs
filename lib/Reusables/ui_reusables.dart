@@ -23,6 +23,32 @@ class UIReusable{
   EasyLoading.show(status: status); 
 }
 }
+
+class ReusableCard extends StatelessWidget {
+  final Color colour;
+  final String name;
+  final Function onPressed;
+  final Widget cardChild;
+
+  ReusableCard({this.colour, this.cardChild, this.onPressed, this.name});
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onPressed,
+      child: Container(
+        child: cardChild,
+        height: 120,
+        width: 120,
+        margin: EdgeInsets.all(15.0),
+        decoration: BoxDecoration(
+          color: colour,
+          borderRadius: BorderRadius.circular(10.0),
+        ),
+      ),
+    );
+  }
+}
 class DropdownWidget extends StatelessWidget {
   const DropdownWidget(
       {Key key, @required this.booking, this.items, this.onchange})

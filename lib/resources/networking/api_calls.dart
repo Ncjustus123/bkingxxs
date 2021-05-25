@@ -99,4 +99,21 @@ class ApiCalls {
         await http.post(url, body: json.encode(body), headers: header);
     return response;
   }
+
+  Future<http.Response> activateAccount(String username, String otp) async {
+
+    final queryParameters = {
+      'userNameOrEmail': username,
+      'activationCode': otp,
+    };
+    String queryString = Uri(queryParameters: queryParameters).query;
+
+    final header = await init();
+    //final url = Uri.https(baseInstance.base.baseUrl, EndPoints.activateAccount,queryParameters);
+    final url = Uri.parse(baseInstance.base.baseUrl +
+        EndPoints.activateAccount +'?' +
+        queryString);
+    final response = await http.post(url, headers: header);
+    return response;
+  }
 }

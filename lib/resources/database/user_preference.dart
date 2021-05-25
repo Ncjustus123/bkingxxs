@@ -49,32 +49,32 @@ class UserPreference {
   }
 
   void saveProfile(Profile profile) {
-    preferences.setString(firstName, profile.object.firstName);
-    preferences.setString(lastName, profile.object.lastName);
-    preferences.setString(email, profile.object.email);
-    preferences.setString(phoneNumber, profile.object.phoneNumber);
-    preferences.setString(gender, profile.object.gender);
-    preferences.setString(nextOfKin, profile.object.nextOfKin);
-    preferences.setString(nextOfKinPhone, profile.object.nextOfKinPhone);
-    preferences.setString(referralCode, profile.object.referralCode);
-    preferences.setString(dateJoined, profile.object.dateJoined);
-    preferences.setInt(userType, profile.object.userType);
-    preferences.setInt(companyId, profile.object.companyId);
+    preferences.setString(firstName, profile.object.firstName ?? "");
+    preferences.setString(lastName, profile.object.lastName?? "");
+    preferences.setString(email, profile.object.email?? "");
+    preferences.setString(phoneNumber, profile.object.phoneNumber?? "");
+    preferences.setString(gender, profile.object.gender?? "");
+    preferences.setString(nextOfKin, profile.object.nextOfKin?? "");
+    preferences.setString(nextOfKinPhone, profile.object.nextOfKinPhone?? "");
+    preferences.setString(referralCode, profile.object.referralCode?? "");
+    preferences.setString(dateJoined, profile.object.dateJoined?? "");
+    preferences.setInt(userType, profile.object.userType ??-1);
+    preferences.setInt(companyId, profile.object.companyId?? -1);
   }
 
   Future<ProfileObject> getProfile() async {
     final profile = ProfileObject();
    
-    profile.firstName = preferences.getString(firstName);
-    profile.lastName = preferences.getString(lastName);
-    profile.email = preferences.getString(email);
-    profile.phoneNumber = preferences.getString(phoneNumber);
-    profile.gender = preferences.getString(gender);
-    profile.nextOfKin = preferences.getString(nextOfKin);
-    profile.nextOfKinPhone = preferences.getString(nextOfKinPhone);
-    profile.referralCode = preferences.getString(referralCode);
-    profile.userType = preferences.getInt(userType);
-    profile.companyId = preferences.getInt(companyId);
+    profile.firstName = preferences.getString(firstName?? "");
+    profile.lastName = preferences.getString(lastName?? "");
+    profile.email = preferences.getString(email?? "");
+    profile.phoneNumber = preferences.getString(phoneNumber?? "");
+    profile.gender = preferences.getString(gender?? "");
+    profile.nextOfKin = preferences.getString(nextOfKin ?? "");
+    profile.nextOfKinPhone = preferences.getString(nextOfKinPhone?? "");
+    profile.referralCode = preferences.getString(referralCode?? "");
+    profile.userType = preferences.getInt(userType ?? -1);
+    profile.companyId = preferences.getInt(companyId ?? -1);
 
     return profile;
   }

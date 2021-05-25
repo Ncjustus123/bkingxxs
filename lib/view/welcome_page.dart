@@ -1,4 +1,5 @@
 
+import 'package:Libmot_Mobile/view/booking/onboarding_page.dart';
 import 'package:Libmot_Mobile/view/login/sign_up_page.dart';
 import 'package:flutter/material.dart';
 
@@ -33,7 +34,13 @@ class WelcomePage extends StatelessWidget {
                 onPressed: () {
                   Navigator.of(context).pushNamed(dashboardPage);
                 },
-              )
+              ),
+              RaisedButton(
+                onPressed: (){
+                  Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => OnBoardingPage()));
+                },
+                child:Text("southy")
+                ),
             ],
           ),
         ),

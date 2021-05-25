@@ -24,8 +24,8 @@ class _SignUpPageState extends State<SignUpPage> {
     return Scaffold(
       backgroundColor: Colors.black12,
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
+        child: SingleChildScrollView(
+          physics: AlwaysScrollableScrollPhysics(),
           child: Column(children: [
             Text("create an account"),
             firstNameField(),
@@ -46,9 +46,12 @@ class _SignUpPageState extends State<SignUpPage> {
             SizedBox(height: 10),
             Text(
               "i have an account. Sign in here",
-              style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+              style: TextStyle(
+                  fontSize: 15,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white),
             ),
-            Spacer(),
+            //Spacer(),
           ]),
         ),
       ),
@@ -66,10 +69,11 @@ class _SignUpPageState extends State<SignUpPage> {
           userRepository.signUp.lastName = lastNamecontroller.text;
           userRepository.signUp.email = emailcontroller.text;
           userRepository.signUp.phoneNumber = phoneNumbercontroller.text;
-          userRepository.signUp.referralCode = referralcontroller.text;
+          userRepository.signUp.referralCode = (referralcontroller.text.isEmpty)? null: referralcontroller.text;
           userRepository.signUp.password = passwordcontroller.text;
           userRepository.signUp.gender =
               (gendercontroller.text == "male") ? 0 : 1;
+          userRepository.signUpCustomer(context);
         },
       ),
     );
@@ -126,7 +130,7 @@ class _SignUpPageState extends State<SignUpPage> {
 
         return null;
       },
-      onTap: () {},
+      //onTap: () {},
     );
   }
 
@@ -194,13 +198,14 @@ class WidgetTextField extends StatelessWidget {
   final String lableText;
   final Function validator;
   final controller;
-  final Function onTap;
+  // final Function onTap;
   const WidgetTextField(
       {Key key,
       @required this.lableText,
       this.validator,
       @required this.controller,
-      this.onTap})
+      // this.onTap 
+      })
       : super(key: key);
 
   @override
@@ -213,7 +218,7 @@ class WidgetTextField extends StatelessWidget {
       child: Padding(
         padding: EdgeInsets.only(left: 15, right: 15, top: 5),
         child: TextFormField(
-          onTap: onTap,
+          //onTap: onTap,
           decoration: InputDecoration(
             fillColor: Colors.grey,
             focusColor: Colors.grey,
