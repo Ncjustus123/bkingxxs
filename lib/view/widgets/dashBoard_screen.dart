@@ -1,3 +1,4 @@
+import 'package:Libmot_Mobile/Reusables/constants.dart';
 import 'package:Libmot_Mobile/Reusables/ui_reusables.dart';
 import 'package:Libmot_Mobile/view/welcome_page.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -101,8 +102,48 @@ class _DashBoardScreen extends State<DashBoardScreen> {
               children: <Widget>[
                 Row(
                   children: [
-                    ReusableCard(
-                      colour: Colors.red,
+                    Expanded(
+                      child: ReusableCard(
+                        colour:kRed,
+                        cardChild: Column(
+                          children:[
+                            Text("Get a Ticket",style:textStyle,),
+                          ]
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      child: ReusableCard(
+                        colour: kGrey,
+                      ),
+                    ),
+                  ],
+                ),
+                Row(
+                  children: [
+                    Expanded(
+                      child: ReusableCard(
+                        colour: Colors.green,
+                      ),
+                    ),
+                    Expanded(
+                      child: ReusableCard(
+                        colour: Colors.blue,
+                      ),
+                    ),
+                  ],
+                ),
+                Row(
+                  children: [
+                    Expanded(
+                      child: ReusableCard(
+                        colour: Colors.yellow,
+                      ),
+                    ),
+                    Expanded(
+                      child: ReusableCard(
+                        colour: Colors.grey[200],
+                      ),
                     ),
                   ],
                 ),
