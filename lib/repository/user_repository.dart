@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:Libmot_Mobile/models/get_token_model.dart';
 import 'package:Libmot_Mobile/models/profile_model.dart';
@@ -66,16 +67,41 @@ class UserRepository with ChangeNotifier {
 
       if (tokenData.code == "200") {
         final preference = await UserPreference.getInstance();
-        preference.saveToken(tokenData);
+        //preference.saveToken(tokenData);
         profile = await getProfile(tokenData.object.token);
         preference.setLoggedInState(true);
         preference.saveProfile(profile);
+        loginForAndroidIos();
         _loggedInStatus = LoggedInStatus.LoggedIn;
         notifyListeners();
       }
     } else {
       _loggedInStatus = LoggedInStatus.LoggedOut;
       notifyListeners();
+    }
+  }
+
+  Future<void> loginForAndroidIos() async {
+    String password;
+    String email;
+
+    if (Platform.isAndroid) {
+      email = "android@libmot.com";
+      password = "Lme@onl1n3";
+    } else {
+      email = "ios@libmot.com";
+      password = "Lme@onl1n3";
+    }
+
+    final response = await _api.login(email, password);
+    if (response.statusCode == 200) {
+      final Map<String, dynamic> responseData = json.decode(response.body);
+      GetTokenResponse tokenData = GetTokenResponse.fromJson(responseData);
+
+      if (tokenData.code == "200") {
+        final preference = await UserPreference.getInstance();
+        preference.saveToken(tokenData);
+      }
     }
   }
 

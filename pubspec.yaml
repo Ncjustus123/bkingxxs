@@ -38,6 +38,11 @@ dependencies:
   url_launcher: ^6.0.3
   after_layout: ^1.1.0
   dropdown_search: ^0.5.0
+  flutterwave: ^0.0.2
+  webview_flutter: ^2.0.6
+  #flutter_paystack: ^1.0.5+1
+
+
 
 
 

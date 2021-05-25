@@ -19,6 +19,8 @@ class _PassengerInfoPageState extends State<PassengerInfoPage>
     'Female',
   ];
 
+  final _formKey = GlobalKey<FormState>();
+
   final firstNamecontroller = TextEditingController();
 
   final lastNamecontroller = TextEditingController();
@@ -64,26 +66,29 @@ class _PassengerInfoPageState extends State<PassengerInfoPage>
       body: SafeArea(
         child: SingleChildScrollView(
           scrollDirection: Axis.vertical,
-          child: Column(children: [
-            SizedBox(
-              height: 5,
-            ),
-            beneficaryField(),
-            firstNameField(),
-            lastNameField(),
-            phoneNumberField(),
-            genderDropdownButtonFormField(),
-            emailField(),
-            SizedBox(
-              height: 30,
-            ),
-            nextOfKinField(),
-            nextOfKinPhoneField(),
-            SizedBox(
-              height: 50,
-            ),
-            proceedButton(context),
-          ]),
+          child: Form(
+            key: _formKey,
+            child: Column(children: [
+              SizedBox(
+                height: 5,
+              ),
+              beneficaryField(),
+              firstNameField(),
+              lastNameField(),
+              phoneNumberField(),
+              genderDropdownButtonFormField(),
+              emailField(),
+              SizedBox(
+                height: 30,
+              ),
+              nextOfKinField(),
+              nextOfKinPhoneField(),
+              SizedBox(
+                height: 50,
+              ),
+              proceedButton(context),
+            ]),
+          ),
         ),
       ),
     );
@@ -92,11 +97,14 @@ class _PassengerInfoPageState extends State<PassengerInfoPage>
   RaisedButton proceedButton(BuildContext context) {
     return RaisedButton(
       onPressed: () {
-        booking.booking.beneficiaries = [
-          ...adultBeneficiary,
-          ...childrenBeneficiary
-        ];
-        booking.savePassengerInfo(context);
+        if (_formKey.currentState.validate()) {
+          booking.booking.beneficiaries = [
+            ...adultBeneficiary,
+            ...childrenBeneficiary
+          ];
+          _formKey.currentState.save();
+          booking.savePassengerInfo(context);
+        }
       },
     );
   }
@@ -118,13 +126,14 @@ class _PassengerInfoPageState extends State<PassengerInfoPage>
         });
         booking.booking.gender = (value == "male") ? 0 : 1;
       },
+      onSaved: (value) => booking.booking.gender = (value == "male") ? 0 : 1,
     );
   }
 
   firstNameField() {
     return TextFormField(
       controller: firstNamecontroller,
-      onChanged: (value) {
+      onSaved: (value) {
         booking.booking.firstName = value;
       },
       validator: (value) {
@@ -139,7 +148,7 @@ class _PassengerInfoPageState extends State<PassengerInfoPage>
   lastNameField() {
     return TextFormField(
       controller: lastNamecontroller,
-      onChanged: (value) => booking.booking.lastName = value,
+      onSaved: (value) => booking.booking.lastName = value,
       validator: (value) {
         if (value.isEmpty) {
           return 'error';
@@ -152,7 +161,7 @@ class _PassengerInfoPageState extends State<PassengerInfoPage>
   phoneNumberField() {
     return TextFormField(
       controller: phoneNumbercontroller,
-      onChanged: (value) => booking.booking.phoneNumber = value,
+      onSaved: (value) => booking.booking.phoneNumber = value,
       validator: (value) {
         if (value.isEmpty) {
           return 'error';
@@ -165,7 +174,7 @@ class _PassengerInfoPageState extends State<PassengerInfoPage>
   emailField() {
     return TextFormField(
       controller: emailcontroller,
-      onChanged: (value) => booking.booking.email,
+      onSaved: (value) => booking.booking.email = value,
       validator: (value) {
         if (value.isEmpty) {
           return 'error';
@@ -178,7 +187,7 @@ class _PassengerInfoPageState extends State<PassengerInfoPage>
   nextOfKinField() {
     return TextFormField(
       controller: nextOfkincontroller,
-      onChanged: (value) => booking.booking.nextOfKinName,
+      onSaved: (value) => booking.booking.nextOfKinName = value,
       validator: (value) {
         if (value.isEmpty) {
           return 'error';
@@ -191,7 +200,7 @@ class _PassengerInfoPageState extends State<PassengerInfoPage>
   nextOfKinPhoneField() {
     return TextFormField(
       controller: kinNumbercontroller,
-      onChanged: (value) => booking.booking.nextOfKinPhone,
+      onSaved: (value) => booking.booking.nextOfKinPhone = value,
       validator: (value) {
         if (value.isEmpty) {
           return 'error';
@@ -371,13 +380,15 @@ class _PassengerInfoPageState extends State<PassengerInfoPage>
 
                         setState(() {
                           beneficial.fullName = beneficiaryController.text;
-                          beneficial.passengerType = 0; //TODO: CONFIRM THIS
+
                           beneficial.seatNumber = seatNumber;
 
                           if (beneficiaryType.index == 0) {
+                            beneficial.passengerType = 0; //adult passenger
                             beneficiaryNames.insert(index, listTile);
                             adultBeneficiary.add(beneficial);
                           } else {
+                            beneficial.passengerType = 1; //child passenger
                             childrenBeneficiaryNames.insert(index, listTile);
                             childrenBeneficiary.add(beneficial);
                           }
