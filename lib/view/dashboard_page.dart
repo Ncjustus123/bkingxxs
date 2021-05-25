@@ -1,9 +1,6 @@
-import 'package:Libmot_Mobile/repository/user_repository.dart';
-import 'package:Libmot_Mobile/view/welcome_page.dart';
+
 import 'package:Libmot_Mobile/view/widgets/dashBoard_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:carousel_slider/carousel_slider.dart';
 
 
 import 'widgets/drawer_screen.dart';

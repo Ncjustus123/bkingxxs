@@ -1,7 +1,5 @@
 import 'package:Libmot_Mobile/Reusables/constants.dart';
 import 'package:Libmot_Mobile/Reusables/ui_reusables.dart';
-import 'package:Libmot_Mobile/view/welcome_page.dart';
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 
 class DashBoardScreen extends StatefulWidget {
