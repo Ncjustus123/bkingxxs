@@ -5,17 +5,19 @@ import 'package:Libmot_Mobile/models/get_buses_model.dart';
 import 'package:Libmot_Mobile/models/get_buses_response.dart';
 import 'package:Libmot_Mobile/models/get_route.dart';
 import 'package:Libmot_Mobile/models/post_booking_response.dart';
-import 'package:Libmot_Mobile/resources/networking/getBase.dart';
-import 'package:Libmot_Mobile/view/widgets/flutterwavePayment.dart';
-import 'package:Libmot_Mobile/view/widgets/paymentPaystack.dart';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterwave/flutterwave.dart';
 import 'package:flutterwave/models/responses/charge_response.dart';
 import 'package:http/http.dart';
-
 import '../resources/networking/api_calls.dart';
+import 'dart:io';
+import 'package:Libmot_Mobile/payment.dart';
+import 'package:Libmot_Mobile/repository/booking_repository.dart';
+import 'package:Libmot_Mobile/resources/networking/test_data.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_paystack/flutter_paystack.dart';
+import 'package:provider/provider.dart';
 
 class BookingRepository with ChangeNotifier {
   //bool depatureAvailable;
@@ -26,12 +28,66 @@ class BookingRepository with ChangeNotifier {
   final getBuses = new GetBusesModel();
   final String busSearch = "/selectBus";
   final String applyCouponPage = "/applyCoupon";
+  Buses departureSelectedBus = new Buses();
 
   GetRouteModel getRouteModel;
   DestinationTerminalModel destinationTerminalModel;
-  GetBusesModel model;
+  //GetBusesModel model;
   GetBusesResponseModel getBusesResponseModel;
   PostBookingResponse postBookingResponse;
+
+  String name;
+
+  addAdult() {
+    getBuses.numberOfAdults++;
+    notifyListeners();
+  } // _adultCount++;
+
+  notifyListeners();
+  subtractAdult() {
+    if (getBuses.numberOfAdults != 0) getBuses.numberOfAdults--;
+    notifyListeners();
+  }
+
+  Container childrentravellersButton() {
+    return Container(
+      height: 50,
+      width: 50,
+      child: new Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: <Widget>[
+          new FloatingActionButton(
+            heroTag: null,
+            onPressed: () {
+              // _childCount++;
+              if (getBuses.numberOfChildren < 2) {
+                getBuses.numberOfChildren++;
+              }
+              notifyListeners();
+            },
+            child: new Icon(
+              Icons.add,
+              color: Colors.black,
+            ),
+            backgroundColor: Colors.red,
+          ),
+          new Text('${getBuses.numberOfChildren}',
+              style: new TextStyle(fontSize: 30.0)),
+          new FloatingActionButton(
+            onPressed: () {
+              if (getBuses.numberOfChildren != 0) getBuses.numberOfChildren--;
+              notifyListeners();
+            },
+            child: new Icon(
+              Icons.horizontal_rule,
+              color: Colors.black,
+            ),
+            backgroundColor: Colors.red,
+          ),
+        ],
+      ),
+    );
+  }
 
   getAllRoute() async {
     final response = await ApiCalls().getAllRoutes();
@@ -65,30 +121,22 @@ class BookingRepository with ChangeNotifier {
     //     tripType: getBuses.tripType ?? 0,
     //     departureTerminalId: getBuses.departureTerminalId,
     //     destinationTerminalId: getBuses.destinationTerminalId,
-    //     numberOfAdults: getBuses.numberOfAdults,
-    //     numberOfChildren: getBuses.numberOfChildren ?? 0,
+    //     numberOfAdults: _adultCount,
+    //     numberOfChildren: _childCount ?? 0,
     //     departureDate: getBuses.departureDate,
     //     returnDate: getBuses.returnDate);
     booking.paymentMethod = 5;
     booking.passengerType = 0;
     booking.bookingType = 2;
-    model = GetBusesModel(
-        tripType: 0,
-        departureTerminalId: 17,
-        destinationTerminalId: 15,
-        numberOfAdults: 3,
-        numberOfChildren: 2,
-        departureDate: getBuses.departureDate,
-        returnDate: getBuses.returnDate);
-    //Response response = await ApiCalls().searchBuses(getBuses.toJson());
-    Response response = await ApiCalls().searchBuses(model.toJson());
+    Response response = await ApiCalls().searchBuses(getBuses.toJson());
 
     if (response.statusCode == 200) {
       final Map<String, dynamic> responseData = json.decode(response.body);
+      print(response.body);
+
       getBusesResponseModel = GetBusesResponseModel.fromJson(responseData);
       if (getBusesResponseModel.object == null) {
         //depatureAvailable = false;
-
         ScaffoldMessenger.of(context).showSnackBar(
             new SnackBar(content: new Text("No buses available")));
       } else {
@@ -157,7 +205,8 @@ class BookingRepository with ChangeNotifier {
       //TODO: end the first dialog box
 
       //show dialog box
-      paymentOptionDialog(context);
+      Navigator.of(context).pushNamed("/paymentpage");
+      //paymentOptionDialog(context);
     }
   }
 
@@ -173,30 +222,19 @@ class BookingRepository with ChangeNotifier {
               ElevatedButton(
                   child: Text("Pay with Paystack"),
                   onPressed: () {
-                    Navigator.pop(context);
-                    payWithPaystack(context);
+                    // Navigator.pop(context);
+                    // payWithPaystack(context);
                   }),
               ElevatedButton(
                   child: Text("Pay with Flutterwave"),
                   onPressed: () {
-                    this.beginFlutterwavePayment(
-                        context,
-                        postBookingResponse.object.amount.toString(),
-                        booking.email,
-                        "${booking.lastName} ${booking.firstName}",
-                        postBookingResponse.object.bookingReferenceCode,
-                        booking.phoneNumber);
-
-                    // FlutterwavePayment flutterwavePayment =
-                    //     new FlutterwavePayment(
-                    //   context: context,
-                    //   email: booking.email,
-                    //   phoneNumber: booking.phoneNumber,
-                    //   fullName: "${booking.lastName} ${booking.firstName}",
-                    //   amount: postBookingResponse.object.amount.toString(),
-                    //   txref: postBookingResponse.object.bookingReferenceCode,
-                    // );
-                    // flutterwavePayment.beginFlutterwavePayment();
+                    // this.beginFlutterwavePayment(
+                    //     context,
+                    //     postBookingResponse.object.amount.toString(),
+                    //     booking.email,
+                    //     "${booking.lastName} ${booking.firstName}",
+                    //     postBookingResponse.object.bookingReferenceCode,
+                    //     booking.phoneNumber);
                   }),
             ],
           ),
@@ -205,91 +243,90 @@ class BookingRepository with ChangeNotifier {
     );
   }
 
-  payWithPaystack(BuildContext context) {
-    showDialog(context: context, builder: (context) => PaymentPaystack());
-  }
+  // payWithPaystack(BuildContext context) {
+  //   showDialog(context: context, builder: (context) => PaymentPaystack());
+  // }
 
-  beginFlutterwavePayment(BuildContext context, String amount, String email,
-      String fullName, String txref, String phoneNumber) async {
-    final Flutterwave flutterwave = Flutterwave.forUIPayment(
-      context: context,
-      //encryptionKey: baseInstance.base.flutterwaveEncryptionKey,
-      encryptionKey: "26c03b274b07e6a19b179978",
-      //publicKey: baseInstance.base.flutterwavePublicKey,
-      publicKey: "FLWPUBK-add64679c55bac888696922e372cecb5-X",
-      currency: "NGN",
-      amount: "50",
-      email: email,
-      fullName: fullName,
-      txRef: txref,
-      isDebugMode: false,
-      phoneNumber: phoneNumber,
-      acceptCardPayment: true,
-      acceptUSSDPayment: true,
-      acceptAccountPayment: true,
-    );
+  // beginFlutterwavePayment(BuildContext context, String amount, String email,
+  //     String fullName, String txref, String phoneNumber) async {
+  //   final Flutterwave flutterwave = Flutterwave.forUIPayment(
+  //     context: context,
+  //     //encryptionKey: baseInstance.base.flutterwaveEncryptionKey,
+  //     encryptionKey: "26c03b274b07e6a19b179978",
+  //     //publicKey: baseInstance.base.flutterwavePublicKey,
+  //     publicKey: "FLWPUBK-add64679c55bac888696922e372cecb5-X",
+  //     currency: "NGN",
+  //     amount: "50",
+  //     email: email,
+  //     fullName: fullName,
+  //     txRef: txref,
+  //     isDebugMode: false,
+  //     phoneNumber: phoneNumber,
+  //     acceptCardPayment: true,
+  //     acceptUSSDPayment: true,
+  //     acceptAccountPayment: true,
+  //   );
 
-    try {
-      final ChargeResponse response =
-          await flutterwave.initializeForUiPayments();
-      if (response == null) {
-        // user didn't complete the transaction.
-        print("transaction not complete");
-      } else {
-        final isSuccessful = checkPaymentIsSuccessful(
-          response,
-          "NGN",
-          amount,
-          txref,
-        );
-        if (isSuccessful) {
-          print("Successful");
-          // provide value to customer
-        } else {
-          // check message
-          print(response.message);
-          // check status
-          print(response.status);
+  //   try {
+  //     final ChargeResponse response =
+  //         await flutterwave.initializeForUiPayments();
+  //     if (response == null) {
+  //       // user didn't complete the transaction.
+  //       print("transaction not complete");
+  //     } else {
+  //       final isSuccessful = checkPaymentIsSuccessful(
+  //         response,
+  //         "NGN",
+  //         amount,
+  //         txref,
+  //       );
+  //       if (isSuccessful) {
+  //         print("Successful");
+  //         // provide value to customer
+  //       } else {
+  //         // check message
+  //         print(response.message);
+  //         // check status
+  //         print(response.status);
 
-          // check processor error
-          print(response.data.processorResponse);
-        }
-      }
-    } catch (error, stacktrace) {
-      // handleError(error);
-      print(error);
-      print(stacktrace);
-    }
-  }
+  //         // check processor error
+  //         print(response.data.processorResponse);
+  //       }
+  //     }
+  //   } catch (error, stacktrace) {
+  //     // handleError(error);
+  //     print(error);
+  //     print(stacktrace);
+  //   }
+  // }
 
-  bool checkPaymentIsSuccessful(final ChargeResponse response, String currency,
-      String amount, String txref) {
-    return response.data.status == FlutterwaveConstants.SUCCESSFUL &&
-        response.data.currency == currency &&
-        response.data.amount == amount &&
-        response.data.txRef == txref;
-  }
+  // bool checkPaymentIsSuccessful(final ChargeResponse response, String currency,
+  //     String amount, String txref) {
+  //   return response.data.status == FlutterwaveConstants.SUCCESSFUL &&
+  //       response.data.currency == currency &&
+  //       response.data.amount == amount &&
+  //       response.data.txRef == txref;
+  // }
 }
+
 //ios
-Future<DateTime> showiosDate(BuildContext context, Function ondateselect)async{
+Future<DateTime> showiosDate(
+    BuildContext context, Function ondateselect) async {
   final now = DateTime.now();
   showModalBottomSheet(
-    context: context,
-    builder: (BuildContext builder){
-      return Container(
-         height: MediaQuery.of(context).copyWith().size.height / 3,
-         color: Colors.white,
+      context: context,
+      builder: (BuildContext builder) {
+        return Container(
+          height: MediaQuery.of(context).copyWith().size.height / 3,
+          color: Colors.white,
           child: CupertinoDatePicker(
             onDateTimeChanged: ondateselect,
             mode: CupertinoDatePickerMode.date,
             minimumDate: now,
             maximumDate: now.add(Duration(days: 14)),
-      ),);
-
-    }
-  );
+          ),
+        );
+      });
 }
-
-
 
 enum CurrentBookingStatus { Departure, Arrival }

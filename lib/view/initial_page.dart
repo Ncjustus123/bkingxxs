@@ -27,5 +27,6 @@ class _InitialPageState extends State<InitialPage>
   @override
   void afterFirstLayout(BuildContext context) {
     user.checkLogin(context);
+    
   }
 }

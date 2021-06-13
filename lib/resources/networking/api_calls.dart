@@ -1,5 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:Libmot_Mobile/models/get_token_model.dart';
+import 'package:Libmot_Mobile/repository/user_repository.dart';
 import 'package:Libmot_Mobile/resources/database/user_preference.dart';
 import 'package:http/http.dart' as http;
 
@@ -11,8 +13,19 @@ import 'getBase.dart';
 class ApiCalls {
   Future<Map<String, String>> init() async {
     final preference = await UserPreference.getInstance();
-    final token = await preference.getToken();
-    var header = {
+    var tokenResponse = await preference.getToken();
+    var token = tokenResponse.object.token;
+    final currentTime = DateTime.now();
+    final expiresIN = DateTime.parse(tokenResponse.object.expires);
+   
+    if (expiresIN.isBefore(currentTime)) {
+      //call the refresh token endpoint.
+    tokenResponse =  await UserRepository().loginForAndroidIos();
+    token = tokenResponse.object.token;
+
+    }
+    // final refresh
+    final header = {
       HttpHeaders.contentTypeHeader: 'application/json',
       HttpHeaders.authorizationHeader: 'Bearer $token'
     };
@@ -20,7 +33,9 @@ class ApiCalls {
   }
 
   Future<http.Response> login(String email, String password) async {
-    final header = await init();
+    final header = {
+      HttpHeaders.contentTypeHeader: 'application/json'
+    };
     final url = Uri.parse(baseInstance.base.baseUrl + EndPoints.getToken);
     var body = json.encode({"username": email, "password": password});
     final response = await http.post(url, body: body, headers: header);
@@ -28,7 +43,11 @@ class ApiCalls {
   }
 
   Future<http.Response> profile(String token) async {
-    final header = await init();
+    //final header = await init();
+    final header = {
+      HttpHeaders.contentTypeHeader: 'application/json',
+      HttpHeaders.authorizationHeader: 'Bearer $token'
+    };
     final url = Uri.parse(baseInstance.base.baseUrl + EndPoints.getProfile);
     final response = await http.get(url, headers: header);
     return response;
@@ -100,8 +119,16 @@ class ApiCalls {
     return response;
   }
 
-  Future<http.Response> activateAccount(String username, String otp) async {
+  Future<http.Response> payStackPayment(Map<dynamic, dynamic> body) async {
+    final header = await init();
+    final url =
+        Uri.parse(baseInstance.base.baseUrl + EndPoints.payStackPayment);
+    final response =
+        await http.post(url, body: json.encode(body), headers: header);
+    return response;
+  }
 
+  Future<http.Response> activateAccount(String username, String otp) async {
     final queryParameters = {
       'userNameOrEmail': username,
       'activationCode': otp,
@@ -111,7 +138,8 @@ class ApiCalls {
     final header = await init();
     //final url = Uri.https(baseInstance.base.baseUrl, EndPoints.activateAccount,queryParameters);
     final url = Uri.parse(baseInstance.base.baseUrl +
-        EndPoints.activateAccount +'?' +
+        EndPoints.activateAccount +
+        '?' +
         queryString);
     final response = await http.post(url, headers: header);
     return response;

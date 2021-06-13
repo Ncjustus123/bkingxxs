@@ -9,8 +9,9 @@ class EndPoints {
   static const String getBookingDetails = "api/Booking/Details/";
   static const String postAgentRequest = "api/Agents/AddApplicant";
   static const String signUpCustomer = "api/Customer/Add";
-  static const String postBooking = "api/Bookin g/PostBooking";
+  static const String postBooking = "api/Booking/PostBooking";
   static const String activateAccount =  "api/Account/Activate/";
+  static const String payStackPayment = "api/Booking/ProcessPaystackPayment";
 
   // @GET("api/Terminal/Get")
   // Call<DepartureTerminalResponse> getAllTerminals();

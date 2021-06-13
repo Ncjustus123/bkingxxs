@@ -82,28 +82,31 @@ class UserRepository with ChangeNotifier {
     }
   }
 
-  Future<void> loginForAndroidIos() async {
+  Future<GetTokenResponse> loginForAndroidIos() async {
     String password;
     String email;
+    GetTokenResponse tokenData;
 
     if (Platform.isAndroid) {
       email = "android@libmot.com";
       password = "Lme@onl1n3";
     } else {
       email = "ios@libmot.com";
-      password = "Lme@onl1n3";
+      password = "Lme@onl1n3";   // TODO password not yet confirmed.
     }
 
     final response = await _api.login(email, password);
     if (response.statusCode == 200) {
       final Map<String, dynamic> responseData = json.decode(response.body);
-      GetTokenResponse tokenData = GetTokenResponse.fromJson(responseData);
+       tokenData = GetTokenResponse.fromJson(responseData);
 
       if (tokenData.code == "200") {
         final preference = await UserPreference.getInstance();
         preference.saveToken(tokenData);
       }
     }
+          return tokenData;
+
   }
 
   Future<Profile> getProfile(String token) async {

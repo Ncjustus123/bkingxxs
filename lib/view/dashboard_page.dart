@@ -1,7 +1,5 @@
-
 import 'package:Libmot_Mobile/view/widgets/dashBoard_screen.dart';
 import 'package:flutter/material.dart';
-
 
 import 'widgets/drawer_screen.dart';
 
@@ -16,27 +14,29 @@ class DashboardPage extends StatefulWidget {
 class _DashboardPageState extends State<DashboardPage> {
   GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
- 
-
   @override
   Widget build(BuildContext context) {
     // final user = Provider.of<UserRepository>(context);
 
     return Scaffold(
       key: _scaffoldKey,
-      body: SafeArea(
+      body: Container(
+        // decoration: BoxDecoration(
+        //   image: DecorationImage(
+        //     image: AssetImage("images/Lekki-Ikoyi Link Bridge 1.png"),
+        //     fit: BoxFit.cover,
+        //   ),
+        // ),
         child: Stack(
           children: [
             DrawerScreen(),
-            DashBoardScreen(),
+             DashBoardScreen(),
           ],
         ),
       ),
     );
   }
 }
-
-
 
 Widget helpSupport(BuildContext context) {
   return ElevatedButton(

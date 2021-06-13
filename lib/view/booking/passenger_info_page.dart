@@ -1,4 +1,6 @@
+import 'package:Libmot_Mobile/Reusables/constants.dart';
 import 'package:Libmot_Mobile/models/booking_model.dart';
+import 'package:Libmot_Mobile/models/get_buses_response.dart';
 import 'package:Libmot_Mobile/repository/booking_repository.dart';
 import 'package:Libmot_Mobile/repository/seat_selection_repository.dart';
 import 'package:Libmot_Mobile/repository/user_repository.dart';
@@ -55,15 +57,29 @@ class _PassengerInfoPageState extends State<PassengerInfoPage>
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(
+    BuildContext context,
+  ) {
     repository = Provider.of<UserRepository>(context);
     booking = Provider.of<BookingRepository>(context);
     seatSelection = Provider.of<SeatSelectionRepository>(context);
+    final _width = MediaQuery.of(context).size.width;
+    final _height = MediaQuery.of(context).size.height;
 
     return Scaffold(
-      appBar: appBarPassengerInfo(),
-      backgroundColor: Colors.white,
-      body: SafeArea(
+      appBar: CustomAppBar(),
+      // backgroundColor: Colors.white,
+      body: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage("images/Lekki-Ikoyi Link Bridge 1.png"),
+            fit: BoxFit.cover,
+            colorFilter: ColorFilter.mode(
+                Color(0xFFFFFFFF).withOpacity(0.9), BlendMode.srcOver),
+          ),
+        ),
+        width: _width,
+        height: _height,
         child: SingleChildScrollView(
           scrollDirection: Axis.vertical,
           child: Form(
@@ -73,20 +89,33 @@ class _PassengerInfoPageState extends State<PassengerInfoPage>
                 height: 5,
               ),
               beneficaryField(),
+              Center(
+                  child: Text(
+                "Contact Information",
+                style: textStyle2,
+              )),
               firstNameField(),
               lastNameField(),
               phoneNumberField(),
               genderDropdownButtonFormField(),
               emailField(),
               SizedBox(
-                height: 30,
+                height: 15,
               ),
+              Center(
+                  child: Text(
+                "Next of Kin Information",
+                style: textStyle2,
+              )),
               nextOfKinField(),
               nextOfKinPhoneField(),
               SizedBox(
-                height: 50,
+                height: 40,
               ),
               proceedButton(context),
+              SizedBox(
+                height: 15,
+              ),
             ]),
           ),
         ),
@@ -94,119 +123,225 @@ class _PassengerInfoPageState extends State<PassengerInfoPage>
     );
   }
 
-  RaisedButton proceedButton(BuildContext context) {
-    return RaisedButton(
-      onPressed: () {
-        if (_formKey.currentState.validate()) {
-          booking.booking.beneficiaries = [
-            ...adultBeneficiary,
-            ...childrenBeneficiary
-          ];
-          _formKey.currentState.save();
-          booking.savePassengerInfo(context);
-        }
-      },
+  SizedBox proceedButton(BuildContext context) {
+    return SizedBox(
+      width: 200.0,
+      height: 50.0,
+      child: ElevatedButton(
+        onPressed: () {
+          if (_formKey.currentState.validate()) {
+            booking.booking.beneficiaries = [
+              ...adultBeneficiary,
+              ...childrenBeneficiary
+            ];
+            _formKey.currentState.save();
+            booking.savePassengerInfo(context);
+          }
+        },
+        child: Text("Proceed"),
+        style: ButtonStyle(
+          backgroundColor: MaterialStateProperty.all(Colors.red),
+          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+            RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10.0),
+            ),
+          ),
+        ),
+      ),
     );
   }
 
   ///TODO TST WITH GUEST LOGIN
   String genderValue;
-  DropdownButtonFormField<String> genderDropdownButtonFormField() {
-    return DropdownButtonFormField<String>(
-      value: genderValue,
-      items: genderType.map((dynamic value) {
-        return DropdownMenuItem<String>(
-          value: value,
-          child: Text(value),
-        );
-      }).toList(),
-      onChanged: (value) {
-        setState(() {
-          genderValue = value;
-        });
-        booking.booking.gender = (value == "male") ? 0 : 1;
-      },
-      onSaved: (value) => booking.booking.gender = (value == "male") ? 0 : 1,
+  Card genderDropdownButtonFormField() {
+    return Card(
+      color: Colors.grey[50],
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(
+          Radius.circular(5),
+        ),
+      ),
+      child: DropdownButtonFormField<String>(
+        value: genderValue,
+        items: genderType.map((dynamic value) {
+          return DropdownMenuItem<String>(
+            value: value,
+            child: Text(value),
+          );
+        }).toList(),
+        onChanged: (value) {
+          setState(() {
+            genderValue = value;
+          });
+          booking.booking.gender = (value == "male") ? 0 : 1;
+        },
+        onSaved: (value) => booking.booking.gender = (value == "male") ? 0 : 1,
+        decoration: InputDecoration(
+          labelText: 'Gender',
+          labelStyle: TextStyle(color: Colors.grey),
+          contentPadding: EdgeInsets.symmetric(vertical: 8, horizontal: 20),
+        ),
+      ),
     );
   }
 
   firstNameField() {
-    return TextFormField(
-      controller: firstNamecontroller,
-      onSaved: (value) {
-        booking.booking.firstName = value;
-      },
-      validator: (value) {
-        if (value.isEmpty) {
-          return 'error';
-        }
-        return null;
-      },
+    return Card(
+      color: Colors.grey[50],
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(
+          Radius.circular(5),
+        ),
+      ),
+      child: TextFormField(
+        controller: firstNamecontroller,
+        onSaved: (value) {
+          booking.booking.firstName = value;
+        },
+        validator: (value) {
+          if (value.isEmpty) {
+            return 'error';
+          }
+          return null;
+        },
+        decoration: InputDecoration(
+          labelText: 'FirstName',
+          labelStyle: TextStyle(color: Colors.grey),
+          contentPadding: EdgeInsets.symmetric(vertical: 8, horizontal: 20),
+        ),
+      ),
     );
   }
 
   lastNameField() {
-    return TextFormField(
-      controller: lastNamecontroller,
-      onSaved: (value) => booking.booking.lastName = value,
-      validator: (value) {
-        if (value.isEmpty) {
-          return 'error';
-        }
-        return null;
-      },
+    return Card(
+      color: Colors.grey[50],
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(
+          Radius.circular(5),
+        ),
+      ),
+      child: TextFormField(
+        controller: lastNamecontroller,
+        onSaved: (value) => booking.booking.lastName = value,
+        validator: (value) {
+          if (value.isEmpty) {
+            return 'error';
+          }
+          return null;
+        },
+        decoration: InputDecoration(
+          labelText: 'LastName',
+          labelStyle: TextStyle(color: Colors.grey),
+          contentPadding: EdgeInsets.symmetric(vertical: 8, horizontal: 20),
+        ),
+      ),
     );
   }
 
   phoneNumberField() {
-    return TextFormField(
-      controller: phoneNumbercontroller,
-      onSaved: (value) => booking.booking.phoneNumber = value,
-      validator: (value) {
-        if (value.isEmpty) {
-          return 'error';
-        }
-        return null;
-      },
+    return Card(
+      color: Colors.grey[50],
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(
+          Radius.circular(5),
+        ),
+      ),
+      child: TextFormField(
+        controller: phoneNumbercontroller,
+        onSaved: (value) => booking.booking.phoneNumber = value,
+        validator: (value) {
+          if (value.isEmpty) {
+            return 'error';
+          } else if (value.length != 11) {
+            return "phone number must be 11 digits";
+          }
+          return null;
+        },
+        decoration: InputDecoration(
+          labelText: 'PhoneNumber',
+          labelStyle: TextStyle(color: Colors.grey),
+          contentPadding: EdgeInsets.symmetric(vertical: 8, horizontal: 20),
+        ),
+      ),
     );
   }
 
   emailField() {
-    return TextFormField(
-      controller: emailcontroller,
-      onSaved: (value) => booking.booking.email = value,
-      validator: (value) {
-        if (value.isEmpty) {
-          return 'error';
-        }
-        return null;
-      },
+    return Card(
+      color: Colors.grey[50],
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(
+          Radius.circular(5),
+        ),
+      ),
+      child: TextFormField(
+        controller: emailcontroller,
+        onSaved: (value) => booking.booking.email = value,
+        validator: (value) {
+          if (value.isEmpty) {
+            return 'error';
+          }
+          return null;
+        },
+        decoration: InputDecoration(
+          labelText: 'PhoneNumber',
+          labelStyle: TextStyle(color: Colors.grey),
+          contentPadding: EdgeInsets.symmetric(vertical: 8, horizontal: 20),
+        ),
+      ),
     );
   }
 
   nextOfKinField() {
-    return TextFormField(
-      controller: nextOfkincontroller,
-      onSaved: (value) => booking.booking.nextOfKinName = value,
-      validator: (value) {
-        if (value.isEmpty) {
-          return 'error';
-        }
-        return null;
-      },
+    return Card(
+      color: Colors.grey[50],
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(
+          Radius.circular(5),
+        ),
+      ),
+      child: TextFormField(
+        controller: nextOfkincontroller,
+        onSaved: (value) => booking.booking.nextOfKinName = value,
+        validator: (value) {
+          if (value.isEmpty) {
+            return 'error';
+          }
+          return null;
+        },
+        decoration: InputDecoration(
+          labelText: 'PhoneNumber',
+          labelStyle: TextStyle(color: Colors.grey),
+          contentPadding: EdgeInsets.symmetric(vertical: 8, horizontal: 20),
+        ),
+      ),
     );
   }
 
   nextOfKinPhoneField() {
-    return TextFormField(
-      controller: kinNumbercontroller,
-      onSaved: (value) => booking.booking.nextOfKinPhone = value,
-      validator: (value) {
-        if (value.isEmpty) {
-          return 'error';
-        }
-        return null;
-      },
+    return Card(
+      color: Colors.grey[50],
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(
+          Radius.circular(5),
+        ),
+      ),
+      child: TextFormField(
+        controller: kinNumbercontroller,
+        onSaved: (value) => booking.booking.nextOfKinPhone = value,
+        validator: (value) {
+          if (value.isEmpty) {
+            return 'error';
+          }
+          return null;
+        },
+        decoration: InputDecoration(
+          labelText: 'PhoneNumber',
+          labelStyle: TextStyle(color: Colors.grey),
+          contentPadding: EdgeInsets.symmetric(vertical: 8, horizontal: 20),
+        ),
+      ),
     );
   }
 
@@ -226,11 +361,11 @@ class _PassengerInfoPageState extends State<PassengerInfoPage>
   }
 
   Widget beneficaryField() {
-    int noOfAdultBeneficiaries = booking.model.numberOfAdults - 1 ?? 0;
-    int noOfChildrenBeneficiaries = booking.model.numberOfChildren ?? 0;
+    int noOfAdultBeneficiaries = booking.getBuses.numberOfAdults - 1 ?? 0;
+    int noOfChildrenBeneficiaries = booking.getBuses.numberOfChildren ?? 0;
 
     return Column(children: [
-      (booking.model.numberOfAdults > 1)
+      (booking.getBuses.numberOfAdults > 1)
           ? Column(
               children: [
                 info("Extra Adult Traveller(s)"),

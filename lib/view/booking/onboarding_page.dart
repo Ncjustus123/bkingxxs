@@ -21,42 +21,44 @@ class OnBoardingPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
-      body: SafeArea(
-        child: Column(
-          children: [
-            Expanded(
-              child: CarouselSlider(
-                options: CarouselOptions(
-                  height: 300.0,
-                  autoPlay: false,
+      //backgroundColor: Colors.white,
+      body: Container(
+        child: SafeArea(
+          child: Column(
+            children: [
+              Expanded(
+                child: CarouselSlider(
+                  options: CarouselOptions(
+                    height: 300.0,
+                    autoPlay: false,
+                  ),
+                  items: imagePages.map((e) {
+                    return Builder(builder: (BuildContext context) {
+                      return Container(
+                        // height: MediaQuery.of(context).size.height,
+                        // width: MediaQuery.of(context).size.width,
+                        child: e,
+                      );
+                    });
+                  }).toList(),
                 ),
-                items: imagePages.map((e) {
-                  return Builder(builder: (BuildContext context) {
-                    return Container(
-                      // height: MediaQuery.of(context).size.height,
-                      // width: MediaQuery.of(context).size.width,
-                      child: e,
-                    );
-                  });
-                }).toList(),
               ),
-            ),
-            SizedBox(
-              width: 300.0,
-              height: 50.0,
-              child: ElevatedButton(
-                  onPressed: () {},
-                  child: Text("Get Started"),
-                  style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all(Colors.red),
-                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                          RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                      )))),
-            ),
-            SizedBox(height: 5),
-          ],
+              SizedBox(
+                width: 300.0,
+                height: 50.0,
+                child: ElevatedButton(
+                    onPressed: () {},
+                    child: Text("Get Started"),
+                    style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all(Colors.red),
+                        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                            RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                        )))),
+              ),
+              SizedBox(height: 5),
+            ],
+          ),
         ),
       ),
     );
@@ -77,7 +79,12 @@ class OnboardingWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.white,
+       decoration: BoxDecoration(
+        image: DecorationImage(
+          image: AssetImage("images/Lekki-Ikoyi Link Bridge 1.png"),
+          fit: BoxFit.cover,
+        ),),
+      //color: Colors.white,
       child: Column(
         children: [
           Expanded(

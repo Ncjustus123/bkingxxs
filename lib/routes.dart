@@ -1,4 +1,5 @@
 
+import 'package:Libmot_Mobile/payment.dart';
 import 'package:Libmot_Mobile/view/booking/apply_coupon_page.dart';
 import 'package:Libmot_Mobile/view/booking/passenger_info_page.dart';
 import 'package:Libmot_Mobile/view/booking/check_booking_status.dart';
@@ -17,7 +18,7 @@ import 'view/login/login_page.dart';
 import 'view/bus_hire/bus_hire_page.dart';
 import 'view/bus_hire/bus_hire_details_page.dart';
 import 'view/bus_hire/bus_hire_success_page.dart';
-import 'Reusables/select_seat_page.dart';
+import 'view/booking/select_seat_page.dart';
 
 Route routes(RouteSettings settings) {
   final args = settings.arguments;
@@ -45,7 +46,7 @@ Route routes(RouteSettings settings) {
       break;
     case "/sign_up":
       {
-        // return MaterialPageRoute(builder: (context) => DashBoard());
+        
       }
       break;
     case "/dashboard":
@@ -119,6 +120,11 @@ Route routes(RouteSettings settings) {
     case "/becomeAnAgentPage":
       {
         return MaterialPageRoute(builder: (context) => BecomeAnAgent());
+      }
+      break;
+      case "/paymentpage":
+      {
+        return MaterialPageRoute(builder: (context) => PaymentPage());
       }
       break;
     default:

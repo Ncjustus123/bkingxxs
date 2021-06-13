@@ -15,3 +15,12 @@ const Color kRed = Color(0xFFF44336);
 
 const textStyle =
     TextStyle(color: Colors.white, fontSize: 15, fontWeight: FontWeight.bold);
+const textStyle1 =
+    TextStyle(color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold);
+const textStyle2 =
+    TextStyle(color: Colors.black, fontSize: 15, fontWeight: FontWeight.bold);
+String getNairaSign() {
+  return "₦";
+}
+ 
+  

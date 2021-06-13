@@ -27,6 +27,11 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => CouponRepository()),
       ],
       child: MaterialApp(
+        theme: ThemeData(
+          buttonColor: Colors.red,
+          primarySwatch: Colors.red,
+        ),
+        
         debugShowCheckedModeBanner: false,
         title: "Libmot Mobile",
         initialRoute: "initial",

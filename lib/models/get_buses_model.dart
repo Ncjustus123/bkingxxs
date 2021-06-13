@@ -11,8 +11,8 @@ class GetBusesModel {
       {this.departureDate,
       this.departureTerminalId,
       this.destinationTerminalId,
-      this.numberOfAdults,
-      this.numberOfChildren,
+      this.numberOfAdults =0,
+      this.numberOfChildren=0,
       this.returnDate,
       this.tripType});
 

@@ -1,48 +1,50 @@
+import 'package:Libmot_Mobile/Reusables/constants.dart';
+import 'package:Libmot_Mobile/models/get_buses_response.dart';
+import 'package:Libmot_Mobile/repository/booking_repository.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-Widget appBarPassengerInfo() {
-  return PreferredSize(
-    preferredSize: Size.fromHeight(85),
-    child: AppBar(
+class CustomAppBar extends StatefulWidget implements PreferredSizeWidget {
+  CustomAppBar() : preferredSize = Size.fromHeight(100);
+  @override
+  final Size preferredSize;
+  _CustomAppBarState createState() => _CustomAppBarState();
+}
+
+//  int index;
+List<Buses> bus;
+BookingRepository booking;
+int index;
+
+class _CustomAppBarState extends State<CustomAppBar> {
+  @override
+  Widget build(BuildContext context ) {
+    booking = Provider.of<BookingRepository>(context);
+    return AppBar(
       automaticallyImplyLeading: false,
       elevation: 5,
-      backgroundColor: Colors.black,
+      backgroundColor: Colors.red,
       bottom: PreferredSize(
         preferredSize: Size.fromHeight(100),
         child: Container(
           height: 60,
           child: Column(
             children: [
+              Text(booking.departureSelectedBus.routeName),
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Text(
-                    "hdh",
-                    style: TextStyle(color: Colors.green),
-                  ),
-                  Text(
-                    "hdh",
-                    style: TextStyle(color: Colors.green),
-                  ),
-                  Spacer(),
-                  Text(
-                    "hdh",
-                    style: TextStyle(color: Colors.green),
-                  ),
-                  Text(
-                    "hdh",
-                    style: TextStyle(color: Colors.green),
-                  ),
+                  // Spacer(),
                 ],
               ),
-              Divider(
-                height: 3,
-                color: Colors.white,
-              ),
+              // Divider(
+              //   height: 3,
+              //   color: Colors.white,
+              // ),
             ],
           ),
         ),
       ),
-    ),
-  );
+    );
+  }
 }

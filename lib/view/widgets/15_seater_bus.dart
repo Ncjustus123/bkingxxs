@@ -13,7 +13,6 @@ class FifteenSeaterBus extends StatelessWidget {
   BookingRepository booking;
   SeatSelectionRepository seatSelection;
 
-
   @override
   Widget build(BuildContext context) {
     booking = Provider.of<BookingRepository>(context);
@@ -118,17 +117,15 @@ class FifteenSeaterBus extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         if (seatObject.status == SeatStatus.unSelected) {
-          int numberOfBooknings =
-              booking.model.numberOfAdults + booking.model.numberOfChildren;
+          int numberOfBooknings = booking.getBuses.numberOfAdults +
+              booking.getBuses.numberOfChildren;
 
           if (numberOfBooknings <= seatSelection.selectedSeats.length) {
             scaffold.currentState.showSnackBar(
                 new SnackBar(content: new Text("$numberOfBooknings")));
             print('$numberOfBooknings');
             return;
-          }else{
-            
-          }
+          } else {}
 
           seatSelection.selectSeat(seatObject);
         } else if (seatObject.status == SeatStatus.selected) {
@@ -136,7 +133,7 @@ class FifteenSeaterBus extends StatelessWidget {
         }
       },
       child: Stack(
-        alignment: AlignmentDirectional.center,
+         alignment: AlignmentDirectional.center,
         children: [
           stackImage,
           Text(
@@ -150,21 +147,21 @@ class FifteenSeaterBus extends StatelessWidget {
 
   selectedSeat() {
     return Image.asset(
-      'images/selected_seat.png',
+      'images/Seat-1.png',
       height: 45,
     );
   }
 
   unselectedSeat() {
     return Image.asset(
-      'images/unselected_seat.png',
+      'images/Seat.png',
       height: 45,
     );
   }
 
   blockedSeat() {
     return Image.asset(
-      'images/blocked_seat.png',
+      'images/Seat-2.png',
       height: 45,
     );
   }

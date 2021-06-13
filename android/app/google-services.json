@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "1070277239175",
+    "project_id": "newflutterlibmotapp",
+    "storage_bucket": "newflutterlibmotapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1070277239175:android:5cee36467cbeb7eee17322",
+        "android_client_info": {
+          "package_name": "com.example.libmot_mobile_flutter"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1070277239175-7afhvvvmta1uaj38jeohr0idnqibpsqr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyANsHTUt1tXNh4VzFPAlYMFJu_yGow1UkQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1070277239175-7afhvvvmta1uaj38jeohr0idnqibpsqr.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1070277239175-302fpbignrc6ool938cnu0a9cnsi4app.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.libmotMobileFlutter"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

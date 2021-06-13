@@ -22,30 +22,85 @@ class _ApplyCouponState extends State<ApplyCoupon> {
         title: Text(
           "Apply Coupon",
         ),
+        centerTitle: true,
         backgroundColor: Colors.black,
         automaticallyImplyLeading: false,
       ),
-      body: Column(children: [
-        Text("FarePrice: 4000", style: TextStyle(color: Colors.red)),
-        Text("Do you have a coupon?", style: TextStyle(color: Colors.black)),
-        TextField(),
-        RaisedButton(child: Text("Apply Coupon"), onPressed: () {}),
-        Row(
-          children: [
-            Checkbox(
-                value: repository.agreeTerms,
-                onChanged: (newValue) => {
-                      setState(() {
-                        repository.updateAgreeTerms(newValue);
-                      }),
-                    }),
-            Text("I agree to", style: TextStyle(color: Colors.red)),
-          ],
+      body: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage("images/Lekki-Ikoyi Link Bridge 1.png"),
+            fit: BoxFit.cover,
+            colorFilter: ColorFilter.mode(
+                Color(0xFFFFFFFF).withOpacity(0.9), BlendMode.srcOver),
+          ),
         ),
-        RaisedButton(
-            child: Text("Proceed to payment"),
-            onPressed: () => repository.couponProceedButton(context)),
-      ]),
+        child: Column(children: [
+          Text("FarePrice: 4000", style: TextStyle(color: Colors.red)),
+          Text("Do you have a coupon?", style: TextStyle(color: Colors.black)),
+          SizedBox(
+            height: 20,
+          ),
+          Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Card(
+              color: Colors.grey[50],
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(
+                  Radius.circular(5),
+                ),
+              ),
+              child: TextField(),
+            ),
+          ),
+          SizedBox(
+            height: 20,
+          ),
+          SizedBox(
+            height: 50,
+            width: 300,
+            child: ElevatedButton(
+              style: ButtonStyle(
+          backgroundColor: MaterialStateProperty.all(Colors.grey),
+          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+            RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10.0),
+            ),
+          ),
+        ),
+              child: Text("Apply Coupon"),
+              onPressed: () {},
+            ),
+          ),
+          Row(
+            children: [
+              Checkbox(
+                  value: repository.agreeTerms,
+                  onChanged: (newValue) => {
+                        setState(() {
+                          repository.updateAgreeTerms(newValue);
+                        }),
+                      }),
+              Text("I agree to", style: TextStyle(color: Colors.red)),
+            ],
+          ),
+          SizedBox(
+            height: 50,
+            width: 300,
+            child: ElevatedButton(
+                child: Text("Proceed to payment"),
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all(Colors.red),
+                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                    RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                  ),
+                ),
+                onPressed: () => repository.couponProceedButton(context)),
+          ),
+        ]),
+      ),
     );
   }
 }

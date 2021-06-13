@@ -111,8 +111,8 @@ class TwelveSeaterBus extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         if (seatObject.status == SeatStatus.unSelected) {
-          int numberOfBooknings =
-              booking.model.numberOfAdults + booking.model.numberOfChildren;
+          int numberOfBooknings = booking.getBuses.numberOfAdults +
+              booking.getBuses.numberOfChildren;
 
           if (numberOfBooknings <= seatSelection.selectedSeats.length) {
             scaffold.currentState.showSnackBar(

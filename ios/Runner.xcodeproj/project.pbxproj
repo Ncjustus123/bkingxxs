@@ -222,7 +222,7 @@
 		};
 		97C146FF1CF9000F007C117D /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
-			children = (
+			children = (libmot_mobile_flutter
 				97C147001CF9000F007C117D /* Base */,
 			);
 			name = LaunchScreen.storyboard;

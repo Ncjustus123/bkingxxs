@@ -12,32 +12,8 @@ class _DashBoardScreen extends State<DashBoardScreen> {
   double yOffset = 0;
 
   bool isDrawerOpen = false;
-  int _currentIndex = 0;
-  List cardList = [
-    Item1(
-      Text("Get Tickets",
-          style: TextStyle(
-              color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold)),
-    ),
-    Item2(
-      Text("Hire a bus",
-          style: TextStyle(
-              color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold)),
-    ),
-    Item3(
-      Text("Libmot Drive",
-          style: TextStyle(
-              color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold)),
-    ),
-  ];
-  List<T> map<T>(List list, Function handler) {
-    List<T> result = [];
-    for (var i = 0; i < list.length; i++) {
-      result.add(handler(i, list[i]));
-    }
-    return result;
-  }
 
+  static final getTicketPage = "/bookASeat";
   @override
   Widget build(BuildContext context) {
     return AnimatedContainer(
@@ -46,7 +22,11 @@ class _DashBoardScreen extends State<DashBoardScreen> {
         ..rotateZ(isDrawerOpen ? -50 : 0),
       duration: Duration(milliseconds: 200),
       decoration: BoxDecoration(
-        color: Colors.white,
+        image: DecorationImage(
+          image: AssetImage("images/Lekki-Ikoyi Link Bridge 1.png"),
+          fit: BoxFit.cover,
+        ),
+        // color: Colors.white,
         borderRadius:
             isDrawerOpen ? BorderRadius.circular(40) : BorderRadius.circular(0),
       ),
@@ -63,7 +43,10 @@ class _DashBoardScreen extends State<DashBoardScreen> {
                 children: <Widget>[
                   isDrawerOpen
                       ? GestureDetector(
-                          child: Icon(Icons.arrow_back_ios),
+                          child: Icon(
+                            Icons.arrow_back_ios,
+                            color: Colors.white,
+                          ),
                           onTap: () {
                             setState(() {
                               xOffset = 0;
@@ -73,7 +56,10 @@ class _DashBoardScreen extends State<DashBoardScreen> {
                           },
                         )
                       : GestureDetector(
-                          child: Icon(Icons.menu),
+                          child: Icon(
+                            Icons.menu,
+                            color: Colors.white,
+                          ),
                           onTap: () {
                             setState(() {
                               xOffset = 290;
@@ -82,14 +68,13 @@ class _DashBoardScreen extends State<DashBoardScreen> {
                             });
                           },
                         ),
-                  Text(
-                    'DashBoard',
-                    style: TextStyle(
-                        fontSize: 20,
-                        color: Colors.black87,
-                        decoration: TextDecoration.none),
+                  Padding(
+                    padding: const EdgeInsets.only(right: 90, left: 0),
+                    child: Image.asset(
+                      "images/LIBMOT LOGO 1.png",
+                      height: 40,
+                    ),
                   ),
-                  Container(),
                 ],
               ),
             ),
@@ -102,17 +87,47 @@ class _DashBoardScreen extends State<DashBoardScreen> {
                   children: [
                     Expanded(
                       child: ReusableCard(
-                        colour:kRed,
-                        cardChild: Column(
-                          children:[
-                            Text("Get a Ticket",style:textStyle,),
-                          ]
-                        ),
+                        colour: kRed,
+                        onPressed: () {
+                          Navigator.of(context).pushNamed(getTicketPage);
+                        },
+                        cardChild: Column(children: [
+                          Padding(
+                            padding: const EdgeInsets.all(12.0),
+                            child: Icon(
+                              Icons.airport_shuttle,
+                              color: Colors.white,
+                            ),
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          Text(
+                            "Ticket Booking",
+                            style: textStyle,
+                          ),
+                        ]),
                       ),
                     ),
                     Expanded(
                       child: ReusableCard(
                         colour: kGrey,
+                        cardChild: Column(children: [
+                          Padding(
+                            padding: const EdgeInsets.all(12.0),
+                            child: Icon(
+                              Icons.bus_alert,
+                              color: Colors.white,
+                            ),
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          Text(
+                            "Hire A Bus",
+                            style: textStyle,
+                          ),
+                        ]),
                       ),
                     ),
                   ],
@@ -122,11 +137,43 @@ class _DashBoardScreen extends State<DashBoardScreen> {
                     Expanded(
                       child: ReusableCard(
                         colour: Colors.green,
+                        cardChild: Column(children: [
+                          Padding(
+                            padding: const EdgeInsets.all(12.0),
+                            child: Icon(
+                              Icons.support_agent,
+                              color: Colors.white,
+                            ),
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          Text(
+                            "Become An Agent",
+                            style: textStyle,
+                          ),
+                        ]),
                       ),
                     ),
                     Expanded(
                       child: ReusableCard(
                         colour: Colors.blue,
+                        cardChild: Column(children: [
+                          Padding(
+                            padding: const EdgeInsets.all(12.0),
+                            child: Icon(
+                              Icons.settings_applications_rounded,
+                              color: Colors.white,
+                            ),
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          Text(
+                            "Copper Wee",
+                            style: textStyle,
+                          ),
+                        ]),
                       ),
                     ),
                   ],
@@ -135,12 +182,44 @@ class _DashBoardScreen extends State<DashBoardScreen> {
                   children: [
                     Expanded(
                       child: ReusableCard(
-                        colour: Colors.yellow,
+                        colour: Colors.yellow[700],
+                        cardChild: Column(children: [
+                          Padding(
+                            padding: const EdgeInsets.all(12.0),
+                            child: Image.asset(
+                              "images/Libmot Express Logo 1.png",
+                              height: 40,
+                            ),
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          Text(
+                            "Libmot Express",
+                            style: textStyle,
+                          ),
+                        ]),
                       ),
                     ),
                     Expanded(
                       child: ReusableCard(
-                        colour: Colors.grey[200],
+                        colour: Colors.grey[300],
+                        cardChild: Column(children: [
+                          Padding(
+                            padding: const EdgeInsets.all(12.0),
+                            child: Icon(
+                              Icons.drive_eta_rounded,
+                              color: Colors.white,
+                            ),
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          Text(
+                            "Libmot Drive",
+                            style: textStyle,
+                          ),
+                        ]),
                       ),
                     ),
                   ],
@@ -158,15 +237,12 @@ class _DashBoardScreen extends State<DashBoardScreen> {
 }
 
 class Item1 extends StatelessWidget {
-  static final getTicketPage = "/bookASeat";
   final Widget name;
   Item1(this.name);
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        Navigator.of(context).pushNamed(getTicketPage);
-      },
+      onTap: () {},
       child: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(

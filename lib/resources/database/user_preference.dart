@@ -65,23 +65,32 @@ class UserPreference {
   Future<ProfileObject> getProfile() async {
     final profile = ProfileObject();
    
-    profile.firstName = preferences.getString(firstName?? "");
-    profile.lastName = preferences.getString(lastName?? "");
-    profile.email = preferences.getString(email?? "");
-    profile.phoneNumber = preferences.getString(phoneNumber?? "");
-    profile.gender = preferences.getString(gender?? "");
-    profile.nextOfKin = preferences.getString(nextOfKin ?? "");
-    profile.nextOfKinPhone = preferences.getString(nextOfKinPhone?? "");
-    profile.referralCode = preferences.getString(referralCode?? "");
-    profile.userType = preferences.getInt(userType ?? -1);
-    profile.companyId = preferences.getInt(companyId ?? -1);
+    profile.firstName = preferences.getString(firstName);
+    profile.lastName = preferences.getString(lastName);
+    profile.email = preferences.getString(email);
+    profile.phoneNumber = preferences.getString(phoneNumber);
+    profile.gender = preferences.getString(gender);
+    profile.nextOfKin = preferences.getString(nextOfKin);
+    profile.nextOfKinPhone = preferences.getString(nextOfKinPhone);
+    profile.referralCode = preferences.getString(referralCode);
+    profile.userType = preferences.getInt(userType);
+    profile.companyId = preferences.getInt(companyId);
 
     return profile;
   }
 
-  Future<String> getToken() async {
-    String token = preferences.getString("token");
-    return token;
+  Future<GetTokenResponse> getToken() async {
+    String getToken = preferences.getString(token);
+    String getRefreshToken = preferences.getString(refreshToken);
+    String getExpiresIn = preferences.getString(expiresIn);
+    //return token;
+    final tokenResponse = GetTokenResponse();
+    tokenResponse.object.token = getToken;
+    tokenResponse.object.refreshToken = getRefreshToken;
+    tokenResponse.object.expires = getExpiresIn;
+
+    return tokenResponse;
+
   }
 
   void deleteProfile() {

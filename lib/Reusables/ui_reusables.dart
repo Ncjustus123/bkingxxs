@@ -68,3 +68,70 @@ class DropdownWidget extends StatelessWidget {
   }
 
 }
+class ButtonClass extends StatelessWidget {
+  final Function onpressed;
+  final BorderSide side;
+  final Color color;
+  final Widget title;
+  ButtonClass({ this.onpressed,this.title,this.color,this.side});
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 50,
+      width: 300,
+      child: ElevatedButton(
+        child: title,
+        onPressed: onpressed,
+        style:  ButtonStyle(
+          backgroundColor: MaterialStateProperty.all(color),
+          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+            RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10.0),
+              side: side,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+}
+class WidgetTextField extends StatelessWidget {
+  final String lableText;
+  final Function validator;
+  final controller;
+  // final Function onTap;
+  const WidgetTextField({
+    Key key,
+    @required this.lableText,
+    this.validator,
+    @required this.controller,
+    // this.onTap
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.only(bottom: 5.0),
+      child: Padding(
+        padding: EdgeInsets.only(left: 15, right: 15, top: 5),
+        child: Card(
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(10))),
+          child: TextFormField(
+            //onTap: onTap,
+            decoration: InputDecoration(
+              fillColor: Colors.grey,
+              focusColor: Colors.grey,
+              border: InputBorder.none,
+              labelText: lableText,
+              contentPadding: EdgeInsets.symmetric(vertical: 8, horizontal: 20),
+            ),
+            controller: controller,
+            validator: validator,
+          ),
+        ),
+      ),
+    );
+  }
+}

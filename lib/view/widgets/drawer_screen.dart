@@ -40,9 +40,15 @@ class _DrawerScreenState extends State<DrawerScreen> {
             ),
             Column(
               children: <Widget>[
-                NewRow(
-                  text: 'LogIn',
-                  icon: Icons.login,
+                GestureDetector(
+                  onTap: () {
+                    user.logout();
+                    Navigator.of(context).pushNamed("/login");
+                  },
+                  child: NewRow(
+                    text: 'LogIn',
+                    icon: Icons.login,
+                  ),
                 ),
                 SizedBox(
                   height: 20,
@@ -50,7 +56,6 @@ class _DrawerScreenState extends State<DrawerScreen> {
                 GestureDetector(
                   onTap: () {
                     user.logout();
-
                     Navigator.of(context).pushNamed("/signUpPage");
                   },
                   child: NewRow(

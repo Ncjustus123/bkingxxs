@@ -1,4 +1,4 @@
-
+import 'package:Libmot_Mobile/Reusables/constants.dart';
 import 'package:Libmot_Mobile/models/get_buses_response.dart';
 import 'package:Libmot_Mobile/repository/booking_repository.dart';
 import 'package:Libmot_Mobile/repository/seat_selection_repository.dart';
@@ -40,7 +40,24 @@ class _SelectSeatPageState extends State<SelectSeatPage>
 
     return Scaffold(
       key: _scaffoldKey,
-      body: SafeArea(
+      appBar: AppBar(
+        title: Text(
+          "Select A Seat ",
+          style: textStyle1,
+        ),
+        elevation: 0,
+        backgroundColor: Color(0xFFFFFFFF).withOpacity(0.9),
+        leading: Icon(Icons.arrow_back_rounded, color: Colors.black),
+      ),
+      body: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage("images/Lekki-Ikoyi Link Bridge 1.png"),
+            fit: BoxFit.cover,
+            colorFilter: ColorFilter.mode(
+                Color(0xFFFFFFFF).withOpacity(0.9), BlendMode.srcOver),
+          ),
+        ),
         child: Column(
           children: [
             (widget.bus.totalNumberOfSeats == 12)
@@ -58,15 +75,16 @@ class _SelectSeatPageState extends State<SelectSeatPage>
                 ],
               ),
             ),
-            SizedBox(height: 50),
+            SizedBox(height: 30),
             ButtonTheme(
               height: 50,
               minWidth: 200,
               child: RaisedButton(
                 /// validaion of seats
                 onPressed: () {
-                  int numberOfBooking = booking.model.numberOfAdults +
-                      booking.model.numberOfChildren;
+                  //after selecting seat going back proceed button doesnt allow to nexr page
+                  int numberOfBooking = booking.getBuses.numberOfAdults +
+                      booking.getBuses.numberOfChildren;
 
                   if (numberOfBooking != seatSelection.selectedSeats.length) {
                     _scaffoldKey.currentState.showSnackBar(
@@ -91,6 +109,7 @@ class _SelectSeatPageState extends State<SelectSeatPage>
                 color: Colors.red,
               ),
             ),
+            SizedBox(height: 10,),
           ],
         ),
       ),
@@ -99,21 +118,21 @@ class _SelectSeatPageState extends State<SelectSeatPage>
 
   selectedSeat() {
     return Image.asset(
-      'images/selected_seat.png',
+      'images/Seat-1.png',
       height: 45,
     );
   }
 
   unselectedSeat() {
     return Image.asset(
-      'images/unselected_seat.png',
+      'images/Seat.png',
       height: 45,
     );
   }
 
   blockedSeat() {
     return Image.asset(
-      'images/blocked_seat.png',
+      'images/Seat-2.png',
       height: 45,
     );
   }
