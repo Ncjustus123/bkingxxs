@@ -139,8 +139,8 @@ class _PaymentPageState extends State<PaymentPage> {
   
   chargeCard() async {
     Charge charge = Charge()
-      // ..amount = booking.postBookingResponse.object.amount.toInt()
-      ..amount = 10000*100
+       ..amount = (booking.postBookingResponse.object.amount*100).toInt()
+      //..amount = 10000*100
       ..reference = _getReference()
       // or ..accessCode = _getAccessCodeFrmInitialization()
       ..email = booking.booking.email;
