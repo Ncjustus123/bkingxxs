@@ -27,11 +27,13 @@ class WelcomePage extends StatelessWidget {
           ),
           Column(
             children: [
+              Spacer(),
+
               Text("LIBMOT",
                   style: TextStyle(
                       color: Colors.red,
                       fontWeight: FontWeight.bold,
-                      fontSize: 30)),
+                      fontSize: 40)),
               Text("Travel conveniently...",
                   style: TextStyle(
                       fontStyle: FontStyle.italic,
@@ -40,7 +42,9 @@ class WelcomePage extends StatelessWidget {
                       fontSize: 11)),
               Spacer(),
               InkWell(
-                onTap: (){},
+                onTap: () {
+                  Navigator.of(context).pushNamed(loginPage);
+                },
                 child: Container(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(5),
@@ -48,58 +52,74 @@ class WelcomePage extends StatelessWidget {
                   ),
                   child: Padding(
                     padding: const EdgeInsets.all(15.0),
-                    child: Center(child: Text("Sign In",style: TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.w700,
-                        color: Colors.white),)),
+                    child: Center(
+                        child: Text(
+                      "Sign In",
+                      style: TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.w700,
+                          color: Colors.white),
+                    )),
                   ),
                 ),
+              ),
+              SizedBox(
+                height: 25,
               ),
               InkWell(
-                onTap: (){},
+                onTap: () {
+                  Navigator.of(context).pushNamed(signUpPage);
+                },
                 child: Container(
                   decoration: BoxDecoration(
-                    border: Border.all(color:  Theme.of(context).primaryColor, width: 0.7),
-                    borderRadius: BorderRadius.circular(5),
-                    color: Colors.white
-                  ),
+                      border: Border.all(
+                          color: Theme.of(context).primaryColor, width: 0.7),
+                      borderRadius: BorderRadius.circular(5),
+                      color: Colors.white),
                   child: Padding(
                     padding: const EdgeInsets.all(15.0),
-                    child: Center(child: Text("Sign Up",style: TextStyle(
+                    child: Center(
+                        child: Text(
+                      "Sign Up",
+                      style: TextStyle(
                         fontSize: 15,
                         fontWeight: FontWeight.w700,
-                        color: Theme.of(context).primaryColor,),)),
+                        color: Theme.of(context).primaryColor,
+                      ),
+                    )),
                   ),
                 ),
               ),
-              ElevatedButton(
-                child: Text("SignIn"),
-                onPressed: () {
-                  Navigator.of(context).pushNamed(loginPage);
-                },
+              SizedBox(
+                height: 25,
               ),
-              ElevatedButton(
-                child: Text("SignUp"),
-                onPressed: () {
-                  Navigator.of(context).pushNamed(signUpPage);
-                },
-              ),
-              ElevatedButton(
-                child: Text("Continue as guest"),
-                onPressed: () {
+              InkWell(
+                child: Center(
+                  child: Text(
+                    "Continue as guest",
+                    style: TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.w700,
+                      color: Theme.of(context).primaryColor,
+                    ),
+                  ),
+                ),
+                onTap: () {
                   user.loginForAndroidIos();
                   Navigator.of(context).pushNamed(dashboardPage);
                 },
               ),
-              RaisedButton(
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (BuildContext context) =>
-                                OnBoardingPage()));
-                  },
-                  child: Text("southy")),
+              Spacer(),
+
+              // RaisedButton(
+              //     onPressed: () {
+              //       Navigator.push(
+              //           context,
+              //           MaterialPageRoute(
+              //               builder: (BuildContext context) =>
+              //                   OnBoardingPage()));
+              //     },
+              //     child: Text("southy")),
             ],
           ),
         ],

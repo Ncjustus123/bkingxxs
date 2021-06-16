@@ -36,113 +36,141 @@ class _LoginPageState extends State<LoginPage> {
                 Colors.red[100].withOpacity(0.2), BlendMode.srcOver),
           ),
         ),
-        child: SafeArea(
-          child: Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(top: 30, bottom: 90),
-                child: Image.asset(
-                  "images/LIBMOT LOGO 1.png",
-                  height: 55,
-                ),
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(top: 30, bottom: 90),
+              child: Image.asset(
+                "images/LIBMOT LOGO 1.png",
+                height: 55,
               ),
-              Expanded(
-                child: Container(
-                    decoration: BoxDecoration(
-                      color: Theme.of(context).scaffoldBackgroundColor,
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(70),
-                      ),
+            ),
+            Expanded(
+              child: Container(
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).scaffoldBackgroundColor,
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(70),
                     ),
-                    child: Column(
-                      children: [
-                        Text("Login",
-                            style: TextStyle(
-                                color: Colors.black,
-                                fontWeight: FontWeight.normal,
-                                fontSize: 40)),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        Center(
-                          child: _formPage(user, context),
-                        ),
-                        SizedBox(
-                          height: 15,
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(right: 0, left: 150),
-                          child: GestureDetector(
-                              onTap: () {
-                                Navigator.of(context)
-                                    .pushNamed("/forget_password");
-                              },
-                              child: Text(
-                                "Forgot Password ?",
-                                style: textStyle2,
-                              )),
-                        ),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        SizedBox(
-                          height: 50,
-                          width: 300,
-                          child: ElevatedButton(
-                            child: Text("Create Account"),
-                            onPressed: () {
-                              Navigator.of(context).pushNamed("/signUpPage");
+                  ),
+                  child: Column(
+                    children: [
+                      Text("Login",
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.normal,
+                              fontSize: 40)),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Center(
+                        child: _formPage(user, context),
+                      ),
+                      SizedBox(
+                        height: 15,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(right: 0, left: 150),
+                        child: GestureDetector(
+                            onTap: () {
+                              Navigator.of(context)
+                                  .pushNamed("/forget_password");
                             },
-                            style: ButtonStyle(
-                              backgroundColor:
-                                  MaterialStateProperty.all(Colors.transparent),
-                              shape: MaterialStateProperty.all<
-                                  RoundedRectangleBorder>(
-                                RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10.0),
-                                  side: BorderSide(
-                                    width: 1.0,
-                                    color: Colors.red,
-                                  ),
+                            child: Text(
+                              "Forgot Password ?",
+                              style: textStyle2,
+                            )),
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      SizedBox(
+                        height: 50,
+                        width: 300,
+                        child: ElevatedButton(
+                          child: Text("Create Account"),
+                          onPressed: () {
+                            Navigator.of(context).pushNamed("/signUpPage");
+                          },
+                          style: ButtonStyle(
+                            backgroundColor:
+                                MaterialStateProperty.all(Colors.transparent),
+                            shape: MaterialStateProperty.all<
+                                RoundedRectangleBorder>(
+                              RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(5.0),
+                                side: BorderSide(
+                                  width: 1.0,
+                                  color: Colors.red,
                                 ),
                               ),
                             ),
                           ),
                         ),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        Text("----OR----",
-                            style: TextStyle(
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 12)),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.of(context).pushNamed("/dashboard");
-                          },
-                          child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text("Continue as guest",
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(50,15.0,50,15),
+                        child: Row(children: [
+                          Expanded(child: Container(color: Colors.grey,height: 1,),),
+                          Padding(
+                            padding: const EdgeInsets.all(12.0),
+                            child: Text("OR",
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 12)),
+                          ),
+                          Expanded(child: Container(color: Colors.grey,height: 1,),),
+                        ],),
+                      ),
+
+                      SizedBox(
+                        height: 20,
+                      ),
+                      InkWell(
+                        onTap: () {
+                          Navigator.of(context).pushNamed("/dashboard");
+                        },
+                        child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text("Continue as guest",
+                                  style: TextStyle(
+                                      color: Colors.black87,
+                                      fontSize: 14)),
+                              Icon(
+                                Icons.arrow_forward,
+                                color: Colors.grey,
+                              )
+                            ]),
+                      ),
+                      InkWell(
+                        onTap: () {
+                          Navigator.of(context).pushNamed("/signUpPage");
+                        },
+                        child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              RichText(text: TextSpan(children: [
+                                TextSpan(text:"Don't have an account?",
                                     style: TextStyle(
                                         color: Colors.grey,
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 15)),
-                                Icon(
-                                  Icons.arrow_forward,
-                                  color: Colors.grey,
-                                )
-                              ]),
-                        ),
-                      ],
-                    )),
-              ),
-            ],
-          ),
+                                        fontSize: 13) ),
+                                TextSpan(text:" Sign Up",
+                                    style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 15) ),
+                              ])),
+
+
+                            ]),
+                      ),
+                    ],
+                  )),
+            ),
+          ],
         ),
       ),
     );

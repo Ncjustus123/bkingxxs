@@ -29,7 +29,7 @@ class OnBoardingController extends GetxController {
         'Amazing Booking System to make your travels remarkable'),
     OnBoardingInfo('images/Extensive Features.png', 'EXTENSIVE FEATURES',
         'Amazing Features for our customers'),
-    OnBoardingInfo('images/Exclusive Offers.png', 'EXCLUSIVE FEATURES',
+    OnBoardingInfo('images/Exclusive offers.png', 'EXCLUSIVE OFFERS',
         'We’ve got some exclusive offers for our customers that you don’t want to miss out')
   ];
 }
@@ -45,7 +45,7 @@ class OnBoardingPage extends StatelessWidget {
       body: Stack(
         children: [
           Container(
-            child: Image.asset('images/background.png'),
+            child: Image.asset('images/background.png', fit: BoxFit.fill),
           ),
           Container(
             decoration: BoxDecoration(
