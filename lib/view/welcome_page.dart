@@ -48,7 +48,10 @@ class WelcomePage extends StatelessWidget {
                   ),
                   child: Padding(
                     padding: const EdgeInsets.all(15.0),
-                    child: Center(child: Text("Sign In")),
+                    child: Center(child: Text("Sign In",style: TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w700,
+                        color: Colors.white),)),
                   ),
                 ),
               ),
@@ -62,7 +65,10 @@ class WelcomePage extends StatelessWidget {
                   ),
                   child: Padding(
                     padding: const EdgeInsets.all(15.0),
-                    child: Center(child: Text("Sign Up")),
+                    child: Center(child: Text("Sign Up",style: TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w700,
+                        color: Theme.of(context).primaryColor,),)),
                   ),
                 ),
               ),
