@@ -79,17 +79,17 @@ class UserPreference {
     return profile;
   }
 
-  Future<GetTokenResponse> getToken() async {
-    String getToken = preferences.getString(token);
+  Future<String> getToken() async {
+    String getToken = preferences.getString("token");
     String getRefreshToken = preferences.getString(refreshToken);
     String getExpiresIn = preferences.getString(expiresIn);
-    //return token;
-    final tokenResponse = GetTokenResponse();
-    tokenResponse.object.token = getToken;
-    tokenResponse.object.refreshToken = getRefreshToken;
-    tokenResponse.object.expires = getExpiresIn;
+    return getToken;
+    // final tokenResponse = GetTokenResponse();
+    // tokenResponse.object.token = getToken;
+    // tokenResponse.object.refreshToken = getRefreshToken;
+    // tokenResponse.object.expires = getExpiresIn;
 
-    return tokenResponse;
+    // return tokenResponse;
 
   }
 

@@ -65,58 +65,65 @@ class _PassengerInfoPageState extends State<PassengerInfoPage>
     seatSelection = Provider.of<SeatSelectionRepository>(context);
     final _width = MediaQuery.of(context).size.width;
     final _height = MediaQuery.of(context).size.height;
-
     return Scaffold(
-      appBar: CustomAppBar(),
-      // backgroundColor: Colors.white,
-      body: Container(
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage("images/Lekki-Ikoyi Link Bridge 1.png"),
-            fit: BoxFit.cover,
-            colorFilter: ColorFilter.mode(
-                Color(0xFFFFFFFF).withOpacity(0.9), BlendMode.srcOver),
+      body: GestureDetector(
+        onTap: () => FocusScope.of(context).unfocus(),
+        child: Container(
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage("images/Lekki-Ikoyi Link Bridge 1.png"),
+              fit: BoxFit.cover,
+              colorFilter: ColorFilter.mode(
+                  Color(0xFFFFFFFF).withOpacity(0.9), BlendMode.srcOver),
+            ),
           ),
-        ),
-        width: _width,
-        height: _height,
-        child: SingleChildScrollView(
-          scrollDirection: Axis.vertical,
-          child: Form(
-            key: _formKey,
-            child: Column(children: [
-              SizedBox(
-                height: 5,
+          width: _width,
+          height: _height,
+          child: Column(
+            children: [
+              CustomAppBar(),
+              Expanded(
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.vertical,
+                  child: Form(
+                    key: _formKey,
+                    child: Column(children: [
+                      SizedBox(
+                        height: 5,
+                      ),
+                      beneficaryField(),
+                      Center(
+                          child: Text(
+                        "Contact Information",
+                        style: textStyle2,
+                      )),
+                      firstNameField(),
+                      lastNameField(),
+                      phoneNumberField(),
+                      genderDropdownButtonFormField(),
+                      emailField(),
+                      SizedBox(
+                        height: 15,
+                      ),
+                      Center(
+                          child: Text(
+                        "Next of Kin Information",
+                        style: textStyle2,
+                      )),
+                      nextOfKinField(),
+                      nextOfKinPhoneField(),
+                      SizedBox(
+                        height: 40,
+                      ),
+                      proceedButton(context),
+                      SizedBox(
+                        height: 15,
+                      ),
+                    ]),
+                  ),
+                ),
               ),
-              beneficaryField(),
-              Center(
-                  child: Text(
-                "Contact Information",
-                style: textStyle2,
-              )),
-              firstNameField(),
-              lastNameField(),
-              phoneNumberField(),
-              genderDropdownButtonFormField(),
-              emailField(),
-              SizedBox(
-                height: 15,
-              ),
-              Center(
-                  child: Text(
-                "Next of Kin Information",
-                style: textStyle2,
-              )),
-              nextOfKinField(),
-              nextOfKinPhoneField(),
-              SizedBox(
-                height: 40,
-              ),
-              proceedButton(context),
-              SizedBox(
-                height: 15,
-              ),
-            ]),
+            ],
           ),
         ),
       ),

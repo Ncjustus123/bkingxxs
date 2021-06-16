@@ -13,17 +13,17 @@ import 'getBase.dart';
 class ApiCalls {
   Future<Map<String, String>> init() async {
     final preference = await UserPreference.getInstance();
-    var tokenResponse = await preference.getToken();
-    var token = tokenResponse.object.token;
-    final currentTime = DateTime.now();
-    final expiresIN = DateTime.parse(tokenResponse.object.expires);
+    var token = await preference.getToken();
+    // var token = tokenResponse.object.token;
+    // final currentTime = DateTime.now();
+    // final expiresIN = DateTime.parse(tokenResponse.object.expires);
    
-    if (expiresIN.isBefore(currentTime)) {
-      //call the refresh token endpoint.
-    tokenResponse =  await UserRepository().loginForAndroidIos();
-    token = tokenResponse.object.token;
+    // if (expiresIN.isBefore(currentTime)) {
+    //   //call the refresh token endpoint.
+    // tokenResponse =  await UserRepository().loginForAndroidIos();
+    // token = tokenResponse.object.token;
 
-    }
+    
     // final refresh
     final header = {
       HttpHeaders.contentTypeHeader: 'application/json',

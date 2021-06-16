@@ -1,12 +1,14 @@
 import 'dart:io';
 
 import 'package:Libmot_Mobile/Reusables/constants.dart';
+import 'package:Libmot_Mobile/repository/booking_repository.dart';
 import 'package:Libmot_Mobile/resources/networking/api_calls.dart';
 import 'package:Libmot_Mobile/resources/networking/test_data.dart';
 import 'package:Libmot_Mobile/view/widgets/paymentPaystack.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_paystack/flutter_paystack.dart';
 import 'package:http/http.dart';
+import 'package:provider/provider.dart';
 
 class PaymentPage extends StatefulWidget {
   @override
@@ -137,10 +139,11 @@ class _PaymentPageState extends State<PaymentPage> {
   
   chargeCard() async {
     Charge charge = Charge()
+      // ..amount = booking.postBookingResponse.object.amount.toInt()
       ..amount = 10000*100
       ..reference = _getReference()
       // or ..accessCode = _getAccessCodeFrmInitialization()
-      ..email = "chi@libmot.com";
+      ..email = booking.booking.email;
     CheckoutResponse response = await plugin.checkout(
       context,
       method: CheckoutMethod.card, // Defaults to CheckoutMethod.selectable
@@ -159,17 +162,21 @@ class _PaymentPageState extends State<PaymentPage> {
   }
   Future <void> processPaystackPayment()async{
     Map object = {
-      "email":"",
-      "amount": "",
-      "referenceNumber":"" ,
+      "email":booking.booking.email,
+      "amount": booking.postBookingResponse.object.amount,
+      "referenceNumber": booking.postBookingResponse.object.bookingReferenceCode,
       "PayStackReference": 5 ,
     
     };
     Response response = await ApiCalls().payStackPayment(object);
   }
+  BookingRepository booking;
+  
   Widget build(BuildContext context) {
     final _width = MediaQuery.of(context).size.width;
     final _height = MediaQuery.of(context).size.height;
+    booking = Provider.of<BookingRepository>(context);
+    //int amounts = booking.postBookingResponse.object.amount.toInt();
     return Scaffold(
       appBar: AppBar(
         iconTheme: IconThemeData(

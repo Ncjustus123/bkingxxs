@@ -25,6 +25,8 @@ class _DashBoardScreen extends State<DashBoardScreen> {
         image: DecorationImage(
           image: AssetImage("images/Lekki-Ikoyi Link Bridge 1.png"),
           fit: BoxFit.cover,
+           colorFilter: ColorFilter.mode(
+                  Color(0x0000000).withOpacity(0.8), BlendMode.srcOver),
         ),
         // color: Colors.white,
         borderRadius:
@@ -69,11 +71,8 @@ class _DashBoardScreen extends State<DashBoardScreen> {
                           },
                         ),
                   Padding(
-                    padding: const EdgeInsets.only(right: 90, left: 0),
-                    child: Image.asset(
-                      "images/LIBMOT LOGO 1.png",
-                      height: 40,
-                    ),
+                    padding: const EdgeInsets.only(right: 130, left: 90),
+                    child: Text("DashBoard",style: TextStyle(color: Colors.white),),
                   ),
                 ],
               ),
