@@ -5,6 +5,7 @@ import 'package:Libmot_Mobile/repository/hire_bus_repository.dart';
 import 'package:Libmot_Mobile/repository/seat_selection_repository.dart';
 import 'package:Libmot_Mobile/repository/user_repository.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'repository/booking_repository.dart';
 import 'routes.dart';
@@ -26,12 +27,16 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => SeatSelectionRepository()),
         ChangeNotifierProvider(create: (_) => CouponRepository()),
       ],
-      child: MaterialApp(
+      child: GetMaterialApp(
+        defaultTransition:Transition.upToDown,
         theme: ThemeData(
           buttonColor: Colors.red,
           primarySwatch: Colors.red,
+          primaryColor: Color(0xFFFD1919),
+          accentColor: Color(0xFFE7AA07),
+          fontFamily: 'Circular',
         ),
-        
+
         debugShowCheckedModeBanner: false,
         title: "Libmot Mobile",
         initialRoute: "initial",

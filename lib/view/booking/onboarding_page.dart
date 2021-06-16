@@ -1,118 +1,175 @@
-import 'package:carousel_slider/carousel_slider.dart';
+import 'package:Libmot_Mobile/view/welcome_page.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class OnBoardingPage extends StatelessWidget {
-  List imagePages = [
-    OnboardingWidget(
-      image: "images/Bookings.png",
-      name: "BOOKINGS ",
-      description: "Click here to get tickets ",
-    ),
-    OnboardingWidget(
-        image: "images/Extensive Features.png",
-        name: "EXTENSIVE FEATURES",
-        description: "Amazing features for our customers"),
-    OnboardingWidget(
-        image: "images/Exclusive Offers.png",
-        name: "EXCLUSIVE FEATURES",
-        description:
-            "We've got some exclusive offers for our customers you don't want to miss"),
-  ];
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      //backgroundColor: Colors.white,
-      body: Container(
-        child: SafeArea(
-          child: Column(
-            children: [
-              Expanded(
-                child: CarouselSlider(
-                  options: CarouselOptions(
-                    height: 300.0,
-                    autoPlay: false,
-                  ),
-                  items: imagePages.map((e) {
-                    return Builder(builder: (BuildContext context) {
-                      return Container(
-                        // height: MediaQuery.of(context).size.height,
-                        // width: MediaQuery.of(context).size.width,
-                        child: e,
-                      );
-                    });
-                  }).toList(),
-                ),
-              ),
-              SizedBox(
-                width: 300.0,
-                height: 50.0,
-                child: ElevatedButton(
-                    onPressed: () {},
-                    child: Text("Get Started"),
-                    style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all(Colors.red),
-                        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                            RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                        )))),
-              ),
-              SizedBox(height: 5),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
+
+class OnBoardingInfo {
+  final imageAsset;
+  final title;
+  final description;
+
+  OnBoardingInfo(this.imageAsset, this.title, this.description);
 }
 
-class OnboardingWidget extends StatelessWidget {
-  final String image;
-  final String name;
-  final String description;
-  const OnboardingWidget({
-    @required this.image,
-    @required this.name,
-    @required this.description,
-    Key key,
-  }) : super(key: key);
+class OnBoardingController extends GetxController {
+  var selectedPageIndex = 0.obs;
+
+  bool get isLastPage => selectedPageIndex.value == onBoardingPages.length - 1;
+  var pageController = PageController();
+
+  forwardAction() {
+    if (isLastPage) {
+    } else
+      pageController.nextPage(duration: 300.milliseconds, curve: Curves.ease);
+  }
+
+  List<OnBoardingInfo> onBoardingPages = [
+    OnBoardingInfo('images/Bookings.png', 'BOOKINGS',
+        'Amazing Booking System to make your travels remarkable'),
+    OnBoardingInfo('images/Extensive Features.png', 'EXTENSIVE FEATURES',
+        'Amazing Features for our customers'),
+    OnBoardingInfo('images/Exclusive Offers.png', 'EXCLUSIVE FEATURES',
+        'We’ve got some exclusive offers for our customers that you don’t want to miss out')
+  ];
+}
+
+class OnBoardingPage extends StatelessWidget {
+  final _controller = OnBoardingController();
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-       decoration: BoxDecoration(
-        image: DecorationImage(
-          image: AssetImage("images/Lekki-Ikoyi Link Bridge 1.png"),
-          fit: BoxFit.cover,
-        ),),
-      //color: Colors.white,
-      child: Column(
+    Size size = MediaQuery.of(context).size;
+
+    return Scaffold(
+      body: Stack(
         children: [
-          Expanded(
-              child: Image.asset(
-            image,
-            height: 800,
-          )),
-          SizedBox(height: 20),
-          Column(
-            children: [
-              Text(
-                name,
-                style: TextStyle(
-                    color: Colors.red,
-                    fontSize: 25,
-                    fontWeight: FontWeight.bold),
+          Container(
+            child: Image.asset('images/background.png'),
+          ),
+          Container(
+            decoration: BoxDecoration(
+              color: Theme.of(context).primaryColor.withOpacity(0.4),
+            ),
+          ),
+          PageView.builder(
+              controller: _controller.pageController,
+              onPageChanged: _controller.selectedPageIndex,
+              itemCount: _controller.onBoardingPages.length,
+              itemBuilder: (context, index) {
+                return Container(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Image.asset(
+                        _controller.onBoardingPages[index].imageAsset,
+                        width: size.width * 0.75,
+                        fit: BoxFit.contain,
+                      ),
+                      SizedBox(height: 15),
+                      Text(
+                        _controller.onBoardingPages[index].title,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 30,
+                            fontWeight: FontWeight.bold),
+                      ),
+                      SizedBox(height: 15),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 64.0),
+                        child: Text(
+                          _controller.onBoardingPages[index].description,
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.w200,
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 20),
+                    ],
+                  ),
+                );
+              }),
+          Positioned(
+            bottom: 45,
+            child: Container(
+              padding: EdgeInsets.symmetric(horizontal: 50),
+              width: size.width,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: List.generate(
+                      _controller.onBoardingPages.length,
+                          (index) => Obx(() {
+                        return Container(
+                          margin: const EdgeInsets.all(3),
+                          width: _controller.selectedPageIndex.value == index
+                              ? 50
+                              : 20,
+                          height: _controller.selectedPageIndex.value == index
+                              ? 4
+                              : 4,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(4),
+                            color: _controller.selectedPageIndex.value == index
+                                ? Theme.of(context).primaryColor
+                                : Colors.white,
+                            // shape: BoxShape.circle,
+                          ),
+                        );
+                      }),
+                    ),
+                  ),
+                  SizedBox(height: 20),
+                  InkWell(
+                    onTap: () {
+                      _controller.isLastPage
+                          ? goToWelcome()
+                          : _controller.forwardAction();
+                    },
+                    child: Obx(() {
+                      return Container(
+                          decoration: BoxDecoration(
+                            boxShadow: <BoxShadow>[
+                              BoxShadow(
+                                  color: Colors.grey.withOpacity(0.3),
+                                  offset: Offset(0.2, 0.3))
+                            ],
+                            border: Border.all(color: Colors.white, width: 0.7),
+                            borderRadius: BorderRadius.circular(5),
+                            color: Theme.of(context).primaryColor,
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 15.0, vertical: 15),
+                            child: Center(
+                              child: Text(
+                                _controller.isLastPage ? 'Get Started' : 'Next',
+                                style: TextStyle(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.w700,
+                                    color: Colors.white),
+                              ),
+                            ),
+                          ));
+                    }),
+                  ),
+                ],
               ),
-              Text(
-                description,
-                style: TextStyle(
-                    color: Colors.red,
-                    fontSize: 15,
-                    fontWeight: FontWeight.normal),
-              ),
-            ],
+            ),
           ),
         ],
       ),
     );
+  }
+
+  goToWelcome() async {
+    Get.to(() => WelcomePage());
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString('isNewUser', 'No');
   }
 }
