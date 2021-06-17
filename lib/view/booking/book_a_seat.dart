@@ -260,9 +260,60 @@ class _BookASeatPageState extends State<BookASeatPage> {
                               label: 'Arrival Date',
                             ),
                           ),
-                          Buttons.coloredButton(
+                          Text(
+                            "Travellers",
+                            style: textStyle1,
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(15.0),
+                            child: Column(
+                              children: [
+                                Row(
+                                  children: [
+                                    Expanded(
+                                        child: Text(
+                                      'Adult(s)',
+                                      style: TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w500),
+                                    )),
+                                    Expanded(
+                                        child: Text(
+                                      '3',
+                                      textAlign: TextAlign.right,
+                                      style: TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w500),
+                                    )),
+                                  ],
+                                ),
+                                SizedBox(height: 8),
+                                Row(
+                                  children: [
+                                    Expanded(
+                                        child: Text(
+                                      'Child(ren)',
+                                      style: TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w500),
+                                    )),
+                                    Expanded(
+                                        child: Text(
+                                      '2',
+                                      textAlign: TextAlign.right,
+                                      style: TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w500),
+                                    )),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+
+                          Buttons.whiteButton(
                             context: context,
-                            title: 'Book',
+                            title: 'Select Travellers',
                             onTap: () {
                               showModalBottomSheet(
                                 context: context,
@@ -274,12 +325,7 @@ class _BookASeatPageState extends State<BookASeatPage> {
                               );
                             },
                           ),
-
-                          // Center(
-                          //     child: Text(
-                          //   "Travellers",
-                          //   style: textStyle1,
-                          // )),
+                          //
                           // SizedBox(height: 30),
                           // Row(
                           //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -302,9 +348,14 @@ class _BookASeatPageState extends State<BookASeatPage> {
                           //     Expanded(child: booking.childrentravellersButton()),
                           //   ],
                           // ),
-                          SizedBox(
-                            height: 50,
+                          SizedBox(height: 15),
+                          Buttons.coloredButton(
+                            context: context,
+                            title: 'Search',
+                            onTap: () {},
                           ),
+                          SizedBox(height: 20),
+
                         ],
                       ),
                     ),
