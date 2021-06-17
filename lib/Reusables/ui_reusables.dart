@@ -68,34 +68,34 @@ class DropdownWidget extends StatelessWidget {
   }
 
 }
-class ButtonClass extends StatelessWidget {
-  final Function onpressed;
-  final BorderSide side;
-  final Color color;
-  final Widget title;
-  ButtonClass({ this.onpressed,this.title,this.color,this.side});
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      height: 50,
-      width: 300,
-      child: ElevatedButton(
-        child: title,
-        onPressed: onpressed,
-        style:  ButtonStyle(
-          backgroundColor: MaterialStateProperty.all(color),
-          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-            RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10.0),
-              side: side,
-            ),
-          ),
-        ),
-      ),
-    );
-  }
+// class ButtonClass extends StatelessWidget {
+//   final Function onpressed;
+//   final BorderSide side;
+//   final Color color;
+//   final Widget title;
+//   ButtonClass({ this.onpressed,this.title,this.color,this.side});
+//   @override
+//   Widget build(BuildContext context) {
+//     return SizedBox(
+//       height: 50,
+//       width: 300,
+//       child: ElevatedButton(
+//         child: title,
+//         onPressed: onpressed,
+//         style:  ButtonStyle(
+//           backgroundColor: MaterialStateProperty.all(color),
+//           shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+//             RoundedRectangleBorder(
+//               borderRadius: BorderRadius.circular(10.0),
+//               side: side,
+//             ),
+//           ),
+//         ),
+//       ),
+//     );
+//   }
 
-}
+// }
 class WidgetTextField extends StatelessWidget {
   final String lableText;
   final Function validator;

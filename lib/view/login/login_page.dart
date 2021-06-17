@@ -30,7 +30,7 @@ class _LoginPageState extends State<LoginPage> {
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage("images/Lekki-Ikoyi Link Bridge 1.png"),
+            image: AssetImage("images/background.png"),
             fit: BoxFit.cover,
             colorFilter: ColorFilter.mode(
                 Colors.red[100].withOpacity(0.2), BlendMode.srcOver),

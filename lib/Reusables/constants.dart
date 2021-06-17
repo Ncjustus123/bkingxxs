@@ -34,13 +34,13 @@ String getNairaSign() {
       height: 50,
       width: 300,
       child: ElevatedButton(
-        child: Text(name),
+        child: Text(name,style:TextStyle(color: Colors.white),),
         onPressed: onpressed,
         style: ButtonStyle(
           backgroundColor: MaterialStateProperty.all(Colors.red),
           shape: MaterialStateProperty.all<RoundedRectangleBorder>(
             RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10.0),
+              borderRadius: BorderRadius.only(topLeft:Radius.circular(10),bottomLeft:Radius.circular(10),bottomRight: Radius.circular(10),  ),
             ),
           ),
         ),
@@ -69,7 +69,9 @@ class TextFormFeildWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(boxShadow: <BoxShadow>[
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10),
+        boxShadow: <BoxShadow>[
         BoxShadow(
             color: Colors.grey[200],
             blurRadius: 0.5,

@@ -4,204 +4,144 @@ import 'package:Libmot_Mobile/repository/user_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+// ignore: must_be_immutable
 class SignUpPage extends StatefulWidget {
   @override
   _SignUpPageState createState() => _SignUpPageState();
 }
 
-final firstNamecontroller = TextEditingController();
-final lastNamecontroller = TextEditingController();
-final gendercontroller = TextEditingController();
-final emailcontroller = TextEditingController();
-final phoneNumbercontroller = TextEditingController();
-final passwordcontroller = TextEditingController();
-final referralcontroller = TextEditingController();
-bool _passwordVisible = true;
-UserRepository userRepository;
-
 class _SignUpPageState extends State<SignUpPage> {
+  final firstNamecontroller = TextEditingController();
+  final lastNamecontroller = TextEditingController();
+  final gendercontroller = TextEditingController();
+  final emailcontroller = TextEditingController();
+  final phoneNumbercontroller = TextEditingController();
+  final passwordcontroller = TextEditingController();
+  final referralcontroller = TextEditingController();
+  bool _passwordVisible = true;
+  UserRepository userRepository;
+  int gender;
+  final _formKeyLogin = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
-    userRepository = Provider.of<UserRepository>(context);
+    final user = Provider.of<UserRepository>(context);
     return Scaffold(
-      // backgroundColor: Colors.black12,
+      // backgroundColor: Colors.white,
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage("images/Lekki-Ikoyi Link Bridge 1.png"),
+            image: AssetImage("images/background.png"),
             fit: BoxFit.cover,
             colorFilter: ColorFilter.mode(
-                Color(0xFFFFFFFF).withOpacity(0.9), BlendMode.srcOver),
+                Colors.red[100].withOpacity(0.2), BlendMode.srcOver),
           ),
         ),
-        child: SafeArea(
-          child: SingleChildScrollView(
-            physics: AlwaysScrollableScrollPhysics(),
-            child: Column(children: [
-              Text(
-                "Create An Account",
-                style: textStyle1,
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(top: 30, bottom: 50),
+              child: Text(
+                "Sign Up",
+                style: TextStyle(fontSize: 30,color: Colors.white),
               ),
-              firstNameField(),
-              lastNameField(),
-              emailField(),
-              genderField(),
-              phoneNumberField(),
-              passwordField(),
-              referalField(),
-              ButtonClass(
-                side: BorderSide.none,
-                color: Colors.red,
-                title: Text('Create Account'),
-                onpressed: () {
-                  userRepository.signUp.firstName = firstNamecontroller.text;
-                  userRepository.signUp.lastName = lastNamecontroller.text;
-                  userRepository.signUp.email = emailcontroller.text;
-                  userRepository.signUp.phoneNumber =
-                      phoneNumbercontroller.text;
-                  userRepository.signUp.referralCode =
-                      (referralcontroller.text.isEmpty)
-                          ? null
-                          : referralcontroller.text;
-                  userRepository.signUp.password = passwordcontroller.text;
-                  userRepository.signUp.gender =
-                      (gendercontroller.text == "male") ? 0 : 1;
-                  userRepository.signUpCustomer(context);
-                },
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              ButtonClass(
-                onpressed: () {
-                  Navigator.of(context).pushNamed("/login");
-                },
-                title: Text("Log In"),
-                color: Colors.transparent,
-                side: BorderSide(
-                  width: 1.0,
-                  color: Colors.red,
-                ),
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              GestureDetector(
-                onTap: () {
-                  Navigator.of(context).pushNamed("/dashboard");
-                },
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      "Continue As Guest",
-                      style: TextStyle(
-                          fontSize: 15,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.grey),
-                    ),
-                     Icon(
-                    Icons.arrow_forward,
-                    color: Colors.grey,
+            ),
+            Expanded(
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Theme.of(context).scaffoldBackgroundColor,
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(70),
                   ),
+                ),
+                child: Column(
+                  children: [
+                    Center(
+                      child: _formPage(),
+                    ),
                   ],
                 ),
               ),
-              SizedBox(
-                height: 50,
-              ),
-            ]),
-          ),
+            ),
+          ],
         ),
       ),
     );
   }
 
-  firstNameField() {
-    return WidgetTextField(
-      controller: firstNamecontroller,
-      lableText: "First Name",
-      validator: (value) {
-        if (value.isEmpty) {
-          return 'Please input your Firstname';
-        }
-        return null;
-      },
-    );
-  }
-
-  lastNameField() {
-    return WidgetTextField(
-      lableText: "Last Name",
-      controller: lastNamecontroller,
-      validator: (value) {
-        if (value.isEmpty) {
-          return 'Please input your Lastname';
-        }
-        return null;
-      },
-    );
-  }
-
-  emailField() {
-    return WidgetTextField(
-      lableText: "Email",
-      controller: emailcontroller,
-      validator: (value) {
-        if (value.isEmpty) {
-          return 'Please input an email';
-        }
-        return null;
-      },
-    );
-  }
-
-  int gender;
-  genderField() {
-    return WidgetTextField(
-      lableText: "Gender",
-      controller: gendercontroller,
-      validator: (value) {
-        if (value.isEmpty) {
-          return 'Please input gender';
-        }
-
-        return null;
-      },
-      //onTap: () {},
-    );
-  }
-
-  phoneNumberField() {
-    return WidgetTextField(
-      lableText: "Phone number",
-      controller: phoneNumbercontroller,
-      validator: (value) {
-        if (value.isEmpty) {
-          return 'Please input a phone number';
-        }
-        return null;
-      },
-    );
-  }
-
-  passwordField() {
-    return Container(
-      margin: EdgeInsets.only(bottom: 5.0),
-      child: Padding(
-        padding: EdgeInsets.only(left: 15, right: 15, top: 5),
-        child: Card(
-          shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(10))),
-          child: TextFormField(
-            controller: passwordcontroller,
-            obscureText: _passwordVisible,
-            decoration: InputDecoration(
-              fillColor: Colors.grey,
-              focusColor: Colors.grey,
-              border: InputBorder.none,
-              labelText: "Password",
-              contentPadding: EdgeInsets.symmetric(vertical: 8, horizontal: 20),
+  Widget _formPage() {
+    return SingleChildScrollView(
+      child: Form(
+        key: _formKeyLogin,
+        child: Column(
+          children: <Widget>[
+            SizedBox(height: 30,),
+            TextFormFeildWidget(
+              obscureText: false,
+              controller: firstNamecontroller,
+              lableText: 'First Name',
+              validator: (value) {
+                if (value.isEmpty) {
+                  return 'Please input your Firstname';
+                }
+                return null;
+              },
+            ),
+            TextFormFeildWidget(
+              controller: lastNamecontroller,
+              obscureText: false,
+              lableText: 'Last Name',
+              validator: (value) {
+                if (value.isEmpty) {
+                  return 'Please input your Lastname';
+                }
+                return null;
+              },
+            ),
+            TextFormFeildWidget(
+              controller: emailcontroller,
+              lableText: "Email",
+              obscureText: false,
+              validator: (value) {
+                if (value.isEmpty) {
+                  return 'Please input an email';
+                }
+                return null;
+              },
+            ),
+            TextFormFeildWidget(
+              lableText: "Gender",
+              obscureText: false,
+              controller: gendercontroller,
+              validator: (value) {
+                if (value.isEmpty) {
+                  return 'Please input gender';
+                }
+                return null;
+              },
+            ),
+            TextFormFeildWidget(
+              obscureText: false,
+              lableText: "Phone number",
+              controller: phoneNumbercontroller,
+              validator: (value) {
+                if (value.isEmpty) {
+                  return 'Please input a phone number';
+                }
+                return null;
+              },
+            ),
+            TextFormFeildWidget(
+              controller: passwordcontroller,
+              obscureText: _passwordVisible,
+              lableText: 'Password',
+              validator: (value) {
+                if (value.isEmpty) {
+                  return 'Please put in your Password';
+                }
+                return null;
+              },
+              prefixIcon: Icon(Icons.lock, color: Colors.grey),
               suffixIcon: IconButton(
                 icon: Icon(
                   _passwordVisible ? Icons.visibility_off : Icons.visibility,
@@ -214,23 +154,18 @@ class _SignUpPageState extends State<SignUpPage> {
                 },
               ),
             ),
-            validator: (value) {
-              if (value.isEmpty) {
-                return 'Please input a password';
-              }
-              return null;
-            },
-          ),
+            TextFormFeildWidget(
+              obscureText: false,
+              controller: referralcontroller,
+              lableText: "Referal link",
+            ),
+            SizedBox(height: 20,),
+            ButtonReusable(
+              name: "Sign Up",
+            ),
+          ],
         ),
       ),
     );
   }
-
-  referalField() {
-    return WidgetTextField(
-      controller: referralcontroller,
-      lableText: "Referal link",
-    );
-  }
 }
-

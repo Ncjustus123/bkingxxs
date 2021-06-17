@@ -36,14 +36,17 @@ class ForgotPassword extends StatelessWidget {
               SizedBox(
                 height: 20,
               ),
-              ButtonClass(
-                color: Colors.red,
-                side: BorderSide.none,
-                title: Text(
-                  "Submit",
-                  style: textStyle,
-                ),
+              ButtonReusable(
+                name:"Submit" ,
               ),
+              // ButtonClass(
+              //   color: Colors.red,
+              //   side: BorderSide.none,
+              //   title: Text(
+              //     "Submit",
+              //     style: textStyle,
+              //   ),
+              // ),
             ],
           ),
         ),
