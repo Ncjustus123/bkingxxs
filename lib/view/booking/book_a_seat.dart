@@ -2,6 +2,7 @@ import 'package:Libmot_Mobile/Reusables/buttons.dart';
 import 'package:Libmot_Mobile/Reusables/constants.dart';
 import 'package:Libmot_Mobile/Reusables/text_field.dart';
 import 'package:Libmot_Mobile/Reusables/ui_reusables.dart';
+import 'package:Libmot_Mobile/Reusables/bottom_sheet.dart';
 import 'package:Libmot_Mobile/models/destination_terminal.dart';
 import 'package:Libmot_Mobile/models/get_route.dart';
 import 'package:Libmot_Mobile/repository/booking_repository.dart';
@@ -31,11 +32,6 @@ class _BookASeatPageState extends State<BookASeatPage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
   BookingRepository booking;
-
-  // @override
-  // void afterFirstLayout(BuildContext context) {
-  //   booking.getAllRoute();
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -320,7 +316,8 @@ class _BookASeatPageState extends State<BookASeatPage> {
                                 isScrollControlled: true,
                                 backgroundColor: Colors.transparent,
                                 builder: (context) => SingleChildScrollView(
-                                  child: bottomSheet(context, _height, _width),
+                                  child: BottomCard(),
+                                  //bottomSheet(context, _height, _width),
                                 ),
                               );
                             },
@@ -355,7 +352,6 @@ class _BookASeatPageState extends State<BookASeatPage> {
                             onTap: () {},
                           ),
                           SizedBox(height: 20),
-
                         ],
                       ),
                     ),
@@ -364,131 +360,6 @@ class _BookASeatPageState extends State<BookASeatPage> {
               ),
               // proceedButton(context),
             ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  Container bottomSheet(BuildContext context, double _height, double _width) {
-    return Container(
-      color: Colors.transparent,
-      padding:
-          EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
-      child: Container(
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.vertical(top: Radius.circular(35)),
-            color: Theme.of(context).scaffoldBackgroundColor),
-        height: _height * 0.4,
-        width: _width,
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 15.0),
-            child: Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(20.0),
-                  child: InkWell(
-                    onTap: () {
-                      Get.back();
-                    },
-                    child: Container(
-                      width: 50,
-                      height: 4,
-                      color: Theme.of(context).primaryColor,
-                    ),
-                  ),
-                ),
-                Text(
-                  'Travellers',
-                  style: TextStyle(fontWeight: FontWeight.w700, fontSize: 20),
-                ),
-                SizedBox(height: 15),
-                Text(
-                  'Select the number of persons travelling',
-                  textAlign: TextAlign.center,
-                ),
-                SizedBox(height: 20),
-                Row(
-                  children: [
-                    travellerOption(context, 'Adult(s)'),
-                    SizedBox(width: 15),
-                    travellerOption(context, 'Children(ren)'),
-                  ],
-                ),
-                Buttons.coloredButton(
-                  context: context,
-                  title: 'Proceed',
-                  onTap: () {},
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  Expanded travellerOption(BuildContext context, title) {
-    return Expanded(
-        child: Column(
-      children: [
-        Center(
-            child: Text(
-          title,
-          style: TextStyle(fontWeight: FontWeight.w500, fontSize: 16),
-        )),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            addButton(context: context, icon: Icons.add, onTap: () {}),
-            Expanded(
-                child: TextFormField(
-              textAlign: TextAlign.center,
-              style: TextStyle(fontWeight: FontWeight.w500, fontSize: 16),
-              decoration: InputDecoration(
-                contentPadding: EdgeInsets.symmetric(vertical: 0),
-                border: OutlineInputBorder(
-                  borderSide: BorderSide(
-                    color: Colors.white,
-                  ),
-                ),
-              ),
-            )),
-            addButton(context: context, icon: Icons.remove, onTap: () {}),
-          ],
-        ),
-      ],
-    ));
-  }
-
-  addButton({BuildContext context, icon, onTap}) {
-    return Padding(
-      padding: const EdgeInsets.all(10.0),
-      child: Material(
-        elevation: 1.5,
-        shape: CircleBorder(),
-        child: InkWell(
-          onTap: onTap,
-          child: Container(
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              color: Colors.white,
-              boxShadow: <BoxShadow>[
-                BoxShadow(
-                  offset: Offset(0.5, 0.9),
-                ),
-              ],
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: Center(
-                  child: Icon(
-                icon,
-                color: Theme.of(context).primaryColor,
-                size: 20,
-              )),
-            ),
           ),
         ),
       ),
@@ -641,3 +512,5 @@ class _BookASeatPageState extends State<BookASeatPage> {
 // }
 
 }
+
+//bottomSheet(BuildContext context, double _height, double _width) {

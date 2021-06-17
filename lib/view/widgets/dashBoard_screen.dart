@@ -14,6 +14,7 @@ class _DashBoardScreen extends State<DashBoardScreen> {
   bool isDrawerOpen = false;
 
   static final getTicketPage = "/bookASeat";
+  static final hireAbus = "/busHire";
 
   @override
   Widget build(BuildContext context) {
@@ -146,7 +147,7 @@ class _DashBoardScreen extends State<DashBoardScreen> {
                                   color: Color(0xFF555354),
                                   title: 'Hire a Bus',
                                   onTap: () {
-                                    // Navigator.of(context).pushNamed(getTicketPage);
+                                    Navigator.of(context).pushNamed(hireAbus);
                                   },
                                   icon: Icon(
                                     Icons.bus_alert,

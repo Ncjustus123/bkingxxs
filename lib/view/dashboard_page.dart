@@ -21,12 +21,6 @@ class _DashboardPageState extends State<DashboardPage> {
     return Scaffold(
       key: _scaffoldKey,
       body: Container(
-        // decoration: BoxDecoration(
-        //   image: DecorationImage(
-        //     image: AssetImage("images/Lekki-Ikoyi Link Bridge 1.png"),
-        //     fit: BoxFit.cover,
-        //   ),
-        // ),
         child: Stack(
           children: [
             DrawerScreen(),
