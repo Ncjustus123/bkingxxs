@@ -13,41 +13,47 @@ const Color kRed = Color(0xFFF44336);
 
 //TextStyle
 
-const textStyle =
-    TextStyle(color: Colors.white, fontSize: 15, fontWeight: FontWeight.bold);
+const textStyle = TextStyle(color: Colors.white, fontSize: 18);
 const textStyle1 =
     TextStyle(color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold);
 const textStyle2 =
     TextStyle(color: Colors.black, fontSize: 15, fontWeight: FontWeight.bold);
+
 String getNairaSign() {
   return "₦";
 }
- 
-  class ButtonReusable extends StatelessWidget {
-    final Function onpressed;
-    final String name;
-    const ButtonReusable( {this.onpressed,this.name});
-  
-    @override
-    Widget build(BuildContext context) {
-      return SizedBox(
+
+class ButtonReusable extends StatelessWidget {
+  final Function onpressed;
+  final String name;
+
+  const ButtonReusable({this.onpressed, this.name});
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
       height: 50,
       width: 300,
       child: ElevatedButton(
         child: Text(name,style:TextStyle(color: Colors.white),),
         onPressed: onpressed,
         style: ButtonStyle(
-          backgroundColor: MaterialStateProperty.all(Colors.red),
+          backgroundColor:
+              MaterialStateProperty.all(Theme.of(context).primaryColor),
           shape: MaterialStateProperty.all<RoundedRectangleBorder>(
             RoundedRectangleBorder(
+<<<<<<< HEAD
               borderRadius: BorderRadius.only(topLeft:Radius.circular(10),bottomLeft:Radius.circular(10),bottomRight: Radius.circular(10),  ),
+=======
+              borderRadius: BorderRadius.circular(5.0),
+>>>>>>> d4f9745ba56f77a51dd49f492ae0bb607cffac2b
             ),
           ),
         ),
       ),
     );
-    }
   }
+}
 
 class TextFormFeildWidget extends StatelessWidget {
   final String lableText;
@@ -56,6 +62,7 @@ class TextFormFeildWidget extends StatelessWidget {
   final bool obscureText;
   final Widget suffixIcon;
   final Widget prefixIcon;
+
   const TextFormFeildWidget({
     this.controller,
     this.lableText,

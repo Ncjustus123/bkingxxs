@@ -30,7 +30,7 @@ class MyApp extends StatelessWidget {
       child: GetMaterialApp(
         defaultTransition:Transition.upToDown,
         theme: ThemeData(
-          buttonColor: Colors.red,
+          scaffoldBackgroundColor: Color(0xFFEDF6FC),
           primarySwatch: Colors.red,
           primaryColor: Color(0xFFFD1919),
           accentColor: Color(0xFFE7AA07),

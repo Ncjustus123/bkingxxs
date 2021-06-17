@@ -1,3 +1,4 @@
+import 'package:Libmot_Mobile/Reusables/buttons.dart';
 import 'package:Libmot_Mobile/repository/user_repository.dart';
 import 'package:Libmot_Mobile/view/booking/onboarding_page.dart';
 import 'package:Libmot_Mobile/view/login/sign_up_page.dart';
@@ -13,117 +14,86 @@ class WelcomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     user = Provider.of<UserRepository>(context);
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: Colors.black12,
       body: Stack(
         children: [
           Container(
-            child: Image.asset('images/background.png'),
+            height: size.height,
+            width: size.width,
+            child: Image.asset('images/background.png',fit: BoxFit.fill),
           ),
           Container(
             decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.4),
+              color: Colors.lightBlueAccent.withOpacity(0.2),
             ),
           ),
-          Column(
-            children: [
-              Spacer(),
+          Padding(
+            padding: const EdgeInsets.all(23.0),
+            child: Column(
+              children: [
+                Spacer(),
 
-              Text("LIBMOT",
-                  style: TextStyle(
-                      color: Colors.red,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 40)),
-              Text("Travel conveniently...",
-                  style: TextStyle(
-                      fontStyle: FontStyle.italic,
-                      color: Colors.black87,
-                      fontWeight: FontWeight.w100,
-                      fontSize: 11)),
-              Spacer(),
-              InkWell(
-                onTap: () {
+                Text("LIBMOT",
+                    style: TextStyle(
+                        color: Colors.red,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 50)),
+                Text("Travel conveniently...",
+                    style: TextStyle(
+                        fontStyle: FontStyle.italic,
+                        color: Colors.white,
+                        letterSpacing: 0.5,
+                        fontWeight: FontWeight.w100,
+                        fontSize: 12)),
+                Spacer(),
+                Buttons.coloredButton(context:context,title:'Sign In', onTap:() {
                   Navigator.of(context).pushNamed(loginPage);
-                },
-                child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(5),
-                    color: Theme.of(context).primaryColor,
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(15.0),
-                    child: Center(
-                        child: Text(
-                      "Sign In",
-                      style: TextStyle(
-                          fontSize: 15,
-                          fontWeight: FontWeight.w700,
-                          color: Colors.white),
-                    )),
-                  ),
+                },),
+                SizedBox(
+                  height: 25,
                 ),
-              ),
-              SizedBox(
-                height: 25,
-              ),
-              InkWell(
-                onTap: () {
+                Buttons.whiteButton(context:context,title:'Sign Up', onTap:() {
                   Navigator.of(context).pushNamed(signUpPage);
-                },
-                child: Container(
-                  decoration: BoxDecoration(
-                      border: Border.all(
-                          color: Theme.of(context).primaryColor, width: 0.7),
-                      borderRadius: BorderRadius.circular(5),
-                      color: Colors.white),
-                  child: Padding(
-                    padding: const EdgeInsets.all(15.0),
-                    child: Center(
-                        child: Text(
-                      "Sign Up",
+                },),
+                SizedBox(
+                  height: 25,
+                ),
+                InkWell(
+
+                  child: Center(
+                    child: Text(
+                      "Continue as guest",
                       style: TextStyle(
                         fontSize: 15,
-                        fontWeight: FontWeight.w700,
+                        fontWeight: FontWeight.w500,
                         color: Theme.of(context).primaryColor,
                       ),
-                    )),
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: 25,
-              ),
-              InkWell(
-                child: Center(
-                  child: Text(
-                    "Continue as guest",
-                    style: TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.w700,
-                      color: Theme.of(context).primaryColor,
                     ),
                   ),
+                  onTap: () {
+                    user.loginForAndroidIos();
+                    Navigator.of(context).pushNamed(dashboardPage);
+                  },
                 ),
-                onTap: () {
-                  user.loginForAndroidIos();
-                  Navigator.of(context).pushNamed(dashboardPage);
-                },
-              ),
-              Spacer(),
+                Spacer(),
 
-              // RaisedButton(
-              //     onPressed: () {
-              //       Navigator.push(
-              //           context,
-              //           MaterialPageRoute(
-              //               builder: (BuildContext context) =>
-              //                   OnBoardingPage()));
-              //     },
-              //     child: Text("southy")),
-            ],
+                // RaisedButton(
+                //     onPressed: () {
+                //       Navigator.push(
+                //           context,
+                //           MaterialPageRoute(
+                //               builder: (BuildContext context) =>
+                //                   OnBoardingPage()));
+                //     },
+                //     child: Text("southy")),
+              ],
+            ),
           ),
         ],
       ),
     );
   }
+
 }

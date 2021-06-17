@@ -14,221 +14,235 @@ class _DashBoardScreen extends State<DashBoardScreen> {
   bool isDrawerOpen = false;
 
   static final getTicketPage = "/bookASeat";
+
   @override
   Widget build(BuildContext context) {
-    return AnimatedContainer(
-      transform: Matrix4.translationValues(xOffset, yOffset, 0)
-        ..scale(isDrawerOpen ? 0.90 : 1.00)
-        ..rotateZ(isDrawerOpen ? -50 : 0),
-      duration: Duration(milliseconds: 200),
-      decoration: BoxDecoration(
-        image: DecorationImage(
-          image: AssetImage("images/Lekki-Ikoyi Link Bridge 1.png"),
-          fit: BoxFit.cover,
-           colorFilter: ColorFilter.mode(
-                  Color(0x0000000).withOpacity(0.8), BlendMode.srcOver),
+    return GestureDetector(
+      onTap: () {
+        setState(() {
+          xOffset = 0;
+          yOffset = 0;
+          isDrawerOpen = false;
+        });
+      },
+      child: AnimatedContainer(
+        transform: Matrix4.translationValues(xOffset, yOffset, 0)
+          ..scale(isDrawerOpen ? 0.85 : 1.00)
+          ..rotateZ(isDrawerOpen ? -50 : 0),
+        duration: Duration(milliseconds: 200),
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage("images/background.png"),
+            fit: BoxFit.cover,
+            colorFilter: ColorFilter.mode(
+                Color(0x0000000).withOpacity(0.8), BlendMode.srcOver),
+          ),
+          // color: Colors.white,
+          borderRadius: isDrawerOpen
+              ? BorderRadius.circular(40)
+              : BorderRadius.circular(0),
         ),
-        // color: Colors.white,
-        borderRadius:
-            isDrawerOpen ? BorderRadius.circular(40) : BorderRadius.circular(0),
-      ),
-      child: SingleChildScrollView(
-        child: Column(
-          children: <Widget>[
-            SizedBox(
-              height: 50,
-            ),
-            Container(
-              margin: EdgeInsets.symmetric(horizontal: 20),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  isDrawerOpen
-                      ? GestureDetector(
-                          child: Icon(
-                            Icons.arrow_back_ios,
-                            color: Colors.white,
+        child: SingleChildScrollView(
+          child: Column(
+            children: <Widget>[
+              Container(
+                margin: EdgeInsets.fromLTRB(20, 35, 20, 20),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    isDrawerOpen
+                        ? GestureDetector(
+                            child: Padding(
+                              padding: const EdgeInsets.only(right:8.0,bottom: 8),
+                              child: Icon(
+                                Icons.arrow_back_ios,
+                                color: Colors.white,
+                              ),
+                            ),
+                            onTap: () {
+                              setState(() {
+                                xOffset = 0;
+                                yOffset = 0;
+                                isDrawerOpen = false;
+                              });
+                            },
+                          )
+                        : GestureDetector(
+                            child: Padding(
+                              padding: const EdgeInsets.only(right:8.0, bottom: 8),
+
+                              child: Icon(
+                                Icons.sort,
+                                color: Colors.white,
+                              ),
+                            ),
+                            onTap: () {
+                              setState(() {
+                                xOffset = 350;
+                                yOffset = 30;
+                                isDrawerOpen = true;
+                              });
+                            },
                           ),
-                          onTap: () {
-                            setState(() {
-                              xOffset = 0;
-                              yOffset = 0;
-                              isDrawerOpen = false;
-                            });
-                          },
-                        )
-                      : GestureDetector(
-                          child: Icon(
-                            Icons.menu,
-                            color: Colors.white,
-                          ),
-                          onTap: () {
-                            setState(() {
-                              xOffset = 290;
-                              yOffset = 80;
-                              isDrawerOpen = true;
-                            });
-                          },
-                        ),
-                  Padding(
-                    padding: const EdgeInsets.only(right: 130, left: 90),
-                    child: Text("DashBoard",style: TextStyle(color: Colors.white),),
-                  ),
-                ],
+                    Text(
+                      "",
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(8,0,0,8),
+                      child: Icon(
+                        Icons.notifications_outlined,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ],
+                ),
               ),
+              SizedBox(height: 15),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 20.0, horizontal: 8),
+                      child: Text(
+                        'Welcome Chinedu',
+                        style: TextStyle(
+                            fontWeight: FontWeight.w600,
+                            fontSize: 18,
+                            color: Colors.white),
+                      ),
+                    ),
+                    SizedBox(height: 10),
+                    Row(
+                      children: [
+                        dashboardCard(
+                          context: context,
+                          color: Color(0xFFB8230B),
+                          title: 'Ticket Booking',
+                          onTap: () {
+                            Navigator.of(context).pushNamed(getTicketPage);
+                          },
+                          icon: Icon(
+                            Icons.airport_shuttle_outlined,
+                            color: Colors.white,
+                            size: 35,
+                          ),
+                        ),
+                        SizedBox(width: 10),
+                        dashboardCard(
+                          context: context,
+                          color: Color(0xFF555354),
+                          title: 'Hire a Bus',
+                          onTap: () {
+                            // Navigator.of(context).pushNamed(getTicketPage);
+                          },
+                          icon: Icon(
+                            Icons.bus_alert,
+                            color: Colors.white,
+                            size: 35,
+                          ),
+                        ),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        dashboardCard(
+                          context: context,
+                          color: Color(0xFF359939),
+                          title: 'Become an Agent',
+                          onTap: () {
+                            // Navigator.of(context).pushNamed(getTicketPage);
+                          },
+                          icon: Icon(
+                            Icons.support_agent,
+                            color: Colors.white,
+                            size: 35,
+                          ),
+                        ),
+                        SizedBox(width: 10),
+                        dashboardCard(
+                          context: context,
+                          color: Color(0xFF0B5475),
+                          title: "Copper Wee",
+                          onTap: () {
+                            // Navigator.of(context).pushNamed(getTicketPage);
+                          },
+                          icon: Icon(
+                            Icons.stream,
+                            color: Colors.white,
+                            size: 35,
+                          ),
+                        ),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        dashboardCard(
+                          context: context,
+                          color: Color(0xFFFCA800),
+                          title: "Libmot Express",
+                          onTap: () {
+                            // Navigator.of(context).pushNamed(getTicketPage);
+                          },
+                          icon: Image.asset(
+                            "images/Libmot Express Logo 1.png",
+                            height: 40,
+                          ),
+                        ),
+                        SizedBox(width: 10),
+                        dashboardCard(
+                          context: context,
+                          color: Color(0xFF95A19D),
+                          title: "Libmot Drive",
+                          onTap: () {
+                            // Navigator.of(context).pushNamed(getTicketPage);
+                          },
+                          icon: Icon(
+                            Icons.drive_eta_rounded,
+                            color: Colors.white,
+                            size: 35,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              )
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Expanded dashboardCard({BuildContext context, onTap, title, icon, color}) {
+    return Expanded(
+      child: InkWell(
+        onTap: onTap,
+        child: Container(
+          height: 165,
+          margin: EdgeInsets.fromLTRB(0, 8, 8, 16),
+          decoration: BoxDecoration(
+            color: color,
+            borderRadius: BorderRadius.circular(7.0),
+          ),
+          child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+            Container(
+              decoration: BoxDecoration(
+                  color: Colors.white.withOpacity(0.2), shape: BoxShape.circle),
+              child: Padding(padding: const EdgeInsets.all(18.0), child: icon),
             ),
             SizedBox(
-              height: 40,
+              height: 10,
             ),
-            Column(
-              children: <Widget>[
-                Row(
-                  children: [
-                    Expanded(
-                      child: ReusableCard(
-                        colour: kRed,
-                        onPressed: () {
-                          Navigator.of(context).pushNamed(getTicketPage);
-                        },
-                        cardChild: Column(children: [
-                          Padding(
-                            padding: const EdgeInsets.all(12.0),
-                            child: Icon(
-                              Icons.airport_shuttle,
-                              color: Colors.white,
-                            ),
-                          ),
-                          SizedBox(
-                            height: 20,
-                          ),
-                          Text(
-                            "Ticket Booking",
-                            style: textStyle,
-                          ),
-                        ]),
-                      ),
-                    ),
-                    Expanded(
-                      child: ReusableCard(
-                        colour: kGrey,
-                        cardChild: Column(children: [
-                          Padding(
-                            padding: const EdgeInsets.all(12.0),
-                            child: Icon(
-                              Icons.bus_alert,
-                              color: Colors.white,
-                            ),
-                          ),
-                          SizedBox(
-                            height: 20,
-                          ),
-                          Text(
-                            "Hire A Bus",
-                            style: textStyle,
-                          ),
-                        ]),
-                      ),
-                    ),
-                  ],
-                ),
-                Row(
-                  children: [
-                    Expanded(
-                      child: ReusableCard(
-                        colour: Colors.green,
-                        cardChild: Column(children: [
-                          Padding(
-                            padding: const EdgeInsets.all(12.0),
-                            child: Icon(
-                              Icons.support_agent,
-                              color: Colors.white,
-                            ),
-                          ),
-                          SizedBox(
-                            height: 20,
-                          ),
-                          Text(
-                            "Become An Agent",
-                            style: textStyle,
-                          ),
-                        ]),
-                      ),
-                    ),
-                    Expanded(
-                      child: ReusableCard(
-                        colour: Colors.blue,
-                        cardChild: Column(children: [
-                          Padding(
-                            padding: const EdgeInsets.all(12.0),
-                            child: Icon(
-                              Icons.settings_applications_rounded,
-                              color: Colors.white,
-                            ),
-                          ),
-                          SizedBox(
-                            height: 20,
-                          ),
-                          Text(
-                            "Copper Wee",
-                            style: textStyle,
-                          ),
-                        ]),
-                      ),
-                    ),
-                  ],
-                ),
-                Row(
-                  children: [
-                    Expanded(
-                      child: ReusableCard(
-                        colour: Colors.yellow[700],
-                        cardChild: Column(children: [
-                          Padding(
-                            padding: const EdgeInsets.all(12.0),
-                            child: Image.asset(
-                              "images/Libmot Express Logo 1.png",
-                              height: 40,
-                            ),
-                          ),
-                          SizedBox(
-                            height: 20,
-                          ),
-                          Text(
-                            "Libmot Express",
-                            style: textStyle,
-                          ),
-                        ]),
-                      ),
-                    ),
-                    Expanded(
-                      child: ReusableCard(
-                        colour: Colors.grey[300],
-                        cardChild: Column(children: [
-                          Padding(
-                            padding: const EdgeInsets.all(12.0),
-                            child: Icon(
-                              Icons.drive_eta_rounded,
-                              color: Colors.white,
-                            ),
-                          ),
-                          SizedBox(
-                            height: 20,
-                          ),
-                          Text(
-                            "Libmot Drive",
-                            style: textStyle,
-                          ),
-                        ]),
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  height: 500,
-                ),
-              ],
-            )
-          ],
+            Text(
+              title,
+              style: textStyle,
+            ),
+          ]),
         ),
       ),
     );
@@ -237,7 +251,9 @@ class _DashBoardScreen extends State<DashBoardScreen> {
 
 class Item1 extends StatelessWidget {
   final Widget name;
+
   Item1(this.name);
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -259,7 +275,9 @@ class Item1 extends StatelessWidget {
 class Item2 extends StatelessWidget {
   static final busHirePage = "/busHire";
   final Widget name;
+
   Item2(this.name);
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -289,7 +307,9 @@ class Item2 extends StatelessWidget {
 class Item3 extends StatelessWidget {
   static final busHirePage = "/busHire";
   final Widget name;
+
   Item3(this.name);
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
