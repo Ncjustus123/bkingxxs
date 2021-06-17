@@ -86,7 +86,7 @@ flutter:
   fonts:
     - family: Circular
       fonts:
-        - asset: fonts/CircularStd-Bold.ttf
+        - asset: fonts/CircularStd-Book.ttf
 
     - family: Monserrat
       fonts:

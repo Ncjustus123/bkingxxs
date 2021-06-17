@@ -4,7 +4,6 @@ import 'package:Libmot_Mobile/Reusables/constants.dart';
 import 'package:Libmot_Mobile/repository/booking_repository.dart';
 import 'package:Libmot_Mobile/resources/networking/api_calls.dart';
 import 'package:Libmot_Mobile/resources/networking/test_data.dart';
-import 'package:Libmot_Mobile/view/widgets/paymentPaystack.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_paystack/flutter_paystack.dart';
 import 'package:http/http.dart';

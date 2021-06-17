@@ -26,11 +26,10 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     final user = Provider.of<UserRepository>(context);
     return Scaffold(
-      // backgroundColor: Colors.white,
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage("images/Lekki-Ikoyi Link Bridge 1.png"),
+            image: AssetImage("images/background.png"),
             fit: BoxFit.cover,
             colorFilter: ColorFilter.mode(
                 Colors.red[100].withOpacity(0.2), BlendMode.srcOver),
@@ -55,16 +54,27 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   child: Column(
                     children: [
-                      Text("Login",
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontWeight: FontWeight.normal,
-                              fontSize: 40)),
-                      SizedBox(
-                        height: 20,
+                      Padding(
+                        padding: const EdgeInsets.only(top:35.0,bottom: 10),
+                        child: Text("Login",
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontWeight: FontWeight.w500,
+                                fontSize: 25)),
                       ),
-                      Center(
-                        child: _formPage(user, context),
+                      Text("Sign in with the registered email and password",
+                          style: TextStyle(
+                              color: Colors.black54,
+
+                              fontSize: 13)),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(20.0),
+                        child: Center(
+                          child: _formPage(user, context),
+                        ),
                       ),
                       SizedBox(
                         height: 15,
@@ -83,30 +93,6 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                       SizedBox(
                         height: 20,
-                      ),
-                      SizedBox(
-                        height: 50,
-                        width: 300,
-                        child: ElevatedButton(
-                          child: Text("Create Account"),
-                          onPressed: () {
-                            Navigator.of(context).pushNamed("/signUpPage");
-                          },
-                          style: ButtonStyle(
-                            backgroundColor:
-                                MaterialStateProperty.all(Colors.transparent),
-                            shape: MaterialStateProperty.all<
-                                RoundedRectangleBorder>(
-                              RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(5.0),
-                                side: BorderSide(
-                                  width: 1.0,
-                                  color: Colors.red,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
                       ),
                       SizedBox(
                         height: 20,),
@@ -193,7 +179,7 @@ class _LoginPageState extends State<LoginPage> {
                 }
                 return null;
               },
-            ),
+            ),SizedBox(height: 10),
             TextFormFeildWidget(
               controller: passwordController,
               obscureText: _passwordVisible,
@@ -218,7 +204,7 @@ class _LoginPageState extends State<LoginPage> {
               ),
             ),
             SizedBox(
-              height: 10,
+              height: 20,
             ),
             ButtonReusable(onpressed:()async {onLoginPressed(user, context);},name: "Log In",),
             // login(user, context),
@@ -237,15 +223,17 @@ class _LoginPageState extends State<LoginPage> {
   );
 
   onLoginPressed(UserRepository user, context) async {
-    if (_formKeyLogin.currentState.validate()) {
-      await user.loginRepo(emailController.text, passwordController.text);
-      if (user.loggedInStatus == LoggedInStatus.LoggedIn) {
-        Navigator.of(context).pushNamed(dashboardPage);
-      } else {
-        print("An errorOccured");
-      }
-    } else {
-      print("validation not done");
-    }
+    Navigator.of(context).pushNamed(dashboardPage);
+
+    // if (_formKeyLogin.currentState.validate()) {
+    //   await user.loginRepo(emailController.text, passwordController.text);
+    //   if (user.loggedInStatus == LoggedInStatus.LoggedIn) {
+    //     Navigator.of(context).pushNamed(dashboardPage);
+    //   } else {
+    //     print("An errorOccured");
+    //   }
+    // } else {
+    //   print("validation not done");
+    // }
   }
 }

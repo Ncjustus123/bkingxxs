@@ -45,11 +45,13 @@ class OnBoardingPage extends StatelessWidget {
       body: Stack(
         children: [
           Container(
+            height: size.height,
+            width: size.width,
             child: Image.asset('images/background.png', fit: BoxFit.fill),
           ),
           Container(
             decoration: BoxDecoration(
-              color: Theme.of(context).primaryColor.withOpacity(0.4),
+              color: Colors.white.withOpacity(0.5),
             ),
           ),
           PageView.builder(

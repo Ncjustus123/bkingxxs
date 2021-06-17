@@ -1,4 +1,5 @@
 import 'dart:convert';
+
 import 'package:Libmot_Mobile/models/booking_model.dart';
 import 'package:Libmot_Mobile/models/destination_terminal.dart';
 import 'package:Libmot_Mobile/models/get_buses_model.dart';
@@ -7,17 +8,9 @@ import 'package:Libmot_Mobile/models/get_route.dart';
 import 'package:Libmot_Mobile/models/post_booking_response.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutterwave/flutterwave.dart';
-import 'package:flutterwave/models/responses/charge_response.dart';
 import 'package:http/http.dart';
+
 import '../resources/networking/api_calls.dart';
-import 'dart:io';
-import 'package:Libmot_Mobile/payment.dart';
-import 'package:Libmot_Mobile/repository/booking_repository.dart';
-import 'package:Libmot_Mobile/resources/networking/test_data.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_paystack/flutter_paystack.dart';
-import 'package:provider/provider.dart';
 
 class BookingRepository with ChangeNotifier {
   //bool depatureAvailable;
