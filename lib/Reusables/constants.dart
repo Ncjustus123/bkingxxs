@@ -42,11 +42,7 @@ class ButtonReusable extends StatelessWidget {
               MaterialStateProperty.all(Theme.of(context).primaryColor),
           shape: MaterialStateProperty.all<RoundedRectangleBorder>(
             RoundedRectangleBorder(
-<<<<<<< HEAD
               borderRadius: BorderRadius.only(topLeft:Radius.circular(10),bottomLeft:Radius.circular(10),bottomRight: Radius.circular(10),  ),
-=======
-              borderRadius: BorderRadius.circular(5.0),
->>>>>>> d4f9745ba56f77a51dd49f492ae0bb607cffac2b
             ),
           ),
         ),
