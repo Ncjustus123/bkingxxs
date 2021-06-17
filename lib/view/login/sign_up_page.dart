@@ -28,42 +28,63 @@ class _SignUpPageState extends State<SignUpPage> {
     final user = Provider.of<UserRepository>(context);
     return Scaffold(
       // backgroundColor: Colors.white,
-      body: Container(
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage("images/background.png"),
-            fit: BoxFit.cover,
-            colorFilter: ColorFilter.mode(
-                Colors.red[100].withOpacity(0.2), BlendMode.srcOver),
-          ),
-        ),
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(top: 30, bottom: 50),
-              child: Text(
-                "Sign Up",
-                style: TextStyle(fontSize: 30,color: Colors.white),
-              ),
+      body: GestureDetector(
+        onTap: (){
+          FocusScope.of(context).unfocus();
+        },
+        child: Container(
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage("images/background.png"),
+              fit: BoxFit.cover,
+              colorFilter: ColorFilter.mode(
+                  Colors.red[100].withOpacity(0.2), BlendMode.srcOver),
             ),
-            Expanded(
-              child: Container(
-                decoration: BoxDecoration(
-                  color: Theme.of(context).scaffoldBackgroundColor,
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(70),
+          ),
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(top: 40, bottom: 20),
+                child: Image.asset(
+                  "images/LIBMOT LOGO 1.png",
+                  height: 55,
+                ),
+              ),
+              Expanded(
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).scaffoldBackgroundColor,
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(70),
+                    ),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 35.0),
+                    child: SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 10),
+                            child: Text("Sign Up",
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 25)),
+                          ),
+                          Text("Sign up with your email and password",
+                              style:
+                                  TextStyle(color: Colors.black54, fontSize: 13)),
+                          Center(
+                            child: _formPage(),
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
                 ),
-                child: Column(
-                  children: [
-                    Center(
-                      child: _formPage(),
-                    ),
-                  ],
-                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -75,7 +96,9 @@ class _SignUpPageState extends State<SignUpPage> {
         key: _formKeyLogin,
         child: Column(
           children: <Widget>[
-            SizedBox(height: 30,),
+            SizedBox(
+              height: 20
+            ),
             TextFormFeildWidget(
               obscureText: false,
               controller: firstNamecontroller,
@@ -141,10 +164,10 @@ class _SignUpPageState extends State<SignUpPage> {
                 }
                 return null;
               },
-              prefixIcon: Icon(Icons.lock, color: Colors.grey),
+              prefixIcon: Icon(Icons.lock_outlined, color: Colors.grey),
               suffixIcon: IconButton(
                 icon: Icon(
-                  _passwordVisible ? Icons.visibility_off : Icons.visibility,
+                  _passwordVisible ? Icons.visibility_off_outlined : Icons.visibility_outlined,
                   color: Colors.grey,
                 ),
                 onPressed: () {
@@ -159,10 +182,38 @@ class _SignUpPageState extends State<SignUpPage> {
               controller: referralcontroller,
               lableText: "Referal link",
             ),
-            SizedBox(height: 20,),
+            SizedBox(
+              height: 20,
+            ),
             ButtonReusable(
               name: "Sign Up",
             ),
+            SizedBox(
+              height: 25
+            ),
+            InkWell(
+              onTap: () {
+                Navigator.pop(context);
+              },
+              child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    RichText(
+                        text: TextSpan(children: [
+                          TextSpan(
+                              text: "Already have an account?",
+                              style: TextStyle(
+                                  color: Colors.grey,
+                                  fontSize: 13)),
+                          TextSpan(
+                              text: " Sign In",
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 14)),
+                        ])),
+                  ]),
+            ),
+
           ],
         ),
       ),

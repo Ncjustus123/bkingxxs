@@ -123,29 +123,29 @@ class _BookASeatPageState extends State<BookASeatPage> {
                       onTap: (index) {
                         print('$index');
                         // booking.getBuses.tripType = index;
-                        booking.tripTypeChange(index);
+                        // booking.tripTypeChange(index);
                       },
                     ),
                   ),
                 ),
               ),
-              Container(
-                margin:
-                    const EdgeInsets.symmetric(vertical: 15, horizontal: 30),
-                decoration: BoxDecoration(
-                    border: Border.all(color: Colors.white),
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(35)),
-                child: Padding(
-                  padding: const EdgeInsets.all(3.0),
-                  child: Row(
-                    children: [
-                      tripOptionButton(context: context, title: 'One Way'),
-                      tripOptionButton(context: context, title: 'Round Trip'),
-                    ],
-                  ),
-                ),
-              ),
+              // Container(
+              //   margin:
+              //       const EdgeInsets.symmetric(vertical: 15, horizontal: 30),
+              //   decoration: BoxDecoration(
+              //       border: Border.all(color: Colors.white),
+              //       color: Colors.white,
+              //       borderRadius: BorderRadius.circular(35)),
+              //   child: Padding(
+              //     padding: const EdgeInsets.all(3.0),
+              //     child: Row(
+              //       children: [
+              //         tripOptionButton(context: context, title: 'One Way'),
+              //         tripOptionButton(context: context, title: 'Round Trip'),
+              //       ],
+              //     ),
+              //   ),
+              // ),
               SizedBox(height: 15),
 
               // DropdownWidget(

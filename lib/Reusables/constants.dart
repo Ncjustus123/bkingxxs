@@ -17,7 +17,7 @@ const textStyle = TextStyle(color: Colors.white, fontSize: 18);
 const textStyle1 =
     TextStyle(color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold);
 const textStyle2 =
-    TextStyle(color: Colors.black, fontSize: 15, fontWeight: FontWeight.bold);
+    TextStyle(color: Colors.black, fontSize: 15, fontWeight: FontWeight.w500);
 
 String getNairaSign() {
   return "₦";

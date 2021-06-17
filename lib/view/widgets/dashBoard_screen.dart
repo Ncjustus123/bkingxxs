@@ -17,6 +17,7 @@ class _DashBoardScreen extends State<DashBoardScreen> {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return GestureDetector(
       onTap: () {
         setState(() {
@@ -42,7 +43,9 @@ class _DashBoardScreen extends State<DashBoardScreen> {
               ? BorderRadius.circular(40)
               : BorderRadius.circular(0),
         ),
-        child: SingleChildScrollView(
+        child: Container(
+          height: size.height,
+          width: size.width,
           child: Column(
             children: <Widget>[
               Container(
@@ -53,7 +56,8 @@ class _DashBoardScreen extends State<DashBoardScreen> {
                     isDrawerOpen
                         ? GestureDetector(
                             child: Padding(
-                              padding: const EdgeInsets.only(right:8.0,bottom: 8),
+                              padding:
+                                  const EdgeInsets.only(right: 8.0, bottom: 8),
                               child: Icon(
                                 Icons.arrow_back_ios,
                                 color: Colors.white,
@@ -69,8 +73,8 @@ class _DashBoardScreen extends State<DashBoardScreen> {
                           )
                         : GestureDetector(
                             child: Padding(
-                              padding: const EdgeInsets.only(right:8.0, bottom: 8),
-
+                              padding:
+                                  const EdgeInsets.only(right: 8.0, bottom: 8),
                               child: Icon(
                                 Icons.sort,
                                 color: Colors.white,
@@ -89,7 +93,7 @@ class _DashBoardScreen extends State<DashBoardScreen> {
                       style: TextStyle(color: Colors.white),
                     ),
                     Padding(
-                      padding: const EdgeInsets.fromLTRB(8,0,0,8),
+                      padding: const EdgeInsets.fromLTRB(8, 0, 0, 8),
                       child: Icon(
                         Icons.notifications_outlined,
                         color: Colors.white,
@@ -98,117 +102,126 @@ class _DashBoardScreen extends State<DashBoardScreen> {
                   ],
                 ),
               ),
-              SizedBox(height: 15),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 20.0, horizontal: 8),
-                      child: Text(
-                        'Welcome Chinedu',
-                        style: TextStyle(
-                            fontWeight: FontWeight.w600,
-                            fontSize: 18,
-                            color: Colors.white),
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      SizedBox(height: 15),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 20.0, horizontal: 8),
+                              child: Text(
+                                'Welcome Chinedu',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 18,
+                                    color: Colors.white),
+                              ),
+                            ),
+                            SizedBox(height: 10),
+                            Row(
+                              children: [
+                                dashboardCard(
+                                  context: context,
+                                  color: Color(0xFFB8230B),
+                                  title: 'Ticket Booking',
+                                  onTap: () {
+                                    Navigator.of(context)
+                                        .pushNamed(getTicketPage);
+                                  },
+                                  icon: Icon(
+                                    Icons.airport_shuttle_outlined,
+                                    color: Colors.white,
+                                    size: 35,
+                                  ),
+                                ),
+                                SizedBox(width: 10),
+                                dashboardCard(
+                                  context: context,
+                                  color: Color(0xFF555354),
+                                  title: 'Hire a Bus',
+                                  onTap: () {
+                                    // Navigator.of(context).pushNamed(getTicketPage);
+                                  },
+                                  icon: Icon(
+                                    Icons.bus_alert,
+                                    color: Colors.white,
+                                    size: 35,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                dashboardCard(
+                                  context: context,
+                                  color: Color(0xFF359939),
+                                  title: 'Become an Agent',
+                                  onTap: () {
+                                    // Navigator.of(context).pushNamed(getTicketPage);
+                                  },
+                                  icon: Icon(
+                                    Icons.support_agent,
+                                    color: Colors.white,
+                                    size: 35,
+                                  ),
+                                ),
+                                SizedBox(width: 10),
+                                dashboardCard(
+                                  context: context,
+                                  color: Color(0xFF0B5475),
+                                  title: "Copper Wee",
+                                  onTap: () {
+                                    // Navigator.of(context).pushNamed(getTicketPage);
+                                  },
+                                  icon: Icon(
+                                    Icons.stream,
+                                    color: Colors.white,
+                                    size: 35,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                dashboardCard(
+                                  context: context,
+                                  color: Color(0xFFFCA800),
+                                  title: "Libmot Express",
+                                  onTap: () {
+                                    // Navigator.of(context).pushNamed(getTicketPage);
+                                  },
+                                  icon: Image.asset(
+                                    "images/Libmot Express Logo 1.png",
+                                    height: 40,
+                                  ),
+                                ),
+                                SizedBox(width: 10),
+                                dashboardCard(
+                                  context: context,
+                                  color: Color(0xFF95A19D),
+                                  title: "Libmot Drive",
+                                  onTap: () {
+                                    // Navigator.of(context).pushNamed(getTicketPage);
+                                  },
+                                  icon: Icon(
+                                    Icons.drive_eta_rounded,
+                                    color: Colors.white,
+                                    size: 35,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                    SizedBox(height: 10),
-                    Row(
-                      children: [
-                        dashboardCard(
-                          context: context,
-                          color: Color(0xFFB8230B),
-                          title: 'Ticket Booking',
-                          onTap: () {
-                            Navigator.of(context).pushNamed(getTicketPage);
-                          },
-                          icon: Icon(
-                            Icons.airport_shuttle_outlined,
-                            color: Colors.white,
-                            size: 35,
-                          ),
-                        ),
-                        SizedBox(width: 10),
-                        dashboardCard(
-                          context: context,
-                          color: Color(0xFF555354),
-                          title: 'Hire a Bus',
-                          onTap: () {
-                            // Navigator.of(context).pushNamed(getTicketPage);
-                          },
-                          icon: Icon(
-                            Icons.bus_alert,
-                            color: Colors.white,
-                            size: 35,
-                          ),
-                        ),
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        dashboardCard(
-                          context: context,
-                          color: Color(0xFF359939),
-                          title: 'Become an Agent',
-                          onTap: () {
-                            // Navigator.of(context).pushNamed(getTicketPage);
-                          },
-                          icon: Icon(
-                            Icons.support_agent,
-                            color: Colors.white,
-                            size: 35,
-                          ),
-                        ),
-                        SizedBox(width: 10),
-                        dashboardCard(
-                          context: context,
-                          color: Color(0xFF0B5475),
-                          title: "Copper Wee",
-                          onTap: () {
-                            // Navigator.of(context).pushNamed(getTicketPage);
-                          },
-                          icon: Icon(
-                            Icons.stream,
-                            color: Colors.white,
-                            size: 35,
-                          ),
-                        ),
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        dashboardCard(
-                          context: context,
-                          color: Color(0xFFFCA800),
-                          title: "Libmot Express",
-                          onTap: () {
-                            // Navigator.of(context).pushNamed(getTicketPage);
-                          },
-                          icon: Image.asset(
-                            "images/Libmot Express Logo 1.png",
-                            height: 40,
-                          ),
-                        ),
-                        SizedBox(width: 10),
-                        dashboardCard(
-                          context: context,
-                          color: Color(0xFF95A19D),
-                          title: "Libmot Drive",
-                          onTap: () {
-                            // Navigator.of(context).pushNamed(getTicketPage);
-                          },
-                          icon: Icon(
-                            Icons.drive_eta_rounded,
-                            color: Colors.white,
-                            size: 35,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               )
             ],

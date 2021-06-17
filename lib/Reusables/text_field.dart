@@ -39,7 +39,7 @@ class InputFormField extends StatelessWidget {
         controller: controller,
         keyboardType: keyboardType,
         style: TextStyle(
-          fontSize: 13,
+          fontSize: 14,
         ),
         textCapitalization: textCapitalization??TextCapitalization.none,
         validator: validator,
