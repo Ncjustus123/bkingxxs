@@ -1,3 +1,4 @@
+import 'package:Libmot_Mobile/Reusables/appBar.dart';
 import 'package:Libmot_Mobile/Reusables/buttons.dart';
 import 'package:Libmot_Mobile/Reusables/constants.dart';
 import 'package:Libmot_Mobile/Reusables/text_field.dart';
@@ -14,6 +15,7 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 import '../../repository/booking_repository.dart';
+import 'select_bus_page.dart';
 
 class BookASeatPage extends StatefulWidget {
   @override
@@ -316,8 +318,7 @@ class _BookASeatPageState extends State<BookASeatPage> {
                                 isScrollControlled: true,
                                 backgroundColor: Colors.transparent,
                                 builder: (context) => SingleChildScrollView(
-                                  child: BottomCard(),
-                                  //bottomSheet(context, _height, _width),
+                                  child: BottomCard()
                                 ),
                               );
                             },
@@ -346,12 +347,15 @@ class _BookASeatPageState extends State<BookASeatPage> {
                           //   ],
                           // ),
                           SizedBox(height: 15),
-                          Buttons.coloredButton(
-                            context: context,
-                            title: 'Search',
-                            onTap: () {},
+                          ButtonReusable(
+                            onpressed: () async {
+                              Get.to(()=>SelectBusPage());
+
+                            },
+                            name: "Search",
                           ),
                           SizedBox(height: 20),
+
                         ],
                       ),
                     ),

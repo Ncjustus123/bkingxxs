@@ -1,4 +1,10 @@
+import 'dart:ui';
+import 'package:Libmot_Mobile/Reusables/buttons.dart';
+import 'package:country_code_picker/country_code_picker.dart';
+
+import 'package:Libmot_Mobile/Reusables/appBar.dart';
 import 'package:Libmot_Mobile/Reusables/constants.dart';
+import 'package:Libmot_Mobile/Reusables/text_field.dart';
 import 'package:Libmot_Mobile/models/booking_model.dart';
 import 'package:Libmot_Mobile/models/get_buses_response.dart';
 import 'package:Libmot_Mobile/repository/booking_repository.dart';
@@ -7,7 +13,10 @@ import 'package:Libmot_Mobile/repository/user_repository.dart';
 import 'package:Libmot_Mobile/view/widgets/appBar_passenger_info.dart';
 import 'package:after_layout/after_layout.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:provider/provider.dart';
+
+import 'apply_coupon_page.dart';
 
 class PassengerInfoPage extends StatefulWidget {
   @override
@@ -15,12 +24,15 @@ class PassengerInfoPage extends StatefulWidget {
 }
 
 class _PassengerInfoPageState extends State<PassengerInfoPage>
-    with AfterLayoutMixin<PassengerInfoPage>, SingleTickerProviderStateMixin {
+    with
+// AfterLayoutMixin<PassengerInfoPage>,
+        SingleTickerProviderStateMixin {
   List<String> genderType = [
     'Male',
     'Female',
   ];
-
+  String code;
+  String gender;
   final _formKey = GlobalKey<FormState>();
 
   final firstNamecontroller = TextEditingController();
@@ -57,75 +69,306 @@ class _PassengerInfoPageState extends State<PassengerInfoPage>
   }
 
   @override
-  Widget build(
-    BuildContext context,
-  ) {
-    repository = Provider.of<UserRepository>(context);
-    booking = Provider.of<BookingRepository>(context);
-    seatSelection = Provider.of<SeatSelectionRepository>(context);
+  Widget build(BuildContext context) {
+    // repository = Provider.of<UserRepository>(context);
+    // booking = Provider.of<BookingRepository>(context);
+    // seatSelection = Provider.of<SeatSelectionRepository>(context);
     final _width = MediaQuery.of(context).size.width;
     final _height = MediaQuery.of(context).size.height;
     return Scaffold(
+      // backgroundColor: Theme.of(context).primaryColor,
       body: GestureDetector(
         onTap: () => FocusScope.of(context).unfocus(),
         child: Container(
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage("images/Lekki-Ikoyi Link Bridge 1.png"),
-              fit: BoxFit.cover,
-              colorFilter: ColorFilter.mode(
-                  Color(0xFFFFFFFF).withOpacity(0.9), BlendMode.srcOver),
-            ),
-          ),
           width: _width,
           height: _height,
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
+              myWhiteAppBar(context, 'Travel Detail'),
               CustomAppBar(),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
+                child: Container(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Text(
+                            'Click here to dd travelling partner(s)',
+                            style: TextStyle(color: Colors.white, fontSize: 13),
+                          ),
+                        ),
+                        addBeneficiary(context, _height, _width)
+                      ],
+                    ),
+                  ),
+                  decoration: BoxDecoration(
+                      color: Colors.black54,
+                      boxShadow: <BoxShadow>[
+                        BoxShadow(
+                            spreadRadius: 3,
+                            blurRadius: 3,
+                            color: Colors.grey.withOpacity(0.3),
+                            offset: Offset(2, 3))
+                      ]),
+                ),
+              ),
               Expanded(
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.vertical,
-                  child: Form(
-                    key: _formKey,
-                    child: Column(children: [
-                      SizedBox(
-                        height: 5,
+                child: Container(
+                  // padding: const EdgeInsets.all(10.0),
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).scaffoldBackgroundColor,
+                    // borderRadius:
+                    // BorderRadius.vertical(top: Radius.circular(45),
+                    // ),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: SingleChildScrollView(
+                      scrollDirection: Axis.vertical,
+                      child: Form(
+                        key: _formKey,
+                        child: Column(children: [
+                          SizedBox(
+                            height: 5,
+                          ),
+                          // beneficaryField(),
+                          Center(
+                            child: Text(
+                              "Contact Information",
+                              style: textStyle2,
+                            ),
+                          ),
+                          InputFormField(
+                            label: 'First Name',
+                            textCapitalization: TextCapitalization.words,
+                          ),
+                          InputFormField(
+                            label: 'Last Name',
+                            textCapitalization: TextCapitalization.words,
+                          ),
+                          InputFormField(
+                            prefixIcon: CountryCodePicker(
+                              onChanged: (value) => code = value.toString(),
+                              initialSelection: '+234',
+                              favorite: ['+234', 'NG'],
+                              showCountryOnly: false,
+                              showFlag: false,
+                              showOnlyCountryWhenClosed: false,
+                              alignLeft: false,
+                              barrierColor: Colors.red,
+                              textStyle:
+                                  TextStyle(fontSize: 14, color: Colors.black),
+                            ),
+                            label: 'Phone Number',
+                            keyboardType: TextInputType.phone,
+                          ),
+                          InputFormField(
+                            label: 'Email',
+                            keyboardType: TextInputType.emailAddress,
+                          ),
+                          InputFormField(
+                            label: 'Gender',
+                            keyboardType: TextInputType.name,
+                            suffixIcon: Icon(Icons.expand_more),
+                            textCapitalization: TextCapitalization.words,
+                          ),
+
+                          // firstNameField(),
+                          // lastNameField(),
+                          // phoneNumberField(),
+                          // genderDropdownButtonFormField(),
+                          // emailField(),
+                          SizedBox(
+                            height: 15,
+                          ),
+                          Center(
+                              child: Text(
+                            "Next of Kin Information",
+                            style: textStyle2,
+                          )),
+                          InputFormField(
+                            label: 'Last Name',
+                            textCapitalization: TextCapitalization.words,
+                          ),
+                          InputFormField(
+                            prefixIcon: CountryCodePicker(
+                              onChanged: (value) => code = value.toString(),
+                              initialSelection: '+234',
+                              favorite: ['+234', 'NG'],
+                              showFlag: false,
+                              showCountryOnly: false,
+                              showOnlyCountryWhenClosed: false,
+                              alignLeft: false,
+                              textStyle:
+                                  TextStyle(fontSize: 14, color: Colors.black),
+                            ),
+                            label: 'Phone Number',
+                            keyboardType: TextInputType.phone,
+                          ),
+                          // nextOfKinField(),
+                          // nextOfKinPhoneField(),
+                          SizedBox(height: 30),
+
+                          ButtonReusable(
+                            onpressed: () async {
+                              Get.to(() => ApplyCoupon());
+                            },
+                            name: "Proceed",
+                          ),
+                          SizedBox(
+                            height: 15,
+                          ),
+                        ]),
                       ),
-                      beneficaryField(),
-                      Center(
-                          child: Text(
-                        "Contact Information",
-                        style: textStyle2,
-                      )),
-                      firstNameField(),
-                      lastNameField(),
-                      phoneNumberField(),
-                      genderDropdownButtonFormField(),
-                      emailField(),
-                      SizedBox(
-                        height: 15,
-                      ),
-                      Center(
-                          child: Text(
-                        "Next of Kin Information",
-                        style: textStyle2,
-                      )),
-                      nextOfKinField(),
-                      nextOfKinPhoneField(),
-                      SizedBox(
-                        height: 40,
-                      ),
-                      proceedButton(context),
-                      SizedBox(
-                        height: 15,
-                      ),
-                    ]),
+                    ),
                   ),
                 ),
               ),
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  InkWell addBeneficiary(BuildContext context, double _height, double _width) {
+    return InkWell(
+      onTap: () {
+        showModalBottomSheet(
+          context: context,
+          isScrollControlled: true,
+          backgroundColor: Colors.transparent,
+          builder: (context) => SingleChildScrollView(
+            child: bottomSheet(context, _height, _width),
+          ),
+        );
+      },
+      child: Icon(
+        Icons.add_circle,
+        color: Colors.white,
+        size: 20,
+      ),
+    );
+  }
+
+  Container bottomSheet(BuildContext context, double _height, double _width) {
+    return Container(
+      color: Colors.transparent,
+      padding:
+          EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+      child: Container(
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.vertical(top: Radius.circular(35)),
+            color: Theme.of(context).scaffoldBackgroundColor),
+        height: _height * 0.5,
+        width: _width,
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 15.0),
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: InkWell(
+                    onTap: () {
+                      Get.back();
+                    },
+                    child: Container(
+                      width: 50,
+                      height: 4,
+                      color: Theme.of(context).primaryColor,
+                    ),
+                  ),
+                ),
+                Text(
+                  'Add Beneficiary\'s Name',
+                  style: TextStyle(fontWeight: FontWeight.w700, fontSize: 20),
+                ),
+                SizedBox(height: 15),
+                Text(
+                  'Add the name of a travelling partner',
+                  textAlign: TextAlign.center,
+                ),
+                SizedBox(height: 20),
+                InputFormField(
+                  label: 'Last Name',
+                  textCapitalization: TextCapitalization.words,
+                ),
+                InputFormField(
+                  label: 'Gender',
+                  textCapitalization: TextCapitalization.words,
+                  suffixIcon: Icon(Icons.expand_more),
+                ),
+                // Row(
+                //   children: [
+                //     genderButton(context, 'Male'),
+                //     genderButton(context, 'Female'),
+                //   ],
+                // ),
+                SizedBox(height: 20),
+
+                Buttons.coloredButton(
+                  context: context,
+                  title: 'Add Beneficiary',
+                  onTap: () {},
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  genderButton(BuildContext context, title) {
+    return InkWell(
+      onTap: () {
+        setState(() {
+          gender = title;
+        });
+      },
+      child: Row(
+        children: [
+          Material(
+            elevation: 5,
+            shape: CircleBorder(),
+            child: Container(
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                border:
+                    Border.all(color: Colors.grey.withOpacity(0.4), width: 0.7),
+                color: Colors.white,
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(1.5),
+                child: Material(
+                  elevation: 5,
+                  shape: CircleBorder(),
+                  child: Container(
+                    height: 16,
+                    width: 16,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: gender == title
+                          ? Theme.of(context).primaryColor
+                          : Colors.white,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              title,
+              style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500),
+            ),
+          )
+        ],
       ),
     );
   }
@@ -160,6 +403,7 @@ class _PassengerInfoPageState extends State<PassengerInfoPage>
 
   ///TODO TST WITH GUEST LOGIN
   String genderValue;
+
   Card genderDropdownButtonFormField() {
     return Card(
       color: Colors.grey[50],
@@ -367,47 +611,47 @@ class _PassengerInfoPageState extends State<PassengerInfoPage>
     });
   }
 
-  Widget beneficaryField() {
-    int noOfAdultBeneficiaries = booking.getBuses.numberOfAdults - 1 ?? 0;
-    int noOfChildrenBeneficiaries = booking.getBuses.numberOfChildren ?? 0;
-
-    return Column(children: [
-      (booking.getBuses.numberOfAdults > 1)
-          ? Column(
-              children: [
-                info("Extra Adult Traveller(s)"),
-                ...beneficiaryNames,
-                (noOfAdultBeneficiaries > beneficiaryNames.length)
-                    ? InkWell(
-                        onTap: () {
-                          popupDialog(context, BeneficiaryType.adult);
-                        },
-                        child: animationBuilder(
-                            Text("Click here to add adult passenger")))
-                    : SizedBox()
-              ],
-            )
-          : SizedBox(),
-      (noOfChildrenBeneficiaries > 0)
-          ? Column(
-              children: [
-                info("Extra Children Traveller(s)"),
-                ...childrenBeneficiaryNames,
-                (noOfChildrenBeneficiaries > childrenBeneficiaryNames.length)
-                    ? InkWell(
-                        onTap: () {
-                          popupDialog(context, BeneficiaryType.children);
-                        },
-                        child: animationBuilder(
-                            Text("Click here to add adult passenger")))
-                    : SizedBox()
-              ],
-            )
-          : SizedBox(),
-
-      //add children field
-    ]);
-  }
+  // Widget beneficaryField() {
+  //   // int noOfAdultBeneficiaries = booking.getBuses.numberOfAdults - 1 ?? 0;
+  //   // int noOfChildrenBeneficiaries = booking.getBuses.numberOfChildren ?? 0;
+  //
+  //   return Column(children: [
+  //     (booking.getBuses.numberOfAdults > 1)
+  //         ? Column(
+  //             children: [
+  //               info("Extra Adult Traveller(s)"),
+  //               ...beneficiaryNames,
+  //               (noOfAdultBeneficiaries > beneficiaryNames.length)
+  //                   ? InkWell(
+  //                       onTap: () {
+  //                         popupDialog(context, BeneficiaryType.adult);
+  //                       },
+  //                       child: animationBuilder(
+  //                           Text("Click here to add adult passenger")))
+  //                   : SizedBox()
+  //             ],
+  //           )
+  //         : SizedBox(),
+  //     (noOfChildrenBeneficiaries > 0)
+  //         ? Column(
+  //             children: [
+  //               info("Extra Children Traveller(s)"),
+  //               ...childrenBeneficiaryNames,
+  //               (noOfChildrenBeneficiaries > childrenBeneficiaryNames.length)
+  //                   ? InkWell(
+  //                       onTap: () {
+  //                         popupDialog(context, BeneficiaryType.children);
+  //                       },
+  //                       child: animationBuilder(
+  //                           Text("Click here to add adult passenger")))
+  //                   : SizedBox()
+  //             ],
+  //           )
+  //         : SizedBox(),
+  //
+  //     //add children field
+  //   ]);
+  // }
 
   Container info(String info) {
     return Container(
@@ -442,6 +686,7 @@ class _PassengerInfoPageState extends State<PassengerInfoPage>
   List<Widget> childrenBeneficiaryNames = [];
 
   var beneficiaryController = TextEditingController();
+
   popupDialog(BuildContext context, BeneficiaryType beneficiaryType) {
     beneficiaryController.clear();
 

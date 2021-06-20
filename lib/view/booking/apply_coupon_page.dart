@@ -1,6 +1,11 @@
+import 'package:Libmot_Mobile/Reusables/appBar.dart';
+import 'package:Libmot_Mobile/Reusables/constants.dart';
+import 'package:Libmot_Mobile/Reusables/text_field.dart';
+import 'package:Libmot_Mobile/payment.dart';
 import 'package:Libmot_Mobile/repository/booking_repository.dart';
 import 'package:Libmot_Mobile/repository/coupon_repository.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 
 class ApplyCoupon extends StatefulWidget {
@@ -15,89 +20,124 @@ class _ApplyCouponState extends State<ApplyCoupon> {
   @override
   Widget build(BuildContext context) {
     repository = Provider.of<BookingRepository>(context);
-
+    final _width = MediaQuery.of(context).size.width;
+    final _height = MediaQuery.of(context).size.height;
     return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        title: Text(
-          "Apply Coupon",
-        ),
-        centerTitle: true,
-        backgroundColor: Colors.black,
-        automaticallyImplyLeading: false,
-      ),
+      backgroundColor: Theme.of(context).primaryColor,
+
+      // appBar: AppBar(
+      //   title: Text(
+      //     "Apply Coupon",
+      //   ),
+      //   centerTitle: true,
+      //   backgroundColor: Colors.black,
+      //   automaticallyImplyLeading: false,
+      // ),
       body: Container(
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage("images/Lekki-Ikoyi Link Bridge 1.png"),
-            fit: BoxFit.cover,
-            colorFilter: ColorFilter.mode(
-                Color(0xFFFFFFFF).withOpacity(0.9), BlendMode.srcOver),
-          ),
-        ),
+        width: _width,
+        height: _height,
         child: Column(children: [
-          Text("FarePrice: 4000", style: TextStyle(color: Colors.red)),
-          Text("Do you have a coupon?", style: TextStyle(color: Colors.black)),
-          SizedBox(
-            height: 20,
-          ),
-          Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: Card(
-              color: Colors.grey[50],
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(
-                  Radius.circular(5),
+          myAppBar(context, 'Apply Coupon'),
+          Expanded(
+            child: Container(
+              padding: const EdgeInsets.all(18.0),
+              decoration: BoxDecoration(
+                  color: Theme.of(context).scaffoldBackgroundColor,
+                  borderRadius:
+                      BorderRadius.vertical(top: Radius.circular(45))),
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Text("Do you have a coupon?",
+                        style: TextStyle(color: Colors.black)),
+                    InputFormField(
+                      label: 'Coupon code(optional)',
+                      textCapitalization: TextCapitalization.words,
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    WhiteButtonReusable(
+                      onpressed: () async {
+                        repository.couponProceedButton(context);
+                      },
+                      name: "Apply coupon",
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Divider(),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: Text("FarePrice:",
+                                style: TextStyle(
+                                    fontSize: 18,
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.w600)),
+                          ),
+                          Expanded(
+                            child: Text("\u20A616,500",
+                                textAlign: TextAlign.right,
+                                style: TextStyle(
+                                    fontSize: 18,
+                                    color: Theme.of(context).primaryColor,
+                                    fontWeight: FontWeight.w600)),
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(
+                      height: 50
+                    ),
+                    Row(
+                      children: [
+                        Theme(
+                          data: ThemeData(
+                            unselectedWidgetColor: Colors.grey,
+                          ),
+                          child: Checkbox(
+                            activeColor: Theme.of(context).primaryColor,
+                            checkColor: Colors.white,
+                            value: repository.agreeTerms,
+                            onChanged: (newValue) {
+                              setState(() {
+                                repository.updateAgreeTerms(newValue);
+                              });
+                            },
+                          ),
+                        ),
+                        RichText(
+                          text: TextSpan(children: [
+                            TextSpan(
+                                text: "I agree with the",
+                                style: TextStyle(
+                                    fontSize: 10, color: Colors.black)),
+                            TextSpan(
+                                text: " terms and condition",
+                                style: TextStyle(
+                                    color: Theme.of(context).primaryColor,
+                                    fontSize: 11)),
+                          ]),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 10),
+                    ButtonReusable(
+                      onpressed: () async {
+                        repository.couponProceedButton(context);
+                      },
+                      name: "Proceed to payment",
+                    ),
+                  ],
                 ),
               ),
-              child: TextField(),
             ),
-          ),
-          SizedBox(
-            height: 20,
-          ),
-          SizedBox(
-            height: 50,
-            width: 300,
-            child: ElevatedButton(
-              style: ButtonStyle(
-          backgroundColor: MaterialStateProperty.all(Colors.grey),
-          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-            RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10.0),
-            ),
-          ),
-        ),
-              child: Text("Apply Coupon"),
-              onPressed: () {},
-            ),
-          ),
-          Row(
-            children: [
-              Checkbox(
-                  value: repository.agreeTerms,
-                  onChanged: (newValue) => {
-                        setState(() {
-                          repository.updateAgreeTerms(newValue);
-                        }),
-                      }),
-              Text("I agree to", style: TextStyle(color: Colors.red)),
-            ],
-          ),
-          SizedBox(
-            height: 50,
-            width: 300,
-            child: ElevatedButton(
-                child: Text("Proceed to payment"),
-                style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all(Colors.red),
-                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                    RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10.0),
-                    ),
-                  ),
-                ),
-                onPressed: () => repository.couponProceedButton(context)),
           ),
         ]),
       ),

@@ -12,7 +12,7 @@ class _DrawerScreenState extends State<DrawerScreen> {
   Widget build(BuildContext context) {
     final user = Provider.of<UserRepository>(context);
     return Container(
-      color: Color(0xFFEDF6FC),
+      color: Theme.of(context).scaffoldBackgroundColor,
       child: Padding(
         padding: EdgeInsets.only(top: 50, left: 25, bottom: 70),
         child: Column(
