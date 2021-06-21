@@ -1,20 +1,13 @@
-import 'package:Libmot_Mobile/Reusables/appBar.dart';
+import 'package:Libmot_Mobile/Reusables/bottom_sheet.dart';
 import 'package:Libmot_Mobile/Reusables/buttons.dart';
 import 'package:Libmot_Mobile/Reusables/constants.dart';
+import 'package:Libmot_Mobile/Reusables/select_route_modal_sheet.dart';
 import 'package:Libmot_Mobile/Reusables/text_field.dart';
-import 'package:Libmot_Mobile/Reusables/ui_reusables.dart';
-import 'package:Libmot_Mobile/Reusables/bottom_sheet.dart';
-import 'package:Libmot_Mobile/models/destination_terminal.dart';
-import 'package:Libmot_Mobile/models/get_route.dart';
 import 'package:Libmot_Mobile/repository/booking_repository.dart';
-import 'package:after_layout/after_layout.dart';
 import 'package:bubble_tab_indicator/bubble_tab_indicator.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:Libmot_Mobile/Reusables/select_route_modal_sheet.dart';
-import 'package:provider/provider.dart';
 
 import '../../repository/booking_repository.dart';
 import 'select_bus_page.dart';

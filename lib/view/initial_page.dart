@@ -13,6 +13,7 @@ class InitialPage extends StatefulWidget {
 class _InitialPageState extends State<InitialPage>
     with AfterLayoutMixin<InitialPage> {
   UserRepository user;
+
   @override
   Widget build(BuildContext context) {
     user = Provider.of<UserRepository>(context);
@@ -27,6 +28,5 @@ class _InitialPageState extends State<InitialPage>
   @override
   void afterFirstLayout(BuildContext context) {
     user.checkLogin(context);
-    
   }
 }

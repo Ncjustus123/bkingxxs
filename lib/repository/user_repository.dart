@@ -147,7 +147,7 @@ class UserRepository with ChangeNotifier {
                 controller: otp,
               ),
               actions: [
-                FlatButton(
+                TextButton(
                   child: Text("OK"),
                   onPressed: () async {
                     final response = await _api.activateAccount(
