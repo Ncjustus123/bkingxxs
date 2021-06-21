@@ -9,6 +9,8 @@ import 'package:flutter_paystack/flutter_paystack.dart';
 import 'package:http/http.dart';
 import 'package:provider/provider.dart';
 
+import 'Reusables/appBar.dart';
+
 class PaymentPage extends StatefulWidget {
   @override
   _PaymentPageState createState() => _PaymentPageState();
@@ -16,12 +18,13 @@ class PaymentPage extends StatefulWidget {
 
 class _PaymentPageState extends State<PaymentPage> {
   final plugin = PaystackPlugin();
+
   @override
   void initState() {
-       plugin.initialize(publicKey: TestData().paystackPublicKey);
-     super.initState();
+    plugin.initialize(publicKey: TestData().paystackPublicKey);
+    super.initState();
   }
-   
+
   Dialog successDialog(context) {
     return Dialog(
       shape: RoundedRectangleBorder(
@@ -67,7 +70,7 @@ class _PaymentPageState extends State<PaymentPage> {
       ),
     );
   }
- 
+
   Dialog errorDialog(context) {
     return Dialog(
       shape: RoundedRectangleBorder(
@@ -107,6 +110,7 @@ class _PaymentPageState extends State<PaymentPage> {
       ),
     );
   }
+
   void _showDialog() {
     // flutter defined function
     showDialog(
@@ -116,6 +120,7 @@ class _PaymentPageState extends State<PaymentPage> {
       },
     );
   }
+
   void _showErrorDialog() {
     // flutter defined function
     showDialog(
@@ -125,6 +130,7 @@ class _PaymentPageState extends State<PaymentPage> {
       },
     );
   }
+
   String _getReference() {
     String platform;
     if (Platform.isIOS) {
@@ -134,101 +140,117 @@ class _PaymentPageState extends State<PaymentPage> {
     }
     return 'ChargedFrom${platform}_${DateTime.now().millisecondsSinceEpoch}';
   }
-  
-  
+
   chargeCard() async {
     Charge charge = Charge()
-       ..amount = (booking.postBookingResponse.object.amount*100).toInt()
+      ..amount = (booking.postBookingResponse.object.amount * 100).toInt()
       //..amount = 10000*100
       ..reference = _getReference()
       // or ..accessCode = _getAccessCodeFrmInitialization()
       ..email = booking.booking.email;
-    CheckoutResponse response = await plugin.checkout(
+    CheckoutResponse response = await plugin
+        .checkout(
       context,
       method: CheckoutMethod.card, // Defaults to CheckoutMethod.selectable
       charge: charge,
       fullscreen: true,
-      logo:  Image.asset("images/LIBMOT LOGO 1.png", height: 35,),
-      
-    ).then((response) async{
-    if (response.status == true) {
-      await processPaystackPayment();
-      print(" this${response.message}");
-      _showDialog();
-    } else {
-      _showErrorDialog();
-    }});
+      logo: Image.asset(
+        "images/LIBMOT LOGO 1.png",
+        height: 35,
+      ),
+    )
+        .then((response) async {
+      if (response.status == true) {
+        await processPaystackPayment();
+        print(" this${response.message}");
+        _showDialog();
+      } else {
+        _showErrorDialog();
+      }
+    });
   }
-  Future <void> processPaystackPayment()async{
+
+  Future<void> processPaystackPayment() async {
     Map object = {
-      "email":booking.booking.email,
+      "email": booking.booking.email,
       "amount": booking.postBookingResponse.object.amount,
-      "referenceNumber": booking.postBookingResponse.object.bookingReferenceCode,
-      "PayStackReference": 5 ,
-    
+      "referenceNumber":
+          booking.postBookingResponse.object.bookingReferenceCode,
+      "PayStackReference": 5,
     };
     Response response = await ApiCalls().payStackPayment(object);
   }
+
   BookingRepository booking;
-  
+
   Widget build(BuildContext context) {
     final _width = MediaQuery.of(context).size.width;
     final _height = MediaQuery.of(context).size.height;
     booking = Provider.of<BookingRepository>(context);
     //int amounts = booking.postBookingResponse.object.amount.toInt();
     return Scaffold(
-      appBar: AppBar(
-        iconTheme: IconThemeData(
-          color: Colors.black,
-        ),
-        backgroundColor: Colors.grey[300],
-        title: Text(
-          "Select Payment Method",
-          style: textStyle2,
-        ),
-      ),
+      backgroundColor: Theme.of(context).primaryColor,
+      // appBar: AppBar(
+      //   iconTheme: IconThemeData(
+      //     color: Colors.black,
+      //   ),
+      //   backgroundColor: Colors.grey[300],
+      //   title: Text(
+      //     "Select Payment Method",
+      //     style: textStyle2,
+      //   ),
+      // ),
       body: Container(
         width: _width,
         height: _height,
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage("images/Lekki-Ikoyi Link Bridge 1.png"),
-            fit: BoxFit.cover,
-            colorFilter: ColorFilter.mode(
-                Color(0xFFFFFFFF).withOpacity(0.9), BlendMode.srcOver),
-          ),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.only(top: 10, bottom: 500),
-          child: Row(
-            children: [
-              Expanded(
-                child: GestureDetector(
-                  onTap: () {},
-                  child: Image.asset(
-                    "images/flutterwave.png",
-                    height: 70,
-                  ),
-                ),
-              ),
-              Expanded(
-                child: GestureDetector(
-                  onTap: () => chargeCard(),
+        child: Column(
+          children: [
+            myAppBar(
+              context,
+              "Select Payment Method",
+            ),
+            Expanded(
+              child: Container(
+                padding: const EdgeInsets.all(18.0),
+                decoration: BoxDecoration(
+                    color: Theme.of(context).scaffoldBackgroundColor,
+                    borderRadius:
+                        BorderRadius.vertical(top: Radius.circular(45))),
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 10, bottom: 500),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: GestureDetector(
+                          onTap: () {},
+                          child: Image.asset(
+                            "images/flutterwave.png",
+                            height: 60,
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        child: GestureDetector(
+                          onTap: () => chargeCard(),
 
-                    // Navigator.pushReplacement(
-                    //     context,
-                    //     MaterialPageRoute(
-                    //         builder: (BuildContext context) =>
-                    //             PaymentPaystack()));
-                  
-                  child: Image.asset(
-                    "images/paystack.png",
-                    height: 70,
+                          // Navigator.pushReplacement(
+                          //     context,
+                          //     MaterialPageRoute(
+                          //         builder: (BuildContext context) =>
+                          //             PaymentPaystack()));
+
+                          child: Image.asset(
+                            "images/paystack.png",
+                            height: 60,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

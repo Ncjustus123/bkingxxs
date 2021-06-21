@@ -8,7 +8,7 @@ class BookingConfirmationPage extends StatelessWidget {
       body: SafeArea(
         child: Column(
           children: [
-            Center(child: Text("Boooking Confirmed")),
+            Center(child: Text("Booking Confirmed")),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Text(

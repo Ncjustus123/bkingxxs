@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => CouponRepository()),
       ],
       child: GetMaterialApp(
-        defaultTransition:Transition.upToDown,
+        defaultTransition: Transition.upToDown,
         theme: ThemeData(
           scaffoldBackgroundColor: Color(0xFFEDF6FC),
           primarySwatch: Colors.red,
@@ -36,7 +36,10 @@ class MyApp extends StatelessWidget {
           accentColor: Color(0xFFE7AA07),
           fontFamily: 'Circular',
         ),
-
+        // darkTheme: ThemeData(
+        //   scaffoldBackgroundColor: Color(0xFF4D4D4D),
+        //   primaryColor: Color(0xFF62010D),
+        // ),
         debugShowCheckedModeBanner: false,
         title: "Libmot Mobile",
         initialRoute: "initial",

@@ -6,6 +6,7 @@ import 'package:Libmot_Mobile/models/get_buses_model.dart';
 import 'package:Libmot_Mobile/models/get_buses_response.dart';
 import 'package:Libmot_Mobile/models/get_route.dart';
 import 'package:Libmot_Mobile/models/post_booking_response.dart';
+import 'package:Libmot_Mobile/view/widgets/utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
@@ -25,6 +26,7 @@ class BookingRepository with ChangeNotifier {
 
   GetRouteModel getRouteModel;
   DestinationTerminalModel destinationTerminalModel;
+
   //GetBusesModel model;
   GetBusesResponseModel getBusesResponseModel;
   PostBookingResponse postBookingResponse;
@@ -37,6 +39,7 @@ class BookingRepository with ChangeNotifier {
   } // _adultCount++;
 
   notifyListeners();
+
   subtractAdult() {
     if (getBuses.numberOfAdults != 0) getBuses.numberOfAdults--;
     notifyListeners();
@@ -152,14 +155,15 @@ class BookingRepository with ChangeNotifier {
     final now = DateTime.now();
     return await showDatePicker(
         context: context,
-        initialDate: now.add(Duration(days: 1)), //tomorrow initial date
+        initialDate: now.add(Duration(days: 1)),
+        //tomorrow initial date
         firstDate: now,
-        lastDate: now.add(Duration(
-            days: 14)), //TODO days from firebase//open for only two weeks
+        lastDate: now.add(Duration(days: 14)),
+        //TODO days from firebase//open for only two weeks
         helpText: "Select travelling date");
   }
 
-  /*** 
+  /***
    * PASSENGER INFO CODE START
    */
 
@@ -179,11 +183,13 @@ class BookingRepository with ChangeNotifier {
 
   couponProceedButton(BuildContext context) async {
     if (!agreeTerms) {
-      final snackBar = SnackBar(
-          content: Text(
-              'You need to agree to our terms and conditions before you can proceed'));
-      ScaffoldMessenger.of(context).showSnackBar(snackBar);
-      return;
+      Dialogs.showErrorSnackBar('Oops!',
+          'You need to agree to our terms and conditions before you can proceed');
+      // final snackBar = SnackBar(
+      //     content: Text(
+      //         'You need to agree to our terms and conditions before you can proceed'));
+      // ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      return   ;
     }
 
     //TODO: CHECK IF TWENTY MINUTES HAVE NOT ELAPSED AND THE BOOKING REFERENCE IS AVAILABLE.
@@ -236,70 +242,70 @@ class BookingRepository with ChangeNotifier {
     );
   }
 
-  // payWithPaystack(BuildContext context) {
-  //   showDialog(context: context, builder: (context) => PaymentPaystack());
-  // }
+// payWithPaystack(BuildContext context) {
+//   showDialog(context: context, builder: (context) => PaymentPaystack());
+// }
 
-  // beginFlutterwavePayment(BuildContext context, String amount, String email,
-  //     String fullName, String txref, String phoneNumber) async {
-  //   final Flutterwave flutterwave = Flutterwave.forUIPayment(
-  //     context: context,
-  //     //encryptionKey: baseInstance.base.flutterwaveEncryptionKey,
-  //     encryptionKey: "26c03b274b07e6a19b179978",
-  //     //publicKey: baseInstance.base.flutterwavePublicKey,
-  //     publicKey: "FLWPUBK-add64679c55bac888696922e372cecb5-X",
-  //     currency: "NGN",
-  //     amount: "50",
-  //     email: email,
-  //     fullName: fullName,
-  //     txRef: txref,
-  //     isDebugMode: false,
-  //     phoneNumber: phoneNumber,
-  //     acceptCardPayment: true,
-  //     acceptUSSDPayment: true,
-  //     acceptAccountPayment: true,
-  //   );
+// beginFlutterwavePayment(BuildContext context, String amount, String email,
+//     String fullName, String txref, String phoneNumber) async {
+//   final Flutterwave flutterwave = Flutterwave.forUIPayment(
+//     context: context,
+//     //encryptionKey: baseInstance.base.flutterwaveEncryptionKey,
+//     encryptionKey: "26c03b274b07e6a19b179978",
+//     //publicKey: baseInstance.base.flutterwavePublicKey,
+//     publicKey: "FLWPUBK-add64679c55bac888696922e372cecb5-X",
+//     currency: "NGN",
+//     amount: "50",
+//     email: email,
+//     fullName: fullName,
+//     txRef: txref,
+//     isDebugMode: false,
+//     phoneNumber: phoneNumber,
+//     acceptCardPayment: true,
+//     acceptUSSDPayment: true,
+//     acceptAccountPayment: true,
+//   );
 
-  //   try {
-  //     final ChargeResponse response =
-  //         await flutterwave.initializeForUiPayments();
-  //     if (response == null) {
-  //       // user didn't complete the transaction.
-  //       print("transaction not complete");
-  //     } else {
-  //       final isSuccessful = checkPaymentIsSuccessful(
-  //         response,
-  //         "NGN",
-  //         amount,
-  //         txref,
-  //       );
-  //       if (isSuccessful) {
-  //         print("Successful");
-  //         // provide value to customer
-  //       } else {
-  //         // check message
-  //         print(response.message);
-  //         // check status
-  //         print(response.status);
+//   try {
+//     final ChargeResponse response =
+//         await flutterwave.initializeForUiPayments();
+//     if (response == null) {
+//       // user didn't complete the transaction.
+//       print("transaction not complete");
+//     } else {
+//       final isSuccessful = checkPaymentIsSuccessful(
+//         response,
+//         "NGN",
+//         amount,
+//         txref,
+//       );
+//       if (isSuccessful) {
+//         print("Successful");
+//         // provide value to customer
+//       } else {
+//         // check message
+//         print(response.message);
+//         // check status
+//         print(response.status);
 
-  //         // check processor error
-  //         print(response.data.processorResponse);
-  //       }
-  //     }
-  //   } catch (error, stacktrace) {
-  //     // handleError(error);
-  //     print(error);
-  //     print(stacktrace);
-  //   }
-  // }
+//         // check processor error
+//         print(response.data.processorResponse);
+//       }
+//     }
+//   } catch (error, stacktrace) {
+//     // handleError(error);
+//     print(error);
+//     print(stacktrace);
+//   }
+// }
 
-  // bool checkPaymentIsSuccessful(final ChargeResponse response, String currency,
-  //     String amount, String txref) {
-  //   return response.data.status == FlutterwaveConstants.SUCCESSFUL &&
-  //       response.data.currency == currency &&
-  //       response.data.amount == amount &&
-  //       response.data.txRef == txref;
-  // }
+// bool checkPaymentIsSuccessful(final ChargeResponse response, String currency,
+//     String amount, String txref) {
+//   return response.data.status == FlutterwaveConstants.SUCCESSFUL &&
+//       response.data.currency == currency &&
+//       response.data.amount == amount &&
+//       response.data.txRef == txref;
+// }
 }
 
 //ios
