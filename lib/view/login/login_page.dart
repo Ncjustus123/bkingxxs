@@ -102,7 +102,6 @@ class _LoginPageState extends State<LoginPage> {
                                 ],
                               ),
                             ),
-
                             SizedBox(
                               height: 20,
                             ),
@@ -216,7 +215,9 @@ class _LoginPageState extends State<LoginPage> {
               prefixIcon: Icon(Icons.lock_outlined, color: Colors.grey),
               suffixIcon: IconButton(
                 icon: Icon(
-                  _passwordVisible ? Icons.visibility_off_outlined : Icons.visibility_outlined,
+                  _passwordVisible
+                      ? Icons.visibility_off_outlined
+                      : Icons.visibility_outlined,
                   color: Colors.grey,
                 ),
                 onPressed: () {
@@ -251,17 +252,16 @@ class _LoginPageState extends State<LoginPage> {
   );
 
   onLoginPressed(UserRepository user, context) async {
-    Navigator.of(context).pushNamed(dashboardPage);
-
-    // if (_formKeyLogin.currentState.validate()) {
-    //   await user.loginRepo(emailController.text, passwordController.text);
-    //   if (user.loggedInStatus == LoggedInStatus.LoggedIn) {
-    //     Navigator.of(context).pushNamed(dashboardPage);
-    //   } else {
-    //     print("An errorOccured");
-    //   }
-    // } else {
-    //   print("validation not done");
-    // }
+    if (_formKeyLogin.currentState.validate()) {
+      await user.loginRepo(emailController.text, passwordController.text);
+      if (user.loggedInStatus == LoggedInStatus.LoggedIn) {
+        Navigator.of(context).pushNamed(dashboardPage);
+      } else {
+        print("An errorOccured");
+      }
+    } else {
+      print("validation not done");
+    }
+    
   }
 }

@@ -3,7 +3,9 @@ import 'package:Libmot_Mobile/Reusables/buttons.dart';
 import 'package:Libmot_Mobile/Reusables/constants.dart';
 import 'package:Libmot_Mobile/Reusables/select_route_modal_sheet.dart';
 import 'package:Libmot_Mobile/Reusables/text_field.dart';
+import 'package:Libmot_Mobile/models/get_route.dart';
 import 'package:Libmot_Mobile/repository/booking_repository.dart';
+import 'package:after_layout/after_layout.dart';
 import 'package:bubble_tab_indicator/bubble_tab_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -11,31 +13,43 @@ import 'package:intl/intl.dart';
 
 import '../../repository/booking_repository.dart';
 import 'select_bus_page.dart';
+import 'package:Libmot_Mobile/repository/booking_repository.dart';
+import 'package:Libmot_Mobile/view/widgets/appBar_passenger_info.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:provider/provider.dart';
 
 class BookASeatPage extends StatefulWidget {
   @override
   _BookASeatPageState createState() => _BookASeatPageState();
 }
 
-class _BookASeatPageState extends State<BookASeatPage> {
-  // with AfterLayoutMixin<BookASeatPage> {
+class _BookASeatPageState extends State<BookASeatPage>with AfterLayoutMixin <BookASeatPage> {
+  
   final dateController = TextEditingController();
-
+  String direction;
   final adultController = TextEditingController();
   final childrenController = TextEditingController();
   TextEditingController arrivalController = TextEditingController();
+  TextEditingController toController = TextEditingController();
   TextEditingController departureController = TextEditingController();
-TextEditingController fromController = TextEditingController();
+  TextEditingController fromController = TextEditingController();
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
   BookingRepository booking;
+  RouteItems route;
+  List<String> options;
 
   @override
   Widget build(BuildContext context) {
-    // booking = Provider.of<BookingRepository>(context);
+    booking = Provider.of<BookingRepository>(context);
     final _width = MediaQuery.of(context).size.width;
     final _height = MediaQuery.of(context).size.height;
-
+    options = (booking.getRouteModel == null)
+        ? []
+        : booking.getRouteModel.object.items
+            .map((RouteItems route) => route.name)
+            .toList();
     //TODO: show loading screen
     return Scaffold(
       key: _scaffoldKey,
@@ -151,7 +165,7 @@ TextEditingController fromController = TextEditingController();
               //   onchange: (String name) {
               //     RouteItems route = booking.getRouteModel.object.items
               //         .singleWhere((element) => element.name == name);
-              //
+
               //     booking.getBuses.departureTerminalId = route.id;
               //     booking.getDestinationTerminals(
               //         booking.getBuses.departureTerminalId);
@@ -194,12 +208,15 @@ TextEditingController fromController = TextEditingController();
                           SizedBox(height: 20),
                           InkWell(
                             onTap: () {
+                              setState(() {
+                                direction = 'from';
+                              });
                               showModalBottomSheet(
                                 context: context,
                                 isScrollControlled: true,
                                 backgroundColor: Colors.transparent,
-                                builder: (context) =>
-                                    SingleChildScrollView(child: BottomRouteSheet()),
+                                builder: (context) => SingleChildScrollView(
+                                    child: bottomRouteSheet(context)),
                               );
                             },
                             child: InputFormField(
@@ -210,9 +227,25 @@ TextEditingController fromController = TextEditingController();
                               controller: fromController,
                             ),
                           ),
-                          InputFormField(
-                            suffixIcon: Icon(Icons.place),
-                            label: 'To',
+                          InkWell(
+                            onTap: () {
+                              setState(() {
+                                direction = 'to';
+                              });
+                              showModalBottomSheet(
+                                context: context,
+                                isScrollControlled: true,
+                                backgroundColor: Colors.transparent,
+                                builder: (context) => SingleChildScrollView(
+                                    child: bottomRouteSheet(context)),
+                              );
+                            },
+                            child: InputFormField(
+                              suffixIcon: Icon(Icons.place),
+                              label: 'To',
+                              enabled: false,
+                              controller: toController,
+                            ),
                           ),
                           InkWell(
                             onTap: () async {
@@ -521,6 +554,280 @@ TextEditingController fromController = TextEditingController();
 //   );
 // }
 
-}
+  Widget bottomRouteSheet(BuildContext context) {
+    booking = Provider.of<BookingRepository>(context);
 
+    //int index = booking.getRouteModel.object.items.length;
+    final _width = MediaQuery.of(context).size.width;
+    final _height = MediaQuery.of(context).size.height;
+    //int type;
+    return Container(
+      padding:
+          EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+      height: _height * 0.6,
+      decoration: BoxDecoration(
+        color: Colors.transparent,
+      ),
+      child: buildDropList(),
+    );
+  }
+
+  buildDropList() {
+    return Container(
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.vertical(top: Radius.circular(25)),
+          color: Theme.of(context).scaffoldBackgroundColor),
+      child: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              direction == 'from' ? 'Departure location' : 'Arrival location',
+              style: TextStyle(fontWeight: FontWeight.w700, fontSize: 20),
+            ),
+          ),
+          Divider(),
+          Expanded(
+            child: SingleChildScrollView(
+              child: Padding(
+                padding: EdgeInsets.symmetric(vertical: 5, horizontal: 8),
+                child: Column(
+                  children: List<Widget>.generate(options.length, (index) {
+                    return new ListTile(
+                      onTap: () => direction == 'from'
+                          ? selectFromOption(options[index])
+                          : selectToOption(options[index]),
+                      title: Text(
+                        options[index],
+                        softWrap: true,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          fontSize: 15,
+                          fontWeight: direction == 'from'
+                              ? selectedFrom == options[index]
+                                  ? FontWeight.w600
+                                  : FontWeight.w500
+                              : selectedTo == options[index]
+                                  ? FontWeight.w600
+                                  : FontWeight.w500,
+                        ),
+                      ),
+                      trailing: direction == 'from'
+                          ? selectedFrom == options[index]
+                              ? Icon(Icons.check,
+                                  size: 15,
+                                  color: Theme.of(context).primaryColor)
+                              : Text('')
+                          : selectedTo == options[index]
+                              ? Icon(Icons.check,
+                                  size: 15,
+                                  color: Theme.of(context).primaryColor)
+                              : Text(''),
+                    );
+                  }),
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  String selectedFrom = '';
+  String selectedTo = '';
+  void selectFromOption(String option) {
+    setState(() {
+      selectedFrom = option;
+      fromController.text = selectedFrom;
+    });
+    print(selectedFrom);
+    Get.back();
+  }
+
+  void selectToOption(String option) {
+    setState(() {
+      selectedTo = option;
+
+      toController.text = selectedTo;
+    });
+    Get.back();
+    print(selectedTo);
+  }
+
+  @override
+  void afterFirstLayout(BuildContext context) {
+    // TODO: implement afterFirstLayout
+    booking.getAllRoute();
+  }
 //bottomSheet(BuildContext context, double _height, double _width) {
+}
+// class BottomRouteSheet extends StatefulWidget {
+//   BookingRepository booking;
+
+//   //final List <String>  items;
+
+//   @override
+//   _BottomRouteSheetState createState() => _BottomRouteSheetState();
+// }
+
+// class _BottomRouteSheetState extends State<BottomRouteSheet> {
+//   @override
+//   Widget build(BuildContext context) {
+//     booking = Provider.of<BookingRepository>(context);
+
+//     //int index = booking.getRouteModel.object.items.length;
+//     final _width = MediaQuery.of(context).size.width;
+//     final _height = MediaQuery.of(context).size.height;
+//     //int type;
+//     return Container(
+//       padding:
+//           EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+//       height: _height * 0.6,
+//       decoration: BoxDecoration(
+//         color: Colors.transparent,
+//       ),
+//       child: fromController?buildDropList():buildDestinationDropList(),
+//     );
+//   }
+
+//   buildDropList() {
+//     return Container(
+//       decoration: BoxDecoration(
+//           borderRadius: BorderRadius.vertical(top: Radius.circular(25)),
+//           color: Theme.of(context).scaffoldBackgroundColor),
+//       child: Column(
+//         children: [
+//           Padding(
+//             padding: const EdgeInsets.all(15.0),
+//             child: InkWell(
+//               onTap: () {
+//                 Get.back();
+//               },
+//               child: Container(
+//                 width: 50,
+//                 height: 4,
+//                 color: Theme.of(context).primaryColor,
+//               ),
+//             ),
+//           ),
+//           Text(
+//             'Departures',
+//             style: TextStyle(fontWeight: FontWeight.w700, fontSize: 20),
+//           ),
+//           Divider(),
+//           Expanded(
+//             child: SingleChildScrollView(
+//               child: Padding(
+//                 padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+//                 child: Column(
+//                   children: List<Widget>.generate(options.length, (index) {
+//                     return new ListTile(
+//                       onTap: () => selectOption(options[index]),
+//                       title: Text(
+//                         options[index],
+//                         softWrap: true,
+//                         overflow: TextOverflow.ellipsis,
+//                         style: TextStyle(
+//                           fontSize: 15,
+//                           fontWeight: selected == options[index]
+//                               ? FontWeight.w600
+//                               : FontWeight.w500,
+//                         ),
+//                       ),
+//                       leading: selected == options[index]
+//                           ? Icon(Icons.check,
+//                               size: 15, color: Theme.of(context).primaryColor)
+//                           : Text(''),
+//                     );
+//                   }),
+//                 ),
+//               ),
+//             ),
+//           ),
+//         ],
+//       ),
+//     );
+//   }
+
+//   buildDestinationDropList() {
+//     return Container(
+//       decoration: BoxDecoration(
+//           borderRadius: BorderRadius.vertical(top: Radius.circular(25)),
+//           color: Theme.of(context).scaffoldBackgroundColor),
+//       child: Padding(
+//         padding: const EdgeInsets.symmetric(horizontal: 15.0),
+//         child: Column(
+//           children: [
+//             Padding(
+//               padding: const EdgeInsets.all(15.0),
+//               child: InkWell(
+//                 onTap: () {
+//                   Get.back();
+//                 },
+//                 child: Container(
+//                   width: 50,
+//                   height: 4,
+//                   color: Theme.of(context).primaryColor,
+//                 ),
+//               ),
+//             ),
+//             Divider(),
+//             Text(
+//               'Destination',
+//               style: TextStyle(fontWeight: FontWeight.w700, fontSize: 20),
+//             ),
+//             SizedBox(height: 15),
+//             Expanded(
+//               child:SingleChildScrollView(
+//               child: Padding(
+//                 padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+//                 child: Column(
+//                   children: List<Widget>.generate(options.length, (index) {
+//                     return new ListTile(
+//                       onTap: () => selectOption(options[index]),
+//                       title: Text(
+//                         options[index],
+//                         softWrap: true,
+//                         overflow: TextOverflow.ellipsis,
+//                         style: TextStyle(
+//                           fontSize: 15,
+//                           fontWeight: selected == options[index]
+//                               ? FontWeight.w600
+//                               : FontWeight.w500,
+//                         ),
+//                       ),
+//                       leading: selected == options[index]
+//                           ? Icon(Icons.check,
+//                               size: 15, color: Theme.of(context).primaryColor)
+//                           : Text(''),
+//                     );
+//                   }),
+//                 ),
+//               ),
+//             ),
+//             ),
+//           ],
+//         ),
+//       ),
+//     );
+//   }
+
+//   List<String> options = [
+//     'bayeyey',
+//     'bayeyey1',
+//     'bayeyey2',
+//     'bayeyey4',
+//     'bayeyey5',
+//     'bayeye4y',
+//     'bayeyey8',
+//   ];
+//   String selected = '';
+
+//   void selectOption(String option) {
+//     Get.back();
+//     setState(() {
+//       selected = option;
+//     });
+//   }
+// }
