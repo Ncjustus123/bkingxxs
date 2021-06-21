@@ -81,8 +81,10 @@ dialog(context,String title, content) {
 class ButtonReusable extends StatelessWidget {
   final Function onpressed;
   final String name;
+  final Color color;
+  final Color textcolor;
 
-  const ButtonReusable({this.onpressed, this.name});
+  const ButtonReusable({this.onpressed, this.name,this.color,this.textcolor});
 
   @override
   Widget build(BuildContext context) {
@@ -92,12 +94,12 @@ class ButtonReusable extends StatelessWidget {
       child: ElevatedButton(
         child: Text(
           name,
-          style: TextStyle(color: Colors.white),
+          style: TextStyle(color: textcolor),
         ),
         onPressed: onpressed,
         style: ButtonStyle(
           backgroundColor:
-              MaterialStateProperty.all(Theme.of(context).primaryColor),
+              MaterialStateProperty.all(color),
           shape: MaterialStateProperty.all<RoundedRectangleBorder>(
             RoundedRectangleBorder(
               borderRadius: BorderRadius.only(

@@ -4,9 +4,9 @@ import 'package:Libmot_Mobile/Reusables/ui_reusables.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class ForgotPassword extends StatelessWidget {
-  final passenger = TextEditingController();
-  final password = TextEditingController();
+class ChangePassword extends StatelessWidget {
+  final oldpassword = TextEditingController();
+  final newpassword = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +48,7 @@ class ForgotPassword extends StatelessWidget {
                   ),
                   Padding(
                     padding: const EdgeInsets.only(right: 90),
-                    child: Text("Forgot Password",
+                    child: Text("Change Password",
                         style: TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.w500,
@@ -70,23 +70,23 @@ class ForgotPassword extends StatelessWidget {
                           BorderRadius.vertical(top: Radius.circular(45))),
                   child: Column(children: [
                     InputFormField(
-                      controller: passenger,
-                      prefixIcon: Icon(Icons.email_outlined),
-                      label: 'Email',
+                      controller: oldpassword,
+                      prefixIcon: Icon(Icons.lock_outline),
+                      label: 'Old Password',
                       validator: (value) {
                         if (value.isEmpty) {
-                          return 'Please input a Email address';
+                          return 'Please fill field';
                         }
                         return null;
                       },
                     ),
                     InputFormField(
-                      controller: password,
+                      controller: newpassword,
                       prefixIcon: Icon(Icons.lock_outline),
-                      label: 'Password',
+                      label: 'New Password',
                       validator: (value) {
                         if (value.isEmpty) {
-                          return 'Please input a password';
+                          return 'Please fill field';
                         }
                         return null;
                       },

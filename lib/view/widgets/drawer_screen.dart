@@ -1,6 +1,7 @@
 import 'package:Libmot_Mobile/repository/user_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:Libmot_Mobile/view/login/profile_page.dart';
 
 class DrawerScreen extends StatefulWidget {
   @override
@@ -19,25 +20,36 @@ class _DrawerScreenState extends State<DrawerScreen> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             Padding(
-              padding: const EdgeInsets.only(top:30.0),
+              padding: const EdgeInsets.only(top: 30.0),
               child: Row(
                 children: <Widget>[
-                  Container(
-                    decoration:
-                        BoxDecoration(shape: BoxShape.circle, color: Colors.grey),
-                    child: Padding(
-                      padding: const EdgeInsets.all(12.0),
-                      child: Center(
-                          child: Text(
-                        'DP',
-                        style: TextStyle(fontSize: 32, color: Colors.white),
-                      )),
+                  GestureDetector(
+                    onTap: (){
+
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                          shape: BoxShape.circle, color: Colors.grey),
+                      child: Padding(
+                        padding: const EdgeInsets.all(12.0),
+                        child: Center(
+                            child: Text(
+                          'DP',
+                          style: TextStyle(fontSize: 32, color: Colors.white),
+                        )),
+                      ),
                     ),
                   ),
                   SizedBox(width: 10),
-                  Text(
-                    'Hello! Chinedu',
-                    style: TextStyle(color: Colors.black87, fontSize: 22),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(context,MaterialPageRoute(
+                          builder: (BuildContext context) => ProfilePage()));
+                    },
+                    child: Text(
+                      'Hello! Chinedu',
+                      style: TextStyle(color: Colors.black87, fontSize: 22),
+                    ),
                   ),
                 ],
               ),
