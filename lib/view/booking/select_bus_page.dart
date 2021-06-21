@@ -2,11 +2,8 @@ import 'package:Libmot_Mobile/Reusables/appBar.dart';
 import 'package:Libmot_Mobile/Reusables/constants.dart';
 import 'package:Libmot_Mobile/models/get_buses_response.dart';
 import 'package:Libmot_Mobile/repository/booking_repository.dart';
-import 'package:Libmot_Mobile/view/widgets/select_bus_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:provider/provider.dart';
-
 import 'select_seat_page.dart';
 
 // ignore: must_be_immutable
@@ -27,33 +24,23 @@ class SelectBusPage extends StatelessWidget {
     //     : bus = booking.getBusesResponseModel.object.arrivals;
 
     return Scaffold(
-        // appBar: AppBar(
-        //   title: Text(
-        //     "Available ",
-        //     style: textStyle1,
-        //   ),
-        //   elevation: 0,
-        //   backgroundColor: Color(0xFFFFFFFF).withOpacity(0.9),
-        //   leading: Icon(Icons.arrow_back_rounded, color: Colors.black),
-        // ),
         backgroundColor: Theme.of(context).primaryColor,
         body: Container(
           width: _width,
           height: _height,
           child: Column(
             children: [
-              myAppBar(context,'Available Buses'),
-
+              myAppBar(context, 'Available Buses'),
               Expanded(
                 child: Container(
                   padding: const EdgeInsets.all(15.0),
                   decoration: BoxDecoration(
                       color: Theme.of(context).scaffoldBackgroundColor,
                       borderRadius:
-                      BorderRadius.vertical(top: Radius.circular(45))),
+                          BorderRadius.vertical(top: Radius.circular(45))),
                   child: ListView.builder(
                       itemCount: 4,
-                     padding: EdgeInsets.all(0),
+                      padding: EdgeInsets.all(0),
                       scrollDirection: Axis.vertical,
                       shrinkWrap: true,
                       itemBuilder: (context, index) {
@@ -81,8 +68,8 @@ class SelectBusPage extends StatelessWidget {
                                               fontWeight: FontWeight.w600,
                                               shadows: <Shadow>[
                                                 Shadow(
-                                                    color:
-                                                        Colors.black.withOpacity(0.4),
+                                                    color: Colors.black
+                                                        .withOpacity(0.4),
                                                     offset: Offset(0.3, 0.4))
                                               ]),
                                         ),
@@ -101,7 +88,8 @@ class SelectBusPage extends StatelessWidget {
                                 Row(children: [
                                   Expanded(
                                     child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.center,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
                                         children: [
                                           Image.asset(
                                             'images/haice_2020.png',
@@ -135,7 +123,8 @@ class SelectBusPage extends StatelessWidget {
                                   ),
                                   Expanded(
                                     child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: [
                                           Padding(
                                             padding: const EdgeInsets.only(
@@ -148,8 +137,8 @@ class SelectBusPage extends StatelessWidget {
                                               style: TextStyle(
                                                   fontSize: 15,
                                                   fontWeight: FontWeight.w500,
-                                                  decoration:
-                                                      TextDecoration.lineThrough,
+                                                  decoration: TextDecoration
+                                                      .lineThrough,
                                                   decorationColor: Colors.red),
                                             ),
                                           ),
@@ -186,7 +175,7 @@ class SelectBusPage extends StatelessWidget {
                                                 left: 50),
                                             child: ElevatedButton(
                                               onPressed: () {
-                                                Get.to(()=>SelectSeatPage());
+                                                Get.to(() => SelectSeatPage());
                                                 // Navigator.of(context)
                                                 //     .pushNamed(selectSeat, arguments: bus);
                                               },
@@ -195,11 +184,13 @@ class SelectBusPage extends StatelessWidget {
                                                 backgroundColor:
                                                     MaterialStateProperty.all(
                                                         Colors.red),
-                                                shape: MaterialStateProperty.all<
-                                                    RoundedRectangleBorder>(
+                                                shape:
+                                                    MaterialStateProperty.all<
+                                                        RoundedRectangleBorder>(
                                                   RoundedRectangleBorder(
                                                     borderRadius:
-                                                        BorderRadius.circular(5.0),
+                                                        BorderRadius.circular(
+                                                            5.0),
                                                   ),
                                                 ),
                                               ),

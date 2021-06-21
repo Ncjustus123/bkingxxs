@@ -14,9 +14,11 @@ class InputFormField extends StatelessWidget {
     this.textCapitalization,
     this.keyboardType,
     this.inputFormatters,
+    this.ontap,
   });
 
   final Widget suffixIcon;
+  final dynamic ontap;
   final Widget prefixIcon;
   final Function onSaved;
   final Function onChanged;
@@ -34,6 +36,7 @@ class InputFormField extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 5.0, vertical: 12),
       child: TextFormField(
+        onTap: ontap,
         inputFormatters: inputFormatters,
         enabled: enabled,
         controller: controller,

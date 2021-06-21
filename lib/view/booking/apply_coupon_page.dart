@@ -24,15 +24,6 @@ class _ApplyCouponState extends State<ApplyCoupon> {
     final _height = MediaQuery.of(context).size.height;
     return Scaffold(
       backgroundColor: Theme.of(context).primaryColor,
-
-      // appBar: AppBar(
-      //   title: Text(
-      //     "Apply Coupon",
-      //   ),
-      //   centerTitle: true,
-      //   backgroundColor: Colors.black,
-      //   automaticallyImplyLeading: false,
-      // ),
       body: Container(
         width: _width,
         height: _height,
@@ -130,7 +121,8 @@ class _ApplyCouponState extends State<ApplyCoupon> {
                     SizedBox(height: 10),
                     ButtonReusable(
                       onpressed: () async {
-                        repository.couponProceedButton(context);
+                        Navigator.of(context).pushNamed("/paymentpage");
+                        //repository.couponProceedButton(context);
                       },
                       name: "Proceed to payment",
                     ),

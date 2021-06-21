@@ -1,3 +1,4 @@
+import 'package:Libmot_Mobile/Reusables/appBar.dart';
 import 'package:Libmot_Mobile/Reusables/constants.dart';
 import 'package:Libmot_Mobile/Reusables/text_field.dart';
 import 'package:Libmot_Mobile/repository/hire_bus_repository.dart';
@@ -41,43 +42,8 @@ class _BusHirePageState extends State<BusHirePage> {
       width: _width,
       height: _height,
       child: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.fromLTRB(20, 40, 20, 20),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                InkWell(
-                  onTap: () {
-                    Get.back();
-                  },
-                  child: Container(
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: Colors.white,
-                      // border: Border.all(width: 0.8, color: Colors.black),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(7.0),
-                      child: Icon(
-                        Icons.west,
-                        color: Theme.of(context).primaryColor,
-                        size: 20,
-                      ),
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(right:150),
-                  child: Text("Hire A Bus",
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.w500,
-                          fontSize: 15)),
-                ),
-              ],
-            ),
-          ),
+        children: [ 
+          myAppBar(context, 'Hire A Bus'),
           Expanded(
             child: GestureDetector(
               onTap: () {

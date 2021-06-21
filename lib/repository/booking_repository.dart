@@ -205,43 +205,11 @@ class BookingRepository with ChangeNotifier {
 
       //show dialog box
       Navigator.of(context).pushNamed("/paymentpage");
-      //paymentOptionDialog(context);
+     
     }
   }
 
-  paymentOptionDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (context) => Dialog(
-        child: Container(
-          height: 200,
-          child: Column(
-            children: [
-              ElevatedButton(
-                  child: Text("Pay with Paystack"),
-                  onPressed: () {
-                    // Navigator.pop(context);
-                    // payWithPaystack(context);
-                  }),
-              ElevatedButton(
-                  child: Text("Pay with Flutterwave"),
-                  onPressed: () {
-                    // this.beginFlutterwavePayment(
-                    //     context,
-                    //     postBookingResponse.object.amount.toString(),
-                    //     booking.email,
-                    //     "${booking.lastName} ${booking.firstName}",
-                    //     postBookingResponse.object.bookingReferenceCode,
-                    //     booking.phoneNumber);
-                  }),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
+  
 // payWithPaystack(BuildContext context) {
 //   showDialog(context: context, builder: (context) => PaymentPaystack());
 // }

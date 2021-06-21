@@ -1,6 +1,8 @@
 import 'package:Libmot_Mobile/Reusables/constants.dart';
 import 'package:Libmot_Mobile/Reusables/ui_reusables.dart';
+import 'package:Libmot_Mobile/view/booking/book_a_seat.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class DashBoardScreen extends StatefulWidget {
   @override
@@ -131,8 +133,7 @@ class _DashBoardScreen extends State<DashBoardScreen> {
                                 color: Color(0xFFB8230B),
                                 title: 'Ticket Booking',
                                 onTap: () {
-                                  Navigator.of(context)
-                                      .pushNamed(getTicketPage);
+                                      Get.to(()=>BookASeatPage());
                                 },
                                 icon: Icon(
                                   Icons.airport_shuttle_outlined,

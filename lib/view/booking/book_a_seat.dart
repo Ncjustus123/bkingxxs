@@ -10,8 +10,10 @@ import 'package:Libmot_Mobile/repository/booking_repository.dart';
 import 'package:after_layout/after_layout.dart';
 import 'package:bubble_tab_indicator/bubble_tab_indicator.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:Libmot_Mobile/Reusables/select_route_modal_sheet.dart';
 import 'package:provider/provider.dart';
 
 import '../../repository/booking_repository.dart';
@@ -30,7 +32,7 @@ class _BookASeatPageState extends State<BookASeatPage> {
   final childrenController = TextEditingController();
   TextEditingController arrivalController = TextEditingController();
   TextEditingController departureController = TextEditingController();
-
+TextEditingController fromController = TextEditingController();
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
   BookingRepository booking;
@@ -197,9 +199,23 @@ class _BookASeatPageState extends State<BookASeatPage> {
                       child: Column(
                         children: [
                           SizedBox(height: 20),
-                          InputFormField(
-                            suffixIcon: Icon(Icons.place),
-                            label: 'From',
+                          InkWell(
+                            onTap: () {
+                              showModalBottomSheet(
+                                context: context,
+                                isScrollControlled: true,
+                                backgroundColor: Colors.transparent,
+                                builder: (context) =>
+                                    SingleChildScrollView(child: BottomRouteSheet()),
+                              );
+                            },
+                            child: InputFormField(
+                              suffixIcon: Icon(Icons.place),
+                              label: 'From',
+                              keyboardType: null,
+                              enabled: false,
+                              controller: fromController,
+                            ),
                           ),
                           InputFormField(
                             suffixIcon: Icon(Icons.place),
@@ -317,9 +333,8 @@ class _BookASeatPageState extends State<BookASeatPage> {
                                 context: context,
                                 isScrollControlled: true,
                                 backgroundColor: Colors.transparent,
-                                builder: (context) => SingleChildScrollView(
-                                  child: BottomCard()
-                                ),
+                                builder: (context) =>
+                                    SingleChildScrollView(child: BottomCard()),
                               );
                             },
                           ),
@@ -349,13 +364,11 @@ class _BookASeatPageState extends State<BookASeatPage> {
                           SizedBox(height: 15),
                           ButtonReusable(
                             onpressed: () async {
-                              Get.to(()=>SelectBusPage());
-
+                              Get.to(() => SelectBusPage());
                             },
                             name: "Search",
                           ),
                           SizedBox(height: 20),
-
                         ],
                       ),
                     ),
