@@ -1,7 +1,9 @@
 import 'package:Libmot_Mobile/Reusables/constants.dart';
 import 'package:Libmot_Mobile/Reusables/ui_reusables.dart';
 import 'package:Libmot_Mobile/repository/user_repository.dart';
+import 'package:Libmot_Mobile/view/widgets/utils.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:provider/provider.dart';
 
 // ignore: must_be_immutable
@@ -252,16 +254,27 @@ class _LoginPageState extends State<LoginPage> {
   );
 
   onLoginPressed(UserRepository user, context) async {
+    showLoading(
+        progressColor: Colors.red,
+        indicatorColor: Colors.red,
+        backgroundColor: Colors.white,
+        textColor: Colors.red,
+        indicatorType: EasyLoadingIndicatorType.foldingCube,
+        status: "Submitting.....");
     if (_formKeyLogin.currentState.validate()) {
       await user.loginRepo(emailController.text, passwordController.text);
       if (user.loggedInStatus == LoggedInStatus.LoggedIn) {
         Navigator.of(context).pushNamed(dashboardPage);
+        EasyLoading.dismiss();
+        Dialogs.showSuccessSnackBar('Successful!', "You are welcome back");
       } else {
         print("An errorOccured");
+        EasyLoading.dismiss();
+        Dialogs.showErrorSnackBar('Oops!', "invalid credential");
       }
     } else {
       print("validation not done");
+      // EasyLoading.dismiss();
     }
-    
   }
 }

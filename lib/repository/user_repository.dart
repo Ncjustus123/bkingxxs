@@ -5,6 +5,8 @@ import 'package:Libmot_Mobile/models/get_token_model.dart';
 import 'package:Libmot_Mobile/models/profile_model.dart';
 import 'package:Libmot_Mobile/models/sign_up_model.dart';
 import 'package:Libmot_Mobile/resources/database/user_preference.dart';
+import 'package:Libmot_Mobile/view/widgets/utils.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:http/http.dart';
 
 import '../resources/networking/api_calls.dart';
@@ -62,6 +64,7 @@ class UserRepository with ChangeNotifier {
     // notifyListeners();
 
     final response = await _api.login(email, password);
+    print(response.body);
     if (response.statusCode == 200) {
       final Map<String, dynamic> responseData = json.decode(response.body);
       GetTokenResponse tokenData = GetTokenResponse.fromJson(responseData);
@@ -76,7 +79,11 @@ class UserRepository with ChangeNotifier {
         _loggedInStatus = LoggedInStatus.LoggedIn;
         notifyListeners();
       }
+    } else if (response.statusCode == 400) {
+      EasyLoading.dismiss();
+      
     } else {
+      EasyLoading.dismiss();
       _loggedInStatus = LoggedInStatus.LoggedOut;
       notifyListeners();
     }
@@ -92,21 +99,20 @@ class UserRepository with ChangeNotifier {
       password = "Lme@onl1n3";
     } else {
       email = "ios@libmot.com";
-      password = "Lme@onl1n3";   // TODO password not yet confirmed.
+      password = "Lme@onl1n3"; // TODO password not yet confirmed.
     }
 
     final response = await _api.login(email, password);
     if (response.statusCode == 200) {
       final Map<String, dynamic> responseData = json.decode(response.body);
-       tokenData = GetTokenResponse.fromJson(responseData);
+      tokenData = GetTokenResponse.fromJson(responseData);
 
       if (tokenData.code == "200") {
         final preference = await UserPreference.getInstance();
         preference.saveToken(tokenData);
       }
     }
-          return tokenData;
-
+    return tokenData;
   }
 
   Future<Profile> getProfile(String token) async {

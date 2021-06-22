@@ -24,9 +24,7 @@ class _DrawerScreenState extends State<DrawerScreen> {
               child: Row(
                 children: <Widget>[
                   GestureDetector(
-                    onTap: (){
-
-                    },
+                    onTap: () {},
                     child: Container(
                       decoration: BoxDecoration(
                           shape: BoxShape.circle, color: Colors.grey),
@@ -43,8 +41,11 @@ class _DrawerScreenState extends State<DrawerScreen> {
                   SizedBox(width: 10),
                   GestureDetector(
                     onTap: () {
-                      Navigator.push(context,MaterialPageRoute(
-                          builder: (BuildContext context) => ProfilePage()));
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (BuildContext context) =>
+                                  ProfilePage()));
                     },
                     child: Text(
                       'Hello! Chinedu',
@@ -159,15 +160,22 @@ class _DrawerScreenState extends State<DrawerScreen> {
               children: [
                 Padding(
                   padding: const EdgeInsets.only(bottom: 0),
-                  child: Container(
-                    width: 150,
-                    decoration: BoxDecoration(color: Colors.black),
-                    child: Padding(
-                      padding: const EdgeInsets.all(15.0),
-                      child: Center(
-                        child: Text(
-                          'Log out',
-                          style: TextStyle(color: Colors.white),
+                  child: InkWell(
+                    onTap: (){
+                      user.logout();
+                    if (user.loggedInStatus == LoggedInStatus.LoggedOut) {
+                       Navigator.of(context).pushNamed("/welcome");
+                    }},
+                    child: Container(
+                      width: 150,
+                      decoration: BoxDecoration(color: Colors.black),
+                      child: Padding(
+                        padding: const EdgeInsets.all(15.0),
+                        child: Center(
+                          child: Text(
+                            'Log out',
+                            style: TextStyle(color: Colors.white),
+                          ),
                         ),
                       ),
                     ),

@@ -5,6 +5,7 @@ import 'package:Libmot_Mobile/repository/hire_bus_repository.dart';
 import 'package:Libmot_Mobile/repository/seat_selection_repository.dart';
 import 'package:Libmot_Mobile/repository/user_repository.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'repository/booking_repository.dart';
@@ -44,6 +45,7 @@ class MyApp extends StatelessWidget {
         title: "Libmot Mobile",
         initialRoute: "initial",
         onGenerateRoute: routes,
+        builder: EasyLoading.init(),
       ),
     );
   }

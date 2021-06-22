@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:Libmot_Mobile/models/booking_model.dart';
 import 'package:Libmot_Mobile/models/destination_terminal.dart';
 import 'package:Libmot_Mobile/models/get_buses_model.dart';
@@ -32,18 +31,6 @@ class BookingRepository with ChangeNotifier {
   PostBookingResponse postBookingResponse;
 
   String name;
-
-  addAdult() {
-    getBuses.numberOfAdults++;
-    notifyListeners();
-  } // _adultCount++;
-
-  notifyListeners();
-
-  subtractAdult() {
-    if (getBuses.numberOfAdults != 0) getBuses.numberOfAdults--;
-    notifyListeners();
-  }
 
   Container childrentravellersButton() {
     return Container(
@@ -97,9 +84,12 @@ class BookingRepository with ChangeNotifier {
   }
 
   getDestinationTerminals(int id) async {
+    print('gbntyen');
+    print(id);
     destinationTerminalModel = null;
     notifyListeners();
     final response = await ApiCalls().getDestinationTerminals(id);
+    print(response.body);
     if (response.statusCode == 200) {
       final Map<String, dynamic> responseData = json.decode(response.body);
       destinationTerminalModel =
@@ -112,15 +102,6 @@ class BookingRepository with ChangeNotifier {
   }
 
   searchBuses(_scaffoldKey, BuildContext context) async {
-    // TODO change back ====>
-    // model = GetBusesModel(
-    //     tripType: getBuses.tripType ?? 0,
-    //     departureTerminalId: getBuses.departureTerminalId,
-    //     destinationTerminalId: getBuses.destinationTerminalId,
-    //     numberOfAdults: _adultCount,
-    //     numberOfChildren: _childCount ?? 0,
-    //     departureDate: getBuses.departureDate,
-    //     returnDate: getBuses.returnDate);
     booking.paymentMethod = 5;
     booking.passengerType = 0;
     booking.bookingType = 2;
