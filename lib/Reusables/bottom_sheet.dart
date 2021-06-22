@@ -1,20 +1,29 @@
+import 'package:Libmot_Mobile/repository/booking_repository.dart';
+import 'package:Libmot_Mobile/view/widgets/appBar_passenger_info.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:provider/provider.dart';
 
 import 'buttons.dart';
 
 class BottomCard extends StatefulWidget {
   // const BottomCard();
+  
 
   @override
   _BottomCardState createState() => _BottomCardState();
 }
 
 class _BottomCardState extends State<BottomCard> {
+  int adultCount = 0;
+  int childCount = 0;
+  BookingRepository booking;
   @override
   Widget build(BuildContext context) {
     final _width = MediaQuery.of(context).size.width;
     final _height = MediaQuery.of(context).size.height;
+    booking = Provider.of<BookingRepository>(context);
+    
     return Container(
       color: Colors.transparent,
       padding:
@@ -57,12 +66,14 @@ class _BottomCardState extends State<BottomCard> {
                   children: [
                     TravellersOptions(
                       title: 'Adult(s)',
+                      number: adultCount.toString(),
+                      indexOfTravellers: 0,
                     ),
-                    //travellerOption(context, 'Adult(s)'),
                     SizedBox(width: 15),
-                    //travellerOption(context, 'Children(ren)'),
                     TravellersOptions(
                       title: 'Children(ren)',
+                      number: childCount.toString(),
+                      indexOfTravellers: 1,
                     ),
                   ],
                 ),
@@ -79,12 +90,13 @@ class _BottomCardState extends State<BottomCard> {
       ),
     );
   }
-
 }
 
 class TravellersOptions extends StatelessWidget {
   final String title;
-  const TravellersOptions({this.title});
+  final String number;
+  final int indexOfTravellers;
+  const TravellersOptions({this.title, this.number,this.indexOfTravellers});
 
   @override
   Widget build(BuildContext context) {
@@ -100,29 +112,26 @@ class TravellersOptions extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            addButton(context: context, icon: Icons.add, onTap: () {}),
+            countButton(context: context, icon: Icons.add, onTap: (
+              indexOfTravellers
+
+            ) {
+              
+            }),
             Expanded(
-                child: TextFormField(
+                child: Text(
+              '$number',
               textAlign: TextAlign.center,
               style: TextStyle(fontWeight: FontWeight.w500, fontSize: 16),
-              decoration: InputDecoration(
-                contentPadding: EdgeInsets.symmetric(vertical: 0),
-                border: InputBorder.none,
-                enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(
-                    color: Colors.white,
-                  ),
-                ),
-              ),
             )),
-            addButton(context: context, icon: Icons.remove, onTap: () {}),
+            countButton(context: context, icon: Icons.remove, onTap: () {}),
           ],
         ),
       ],
     ));
   }
 
-  addButton({BuildContext context, icon, onTap}) {
+  countButton({BuildContext context, icon, onTap}) {
     return Padding(
       padding: const EdgeInsets.all(10.0),
       child: Material(
