@@ -1,4 +1,5 @@
 import 'dart:convert';
+
 import 'package:Libmot_Mobile/models/booking_model.dart';
 import 'package:Libmot_Mobile/models/destination_terminal.dart';
 import 'package:Libmot_Mobile/models/get_buses_model.dart';
@@ -26,48 +27,40 @@ class BookingRepository with ChangeNotifier {
   GetRouteModel getRouteModel;
   DestinationTerminalModel destinationTerminalModel;
 
-  //GetBusesModel model;
+  GetBusesModel model;
   GetBusesResponseModel getBusesResponseModel;
   PostBookingResponse postBookingResponse;
 
   String name;
-
-  Container childrentravellersButton() {
-    return Container(
-      height: 50,
-      width: 50,
-      child: new Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: <Widget>[
-          new FloatingActionButton(
-            heroTag: null,
-            onPressed: () {
-              // _childCount++;
-              if (getBuses.numberOfChildren < 2) {
-                getBuses.numberOfChildren++;
-              }
-              notifyListeners();
-            },
-            child: new Icon(
-              Icons.add,
-              color: Colors.black,
+  countButton({BuildContext context, icon, onTap}) {
+    return Padding(
+      padding: const EdgeInsets.all(10.0),
+      child: Material(
+        elevation: 1.5,
+        shape: CircleBorder(),
+        child: InkWell(
+          onTap: onTap,
+          child: Container(
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: Colors.white,
+              boxShadow: <BoxShadow>[
+                BoxShadow(
+                  offset: Offset(0.5, 0.9),
+                ),
+              ],
             ),
-            backgroundColor: Colors.red,
-          ),
-          new Text('${getBuses.numberOfChildren}',
-              style: new TextStyle(fontSize: 30.0)),
-          new FloatingActionButton(
-            onPressed: () {
-              if (getBuses.numberOfChildren != 0) getBuses.numberOfChildren--;
-              notifyListeners();
-            },
-            child: new Icon(
-              Icons.horizontal_rule,
-              color: Colors.black,
+            child: Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Center(
+                  child: Icon(
+                icon,
+                color: Theme.of(context).primaryColor,
+                size: 20,
+              )),
             ),
-            backgroundColor: Colors.red,
           ),
-        ],
+        ),
       ),
     );
   }
@@ -102,6 +95,14 @@ class BookingRepository with ChangeNotifier {
   }
 
   searchBuses(_scaffoldKey, BuildContext context) async {
+    // model = GetBusesModel(
+    //     tripType: getBuses.tripType ?? 0,
+    //     departureTerminalId: getBuses.departureTerminalId,
+    //     destinationTerminalId: getBuses.destinationTerminalId,
+    //     numberOfAdults: getBuses.numberOfAdults,
+    //     numberOfChildren: getBuses.numberOfChildren ?? 0,
+    //     departureDate: getBuses.departureDate,
+    //     returnDate: getBuses.returnDate);
     booking.paymentMethod = 5;
     booking.passengerType = 0;
     booking.bookingType = 2;
@@ -170,7 +171,7 @@ class BookingRepository with ChangeNotifier {
       //     content: Text(
       //         'You need to agree to our terms and conditions before you can proceed'));
       // ScaffoldMessenger.of(context).showSnackBar(snackBar);
-      return   ;
+      return;
     }
 
     //TODO: CHECK IF TWENTY MINUTES HAVE NOT ELAPSED AND THE BOOKING REFERENCE IS AVAILABLE.
@@ -186,11 +187,9 @@ class BookingRepository with ChangeNotifier {
 
       //show dialog box
       Navigator.of(context).pushNamed("/paymentpage");
-     
     }
   }
 
-  
 // payWithPaystack(BuildContext context) {
 //   showDialog(context: context, builder: (context) => PaymentPaystack());
 // }

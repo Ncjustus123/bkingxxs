@@ -27,7 +27,6 @@ class BookASeatPage extends StatefulWidget {
 
 class _BookASeatPageState extends State<BookASeatPage>
     with AfterLayoutMixin<BookASeatPage> {
-  final dateController = TextEditingController();
   String direction;
   final adultController = TextEditingController();
   final childrenController = TextEditingController();
@@ -40,8 +39,14 @@ class _BookASeatPageState extends State<BookASeatPage>
   BookingRepository booking;
   List<String> arrivalOptions;
   List<String> departureOptions;
-  List<int> departureId;
+  List<int> departureIds;
+  List<int> arrivalIds;
   int indexOfRoute = 0;
+    String tripOption = 'One Way';
+    String selectedFrom = '';
+  String selectedTo = '';
+  int departureId;
+  int arrivalId;
 
   @override
   Widget build(BuildContext context) {
@@ -55,11 +60,18 @@ class _BookASeatPageState extends State<BookASeatPage>
               (RouteItems route) => route.name,
             )
             .toList();
-    departureId = (booking.getRouteModel == null)
+    departureIds = (booking.getRouteModel == null)
         ? []
         : booking.getRouteModel.object.items
             .map(
               (RouteItems route) => route.id,
+            )
+            .toList();
+    arrivalIds = (booking.destinationTerminalModel == null)
+        ? []
+        : booking.destinationTerminalModel.object
+            .map(
+              (DestinationObject object) => object.id,
             )
             .toList();
     arrivalOptions = (booking.destinationTerminalModel == null)
@@ -156,7 +168,6 @@ class _BookASeatPageState extends State<BookASeatPage>
                   ),
                 ),
               ),
-      
               SizedBox(height: 15),
               Expanded(
                 child: GestureDetector(
@@ -219,31 +230,15 @@ class _BookASeatPageState extends State<BookASeatPage>
                               DateTime selectedTime =
                                   await booking.showDate(context);
                               if (selectedTime != null) {
-                                arrivaldateController.text =
+                                departuredateController.text =
                                     '${DateFormat('yMMMd').format(selectedTime)}';
                                 booking.getBuses.departureDate =
                                     "${DateFormat('yyyy-MM-dd').format(selectedTime)}";
                               }
-                              // DateTime chosenDate = await showDatePicker(
-                              //   helpText: 'Departure Date',
-                              //   context: context,
-                              //   initialDate: DateTime.now(),
-                              //   firstDate: DateTime(DateTime.now().year,
-                              //       DateTime.now().month, DateTime.now().day),
-                              //   lastDate: DateTime(DateTime.now().year + 2),
-                              // );
-                              // if (dateController.text != null) {
-                              //   setState(() {
-                              //     departureController.text =
-                              //         DateFormat('yyyy-MM-dd')
-                              //             .format(chosenDate)
-                              //             .toString();
-                              //   });
-                              // }
                             },
                             child: InputFormField(
                               enabled: false,
-                              controller: arrivaldateController,
+                              controller: departuredateController,
                               suffixIcon: Icon(Icons.event_note),
                               label: 'Departure Date',
                             ),
@@ -260,25 +255,6 @@ class _BookASeatPageState extends State<BookASeatPage>
                                       booking.getBuses.departureDate =
                                           "${DateFormat('yyyy-MM-dd').format(selectedTime)}";
                                     }
-                                    // DateTime chosenDate = await showDatePicker(
-                                    //   context: context,
-                                    //   helpText: 'Arrival Date',
-                                    //   initialDate: DateTime.now(),
-                                    //   firstDate: DateTime(
-                                    //       DateTime.now().year,
-                                    //       DateTime.now().month,
-                                    //       DateTime.now().day),
-                                    //   lastDate:
-                                    //       DateTime(DateTime.now().year + 2),
-                                    // );
-                                    // if (chosenDate != null) {
-                                    //   setState(() {
-                                    //     arrivalController.text =
-                                    //         DateFormat('yyyy-MM-dd')
-                                    //             .format(chosenDate)
-                                    //             .toString();
-                                    //   });
-                                    // }
                                   },
                                   child: InputFormField(
                                     enabled: false,
@@ -306,7 +282,8 @@ class _BookASeatPageState extends State<BookASeatPage>
                                     )),
                                     Expanded(
                                         child: Text(
-                                      '3',
+                                      booking.getBuses.numberOfAdults
+                                          .toString(),
                                       textAlign: TextAlign.right,
                                       style: TextStyle(
                                           fontSize: 16,
@@ -326,7 +303,8 @@ class _BookASeatPageState extends State<BookASeatPage>
                                     )),
                                     Expanded(
                                         child: Text(
-                                      '2',
+                                      booking.getBuses.numberOfChildren
+                                          .toString(),
                                       textAlign: TextAlign.right,
                                       style: TextStyle(
                                           fontSize: 16,
@@ -353,7 +331,12 @@ class _BookASeatPageState extends State<BookASeatPage>
                           SizedBox(height: 15),
                           ButtonReusable(
                             onpressed: () async {
-                              Get.to(() => SelectBusPage());
+                              booking.getBuses.departureDate =
+                                  departuredateController.text.toString();
+                                  booking.getBuses.departureTerminalId=departureId;
+                                  booking.getBuses.destinationTerminalId=arrivalId;
+                                  booking.searchBuses(_scaffoldKey, context);
+                              //Get.to(() => SelectBusPage());
                             },
                             name: "Search",
                           ),
@@ -371,7 +354,7 @@ class _BookASeatPageState extends State<BookASeatPage>
     );
   }
 
-  String tripOption = 'One Way';
+
 
   Expanded tripOptionButton({BuildContext context, title}) {
     return Expanded(
@@ -405,65 +388,6 @@ class _BookASeatPageState extends State<BookASeatPage>
           )),
     ));
   }
-//
-// SizedBox proceedButton(BuildContext context) {
-//   return SizedBox(
-//     width: 200.0,
-//     height: 50.0,
-//     child: ElevatedButton(
-//       onPressed: () {
-//         //booking.getBuses.numberOfAdults = int.parse(adultController.text);
-//         //       //booking.getBuses.numberOfChildren = int.parse(childrenController.text);
-//         //       //TODO;;;; authentication
-//
-//         //       //booking.getBuses.departureDate = dateController.text.toString();
-//         booking.searchBuses(_scaffoldKey, context);
-//       },
-//       child: Text("Proceed"),
-//       style: ButtonStyle(
-//         backgroundColor: MaterialStateProperty.all(Colors.red),
-//         shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-//           RoundedRectangleBorder(
-//             borderRadius: BorderRadius.circular(10.0),
-//           ),
-//         ),
-//       ),
-//     ),
-//   );
-// }
-//
-
-// Container adulttravellersButton() {
-//   return Container(
-//     height: 50,
-//     width: 50,
-//     child: new Row(
-//       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-//       children: <Widget>[
-//         new FloatingActionButton(
-//           heroTag: null,
-//           onPressed: booking.addAdult,
-//           child: new Icon(
-//             Icons.add,
-//             color: Colors.black,
-//           ),
-//           backgroundColor: Colors.red,
-//         ),
-//         new Text('${booking.getBuses.numberOfAdults}',
-//             style: new TextStyle(fontSize: 30.0)),
-//         new FloatingActionButton(
-//           heroTag: null,
-//           onPressed: booking.subtractAdult,
-//           child: new Icon(
-//             Icons.horizontal_rule,
-//             color: Colors.black,
-//           ),
-//           backgroundColor: Colors.red,
-//         ),
-//       ],
-//     ),
-//   );
-// }
 
   Widget bottomRouteSheet(BuildContext context) {
     booking = Provider.of<BookingRepository>(context);
@@ -511,8 +435,8 @@ class _BookASeatPageState extends State<BookASeatPage>
                       onTap: () {
                         direction == 'from'
                             ? selectFromOption(
-                                departureOptions[index], departureId[index])
-                            : selectToOption(arrivalOptions[index]);
+                                departureOptions[index], departureIds[index])
+                            : selectToOption(arrivalOptions[index],arrivalIds[index]);
                       },
                       title: Text(
                         direction == 'from'
@@ -553,28 +477,26 @@ class _BookASeatPageState extends State<BookASeatPage>
     );
   }
 
-  String selectedFrom = '';
-  String selectedTo = '';
-  int depatureId;
+
   void selectFromOption(String option, id) {
     setState(() {
       selectedFrom = option;
       depatureController.text = selectedFrom;
-      depatureId = id;
+      departureId = id;
     });
-    booking.getDestinationTerminals(depatureId);
-    print(selectedFrom);
+    booking.getDestinationTerminals(departureId);
+    print('depatureId' + departureId.toString());
     Get.back();
   }
 
-  void selectToOption(String option) {
+  void selectToOption(String option,id) {
     setState(() {
       selectedTo = option;
-
-      depatureController.text = selectedTo;
+      arrivalController.text = selectedTo;
+      arrivalId = id;
     });
     Get.back();
-    print(selectedTo);
+    print("arrivalId" + arrivalId.toString());
   }
 
   @override

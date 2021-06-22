@@ -8,22 +8,18 @@ import 'buttons.dart';
 
 class BottomCard extends StatefulWidget {
   // const BottomCard();
-  
+  BookingRepository booking;
 
   @override
   _BottomCardState createState() => _BottomCardState();
 }
 
 class _BottomCardState extends State<BottomCard> {
-  int adultCount = 0;
-  int childCount = 0;
-  BookingRepository booking;
   @override
   Widget build(BuildContext context) {
     final _width = MediaQuery.of(context).size.width;
     final _height = MediaQuery.of(context).size.height;
     booking = Provider.of<BookingRepository>(context);
-    
     return Container(
       color: Colors.transparent,
       padding:
@@ -64,16 +60,12 @@ class _BottomCardState extends State<BottomCard> {
                 SizedBox(height: 20),
                 Row(
                   children: [
-                    TravellersOptions(
+                    AdultOptions(
                       title: 'Adult(s)',
-                      number: adultCount.toString(),
-                      indexOfTravellers: 0,
                     ),
                     SizedBox(width: 15),
-                    TravellersOptions(
+                    ChildrenOptions(
                       title: 'Children(ren)',
-                      number: childCount.toString(),
-                      indexOfTravellers: 1,
                     ),
                   ],
                 ),
@@ -81,7 +73,12 @@ class _BottomCardState extends State<BottomCard> {
                 Buttons.coloredButton(
                   context: context,
                   title: 'Proceed',
-                  onTap: () {},
+                  onTap: () {
+                    setState(() {
+                      Navigator.pop(context);
+                      // Get.back();
+                    });
+                  },
                 ),
               ],
             ),
@@ -92,12 +89,18 @@ class _BottomCardState extends State<BottomCard> {
   }
 }
 
-class TravellersOptions extends StatelessWidget {
+class AdultOptions extends StatefulWidget {
   final String title;
-  final String number;
-  final int indexOfTravellers;
-  const TravellersOptions({this.title, this.number,this.indexOfTravellers});
 
+  const AdultOptions({
+    this.title,
+  });
+
+  @override
+  _AdultOptionsState createState() => _AdultOptionsState();
+}
+
+class _AdultOptionsState extends State<AdultOptions> {
   @override
   Widget build(BuildContext context) {
     return Expanded(
@@ -105,62 +108,162 @@ class TravellersOptions extends StatelessWidget {
       children: [
         Center(
             child: Text(
-          title,
+          widget.title,
           style: TextStyle(fontWeight: FontWeight.w500, fontSize: 16),
         )),
         SizedBox(height: 5),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            countButton(context: context, icon: Icons.add, onTap: (
-              indexOfTravellers
-
-            ) {
-              
-            }),
+            addButton(
+                context: context,
+                icon: Icons.add,
+                onTap: () {
+                  setState(() {
+                    booking.getBuses.numberOfAdults++;
+                  });
+                }),
             Expanded(
                 child: Text(
-              '$number',
+              booking.getBuses.numberOfAdults.toString(),
               textAlign: TextAlign.center,
               style: TextStyle(fontWeight: FontWeight.w500, fontSize: 16),
             )),
-            countButton(context: context, icon: Icons.remove, onTap: () {}),
+            subtractButton(
+                context: context,
+                icon: Icons.remove,
+                onTap: () {
+                  setState(() {
+                    booking.getBuses.numberOfAdults--;
+                  });
+                }),
           ],
         ),
       ],
     ));
   }
+}
 
-  countButton({BuildContext context, icon, onTap}) {
-    return Padding(
-      padding: const EdgeInsets.all(10.0),
-      child: Material(
-        elevation: 1.5,
-        shape: CircleBorder(),
-        child: InkWell(
-          onTap: onTap,
-          child: Container(
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              color: Colors.white,
-              boxShadow: <BoxShadow>[
-                BoxShadow(
-                  offset: Offset(0.5, 0.9),
-                ),
-              ],
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: Center(
-                  child: Icon(
-                icon,
-                color: Theme.of(context).primaryColor,
-                size: 20,
-              )),
-            ),
+class ChildrenOptions extends StatefulWidget {
+  final String title;
+
+  const ChildrenOptions({
+    this.title,
+  });
+
+  @override
+  _ChildrenOptionsState createState() => _ChildrenOptionsState();
+}
+
+class _ChildrenOptionsState extends State<ChildrenOptions> {
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+        child: Column(
+      children: [
+        Center(
+            child: Text(
+          widget.title,
+          style: TextStyle(fontWeight: FontWeight.w500, fontSize: 16),
+        )),
+        SizedBox(height: 5),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            addButton(
+                context: context,
+                icon: Icons.add,
+                onTap: () {
+                  setState(() {
+                    if (booking.getBuses.numberOfChildren < 2) {
+                      booking.getBuses.numberOfChildren++;
+                    }
+                  });
+                }),
+            Expanded(
+                child: Text(
+              booking.getBuses.numberOfChildren.toString(),
+              textAlign: TextAlign.center,
+              style: TextStyle(fontWeight: FontWeight.w500, fontSize: 16),
+            )),
+            subtractButton(
+                context: context,
+                icon: Icons.remove,
+                onTap: () {
+                  setState(() {
+                    if (booking.getBuses.numberOfChildren != 0)
+                      booking.getBuses.numberOfChildren--;
+                  });
+                }),
+          ],
+        ),
+      ],
+    ));
+  }
+}
+
+subtractButton({BuildContext context, icon, onTap}) {
+  return Padding(
+    padding: const EdgeInsets.all(10.0),
+    child: Material(
+      elevation: 1.5,
+      shape: CircleBorder(),
+      child: InkWell(
+        onTap: onTap,
+        child: Container(
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            color: Colors.white,
+            boxShadow: <BoxShadow>[
+              BoxShadow(
+                offset: Offset(0.5, 0.9),
+              ),
+            ],
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Center(
+                child: Icon(
+              icon,
+              color: Theme.of(context).primaryColor,
+              size: 20,
+            )),
           ),
         ),
       ),
-    );
-  }
+    ),
+  );
+}
+
+addButton({BuildContext context, icon, onTap}) {
+  return Padding(
+    padding: const EdgeInsets.all(10.0),
+    child: Material(
+      elevation: 1.5,
+      shape: CircleBorder(),
+      child: InkWell(
+        onTap: onTap,
+        child: Container(
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            color: Colors.white,
+            boxShadow: <BoxShadow>[
+              BoxShadow(
+                offset: Offset(0.5, 0.9),
+              ),
+            ],
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Center(
+                child: Icon(
+              icon,
+              color: Theme.of(context).primaryColor,
+              size: 20,
+            )),
+          ),
+        ),
+      ),
+    ),
+  );
 }

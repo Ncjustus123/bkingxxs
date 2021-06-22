@@ -17,12 +17,6 @@ class SelectBusPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final _width = MediaQuery.of(context).size.width;
     final _height = MediaQuery.of(context).size.height;
-
-    // booking = Provider.of<BookingRepository>(context);
-    // (booking.currentBookingStatus.index == 0)
-    //     ? bus = booking.getBusesResponseModel.object.departures
-    //     : bus = booking.getBusesResponseModel.object.arrivals;
-
     return Scaffold(
         backgroundColor: Theme.of(context).primaryColor,
         body: Container(
@@ -39,12 +33,12 @@ class SelectBusPage extends StatelessWidget {
                       borderRadius:
                           BorderRadius.vertical(top: Radius.circular(45))),
                   child: ListView.builder(
-                      itemCount: 4,
+                      itemCount: booking.getBusesResponseModel.object.departures.length,
                       padding: EdgeInsets.all(0),
                       scrollDirection: Axis.vertical,
                       shrinkWrap: true,
                       itemBuilder: (context, index) {
-                        // booking.departureSelectedBus = bus[index];
+                        booking.departureSelectedBus = bus[index];
                         return InkWell(
                           onTap: () {
                             // Navigator.of(context).pushNamed(selectSeat, arguments: bus);
@@ -133,7 +127,7 @@ class SelectBusPage extends StatelessWidget {
                                                 right: 5,
                                                 left: 50),
                                             child: Text(
-                                              "\$78300 Terminal",
+                                              booking.getBusesResponseModel.object.departures[0].farePrice.toString(),
                                               style: TextStyle(
                                                   fontSize: 15,
                                                   fontWeight: FontWeight.w500,
