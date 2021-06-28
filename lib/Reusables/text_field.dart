@@ -15,6 +15,7 @@ class InputFormField extends StatelessWidget {
     this.keyboardType,
     this.inputFormatters,
     this.ontap,
+    this.hintText,
   });
 
   final Widget suffixIcon;
@@ -29,6 +30,7 @@ class InputFormField extends StatelessWidget {
   final String label;
   final TextCapitalization textCapitalization;
   final TextInputType keyboardType;
+  final String hintText;
   final inputFormatters;
 
   @override
@@ -64,6 +66,7 @@ class InputFormField extends StatelessWidget {
           suffixIcon: suffixIcon,
           prefixIcon: prefixIcon,
           labelText: label,
+          hintText: hintText,
           labelStyle: TextStyle(fontSize: 13, color: Colors.grey),
           contentPadding:
           EdgeInsets.symmetric(vertical: 18.0, horizontal: 25.0),

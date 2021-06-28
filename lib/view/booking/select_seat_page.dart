@@ -21,8 +21,8 @@ class SelectSeatPage extends StatefulWidget {
   _SelectSeatPageState createState() => _SelectSeatPageState();
 }
 
-class _SelectSeatPageState extends State<SelectSeatPage> with AfterLayoutMixin<SelectSeatPage>{
-
+class _SelectSeatPageState extends State<SelectSeatPage>
+    with AfterLayoutMixin<SelectSeatPage> {
   final String passengerInfo = "/passengerInfomation";
 
   BookingRepository booking;
@@ -45,27 +45,19 @@ class _SelectSeatPageState extends State<SelectSeatPage> with AfterLayoutMixin<S
     final _height = MediaQuery.of(context).size.height;
     return Scaffold(
       backgroundColor: Theme.of(context).primaryColor,
-
       key: _scaffoldKey,
-      
-      
       body: Container(
         width: _width,
         height: _height,
         child: Column(
           children: [
             myAppBar(context, 'Select a seat'),
-            TwelveSeaterBus(bus: widget.bus, scaffold: _scaffoldKey),
-
-            // (widget.bus.totalNumberOfSeats == 12)
-            //     ?
-            // TwelveSeaterBus(bus: widget.bus, scaffold: _scaffoldKey)
-            //     : FifteenSeaterBus(bus: widget.bus, scaffold: _scaffoldKey),
-            
+            (widget.bus.totalNumberOfSeats == 12)
+                ? TwelveSeaterBus(bus: widget.bus, scaffold: _scaffoldKey)
+                : FifteenSeaterBus(bus: widget.bus, scaffold: _scaffoldKey),
           ],
         ),
       ),
     );
   }
-
 }

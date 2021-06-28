@@ -91,9 +91,11 @@ class _BottomCardState extends State<BottomCard> {
 
 class AdultOptions extends StatefulWidget {
   final String title;
+  final String adultCount;
 
   const AdultOptions({
     this.title,
+    this.adultCount,
   });
 
   @override

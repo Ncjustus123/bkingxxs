@@ -23,6 +23,7 @@ class BookingRepository with ChangeNotifier {
   final String busSearch = "/selectBus";
   final String applyCouponPage = "/applyCoupon";
   Buses departureSelectedBus = new Buses();
+  
 
   GetRouteModel getRouteModel;
   DestinationTerminalModel destinationTerminalModel;

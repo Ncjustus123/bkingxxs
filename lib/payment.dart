@@ -1,15 +1,17 @@
 import 'dart:io';
 
-import 'package:Libmot_Mobile/Reusables/constants.dart';
 import 'package:Libmot_Mobile/repository/booking_repository.dart';
 import 'package:Libmot_Mobile/resources/networking/api_calls.dart';
 import 'package:Libmot_Mobile/resources/networking/test_data.dart';
+import 'package:Libmot_Mobile/view/widgets/paymentPaystack.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_paystack/flutter_paystack.dart';
+import 'package:get/get.dart';
 import 'package:http/http.dart';
 import 'package:provider/provider.dart';
 
 import 'Reusables/appBar.dart';
+import 'view/widgets/paymentPaystack.dart';
 
 class PaymentPage extends StatefulWidget {
   @override
@@ -141,45 +143,45 @@ class _PaymentPageState extends State<PaymentPage> {
     return 'ChargedFrom${platform}_${DateTime.now().millisecondsSinceEpoch}';
   }
 
-  chargeCard() async {
-    Charge charge = Charge()
-      ..amount = (booking.postBookingResponse.object.amount * 100).toInt()
-      //..amount = 10000*100
-      ..reference = _getReference()
-      // or ..accessCode = _getAccessCodeFrmInitialization()
-      ..email = booking.booking.email;
-    CheckoutResponse response = await plugin
-        .checkout(
-      context,
-      method: CheckoutMethod.card, // Defaults to CheckoutMethod.selectable
-      charge: charge,
-      fullscreen: true,
-      logo: Image.asset(
-        "images/LIBMOT LOGO 1.png",
-        height: 35,
-      ),
-    )
-        .then((response) async {
-      if (response.status == true) {
-        await processPaystackPayment();
-        print(" this${response.message}");
-        _showDialog();
-      } else {
-        _showErrorDialog();
-      }
-    });
-  }
+  // chargeCard() async {
+  //   Charge charge = Charge()
+  //     ..amount = (booking.postBookingResponse.object.amount * 100).toInt()
+  //     //..amount = 10000*100
+  //     ..reference = _getReference()
+  //     // or ..accessCode = _getAccessCodeFrmInitialization()
+  //     ..email = booking.booking.email;
+  //   CheckoutResponse response = await plugin
+  //       .checkout(
+  //     context,
+  //     method: CheckoutMethod.card, // Defaults to CheckoutMethod.selectable
+  //     charge: charge,
+  //     fullscreen: true,
+  //     logo: Image.asset(
+  //       "images/LIBMOT LOGO 1.png",
+  //       height: 35,
+  //     ),
+  //   )
+  //       .then((response) async {
+  //     if (response.status == true) {
+  //       await processPaystackPayment();
+  //       print(" this${response.message}");
+  //       _showDialog();
+  //     } else {
+  //       _showErrorDialog();
+  //     }
+  //   });
+  // }
 
-  Future<void> processPaystackPayment() async {
-    Map object = {
-      "email": booking.booking.email,
-      "amount": booking.postBookingResponse.object.amount,
-      "referenceNumber":
-          booking.postBookingResponse.object.bookingReferenceCode,
-      "PayStackReference": 5,
-    };
-    Response response = await ApiCalls().payStackPayment(object);
-  }
+  // Future<void> processPaystackPayment() async {
+  //   Map object = {
+  //     "email": booking.booking.email,
+  //     "amount": booking.postBookingResponse.object.amount,
+  //     "referenceNumber":
+  //         booking.postBookingResponse.object.bookingReferenceCode,
+  //     "PayStackReference": 5,
+  //   };
+  //   Response response = await ApiCalls().payStackPayment(object);
+  // }
 
   BookingRepository booking;
 
@@ -231,7 +233,7 @@ class _PaymentPageState extends State<PaymentPage> {
                       ),
                       Expanded(
                         child: GestureDetector(
-                          onTap: () => chargeCard(),
+                          onTap: ()=> Get.to(PaymentPaystack()),
 
                           // Navigator.pushReplacement(
                           //     context,

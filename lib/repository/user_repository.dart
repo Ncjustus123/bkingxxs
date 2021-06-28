@@ -133,7 +133,7 @@ class UserRepository with ChangeNotifier {
     profile = new Profile();
     profile.object = await preference.getProfile();
     notifyListeners();
-    //return profile;
+    return profile;
   }
 
   signUpCustomer(context) async {

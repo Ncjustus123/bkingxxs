@@ -24,9 +24,7 @@ class PassengerInfoPage extends StatefulWidget {
 }
 
 class _PassengerInfoPageState extends State<PassengerInfoPage>
-    with
-// AfterLayoutMixin<PassengerInfoPage>,
-        SingleTickerProviderStateMixin {
+    with AfterLayoutMixin<PassengerInfoPage>, SingleTickerProviderStateMixin {
   List<String> genderType = [
     'Male',
     'Female',
@@ -46,6 +44,10 @@ class _PassengerInfoPageState extends State<PassengerInfoPage>
   final nextOfkincontroller = TextEditingController();
 
   final kinNumbercontroller = TextEditingController();
+  final genderController = TextEditingController();
+  var beneficiaryController = TextEditingController();
+  List<Widget> adultBeneficiaryNames = [];
+  List<Widget> childrenBeneficiaryNames = [];
 
   UserRepository repository;
   BookingRepository booking;
@@ -70,13 +72,17 @@ class _PassengerInfoPageState extends State<PassengerInfoPage>
 
   @override
   Widget build(BuildContext context) {
-    // repository = Provider.of<UserRepository>(context);
-    // booking = Provider.of<BookingRepository>(context);
-    // seatSelection = Provider.of<SeatSelectionRepository>(context);
+    repository = Provider.of<UserRepository>(context);
+    booking = Provider.of<BookingRepository>(context);
+    seatSelection = Provider.of<SeatSelectionRepository>(context);
     final _width = MediaQuery.of(context).size.width;
     final _height = MediaQuery.of(context).size.height;
+    int noOfAdultBeneficiaries = booking.getBuses.numberOfAdults - 1 ?? 0;
+
+    int noOfChildrenBeneficiaries = booking.getBuses.numberOfChildren ?? 0;
+    //BeneficiaryType beneficiaryType;
+
     return Scaffold(
-      // backgroundColor: Theme.of(context).primaryColor,
       body: GestureDetector(
         onTap: () => FocusScope.of(context).unfocus(),
         child: Container(
@@ -87,34 +93,53 @@ class _PassengerInfoPageState extends State<PassengerInfoPage>
             children: [
               myWhiteAppBar(context, 'Travel Detail'),
               CustomAppBar(),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
-                child: Container(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Row(
+              (booking.getBuses.numberOfAdults > 1)
+                  ? Column(
                       children: [
-                        Expanded(
-                          child: Text(
-                            'Click here to dd travelling partner(s)',
-                            style: TextStyle(color: Colors.white, fontSize: 13),
+                        TravellersContainer(
+                          "Extra Adult Traveller(s)",
+                          Theme.of(context).scaffoldBackgroundColor,
+                          Colors.black,
+                          Icon(
+                            Icons.person,
+                            color: Colors.black,
+                            size: 20,
                           ),
                         ),
-                        addBeneficiary(context, _height, _width)
+                        ...adultBeneficiaryNames,
+                        (noOfAdultBeneficiaries > adultBeneficiaryNames.length)
+                            ? travllersContainer(
+                                _height,
+                                _width,
+                              )
+                            : SizedBox()
                       ],
-                    ),
-                  ),
-                  decoration: BoxDecoration(
-                      color: Colors.black54,
-                      boxShadow: <BoxShadow>[
-                        BoxShadow(
-                            spreadRadius: 3,
-                            blurRadius: 3,
-                            color: Colors.grey.withOpacity(0.3),
-                            offset: Offset(2, 3))
-                      ]),
-                ),
-              ),
+                    )
+                  : SizedBox(),
+              (noOfChildrenBeneficiaries > 0)
+                  ? Column(
+                      children: [
+                        TravellersContainer(
+                          "Extra Child Traveller(s)",
+                          Theme.of(context).scaffoldBackgroundColor,
+                          Colors.black,
+                          Icon(
+                            Icons.person,
+                            color: Colors.black,
+                            size: 20,
+                          ),
+                        ),
+                        ...childrenBeneficiaryNames,
+                        (noOfChildrenBeneficiaries >
+                                childrenBeneficiaryNames.length)
+                            ? travllersContainer(
+                                _height,
+                                _width,
+                              )
+                            : SizedBox()
+                      ],
+                    )
+                  : SizedBox(),
               Expanded(
                 child: Container(
                   // padding: const EdgeInsets.all(10.0),
@@ -144,10 +169,29 @@ class _PassengerInfoPageState extends State<PassengerInfoPage>
                           InputFormField(
                             label: 'First Name',
                             textCapitalization: TextCapitalization.words,
+                            controller: firstNamecontroller,
+                            onSaved: (value) {
+                              booking.booking.firstName = value;
+                            },
+                            validator: (value) {
+                              if (value.isEmpty) {
+                                return 'error';
+                              }
+                              return null;
+                            },
                           ),
                           InputFormField(
                             label: 'Last Name',
                             textCapitalization: TextCapitalization.words,
+                            controller: lastNamecontroller,
+                            onSaved: (value) =>
+                                booking.booking.lastName = value,
+                            validator: (value) {
+                              if (value.isEmpty) {
+                                return 'error';
+                              }
+                              return null;
+                            },
                           ),
                           InputFormField(
                             prefixIcon: CountryCodePicker(
@@ -155,7 +199,7 @@ class _PassengerInfoPageState extends State<PassengerInfoPage>
                               initialSelection: '+234',
                               favorite: ['+234', 'NG'],
                               showCountryOnly: false,
-                              showFlag: false,
+                              showFlag: true,
                               showOnlyCountryWhenClosed: false,
                               alignLeft: false,
                               barrierColor: Colors.red,
@@ -164,23 +208,45 @@ class _PassengerInfoPageState extends State<PassengerInfoPage>
                             ),
                             label: 'Phone Number',
                             keyboardType: TextInputType.phone,
+                            controller: phoneNumbercontroller,
+                            onSaved: (value) =>
+                                booking.booking.phoneNumber = value,
+                            validator: (value) {
+                              if (value.isEmpty) {
+                                return 'error';
+                              } else if (value.length != 11) {
+                                return "phone number must be 11 digits";
+                              }
+                              return null;
+                            },
                           ),
                           InputFormField(
                             label: 'Email',
                             keyboardType: TextInputType.emailAddress,
+                            controller: emailcontroller,
+                            onSaved: (value) => booking.booking.email = value,
+                            validator: (value) {
+                              if (value.isEmpty) {
+                                return 'error';
+                              }
+                              return null;
+                            },
                           ),
                           InputFormField(
                             label: 'Gender',
                             keyboardType: TextInputType.name,
                             suffixIcon: Icon(Icons.expand_more),
                             textCapitalization: TextCapitalization.words,
+                            controller: genderController,
+                            onSaved: (value) => booking.booking.gender = value,
+                            validator: (value) {
+                              if (value.isEmpty) {
+                                return 'error';
+                              }
+                              return null;
+                            },
                           ),
 
-                          // firstNameField(),
-                          // lastNameField(),
-                          // phoneNumberField(),
-                          // genderDropdownButtonFormField(),
-                          // emailField(),
                           SizedBox(
                             height: 15,
                           ),
@@ -190,15 +256,24 @@ class _PassengerInfoPageState extends State<PassengerInfoPage>
                             style: textStyle2,
                           )),
                           InputFormField(
-                            label: 'Last Name',
+                            label: 'Full Name',
                             textCapitalization: TextCapitalization.words,
+                            controller: nextOfkincontroller,
+                            onSaved: (value) =>
+                                booking.booking.nextOfKinName = value,
+                            validator: (value) {
+                              if (value.isEmpty) {
+                                return 'error';
+                              }
+                              return null;
+                            },
                           ),
                           InputFormField(
                             prefixIcon: CountryCodePicker(
                               onChanged: (value) => code = value.toString(),
                               initialSelection: '+234',
                               favorite: ['+234', 'NG'],
-                              showFlag: false,
+                              showFlag: true,
                               showCountryOnly: false,
                               showOnlyCountryWhenClosed: false,
                               alignLeft: false,
@@ -207,13 +282,27 @@ class _PassengerInfoPageState extends State<PassengerInfoPage>
                             ),
                             label: 'Phone Number',
                             keyboardType: TextInputType.phone,
+                            controller: kinNumbercontroller,
+                            onSaved: (value) =>
+                                booking.booking.nextOfKinPhone = value,
+                            validator: (value) {
+                              if (value.isEmpty) {
+                                return 'error';
+                              }
+                              return null;
+                            },
                           ),
-                          // nextOfKinField(),
-                          // nextOfKinPhoneField(),
                           SizedBox(height: 30),
-
                           ButtonReusable(
                             onpressed: () async {
+                              if (_formKey.currentState.validate()) {
+                                booking.booking.beneficiaries = [
+                                  ...adultBeneficiary,
+                                  ...childrenBeneficiary
+                                ];
+                                _formKey.currentState.save();
+                                booking.savePassengerInfo(context);
+                              }
                               Get.to(() => ApplyCoupon());
                             },
                             name: "Proceed",
@@ -234,7 +323,10 @@ class _PassengerInfoPageState extends State<PassengerInfoPage>
     );
   }
 
-  InkWell addBeneficiary(BuildContext context, double _height, double _width) {
+  InkWell travllersContainer(
+    _height,
+    _width,
+  ) {
     return InkWell(
       onTap: () {
         showModalBottomSheet(
@@ -242,19 +334,41 @@ class _PassengerInfoPageState extends State<PassengerInfoPage>
           isScrollControlled: true,
           backgroundColor: Colors.transparent,
           builder: (context) => SingleChildScrollView(
-            child: bottomSheet(context, _height, _width),
+            child: bottomSheet(
+              context:context,
+             height:_height,
+              width:_width,
+            ),
           ),
         );
       },
-      child: Icon(
-        Icons.add_circle,
-        color: Colors.white,
-        size: 20,
+      child: TravellersContainer(
+        'Click here to add travelling partner(s)',
+        Colors.black54,
+        Colors.white,
+        Icon(
+          Icons.add_circle,
+          color: Colors.white,
+          size: 20,
+        ),
       ),
     );
   }
 
-  Container bottomSheet(BuildContext context, double _height, double _width) {
+ 
+
+  Container bottomSheet(
+   { BuildContext context,
+    double height,
+    double width,
+    BeneficiaryType beneficiaryType,}
+  ) {
+    beneficiaryController.clear();
+    Beneficiaries beneficiaries = Beneficiaries();
+    int seatNumber = myList.last;
+    int index = (beneficiaryType.index == 0)
+        ? adultBeneficiaryNames.length
+        : childrenBeneficiaryNames.length;
     return Container(
       color: Colors.transparent,
       padding:
@@ -263,8 +377,8 @@ class _PassengerInfoPageState extends State<PassengerInfoPage>
         decoration: BoxDecoration(
             borderRadius: BorderRadius.vertical(top: Radius.circular(35)),
             color: Theme.of(context).scaffoldBackgroundColor),
-        height: _height * 0.5,
-        width: _width,
+        height: height * 0.5,
+        width: width,
         child: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 15.0),
@@ -294,81 +408,64 @@ class _PassengerInfoPageState extends State<PassengerInfoPage>
                 ),
                 SizedBox(height: 20),
                 InputFormField(
-                  label: 'Last Name',
+                  label: 'Full Name',
                   textCapitalization: TextCapitalization.words,
+                  controller: beneficiaryController,
                 ),
                 InputFormField(
                   label: 'Gender',
                   textCapitalization: TextCapitalization.words,
                   suffixIcon: Icon(Icons.expand_more),
+                  controller: genderController,
                 ),
-                // Row(
-                //   children: [
-                //     genderButton(context, 'Male'),
-                //     genderButton(context, 'Female'),
-                //   ],
-                // ),
                 SizedBox(height: 20),
-
                 Buttons.coloredButton(
-                  context: context,
-                  title: 'Add Beneficiary',
-                  onTap: () {},
-                ),
+                    context: context,
+                    title: 'Add Beneficiary',
+                    onTap: () {
+                      Widget listTile = ListTile(
+                        leading: Icon(Icons.person),
+                        title: Text(beneficiaryController.text),
+                        trailing: IconButton(
+                          icon: Icon(Icons.cancel), 
+                          onPressed: () {
+                            myList.add(seatNumber);
+                            if (beneficiaryType.index == 0) {
+                              adultBeneficiary.remove(beneficiaries);
+                              adultBeneficiaryNames.removeAt(index);
+                            } else {
+                              childrenBeneficiary.remove(beneficiaries);
+                              childrenBeneficiaryNames.removeAt(index);
+                            }
+
+                            setState(() {});
+                          },
+                        ),
+                      );
+
+                      setState(() {
+                        beneficiaries.fullName = beneficiaryController.text;
+
+                        beneficiaries.seatNumber = seatNumber;
+
+                        if (beneficiaryType.index == 0) {
+                          beneficiaries.passengerType = 0; //adult passenger
+                          adultBeneficiaryNames.insert(index, listTile);
+                          adultBeneficiary.add(beneficiaries);
+                        } else {
+                          beneficiaries.passengerType = 1; //child passenger
+                          childrenBeneficiaryNames.insert(index, listTile);
+                          childrenBeneficiary.add(beneficiaries);
+                        }
+
+                        myList.remove(seatNumber);
+                      });
+                      Navigator.pop(context);
+                    })
               ],
             ),
           ),
         ),
-      ),
-    );
-  }
-
-  genderButton(BuildContext context, title) {
-    return InkWell(
-      onTap: () {
-        setState(() {
-          gender = title;
-        });
-      },
-      child: Row(
-        children: [
-          Material(
-            elevation: 5,
-            shape: CircleBorder(),
-            child: Container(
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                border:
-                    Border.all(color: Colors.grey.withOpacity(0.4), width: 0.7),
-                color: Colors.white,
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(1.5),
-                child: Material(
-                  elevation: 5,
-                  shape: CircleBorder(),
-                  child: Container(
-                    height: 16,
-                    width: 16,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: gender == title
-                          ? Theme.of(context).primaryColor
-                          : Colors.white,
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text(
-              title,
-              style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500),
-            ),
-          )
-        ],
       ),
     );
   }
@@ -402,400 +499,171 @@ class _PassengerInfoPageState extends State<PassengerInfoPage>
   }
 
   ///TODO TST WITH GUEST LOGIN
-  String genderValue;
-
-  Card genderDropdownButtonFormField() {
-    return Card(
-      color: Colors.grey[50],
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.all(
-          Radius.circular(5),
-        ),
-      ),
-      child: DropdownButtonFormField<String>(
-        value: genderValue,
-        items: genderType.map((dynamic value) {
-          return DropdownMenuItem<String>(
-            value: value,
-            child: Text(value),
-          );
-        }).toList(),
-        onChanged: (value) {
-          setState(() {
-            genderValue = value;
-          });
-          booking.booking.gender = (value == "male") ? 0 : 1;
-        },
-        onSaved: (value) => booking.booking.gender = (value == "male") ? 0 : 1,
-        decoration: InputDecoration(
-          labelText: 'Gender',
-          labelStyle: TextStyle(color: Colors.grey),
-          contentPadding: EdgeInsets.symmetric(vertical: 8, horizontal: 20),
-        ),
-      ),
-    );
-  }
-
-  firstNameField() {
-    return Card(
-      color: Colors.grey[50],
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.all(
-          Radius.circular(5),
-        ),
-      ),
-      child: TextFormField(
-        controller: firstNamecontroller,
-        onSaved: (value) {
-          booking.booking.firstName = value;
-        },
-        validator: (value) {
-          if (value.isEmpty) {
-            return 'error';
-          }
-          return null;
-        },
-        decoration: InputDecoration(
-          labelText: 'FirstName',
-          labelStyle: TextStyle(color: Colors.grey),
-          contentPadding: EdgeInsets.symmetric(vertical: 8, horizontal: 20),
-        ),
-      ),
-    );
-  }
-
-  lastNameField() {
-    return Card(
-      color: Colors.grey[50],
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.all(
-          Radius.circular(5),
-        ),
-      ),
-      child: TextFormField(
-        controller: lastNamecontroller,
-        onSaved: (value) => booking.booking.lastName = value,
-        validator: (value) {
-          if (value.isEmpty) {
-            return 'error';
-          }
-          return null;
-        },
-        decoration: InputDecoration(
-          labelText: 'LastName',
-          labelStyle: TextStyle(color: Colors.grey),
-          contentPadding: EdgeInsets.symmetric(vertical: 8, horizontal: 20),
-        ),
-      ),
-    );
-  }
-
-  phoneNumberField() {
-    return Card(
-      color: Colors.grey[50],
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.all(
-          Radius.circular(5),
-        ),
-      ),
-      child: TextFormField(
-        controller: phoneNumbercontroller,
-        onSaved: (value) => booking.booking.phoneNumber = value,
-        validator: (value) {
-          if (value.isEmpty) {
-            return 'error';
-          } else if (value.length != 11) {
-            return "phone number must be 11 digits";
-          }
-          return null;
-        },
-        decoration: InputDecoration(
-          labelText: 'PhoneNumber',
-          labelStyle: TextStyle(color: Colors.grey),
-          contentPadding: EdgeInsets.symmetric(vertical: 8, horizontal: 20),
-        ),
-      ),
-    );
-  }
-
-  emailField() {
-    return Card(
-      color: Colors.grey[50],
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.all(
-          Radius.circular(5),
-        ),
-      ),
-      child: TextFormField(
-        controller: emailcontroller,
-        onSaved: (value) => booking.booking.email = value,
-        validator: (value) {
-          if (value.isEmpty) {
-            return 'error';
-          }
-          return null;
-        },
-        decoration: InputDecoration(
-          labelText: 'PhoneNumber',
-          labelStyle: TextStyle(color: Colors.grey),
-          contentPadding: EdgeInsets.symmetric(vertical: 8, horizontal: 20),
-        ),
-      ),
-    );
-  }
-
-  nextOfKinField() {
-    return Card(
-      color: Colors.grey[50],
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.all(
-          Radius.circular(5),
-        ),
-      ),
-      child: TextFormField(
-        controller: nextOfkincontroller,
-        onSaved: (value) => booking.booking.nextOfKinName = value,
-        validator: (value) {
-          if (value.isEmpty) {
-            return 'error';
-          }
-          return null;
-        },
-        decoration: InputDecoration(
-          labelText: 'PhoneNumber',
-          labelStyle: TextStyle(color: Colors.grey),
-          contentPadding: EdgeInsets.symmetric(vertical: 8, horizontal: 20),
-        ),
-      ),
-    );
-  }
-
-  nextOfKinPhoneField() {
-    return Card(
-      color: Colors.grey[50],
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.all(
-          Radius.circular(5),
-        ),
-      ),
-      child: TextFormField(
-        controller: kinNumbercontroller,
-        onSaved: (value) => booking.booking.nextOfKinPhone = value,
-        validator: (value) {
-          if (value.isEmpty) {
-            return 'error';
-          }
-          return null;
-        },
-        decoration: InputDecoration(
-          labelText: 'PhoneNumber',
-          labelStyle: TextStyle(color: Colors.grey),
-          contentPadding: EdgeInsets.symmetric(vertical: 8, horizontal: 20),
-        ),
-      ),
-    );
-  }
 
   @override
   void afterFirstLayout(BuildContext context) {
-    myList = seatSelection.selectedSeats;
-    myList.removeAt(0);
+    //myList = seatSelection.selectedSeats;
+    //myList.removeAt(0);
     repository.getSavedProfile().then((_) {
       firstNamecontroller.text = repository.profile.object.firstName ?? "";
       lastNamecontroller.text = repository.profile.object.lastName ?? "";
       phoneNumbercontroller.text = repository.profile.object.phoneNumber ?? "";
-      genderValue = repository.profile.object.gender;
+      genderController.text = repository.profile.object.gender;
       emailcontroller.text = repository.profile.object.email ?? "";
       nextOfkincontroller.text = repository.profile.object.nextOfKin ?? "";
       kinNumbercontroller.text = repository.profile.object.nextOfKinPhone ?? "";
     });
   }
 
-  // Widget beneficaryField() {
-  //   // int noOfAdultBeneficiaries = booking.getBuses.numberOfAdults - 1 ?? 0;
-  //   // int noOfChildrenBeneficiaries = booking.getBuses.numberOfChildren ?? 0;
-  //
-  //   return Column(children: [
-  //     (booking.getBuses.numberOfAdults > 1)
-  //         ? Column(
-  //             children: [
-  //               info("Extra Adult Traveller(s)"),
-  //               ...beneficiaryNames,
-  //               (noOfAdultBeneficiaries > beneficiaryNames.length)
-  //                   ? InkWell(
-  //                       onTap: () {
-  //                         popupDialog(context, BeneficiaryType.adult);
-  //                       },
-  //                       child: animationBuilder(
-  //                           Text("Click here to add adult passenger")))
-  //                   : SizedBox()
-  //             ],
-  //           )
-  //         : SizedBox(),
-  //     (noOfChildrenBeneficiaries > 0)
-  //         ? Column(
-  //             children: [
-  //               info("Extra Children Traveller(s)"),
-  //               ...childrenBeneficiaryNames,
-  //               (noOfChildrenBeneficiaries > childrenBeneficiaryNames.length)
-  //                   ? InkWell(
-  //                       onTap: () {
-  //                         popupDialog(context, BeneficiaryType.children);
-  //                       },
-  //                       child: animationBuilder(
-  //                           Text("Click here to add adult passenger")))
-  //                   : SizedBox()
-  //             ],
-  //           )
-  //         : SizedBox(),
-  //
-  //     //add children field
-  //   ]);
+
+  
+
+  // popupDialog(BuildContext context, BeneficiaryType beneficiaryType) {
+  //   beneficiaryController.clear();
+  //   Beneficiaries beneficial = Beneficiaries();
+  //   Gender selectedGender = Gender.male;
+  //   int seatNumber = myList.last;
+  //   int index = (beneficiaryType.index == 0)
+  //       ? adultBeneficiaryNames.length
+  //       : childrenBeneficiaryNames.length;
+  //   showDialog(
+  //       context: context,
+  //       builder: (context) {
+  //         return Dialog(
+  //           child: Container(
+  //             height: 200,
+  //             child: Column(
+  //               children: [
+  //                 TextField(
+  //                   decoration: InputDecoration(
+  //                     hintText: "Name of traveller",
+  //                   ),
+  //                   controller: beneficiaryController,
+  //                 ),
+  //                 StatefulBuilder(
+  //                   builder: (BuildContext context, StateSetter setState) {
+  //                     return Row(
+  //                       children: <Widget>[
+  //                         Expanded(
+  //                           child: RadioListTile(
+  //                             title: const Text('Male'),
+  //                             value: Gender.male,
+  //                             groupValue: selectedGender,
+  //                             onChanged: (Gender value) {
+  //                               beneficial.gender = value.index;
+  //                               selectedGender = value;
+  //                               setState(() {});
+  //                             },
+  //                           ),
+  //                         ),
+  //                         Expanded(
+  //                           child: RadioListTile(
+  //                             title: const Text('Female'),
+  //                             groupValue: selectedGender,
+  //                             value: Gender.female,
+  //                             onChanged: (Gender value) {
+  //                               beneficial.gender = value.index;
+  //                               selectedGender = value;
+  //                               setState(() {});
+  //                             },
+  //                           ),
+  //                         ),
+  //                       ],
+  //                     );
+  //                   },
+  //                 ),
+  //                 ElevatedButton(
+  //                     child: Text("Add traveller"),
+  //                     onPressed: () {
+  //                       Widget listTile = ListTile(
+  //                         leading: Icon(Icons.person),
+  //                         title: Text(beneficiaryController.text),
+  //                         trailing: IconButton(
+  //                           icon: Icon(Icons.cancel),
+  //                           onPressed: () {
+  //                             myList.add(seatNumber);
+  //                             if (beneficiaryType.index == 0) {
+  //                               adultBeneficiary.remove(beneficial);
+  //                               adultBeneficiaryNames.removeAt(index);
+  //                             } else {
+  //                               childrenBeneficiary.remove(beneficial);
+  //                               childrenBeneficiaryNames.removeAt(index);
+  //                             }
+
+  //                             setState(() {});
+  //                           },
+  //                         ),
+  //                       );
+
+  //                       setState(() {
+  //                         beneficial.fullName = beneficiaryController.text;
+
+  //                         beneficial.seatNumber = seatNumber;
+
+  //                         if (beneficiaryType.index == 0) {
+  //                           beneficial.passengerType = 0; //adult passenger
+  //                           adultBeneficiaryNames.insert(index, listTile);
+  //                           adultBeneficiary.add(beneficial);
+  //                         } else {
+  //                           beneficial.passengerType = 1; //child passenger
+  //                           childrenBeneficiaryNames.insert(index, listTile);
+  //                           childrenBeneficiary.add(beneficial);
+  //                         } 
+
+  //                         myList.remove(seatNumber);
+  //                       });
+  //                       Navigator.pop(context);
+  //                     })
+  //               ],
+  //             ),
+  //           ),
+  //         );
+  //       });
   // }
-
-  Container info(String info) {
-    return Container(
-      padding: EdgeInsets.all(7.5),
-      width: 400,
-      color: Colors.redAccent,
-      child: Text(info),
-    );
-  }
-
-  Widget animationBuilder(Widget textChild) {
-    return AnimatedBuilder(
-      animation:
-          CurvedAnimation(parent: _controller, curve: Curves.fastOutSlowIn),
-      builder: (context, child) {
-        return Container(
-          padding: EdgeInsets.all(7.5),
-          width: 400,
-          decoration: BoxDecoration(
-            shape: BoxShape.rectangle,
-            color: Colors.blue.withOpacity(1 - _controller.value),
-          ),
-          //height: 300,
-          //width: 200,
-          child: textChild,
-        );
-      },
-    );
-  }
-
-  List<Widget> beneficiaryNames = [];
-  List<Widget> childrenBeneficiaryNames = [];
-
-  var beneficiaryController = TextEditingController();
-
-  popupDialog(BuildContext context, BeneficiaryType beneficiaryType) {
-    beneficiaryController.clear();
-
-    Beneficiaries beneficial = Beneficiaries();
-    Gender selectedGender = Gender.male;
-    int seatNumber = myList.last;
-    int index = (beneficiaryType.index == 0)
-        ? beneficiaryNames.length
-        : childrenBeneficiaryNames.length;
-    showDialog(
-        context: context,
-        builder: (context) {
-          return Dialog(
-            child: Container(
-              height: 200,
-              child: Column(
-                children: [
-                  TextField(
-                    decoration: InputDecoration(
-                      hintText: "Name of traveller",
-                    ),
-                    controller: beneficiaryController,
-                  ),
-                  StatefulBuilder(
-                    builder: (BuildContext context, StateSetter setState) {
-                      return Row(
-                        children: <Widget>[
-                          Expanded(
-                            child: RadioListTile(
-                              title: const Text('Male'),
-                              value: Gender.male,
-                              groupValue: selectedGender,
-                              onChanged: (Gender value) {
-                                beneficial.gender = value.index;
-                                selectedGender = value;
-                                setState(() {});
-                              },
-                            ),
-                          ),
-                          Expanded(
-                            child: RadioListTile(
-                              title: const Text('Female'),
-                              groupValue: selectedGender,
-                              value: Gender.female,
-                              onChanged: (Gender value) {
-                                beneficial.gender = value.index;
-                                selectedGender = value;
-                                setState(() {});
-                              },
-                            ),
-                          ),
-                        ],
-                      );
-                    },
-                  ),
-                  ElevatedButton(
-                      child: Text("Add traveller"),
-                      onPressed: () {
-                        Widget listTile = ListTile(
-                          leading: Icon(Icons.person),
-                          title: Text(beneficiaryController.text),
-                          trailing: IconButton(
-                            icon: Icon(Icons.cancel),
-                            onPressed: () {
-                              myList.add(seatNumber);
-                              if (beneficiaryType.index == 0) {
-                                adultBeneficiary.remove(beneficial);
-                                beneficiaryNames.removeAt(index);
-                              } else {
-                                childrenBeneficiary.remove(beneficial);
-                                childrenBeneficiaryNames.removeAt(index);
-                              }
-
-                              setState(() {});
-                            },
-                          ),
-                        );
-
-                        setState(() {
-                          beneficial.fullName = beneficiaryController.text;
-
-                          beneficial.seatNumber = seatNumber;
-
-                          if (beneficiaryType.index == 0) {
-                            beneficial.passengerType = 0; //adult passenger
-                            beneficiaryNames.insert(index, listTile);
-                            adultBeneficiary.add(beneficial);
-                          } else {
-                            beneficial.passengerType = 1; //child passenger
-                            childrenBeneficiaryNames.insert(index, listTile);
-                            childrenBeneficiary.add(beneficial);
-                          }
-
-                          myList.remove(seatNumber);
-                        });
-                        Navigator.pop(context);
-                      })
-                ],
-              ),
-            ),
-          );
-        });
-  }
 
   @override
   void dispose() {
     // TODO: implement dispose
     _controller.dispose();
     super.dispose();
+  }
+}
+
+class TravellersContainer extends StatelessWidget {
+  final String title;
+  final Color color;
+  final Color textColor;
+  final Icon icon;
+  TravellersContainer(this.title, this.color, this.textColor, this.icon);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
+      child: Container(
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Row(
+            children: [
+              Expanded(
+                child: Text(
+                  title,
+                  style: TextStyle(color: textColor, fontSize: 13),
+                ),
+              ),
+              icon,
+            ],
+          ),
+        ),
+        decoration: BoxDecoration(color: color, boxShadow: <BoxShadow>[
+          BoxShadow(
+              spreadRadius: 3,
+              blurRadius: 3,
+              color: Colors.grey.withOpacity(0.3),
+              offset: Offset(2, 3))
+        ]),
+      ),
+    );
   }
 }
 

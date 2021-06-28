@@ -3,6 +3,7 @@ import 'package:Libmot_Mobile/models/get_buses_response.dart';
 import 'package:Libmot_Mobile/repository/booking_repository.dart';
 import 'package:Libmot_Mobile/repository/seat_selection_repository.dart';
 import 'package:Libmot_Mobile/view/booking/passenger_info_page.dart';
+import 'package:Libmot_Mobile/view/widgets/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
@@ -22,7 +23,7 @@ class TwelveSeaterBus extends StatelessWidget {
     seatSelection = Provider.of<SeatSelectionRepository>(context);
     seatSelection.initialSetUp(bus);
     return Expanded(
-          child: Container(
+      child: Container(
         padding: const EdgeInsets.all(18.0),
         decoration: BoxDecoration(
             color: Theme.of(context).scaffoldBackgroundColor,
@@ -48,9 +49,9 @@ class TwelveSeaterBus extends StatelessWidget {
                   Expanded(
                     child: Row(
                       children: [
-                        // seat(2),
+                        seat(2),
                         SizedBox(width: 12),
-                        // seat(1),
+                        seat(1),
                       ],
                     ),
                   ),
@@ -62,9 +63,9 @@ class TwelveSeaterBus extends StatelessWidget {
                   Expanded(
                     child: Row(
                       children: [
-                        // seat(3),
+                        seat(3),
                         SizedBox(width: 12),
-                        // seat(4),
+                        seat(4),
                       ],
                     ),
                   ),
@@ -72,9 +73,9 @@ class TwelveSeaterBus extends StatelessWidget {
                   Expanded(
                     child: Row(
                       children: [
-                        // seat(5),
+                        seat(5),
                         SizedBox(width: 12),
-                        // emptySeat(),
+                        emptySeat(),
                       ],
                     ),
                   ),
@@ -86,9 +87,9 @@ class TwelveSeaterBus extends StatelessWidget {
                   Expanded(
                     child: Row(
                       children: [
-                        // seat(6),
+                        seat(6),
                         SizedBox(width: 12),
-                        // seat(7),
+                        seat(7),
                       ],
                     ),
                   ),
@@ -96,9 +97,9 @@ class TwelveSeaterBus extends StatelessWidget {
                   Expanded(
                     child: Row(
                       children: [
-                        // emptySeat(),
+                        emptySeat(),
                         SizedBox(width: 12),
-                        // seat(8),
+                        seat(8),
                       ],
                     ),
                   ),
@@ -110,9 +111,9 @@ class TwelveSeaterBus extends StatelessWidget {
                   Expanded(
                     child: Row(
                       children: [
-                        // seat(9),
+                        seat(9),
                         SizedBox(width: 12),
-                        // seat(10),
+                        seat(10),
                       ],
                     ),
                   ),
@@ -120,9 +121,9 @@ class TwelveSeaterBus extends StatelessWidget {
                   Expanded(
                     child: Row(
                       children: [
-                        // emptySeat(),
+                        emptySeat(),
                         SizedBox(width: 12),
-                        // seat(11),
+                        seat(11),
                       ],
                     ),
                   ),
@@ -134,29 +135,22 @@ class TwelveSeaterBus extends StatelessWidget {
                   Expanded(
                     child: Row(
                       children: [
-                        // seat(12),
+                        Column(
+                          children: [
+                            seat(12),
+                          ],
+                        ),
                         SizedBox(width: 12),
-                        // seat(13),
                       ],
                     ),
                   ),
                   SizedBox(width: 12),
-                  // Expanded(
-                  //   child: Row(
-                  //     children: [
-                  //       seat(14),
-                  //       SizedBox(width: 12),
-                  //      seat(15),
-                  //     ],
-                  //   ),
-                  // ),
                 ],
               ),
               SizedBox(height: 30),
-
               Row(
                 children: [
-                  blockedSeat(Colors.grey, 'Available'),
+                  blockedSeat(Colors.grey[800], 'Available'),
                   blockedSeat(Colors.green, 'Selected'),
                   blockedSeat(Colors.grey.withOpacity(0.4), 'Unavailable'),
                 ],
@@ -164,43 +158,30 @@ class TwelveSeaterBus extends StatelessWidget {
               SizedBox(height: 30),
               ButtonReusable(
                 onpressed: () async {
+                  int numberOfBooking = booking.getBuses.numberOfAdults +
+                      booking.getBuses.numberOfChildren;
+                  if (numberOfBooking != seatSelection.selectedSeats.length) {
+                    Dialogs.showErrorSnackBar('Oops!',
+                        " You must select $numberOfBooking  Seat(s)");
+                    print('$numberOfBooking');
+                    return;
+                  }
+                  String guid = "${bus.vehicleTripRegistrationId}:";
+                  if (numberOfBooking == 1) {
+                    guid = guid + seatSelection.selectedSeats.first.toString();
+                  } else {
+                    for (int i in seatSelection.selectedSeats) {
+                      guid = (i == seatSelection.selectedSeats.last)
+                          ? guid + i.toString()
+                          : guid + i.toString() + ",";
+                    }
+                    booking.booking.seatRegistrations = guid;
+                    booking.booking.routeId = bus.routeId;
+                  }
                   Get.to(() => PassengerInfoPage());
                 },
                 name: "Continue",
               ),
-              // ButtonTheme(
-              //   height: 50,
-              //   minWidth: 200,
-              //   child: RaisedButton(
-              //     /// validaion of seats
-              //     onPressed: () {
-              //       //after selecting seat going back proceed button doesnt allow to nexr page
-              //       int numberOfBooking = booking.getBuses.numberOfAdults +
-              //           booking.getBuses.numberOfChildren;
-              //
-              //       if (numberOfBooking != seatSelection.selectedSeats.length) {
-              //         _scaffoldKey.currentState.showSnackBar(
-              //             new SnackBar(content: new Text("$numberOfBooking")));
-              //         print('$numberOfBooking');
-              //         return;
-              //       }
-              //       String guid = "${widget.bus.vehicleTripRegistrationId}:";
-              //       if (numberOfBooking == 1) {
-              //         guid = guid + seatSelection.selectedSeats.first.toString();
-              //       } else {
-              //         for (int i in seatSelection.selectedSeats) {
-              //           guid = (i == seatSelection.selectedSeats.last)
-              //               ? guid + i.toString()
-              //               : guid + i.toString() + ",";
-              //         }
-              //         booking.booking.seatRegistrations = guid;
-              //         booking.booking.routeId = widget.bus.routeId;
-              //       }
-              //       Navigator.of(context).pushNamed(passengerInfo);
-              //     },
-              //     color: Colors.red,
-              //   ),
-              // ),
               SizedBox(
                 height: 10,
               ),
@@ -228,26 +209,27 @@ class TwelveSeaterBus extends StatelessWidget {
 
     switch (seatObject.status) {
       case SeatStatus.blocked:
-        stackImage = selectedSeat(Colors.grey, i.toString());
+        stackImage = selectedSeat(Colors.grey.withOpacity(0.4), i.toString());
         break;
       case SeatStatus.selected:
         stackImage = selectedSeat(Colors.green, i.toString());
         break;
       default:
-        stackImage = selectedSeat(Colors.grey.withOpacity(0.4), i.toString());
+        stackImage = selectedSeat(Colors.grey[800], i.toString());
         break;
     }
 
     return GestureDetector(
       onTap: () {
         if (seatObject.status == SeatStatus.unSelected) {
-          int numberOfBooknings = booking.getBuses.numberOfAdults +
+          int numberOfBookings = booking.getBuses.numberOfAdults +
               booking.getBuses.numberOfChildren;
 
-          if (numberOfBooknings <= seatSelection.selectedSeats.length) {
-            scaffold.currentState.showSnackBar(
-                new SnackBar(content: new Text("$numberOfBooknings")));
-            print('$numberOfBooknings');
+          if (numberOfBookings <= seatSelection.selectedSeats.length) {
+            Dialogs.showErrorSnackBar('Oops!',
+                " You cant select more than $numberOfBookings Seat(s)");
+            // s
+            print('$numberOfBookings');
 
             return;
           }
@@ -260,11 +242,7 @@ class TwelveSeaterBus extends StatelessWidget {
       child: Stack(
         alignment: AlignmentDirectional.center,
         children: [
-          Row(
-            children: [
-              stackImage,
-            ],
-          ),
+          stackImage,
           Text(
             i.toString(),
             style: TextStyle(color: Colors.black, fontSize: 20),
@@ -303,30 +281,19 @@ class TwelveSeaterBus extends StatelessWidget {
                   color: color,
                   height: 30,
                 ),
-                Row(
-                  children: [
-                    Expanded(
-                      child: Center(
-                        child: Padding(
-                          padding: const EdgeInsets.only(top: 8.0),
-                          child: Text('Seat $seatNumber'),
-                        ),
-                      ),
-                    ),
-                  ],
+                SizedBox(
+                  height: 10,
+                ),
+                Padding(
+                  padding:
+                      const EdgeInsets.only(right: 20.0, left: 20, top: 10),
+                  child: Text("Seat"),
                 ),
               ],
             ),
           ),
         ),
       ),
-    );
-  }
-
-  unselectedSeat() {
-    return Image.asset(
-      'images/Seat.png',
-      height: 45,
     );
   }
 

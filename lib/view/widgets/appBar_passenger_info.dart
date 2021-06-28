@@ -1,3 +1,4 @@
+
 import 'package:Libmot_Mobile/Reusables/constants.dart';
 import 'package:Libmot_Mobile/models/get_buses_response.dart';
 import 'package:Libmot_Mobile/repository/booking_repository.dart';
@@ -20,7 +21,11 @@ int index;
 class _CustomAppBarState extends State<CustomAppBar> {
   @override
   Widget build(BuildContext context) {
-    // booking = Provider.of<BookingRepository>(context);
+    booking = Provider.of<BookingRepository>(context);
+    int totalTravellers = booking.getBuses.numberOfChildren + booking.getBuses.numberOfAdults;
+    double estimatedAdultfare = booking.getBuses.numberOfAdults * booking.departureSelectedBus.adultFare;
+    double estimateChildfare = booking.getBuses.numberOfChildren * booking.departureSelectedBus.childFare;
+    double totalEstimate = estimatedAdultfare +estimateChildfare;
     return Padding(
       padding: const EdgeInsets.fromLTRB(8, 8, 8, 4),
       child: Container(
@@ -44,7 +49,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
                     bottom: 10,
                   ),
                   child: Text(
-                    'booking.departureSelectedBus.routeName,',
+                    booking.departureSelectedBus.routeName,
                     style: textStyle,
                   ),
                 ),
@@ -59,7 +64,9 @@ class _CustomAppBarState extends State<CustomAppBar> {
                     children: [
                       fadedContainer(
                         context: context,
-                        title: '3 Travellers',
+                        title: booking.getBuses.numberOfChildren > 0
+                            ?"${totalTravellers}Traveller(s)"
+                            : "${booking.getBuses.numberOfAdults}Traveller(s)",
                         bottom: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           crossAxisAlignment: CrossAxisAlignment.end,
@@ -79,7 +86,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
                       ),
                       BelowWidget(
                         title: "Departure Date",
-                        time: 'booking.getBuses.departureDate,',
+                        time: booking.getBuses.departureDate,
                         icon: Icon(
                           Icons.event_outlined,
                           color: Colors.white,
@@ -97,8 +104,8 @@ class _CustomAppBarState extends State<CustomAppBar> {
                           title: 'Fare price',
                           context: context,
                           bottom: Text(
-                            '\u20A616,500',
-                            style: TextStyle(color: Colors.white, fontSize: 25),
+                            "${getNairaSign()}${totalEstimate}",
+                            style: TextStyle(color: Colors.white, fontSize: 25,fontFamily: "Monserrat"),
                           )),
                       BelowWidget(
                         title: "Departure Time",
@@ -107,7 +114,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
                           color: Colors.white,
                           size: 25,
                         ),
-                        time: 'booking.departureSelectedBus.departureTime',
+                        time: booking.departureSelectedBus.departureTime,
                       ),
                     ],
                   ),
