@@ -9,6 +9,8 @@ import 'package:Libmot_Mobile/models/post_booking_response.dart';
 import 'package:Libmot_Mobile/view/widgets/utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutterwave/flutterwave.dart';
+import 'package:flutterwave/models/responses/charge_response.dart';
 import 'package:http/http.dart';
 
 import '../resources/networking/api_calls.dart';
@@ -23,7 +25,6 @@ class BookingRepository with ChangeNotifier {
   final String busSearch = "/selectBus";
   final String applyCouponPage = "/applyCoupon";
   Buses departureSelectedBus = new Buses();
-  
 
   GetRouteModel getRouteModel;
   DestinationTerminalModel destinationTerminalModel;
@@ -104,9 +105,9 @@ class BookingRepository with ChangeNotifier {
     //     numberOfChildren: getBuses.numberOfChildren ?? 0,
     //     departureDate: getBuses.departureDate,
     //     returnDate: getBuses.returnDate);
-    booking.paymentMethod = 5;
-    booking.passengerType = 0;
-    booking.bookingType = 2;
+      booking.passengerType = 0;
+    booking.bookingStatus = 1;
+    booking.routeIdReturn = 0;
     Response response = await ApiCalls().searchBuses(getBuses.toJson());
 
     if (response.statusCode == 200) {
@@ -177,6 +178,36 @@ class BookingRepository with ChangeNotifier {
 
     //TODO: CHECK IF TWENTY MINUTES HAVE NOT ELAPSED AND THE BOOKING REFERENCE IS AVAILABLE.
 
+    // booking.passengerType = 0;
+    // booking.bookingStatus = 1;
+    // booking.routeIdReturn = 0;
+    // booking.seatRegistrations =
+    //     "${getBusesResponseModel.object.departures[0].tripId}${":6"}";
+    // booking.routeId = getBusesResponseModel.object.departures[0].routeId;
+    // booking.isLoggedIn = true;
+    // booking.isSubReturn = false;
+    // booking.isSub = false;
+    // booking.isGhanaRoute = false;
+    // booking.hasCoupon = false;
+    //  booking.paymentMethod = 5;
+    // booking.passengerType = 0;
+    // booking.bookingType = 2;
+    // BookingModel model;
+    // model = BookingModel(
+    //   passengerType: 0,
+    //   paymentMethod: 5,
+    //   bookingType: 2,
+    //   bookingStatus:1 ,
+    //   isLoggedIn: true,
+    //   isGhanaRoute: false,
+    //   isSub: false,
+    //   isSubReturn: false,
+    //   hasCoupon: false,
+    //   routeIdReturn: 0,
+    //   routeId: getBusesResponseModel.object.departures[0].routeId,
+    //   seatRegistrations: "${getBusesResponseModel.object.departures[0].tripId}${":6"}",
+    // );
+
     final response = await ApiCalls().postBooking(booking.toJson());
 
     if (response.statusCode == 200) {
@@ -195,66 +226,66 @@ class BookingRepository with ChangeNotifier {
 //   showDialog(context: context, builder: (context) => PaymentPaystack());
 // }
 
-// beginFlutterwavePayment(BuildContext context, String amount, String email,
-//     String fullName, String txref, String phoneNumber) async {
-//   final Flutterwave flutterwave = Flutterwave.forUIPayment(
-//     context: context,
-//     //encryptionKey: baseInstance.base.flutterwaveEncryptionKey,
-//     encryptionKey: "26c03b274b07e6a19b179978",
-//     //publicKey: baseInstance.base.flutterwavePublicKey,
-//     publicKey: "FLWPUBK-add64679c55bac888696922e372cecb5-X",
-//     currency: "NGN",
-//     amount: "50",
-//     email: email,
-//     fullName: fullName,
-//     txRef: txref,
-//     isDebugMode: false,
-//     phoneNumber: phoneNumber,
-//     acceptCardPayment: true,
-//     acceptUSSDPayment: true,
-//     acceptAccountPayment: true,
-//   );
+  beginFlutterwavePayment(BuildContext context, String amount, String email,
+      String fullName, String txref, String phoneNumber) async {
+    final Flutterwave flutterwave = Flutterwave.forUIPayment(
+      context: context,
+      //encryptionKey: baseInstance.base.flutterwaveEncryptionKey,
+      encryptionKey: "26c03b274b07e6a19b179978",
+      //publicKey: baseInstance.base.flutterwavePublicKey,
+      publicKey: "FLWPUBK-add64679c55bac888696922e372cecb5-X",
+      currency: "NGN",
+      amount: "50",
+      email: email,
+      fullName: fullName,
+      txRef: txref,
+      isDebugMode: false,
+      phoneNumber: phoneNumber,
+      acceptCardPayment: true,
+      acceptUSSDPayment: true,
+      acceptAccountPayment: true,
+    );
 
-//   try {
-//     final ChargeResponse response =
-//         await flutterwave.initializeForUiPayments();
-//     if (response == null) {
-//       // user didn't complete the transaction.
-//       print("transaction not complete");
-//     } else {
-//       final isSuccessful = checkPaymentIsSuccessful(
-//         response,
-//         "NGN",
-//         amount,
-//         txref,
-//       );
-//       if (isSuccessful) {
-//         print("Successful");
-//         // provide value to customer
-//       } else {
-//         // check message
-//         print(response.message);
-//         // check status
-//         print(response.status);
+    try {
+      final ChargeResponse response =
+          await flutterwave.initializeForUiPayments();
+      if (response == null) {
+        // user didn't complete the transaction.
+        print("transaction not complete");
+      } else {
+        final isSuccessful = checkPaymentIsSuccessful(
+          response,
+          "NGN",
+          amount,
+          txref,
+        );
+        if (isSuccessful) {
+          print("Successful");
+          // provide value to customer
+        } else {
+          // check message
+          print(response.message);
+          // check status
+          print(response.status);
 
-//         // check processor error
-//         print(response.data.processorResponse);
-//       }
-//     }
-//   } catch (error, stacktrace) {
-//     // handleError(error);
-//     print(error);
-//     print(stacktrace);
-//   }
-// }
+          // check processor error
+          print(response.data.processorResponse);
+        }
+      }
+    } catch (error, stacktrace) {
+      // handleError(error);
+      print(error);
+      print(stacktrace);
+    }
+  }
 
-// bool checkPaymentIsSuccessful(final ChargeResponse response, String currency,
-//     String amount, String txref) {
-//   return response.data.status == FlutterwaveConstants.SUCCESSFUL &&
-//       response.data.currency == currency &&
-//       response.data.amount == amount &&
-//       response.data.txRef == txref;
-// }
+  bool checkPaymentIsSuccessful(final ChargeResponse response, String currency,
+      String amount, String txref) {
+    return response.data.status == FlutterwaveConstants.SUCCESSFUL &&
+        response.data.currency == currency &&
+        response.data.amount == amount &&
+        response.data.txRef == txref;
+  }
 }
 
 //ios

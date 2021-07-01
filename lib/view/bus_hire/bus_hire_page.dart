@@ -2,10 +2,16 @@ import 'package:Libmot_Mobile/Reusables/appBar.dart';
 import 'package:Libmot_Mobile/Reusables/constants.dart';
 import 'package:Libmot_Mobile/Reusables/text_field.dart';
 import 'package:Libmot_Mobile/repository/hire_bus_repository.dart';
+import 'package:Libmot_Mobile/resources/networking/getBase.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_google_places/flutter_google_places.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:google_maps_webservice/places.dart';
+
+import 'testbus.dart';
 
 // ignore: must_be_immutable
 class BusHirePage extends StatefulWidget {
@@ -27,6 +33,22 @@ class _BusHirePageState extends State<BusHirePage> {
   TextEditingController departuredateController = TextEditingController();
 
   HireBusRepository hireBus;
+  GoogleMapsPlaces _places;
+  LatLng userLocation;
+  List<AddressComponent> _placeDetails;
+  Map _json;
+  @override
+  void initState() {
+    _places = GoogleMapsPlaces(
+      apiKey: "AIzaSyD6mAOR2Bp-obgXHVCb_iyhTbQliRfhFZM",
+    );
+    super.initState();
+  }
+
+  String getStateFromDetails() {
+    print(" stating${_placeDetails[_placeDetails.length - 2].longName}");
+    return _placeDetails[_placeDetails.length - 2].longName;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +64,7 @@ class _BusHirePageState extends State<BusHirePage> {
       width: _width,
       height: _height,
       child: Column(
-        children: [ 
+        children: [
           myAppBar(context, 'Hire A Bus'),
           Expanded(
             child: GestureDetector(
@@ -59,15 +81,27 @@ class _BusHirePageState extends State<BusHirePage> {
                 child: SingleChildScrollView(
                   child: Column(
                     children: [
-                      InputFormField(
-                        suffixIcon: Icon(Icons.place),
-                        label: 'From',
-                        controller: fromController,
+                      InkWell(
+                        onTap: () {
+                          handlepress();
+                        },
+                        child: InputFormField(
+                          suffixIcon: Icon(Icons.place),
+                          label: 'From',
+                          controller: fromController,
+                          enabled: false,
+                        ),
                       ),
-                      InputFormField(
-                        suffixIcon: Icon(Icons.place),
-                        label: 'To',
-                        controller: toController,
+                      InkWell(
+                        onTap: () {
+                          dropOff();
+                        },
+                        child: InputFormField(
+                          suffixIcon: Icon(Icons.place),
+                          label: 'To',
+                          enabled: false,
+                          controller: toController,
+                        ),
                       ),
                       InkWell(
                         onTap: () async {
@@ -95,11 +129,14 @@ class _BusHirePageState extends State<BusHirePage> {
                           label: 'Departure Date',
                         ),
                       ),
-                      SizedBox(height: 50,),
+                      SizedBox(
+                        height: 50,
+                      ),
                       ButtonReusable(
                         name: "Proceed",
-                        onpressed: (){
-                           Navigator.of(context).pushNamed(busHireDetailsPage);
+                        onpressed: () {
+                          //Get.to(PlaceDetailWidget());
+                          //Navigator.of(context).pushNamed(busHireDetailsPage);
                         },
                       ),
                     ],
@@ -113,63 +150,74 @@ class _BusHirePageState extends State<BusHirePage> {
     ));
   }
 
-  fromField(BuildContext context) {
-    return TextFormField(
-        readOnly: true,
-        controller: fromController,
-        validator: (value) {
-          if (value.isEmpty) {
-            return 'Please input a departure address';
-          }
-          return null;
-        },
-        onTap: () async {
-          fromController.text = await hireBus.getAddress(context);
-        });
+  //open for only two weeks
+
+  Future<void> handlepress() async {
+    Prediction p = await PlacesAutocomplete.show(
+      context: context,
+      apiKey: "AIzaSyD6mAOR2Bp-obgXHVCb_iyhTbQliRfhFZM",
+      onError: (error) {
+        print(error.toJson());
+      },
+      mode: Mode.overlay,
+      language: "en",
+      decoration: InputDecoration(
+        hintText: 'Search',
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(20),
+          borderSide: BorderSide(
+            color: Colors.white,
+          ),
+        ),
+      ),
+      components: [Component(Component.country, "NG")],
+    );
+
+    if (p != null) {
+      // get detail (lat/lng)
+
+      PlacesDetailsResponse detail =
+          await _places.getDetailsByPlaceId(p.placeId);
+      fromController.text = detail.result.formattedAddress;
+      _json["pickUpLat"] = detail.result.geometry.location.lat;
+      _json["pickUpLng"] = detail.result.geometry.location.lng;
+      _json["pickUpAddress"] = detail.result.formattedAddress;
+      _placeDetails = detail.result.addressComponents;
+    }
   }
 
-  toField(BuildContext context) {
-    return TextFormField(
-      readOnly: true,
-      controller: toController,
-      validator: (value) {
-        if (value.isEmpty) {
-          return 'Please input a destination address';
-        }
-        return null;
+  Future<void> dropOff() async {
+    Prediction p = await PlacesAutocomplete.show(
+      context: context,
+      apiKey: "AIzaSyD6mAOR2Bp-obgXHVCb_iyhTbQliRfhFZM",
+      onError: (error) {
+        print(error.toJson());
       },
-      onTap: () async {
-        toController.text = await hireBus.getAddress(context);
-      },
+      mode: Mode.overlay,
+      language: "en",
+      decoration: InputDecoration(
+        hintText: 'Search',
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(20),
+          borderSide: BorderSide(
+            color: Colors.white,
+          ),
+        ),
+      ),
+      components: [Component(Component.country, "NG")],
     );
-  }
 
-  dateField(context) {
-    final now = DateTime.now();
-    return TextFormField(
-      readOnly: true,
-      controller: dateController,
-      validator: (value) {
-        if (value.isEmpty) {
-          return 'Please select departure date';
-        }
-        return null;
-      },
-      onTap: () async {
-        DateTime selectedTime = await showDatePicker(
-            context: context,
-            initialDate: now.add(Duration(days: 1)), //tomorrow initial date
-            firstDate: now,
-            lastDate: now.add(Duration(days: 14)), //open for only two weeks
-            helpText: "Select travelling date");
+    if (p != null) {
+      // get detail (lat/lng)
 
-        dateController.text =
-            '${DateFormat('dd MMMM yyyy').format(selectedTime)}';
-
-        print(dateController.text);
-        print(hireBus.hireBus.departureDate);
-      },
-    );
+      PlacesDetailsResponse detail =
+          await _places.getDetailsByPlaceId(p.placeId);
+      toController.text = detail.result.formattedAddress;
+      _json["dropOffLat"] = detail.result.geometry.location.lat;
+      _json["dropOffLng"] = detail.result.geometry.location.lng;
+      _json["dropOffAddress"] = detail.result.formattedAddress;
+      _placeDetails = detail.result.addressComponents;
+    }
   }
 
   proceedButton(context) {

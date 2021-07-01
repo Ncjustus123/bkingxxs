@@ -56,7 +56,7 @@ class _ApplyCouponState extends State<ApplyCoupon> {
                     ),
                     WhiteButtonReusable(
                       onpressed: () async {
-                        repository.couponProceedButton(context);
+                        
                       },
                       name: "Apply coupon",
                     ),
@@ -126,7 +126,7 @@ class _ApplyCouponState extends State<ApplyCoupon> {
                     ButtonReusable(
                       onpressed: () async {
                         Navigator.of(context).pushNamed("/paymentpage");
-                        //repository.couponProceedButton(context);
+                        repository.couponProceedButton(context);
                       },
                       name: "Proceed to payment",
                     ),

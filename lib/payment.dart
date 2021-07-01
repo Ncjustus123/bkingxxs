@@ -192,16 +192,6 @@ class _PaymentPageState extends State<PaymentPage> {
     //int amounts = booking.postBookingResponse.object.amount.toInt();
     return Scaffold(
       backgroundColor: Theme.of(context).primaryColor,
-      // appBar: AppBar(
-      //   iconTheme: IconThemeData(
-      //     color: Colors.black,
-      //   ),
-      //   backgroundColor: Colors.grey[300],
-      //   title: Text(
-      //     "Select Payment Method",
-      //     style: textStyle2,
-      //   ),
-      // ),
       body: Container(
         width: _width,
         height: _height,
@@ -224,7 +214,17 @@ class _PaymentPageState extends State<PaymentPage> {
                     children: [
                       Expanded(
                         child: GestureDetector(
-                          onTap: () {},
+                          onTap: () {
+                            booking.beginFlutterwavePayment(
+                                context,
+                                booking.postBookingResponse.object.amount
+                                    .toString(),
+                                booking.booking.email,
+                                booking.booking.firstName,
+                                booking.postBookingResponse.object
+                                    .bookingReferenceCode,
+                                booking.booking.phoneNumber);
+                          },
                           child: Image.asset(
                             "images/flutterwave.png",
                             height: 60,
@@ -233,7 +233,7 @@ class _PaymentPageState extends State<PaymentPage> {
                       ),
                       Expanded(
                         child: GestureDetector(
-                          onTap: ()=> Get.to(PaymentPaystack()),
+                          onTap: () => Get.to(PaymentPaystack()),
 
                           // Navigator.pushReplacement(
                           //     context,

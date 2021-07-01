@@ -238,7 +238,7 @@ class _PassengerInfoPageState extends State<PassengerInfoPage>
                             suffixIcon: Icon(Icons.expand_more),
                             textCapitalization: TextCapitalization.words,
                             controller: genderController,
-                            onSaved: (value) => booking.booking.gender = value,
+                            onSaved: (value) => booking.booking.gender = (value == "Male") ? 0:1,
                             validator: (value) {
                               if (value.isEmpty) {
                                 return 'error';

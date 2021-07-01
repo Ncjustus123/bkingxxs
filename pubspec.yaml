@@ -48,6 +48,9 @@ dependencies:
   firebase_messaging: ^10.0.2
   flip_card: ^0.5.0
   credit_card_type_detector: ^2.0.0
+  google_maps_flutter: ^2.0.6
+  google_maps_place_picker:
+
   
   # flutter_local_notifications: ^6.0.0
   # paystack_manager: ^1.0.4

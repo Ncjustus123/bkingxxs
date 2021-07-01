@@ -67,7 +67,7 @@ class _PaymentPaystackState extends State<PaymentPaystack> {
   String cardNumber = "xxxx xxxx xxxx xxxx";
   String monthAndyear = "MM/YY";
   String cvvNumber = "CVV";
-  String cardHolderName="CARD HOLDER";
+  String cardHolderName = "CARD HOLDER";
 
   _renderContent(context) {
     return Container(
@@ -101,11 +101,13 @@ class _PaymentPaystackState extends State<PaymentPaystack> {
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: Text(monthAndyear, style: TextStyle(fontSize: 15, color: Colors.white)),
+                    child: Text(monthAndyear,
+                        style: TextStyle(fontSize: 15, color: Colors.white)),
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: Text(cardHolderName, style: TextStyle(fontSize: 15, color: Colors.white)),
+                    child: Text(cardHolderName,
+                        style: TextStyle(fontSize: 15, color: Colors.white)),
                   ),
                 ],
               ),
@@ -139,7 +141,7 @@ class _PaymentPaystackState extends State<PaymentPaystack> {
           height: MediaQuery.of(context).size.height * 0.25,
           width: double.infinity,
           decoration: BoxDecoration(
-            color: Colors.indigo[900], 
+            color: Colors.indigo[900],
             borderRadius: BorderRadius.all(Radius.circular(5)),
           ),
           child: Column(
@@ -217,14 +219,27 @@ class _PaymentPaystackState extends State<PaymentPaystack> {
                         controller: cardHoldername,
                         onChanged: (value) {
                           setState(() {
-                            cardHolderName=cardHoldername.text;
+                            cardHolderName = cardHoldername.text;
                             value = cardHoldername;
                           });
                         },
                       ),
                       SmallButtonReusable(
                         name: "Proceed",
-                        onpressed: () {},
+                        onpressed: () {
+                          dialog(
+                            context,
+                            "Payment Successful",
+                            "Your Payment of 10,000 was successful",
+                            (){
+                               int count = 0;
+                                Navigator.popUntil(context, (route) {
+                                  return count++ == 8;
+                                });
+                                setState(() {});
+                            }
+                          );
+                        },
                       ),
                       SizedBox(
                         height: 10,

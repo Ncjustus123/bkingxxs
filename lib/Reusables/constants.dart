@@ -15,7 +15,8 @@ const Color kRed = Color(0xFFF44336);
 //TextStyle
 
 const textStyle = TextStyle(color: Colors.white, fontSize: 18);
-const textStyleHeading = TextStyle(color: Colors.black, fontSize: 18,fontWeight: FontWeight.w500);
+const textStyleHeading =
+    TextStyle(color: Colors.black, fontSize: 18, fontWeight: FontWeight.w500);
 const textStyle1 =
     TextStyle(color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold);
 const textStyle2 =
@@ -25,7 +26,7 @@ String getNairaSign() {
   return "₦";
 }
 
-dialog(context,String title, content) {
+dialog(context, String title, content,onpressed) {
   showDialog(
     context: context,
     barrierDismissible: true,
@@ -34,7 +35,7 @@ dialog(context,String title, content) {
         margin: EdgeInsets.all(10),
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10), color: Colors.white),
-        height: 400,
+        height: 300,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -68,9 +69,7 @@ dialog(context,String title, content) {
             Spacer(),
             SmallButtonReusable(
               name: "Okay",
-              onpressed: (){
-                
-              },
+              onpressed: onpressed,
             ),
           ],
         ),
@@ -85,7 +84,7 @@ class ButtonReusable extends StatelessWidget {
   final Color color;
   final Color textcolor;
 
-  const ButtonReusable({this.onpressed, this.name,this.color,this.textcolor});
+  const ButtonReusable({this.onpressed, this.name, this.color, this.textcolor});
 
   @override
   Widget build(BuildContext context) {
@@ -99,8 +98,7 @@ class ButtonReusable extends StatelessWidget {
         ),
         onPressed: onpressed,
         style: ButtonStyle(
-          backgroundColor:
-              MaterialStateProperty.all(color),
+          backgroundColor: MaterialStateProperty.all(color),
           shape: MaterialStateProperty.all<RoundedRectangleBorder>(
             RoundedRectangleBorder(
               borderRadius: BorderRadius.only(
@@ -115,6 +113,7 @@ class ButtonReusable extends StatelessWidget {
     );
   }
 }
+
 class SmallButtonReusable extends StatelessWidget {
   final Function onpressed;
   final String name;
@@ -150,7 +149,6 @@ class SmallButtonReusable extends StatelessWidget {
   }
 }
 
-
 class WhiteButtonReusable extends StatelessWidget {
   final Function onpressed;
   final String name;
@@ -163,14 +161,20 @@ class WhiteButtonReusable extends StatelessWidget {
       height: 50,
       width: 300,
       child: ElevatedButton(
-        child: Text(name,style:TextStyle(color: Colors.white),),
+        child: Text(
+          name,
+          style: TextStyle(color: Colors.white),
+        ),
         onPressed: onpressed,
         style: ButtonStyle(
-          backgroundColor:
-              MaterialStateProperty.all(Colors.grey),
+          backgroundColor: MaterialStateProperty.all(Colors.grey),
           shape: MaterialStateProperty.all<RoundedRectangleBorder>(
             RoundedRectangleBorder(
-              borderRadius: BorderRadius.only(topLeft:Radius.circular(10),bottomLeft:Radius.circular(10),bottomRight: Radius.circular(10),  ),
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(10),
+                bottomLeft: Radius.circular(10),
+                bottomRight: Radius.circular(10),
+              ),
             ),
           ),
         ),
@@ -178,7 +182,6 @@ class WhiteButtonReusable extends StatelessWidget {
     );
   }
 }
-
 
 class TextFormFeildWidget extends StatelessWidget {
   final String lableText;
