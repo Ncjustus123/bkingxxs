@@ -11,8 +11,21 @@ class Dialogs {
         Icons.emoji_emotions,
         color: Colors.red,
       ),
-      backgroundColor: Colors.redAccent.withOpacity(0.7),
+      backgroundColor: Colors.black87,
       colorText: Colors.white,
+    );
+  }
+  static showNoInternetSnackBar(String title, String message) {
+    Get.snackbar(
+      title,
+      message,
+      duration: Duration(seconds: 4),
+      icon: Icon(
+        Icons.wifi_off,
+        color: Colors.orange,
+      ),
+      backgroundColor: Colors.white,
+      colorText: Colors.orange,
     );
   }
 

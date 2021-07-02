@@ -1,4 +1,5 @@
 import 'package:Libmot_Mobile/Reusables/buttons.dart';
+import 'package:Libmot_Mobile/internet_utils.dart';
 import 'package:Libmot_Mobile/repository/user_repository.dart';
 import 'package:Libmot_Mobile/view/onboarding_page.dart';
 import 'package:Libmot_Mobile/view/login/sign_up_page.dart';
@@ -22,7 +23,9 @@ class _WelcomePageState extends State<WelcomePage> {
   @override
   Widget build(BuildContext context) {
     user = Provider.of<UserRepository>(context);
-    Size size = MediaQuery.of(context).size;
+    Size size = MediaQuery
+        .of(context)
+        .size;
     return Scaffold(
       backgroundColor: Colors.black12,
       body: Stack(
@@ -63,7 +66,7 @@ class _WelcomePageState extends State<WelcomePage> {
                   },
                 ),
                 SizedBox(
-                  height: 25,
+                  height: 30,
                 ),
                 Buttons.whiteButton(
                   context: context,
@@ -73,32 +76,34 @@ class _WelcomePageState extends State<WelcomePage> {
                   },
                 ),
                 SizedBox(
-                  height: 25,
+                  height: 35,
                 ),
                 isLoadingGuest
                     ? Center(
-                        child: CircularProgressIndicator(),
-                      )
+                  child: CircularProgressIndicator(),
+                )
                     : InkWell(
-                        onTap: () {
-                          loginForAndroidIos(user);
-                        },
-                        child: Center(
-                          child: Text(
-                            "Continue as guest",
-                            style: TextStyle(
-                              fontSize: 15,
-                              fontWeight: FontWeight.w500,
-                              color: Theme.of(context).primaryColor,
-                            ),
-                          ),
-                        ),
-                        // onTap: () {
-                        //   user.loginForAndroidIos();
-                        //   Navigator.of(context).pushNamed(WelcomePage.dashboardPage);
-
-                        // },
+                  onTap: () {
+                    loginForAndroidIos(user);
+                  },
+                  child: Center(
+                    child: Text(
+                      "Continue as guest",
+                      style: TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w500,
+                        color: Theme
+                            .of(context)
+                            .primaryColor,
                       ),
+                    ),
+                  ),
+                  // onTap: () {
+                  //   user.loginForAndroidIos();
+                  //   Navigator.of(context).pushNamed(WelcomePage.dashboardPage);
+
+                  // },
+                ),
                 Spacer(),
               ],
             ),
@@ -117,11 +122,19 @@ class _WelcomePageState extends State<WelcomePage> {
   }
 
   loginForAndroidIos(user) async {
-    setState(() {
-      isLoadingGuest = true;
-    });
-    user.loginForAndroidIos(context);
-    Navigator.of(context).pushNamedAndRemoveUntil(WelcomePage.dashboardPage, (route) => false);
-    Dialogs.showWelcomeSnackBar('You are welcome to LIBMOT', "Travel conveniently...");
+    if (await InternetUtils.checkConnectivity()) {
+      setState(() {
+        isLoadingGuest = true;
+      });
+      user.loginForAndroidIos(context);
+      Navigator.of(context).pushNamedAndRemoveUntil(
+          WelcomePage.dashboardPage, (route) => false);
+      Dialogs.showWelcomeSnackBar(
+          'You are welcome to LIBMOT', "Travel conveniently...");
+    }
+    else {
+      Dialogs.showNoInternetSnackBar('No Internet Connection',
+          'You will not be able yto use the app effectivity without internet connection');
+    }
   }
 }

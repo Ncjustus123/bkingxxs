@@ -35,126 +35,70 @@ class FifteenSeaterBus extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
+
                   Expanded(
-                      child: Row(
-                    children: [
-                      Image.asset(
-                        'images/steering.png',
-                        height: 55,
-                      ),
-                      emptySeat(),
-                    ],
-                  )),
-                  SizedBox(width: 12),
-                  Expanded(
-                    child: Row(
-                      children: [
-                        seat(2),
-                        SizedBox(width: 12),
-                        seat(1),
-                      ],
+                    child: Image.asset(
+                      'images/steering.png',
+                      height: 55,
                     ),
                   ),
+                  SizedBox(width: 12),
+                      Expanded(child: Container(height: 20,width: 30,)),
+
+                  SizedBox(width: 12),
+
+                      Expanded(child: seat(2)),
+                      SizedBox(width: 12),
+                      Expanded(child: seat(1)),
+
                 ],
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Expanded(
-                    child: Row(
-                      children: [
-                        seat(3),
-                        SizedBox(width: 12),
-                        seat(4),
-                      ],
-                    ),
-                  ),
+                  Expanded(child: seat(3)),
                   SizedBox(width: 12),
-                  Expanded(
-                    child: Row(
-                      children: [
-                        seat(5),
-                        SizedBox(width: 12),
-                        emptySeat(),
-                      ],
-                    ),
-                  ),
+                  Expanded(child: seat(4)),
+                  SizedBox(width: 12),
+                  Expanded(child: seat(5)),
+                  SizedBox(width: 12),
+                  emptySeat(),
                 ],
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Expanded(
-                    child: Row(
-                      children: [
-                        seat(6),
-                        SizedBox(width: 12),
-                        seat(7),
-                      ],
-                    ),
-                  ),
+                  Expanded(child: seat(6)),
                   SizedBox(width: 12),
-                  Expanded(
-                    child: Row(
-                      children: [
-                        emptySeat(),
-                        SizedBox(width: 12),
-                        seat(8),
-                      ],
-                    ),
-                  ),
+                  Expanded(child: seat(7)),
+                  SizedBox(width: 12),
+                  emptySeat(),
+                  SizedBox(width: 12),
+                  Expanded(child: seat(8)),
                 ],
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Expanded(
-                    child: Row(
-                      children: [
-                        seat(9),
-                        SizedBox(width: 12),
-                        seat(10),
-                      ],
-                    ),
-                  ),
+                  Expanded(child: seat(9)),
                   SizedBox(width: 12),
-                  Expanded(
-                    child: Row(
-                      children: [
-                        emptySeat(),
-                        SizedBox(width: 12),
-                        seat(11),
-                      ],
-                    ),
-                  ),
+                  Expanded(child: seat(10)),
+                  SizedBox(width: 12),
+                  emptySeat(),
+                  SizedBox(width: 12),
+                  Expanded(child: seat(11)),
                 ],
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Expanded(
-                    child: Row(
-                      children: [
-                         Column(
-                           children: [
-                             seat(12),
-                           ],
-                         ),
-                        SizedBox(width: 12),
-                        seat(13),
-                      ],
-                    ),
-                  ),
+                  Expanded(child: seat(12)),
+                      SizedBox(width: 12),
+                  Expanded(child: seat(13)),
                   SizedBox(width: 12),
-                  Expanded(
-                    child: Row(
-                      children: [
-                        seat(14),
-                        SizedBox(width: 12),
-                       seat(15),
-                      ],
-                    ),
-                  ),
+                  Expanded(child: seat(14)),
+                  SizedBox(width: 12),
+                  Expanded(child: seat(15)),
                 ],
               ),
               SizedBox(height: 30),
@@ -249,55 +193,42 @@ class FifteenSeaterBus extends StatelessWidget {
           seatSelection.unselectSeat(i, seatIndex);
         }
       },
-      child: Stack(
-        alignment: AlignmentDirectional.center,
-        children: [
-          stackImage,
-          Text(
-            i.toString(),
-            style: TextStyle(color: Colors.black, fontSize: 20),
-          ),
-        ],
-      ),
+      child: stackImage,
     );
   }
 
-  Expanded emptySeat() {
-    return Expanded(
-      child: Container(),
-    );
+   emptySeat() {
+    return Expanded(child: Container(height: 20,width: 30,));
   }
 
   selectedSeat(color, seatNumber) {
-    return Expanded(
-      child: Container(
-        margin: EdgeInsets.only(bottom: 14),
-        decoration: BoxDecoration(color: Colors.white, boxShadow: <BoxShadow>[
-          BoxShadow(
-              color: Colors.grey.withOpacity(0.3),
-              offset: Offset(0.5, 0.8),
-              spreadRadius: 1,
-              blurRadius: 1),
-        ]),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 12),
-          child: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Image.asset(
-                  'images/Seat-1.png',
-                  color: color,
-                  height: 30,
-                ),
-                SizedBox(height: 10,),
-                Padding(
-                  padding: const EdgeInsets.only(right:20.0,left: 20,top: 10),
-                  child: Text("Seat"),
-                ),
-              ],
-            ),
+    return Container(
+      margin: EdgeInsets.only(bottom: 14),
+      decoration: BoxDecoration(color: Colors.white, boxShadow: <BoxShadow>[
+        BoxShadow(
+            color: Colors.grey.withOpacity(0.3),
+            offset: Offset(0.5, 0.8),
+            spreadRadius: 1,
+            blurRadius: 1),
+      ]),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 12),
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Image.asset(
+                'images/Seat-1.png',
+                color: color,
+                height: 30,
+              ),
+              SizedBox(height: 10,),
+              Padding(
+                padding: const EdgeInsets.only(right:20.0,left: 20,top: 10),
+                child: Text("Seat $seatNumber"),
+              ),
+            ],
           ),
         ),
       ),
