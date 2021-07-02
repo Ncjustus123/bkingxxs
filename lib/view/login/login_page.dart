@@ -1,10 +1,17 @@
+
 import 'package:Libmot_Mobile/Reusables/constants.dart';
 import 'package:Libmot_Mobile/Reusables/ui_reusables.dart';
+import 'package:Libmot_Mobile/internet_utils.dart';
 import 'package:Libmot_Mobile/repository/user_repository.dart';
+import 'package:Libmot_Mobile/view/dashboard_page.dart';
 import 'package:Libmot_Mobile/view/widgets/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:get/get.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import '../welcome_page.dart';
 
 // ignore: must_be_immutable
 class LoginPage extends StatefulWidget {
@@ -12,9 +19,11 @@ class LoginPage extends StatefulWidget {
   _LoginPageState createState() => _LoginPageState();
 }
 
+// chinedu.nwachukwu@libmot.net
+// Acehood12345
+
 class _LoginPageState extends State<LoginPage> {
   final emailController = TextEditingController();
-
   final passwordController = TextEditingController();
 
   bool _passwordVisible = true;
@@ -25,8 +34,24 @@ class _LoginPageState extends State<LoginPage> {
   final String dashboardPage = "/dashboard";
 
   @override
+  void initState() {
+    getSecureStorage();
+    super.initState();
+  }
+
+
+  void getSecureStorage() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final userStoredEmail = prefs.getString('email');
+    setState(() {
+      emailController.text = userStoredEmail;
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     final user = Provider.of<UserRepository>(context);
+
     return Scaffold(
       body: GestureDetector(
         onTap: () {
@@ -133,45 +158,53 @@ class _LoginPageState extends State<LoginPage> {
                                 ],
                               ),
                             ),
-                            InkWell(
-                              onTap: () {
-                                Navigator.of(context).pushNamed("/dashboard");
-                              },
-                              child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Text("Continue as guest",
-                                        style: TextStyle(
-                                            color: Colors.black87,
-                                            fontSize: 13)),
-                                    Icon(
-                                      Icons.arrow_right_alt,
-                                      color: Colors.grey,
-                                    )
-                                  ]),
-                            ),
+                            isLoadingGuest
+                                ? Center(
+                                    child: CircularProgressIndicator(),
+                                  )
+                                : InkWell(
+                                    onTap: () {
+                                      loginForAndroidIos(user);
+                                    },
+                                    child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Text("Continue as guest",
+                                              style: TextStyle(
+                                                  color: Colors.black87,
+                                                  fontSize: 13)),
+                                          Icon(
+                                            Icons.arrow_right_alt,
+                                            color: Colors.grey,
+                                          )
+                                        ]),
+                                  ),
                             SizedBox(height: 70),
                             InkWell(
                               onTap: () {
                                 Navigator.of(context).pushNamed("/signUpPage");
                               },
-                              child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    RichText(
-                                        text: TextSpan(children: [
-                                      TextSpan(
-                                          text: "Don't have an account?",
-                                          style: TextStyle(
-                                              color: Colors.grey,
-                                              fontSize: 13)),
-                                      TextSpan(
-                                          text: " Sign Up",
-                                          style: TextStyle(
-                                              color: Colors.black,
-                                              fontSize: 14)),
-                                    ])),
-                                  ]),
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      RichText(
+                                          text: TextSpan(children: [
+                                        TextSpan(
+                                            text: "Don't have an account?",
+                                            style: TextStyle(
+                                                color: Colors.grey,
+                                                fontSize: 13)),
+                                        TextSpan(
+                                            text: " Sign Up",
+                                            style: TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 14)),
+                                      ])),
+                                    ]),
+                              ),
                             ),
                           ],
                         ),
@@ -234,6 +267,7 @@ class _LoginPageState extends State<LoginPage> {
             ),
             ButtonReusable(
               onpressed: () async {
+                FocusScope.of(context).unfocus();
                 onLoginPressed(user, context);
               },
               name: "Log In",
@@ -245,36 +279,62 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  var loading = Row(
-    mainAxisAlignment: MainAxisAlignment.center,
-    children: <Widget>[
-      CircularProgressIndicator(),
-      Text(" Authenticating ... Please wait")
-    ],
-  );
+  //
+  // var loading = Row(
+  //   mainAxisAlignment: MainAxisAlignment.center,
+  //   children: <Widget>[
+  //
+  //     CircularProgressIndicator(),
+  //     Text(" Authenticating ... Please wait")
+  //   ],
+  // );
+  //
+  bool isLoadingGuest = false;
+
+  changeGuestLoading() {
+    setState(() {
+      isLoadingGuest = !isLoadingGuest;
+    });
+  }
+  loginForAndroidIos(user) async {
+
+    setState(() {
+      isLoadingGuest = true;
+    });
+    user.loginForAndroidIos(context);
+    Navigator.of(context).pushNamedAndRemoveUntil(WelcomePage.dashboardPage, (route) => false);
+    Dialogs.showWelcomeSnackBar('You are welcome to LIBMOT', "Travel conveniently...");
+
+
+  }
 
   onLoginPressed(UserRepository user, context) async {
-    showLoading(
-        progressColor: Colors.red,
-        indicatorColor: Colors.red,
-        backgroundColor: Colors.white,
-        textColor: Colors.red,
-        indicatorType: EasyLoadingIndicatorType.foldingCube,
-        status: "Submitting.....");
-    if (_formKeyLogin.currentState.validate()) {
-      await user.loginRepo(emailController.text, passwordController.text);
-      if (user.loggedInStatus == LoggedInStatus.LoggedIn) {
-        Navigator.of(context).pushNamed(dashboardPage);
-        EasyLoading.dismiss();
-        Dialogs.showSuccessSnackBar('Successful!', "You are welcome back");
+    if (await InternetUtils.checkConnectivity()) {
+      showLoading(
+          progressColor: Colors.red,
+          indicatorColor: Colors.red,
+          backgroundColor: Colors.white,
+          textColor: Colors.red,
+          indicatorType: EasyLoadingIndicatorType.foldingCube,
+          status: "\nLogin in.....");
+      if (_formKeyLogin.currentState.validate()) {
+        await user.loginRepo(
+            context, emailController.text, passwordController.text);
+        if (user.loggedInStatus == LoggedInStatus.LoggedIn) {
+          // Navigator.of(context).pushNamed(dashboardPage);
+          Get.offAll(()=>DashboardPage());
+          EasyLoading.dismiss();
+          Dialogs.showWelcomeSnackBar('Successful!', "You are welcome back");
+        } else {
+          print("An errorOccurred");
+          EasyLoading.dismiss();
+        }
       } else {
-        print("An errorOccured");
-        EasyLoading.dismiss();
-        Dialogs.showErrorSnackBar('Oops!', "invalid credential");
+        print("validation not done");
+        // EasyLoading.dismiss();
       }
-    } else {
-      print("validation not done");
-      // EasyLoading.dismiss();
-    }
+    } else
+      Dialogs.showErrorSnackBar(
+          'Sorry!', "You do not have internet connection at the moment");
   }
 }

@@ -1,8 +1,13 @@
 import 'package:Libmot_Mobile/Reusables/constants.dart';
 import 'package:Libmot_Mobile/Reusables/ui_reusables.dart';
+import 'package:Libmot_Mobile/models/sign_up_model.dart';
 import 'package:Libmot_Mobile/repository/user_repository.dart';
+import 'package:Libmot_Mobile/view/widgets/utils.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:provider/provider.dart';
+
+import '../../internet_utils.dart';
 
 // ignore: must_be_immutable
 class SignUpPage extends StatefulWidget {
@@ -17,8 +22,10 @@ class _SignUpPageState extends State<SignUpPage> {
   final emailcontroller = TextEditingController();
   final phoneNumbercontroller = TextEditingController();
   final passwordcontroller = TextEditingController();
+  final confirmPasswordcontroller = TextEditingController();
   final referralcontroller = TextEditingController();
   bool _passwordVisible = true;
+  bool _confirmPasswordVisible = true;
   UserRepository userRepository;
   int gender;
   final _formKeyLogin = GlobalKey<FormState>();
@@ -29,7 +36,7 @@ class _SignUpPageState extends State<SignUpPage> {
     return Scaffold(
       // backgroundColor: Colors.white,
       body: GestureDetector(
-        onTap: (){
+        onTap: () {
           FocusScope.of(context).unfocus();
         },
         child: Container(
@@ -72,10 +79,10 @@ class _SignUpPageState extends State<SignUpPage> {
                                     fontSize: 25)),
                           ),
                           Text("Sign up with your email and password",
-                              style:
-                                  TextStyle(color: Colors.black54, fontSize: 13)),
+                              style: TextStyle(
+                                  color: Colors.black54, fontSize: 13)),
                           Center(
-                            child: _formPage(),
+                            child: _formPage(user, context),
                           ),
                         ],
                       ),
@@ -90,18 +97,17 @@ class _SignUpPageState extends State<SignUpPage> {
     );
   }
 
-  Widget _formPage() {
+  Widget _formPage(UserRepository user, context) {
     return SingleChildScrollView(
       child: Form(
         key: _formKeyLogin,
         child: Column(
           children: <Widget>[
-            SizedBox(
-              height: 20
-            ),
+            SizedBox(height: 20),
             TextFormFeildWidget(
               obscureText: false,
               controller: firstNamecontroller,
+              textCapitalization: TextCapitalization.words,
               lableText: 'First Name',
               validator: (value) {
                 if (value.isEmpty) {
@@ -114,6 +120,7 @@ class _SignUpPageState extends State<SignUpPage> {
               controller: lastNamecontroller,
               obscureText: false,
               lableText: 'Last Name',
+              textCapitalization: TextCapitalization.words,
               validator: (value) {
                 if (value.isEmpty) {
                   return 'Please input your Lastname';
@@ -125,6 +132,7 @@ class _SignUpPageState extends State<SignUpPage> {
               controller: emailcontroller,
               lableText: "Email",
               obscureText: false,
+              keyboardType: TextInputType.emailAddress,
               validator: (value) {
                 if (value.isEmpty) {
                   return 'Please input an email';
@@ -133,23 +141,25 @@ class _SignUpPageState extends State<SignUpPage> {
               },
             ),
             TextFormFeildWidget(
-              lableText: "Gender",
               obscureText: false,
-              controller: gendercontroller,
+              lableText: "Phone number",
+              controller: phoneNumbercontroller,
+              keyboardType: TextInputType.phone,
               validator: (value) {
                 if (value.isEmpty) {
-                  return 'Please input gender';
+                  return 'Please input a phone number';
                 }
                 return null;
               },
             ),
             TextFormFeildWidget(
+              lableText: "Gender",
               obscureText: false,
-              lableText: "Phone number",
-              controller: phoneNumbercontroller,
+              textCapitalization: TextCapitalization.words,
+              controller: gendercontroller,
               validator: (value) {
                 if (value.isEmpty) {
-                  return 'Please input a phone number';
+                  return 'Please input gender';
                 }
                 return null;
               },
@@ -167,7 +177,9 @@ class _SignUpPageState extends State<SignUpPage> {
               prefixIcon: Icon(Icons.lock_outlined, color: Colors.grey),
               suffixIcon: IconButton(
                 icon: Icon(
-                  _passwordVisible ? Icons.visibility_off_outlined : Icons.visibility_outlined,
+                  _passwordVisible
+                      ? Icons.visibility_off_outlined
+                      : Icons.visibility_outlined,
                   color: Colors.grey,
                 ),
                 onPressed: () {
@@ -178,45 +190,107 @@ class _SignUpPageState extends State<SignUpPage> {
               ),
             ),
             TextFormFeildWidget(
+              controller: confirmPasswordcontroller,
+              obscureText: _confirmPasswordVisible,
+              lableText: 'Confirm Password',
+              validator: (value) {
+                if (value.isEmpty) {
+                  return 'Please confirm the Password';
+                } else if (value != passwordcontroller.text) {
+                  return 'Password do not match';
+                }
+                return null;
+              },
+              prefixIcon: Icon(Icons.lock_outlined, color: Colors.grey),
+              suffixIcon: IconButton(
+                icon: Icon(
+                  _confirmPasswordVisible
+                      ? Icons.visibility_off_outlined
+                      : Icons.visibility_outlined,
+                  color: Colors.grey,
+                ),
+                onPressed: () {
+                  setState(() {
+                    _confirmPasswordVisible = !_confirmPasswordVisible;
+                  });
+                },
+              ),
+            ),
+            TextFormFeildWidget(
               obscureText: false,
               controller: referralcontroller,
-              lableText: "Referal link",
+              lableText: "Referral code",
             ),
             SizedBox(
               height: 20,
             ),
             ButtonReusable(
               name: "Sign Up",
+              onpressed: () async {
+                FocusScope.of(context).unfocus();
+                register(user, context);
+              },
             ),
-            SizedBox(
-              height: 25
-            ),
+            SizedBox(height: 25),
             InkWell(
               onTap: () {
                 Navigator.pop(context);
+                register(user, context);
               },
-              child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    RichText(
-                        text: TextSpan(children: [
-                          TextSpan(
-                              text: "Already have an account?",
-                              style: TextStyle(
-                                  color: Colors.grey,
-                                  fontSize: 13)),
-                          TextSpan(
-                              text: " Sign In",
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 14)),
-                        ])),
-                  ]),
+              child:
+                  Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                RichText(
+                    text: TextSpan(children: [
+                  TextSpan(
+                      text: "Already have an account?",
+                      style: TextStyle(color: Colors.grey, fontSize: 13)),
+                  TextSpan(
+                      text: " Sign In",
+                      style: TextStyle(color: Colors.black, fontSize: 14)),
+                ])),
+              ]),
             ),
-
           ],
         ),
       ),
     );
+  }
+
+  register(UserRepository user, context) async {
+    if (await InternetUtils.checkConnectivity()) {
+      if (_formKeyLogin.currentState.validate()) {
+
+        // showLoading(
+      //     progressColor: Colors.red,
+      //     indicatorColor: Colors.red,
+      //     backgroundColor: Colors.white,
+      //     textColor: Colors.red,
+      //     indicatorType: EasyLoadingIndicatorType.foldingCube,
+      //     status: "\nSubmitting.....");
+
+      Map requestObject = SignUpCustomersObject(
+        firstName: firstNamecontroller.text,
+        lastName: lastNamecontroller.text,
+        email: emailcontroller.text,
+        referralCode: referralcontroller.text==''?null:referralcontroller.text,
+        password: passwordcontroller.text,
+        phoneNumber: phoneNumbercontroller.text,
+      ).toJson();
+        await user.signUpCustomer(context, requestObject);
+        // if (user.loggedInStatus == LoggedInStatus.LoggedIn) {
+        //   // Navigator.of(context).pushNamed(dashboardPage);
+        //   EasyLoading.dismiss();
+        //   Dialogs.showSuccessSnackBar('Successful!', "You are welcome back");
+        // } else {
+        //   print("An errorOccurred");
+        //   EasyLoading.dismiss();
+        // }
+      } else {
+        print("validation not done");
+        // EasyLoading.dismiss();
+      }
+    } else
+      Dialogs.showErrorSnackBar(
+          'Sorry!', "You do not have internet connection at the moment");
   }
 }

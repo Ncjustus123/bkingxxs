@@ -86,8 +86,8 @@ class _DashBoardScreen extends State<DashBoardScreen> {
                             ),
                             onTap: () {
                               setState(() {
-                                xOffset = 350;
-                                yOffset = 30;
+                                xOffset = 300;
+                                yOffset = 70;
                                 isDrawerOpen = true;
                               });
                             },
@@ -119,7 +119,7 @@ class _DashBoardScreen extends State<DashBoardScreen> {
                             padding: const EdgeInsets.symmetric(
                                 vertical: 20.0, horizontal: 8),
                             child: Text(
-                              'Welcome Chinedu',
+                              'Welcome Guest',
                               style: TextStyle(
                                   fontWeight: FontWeight.w600,
                                   fontSize: 18,
@@ -143,7 +143,7 @@ class _DashBoardScreen extends State<DashBoardScreen> {
                                   size: 35,
                                 ),
                               ),
-                              SizedBox(width: 10),
+                              SizedBox(width: 15),
                               dashboardCard(
                                 context: context,
                                 color: Color(0xFF555354),
@@ -174,7 +174,7 @@ class _DashBoardScreen extends State<DashBoardScreen> {
                                   size: 35,
                                 ),
                               ),
-                              SizedBox(width: 10),
+                              SizedBox(width: 15),
                               dashboardCard(
                                 context: context,
                                 color: Color(0xFF0B5475),
@@ -204,7 +204,7 @@ class _DashBoardScreen extends State<DashBoardScreen> {
                                   height: 40,
                                 ),
                               ),
-                              SizedBox(width: 10),
+                              SizedBox(width: 15),
                               dashboardCard(
                                 context: context,
                                 color: Color(0xFF95A19D),
@@ -239,7 +239,7 @@ class _DashBoardScreen extends State<DashBoardScreen> {
         onTap: onTap,
         child: Container(
           height: 165,
-          margin: EdgeInsets.fromLTRB(0, 8, 8, 16),
+          margin: EdgeInsets.fromLTRB(0, 8, 0, 16),
           decoration: BoxDecoration(
             color: color,
             borderRadius: BorderRadius.circular(7.0),

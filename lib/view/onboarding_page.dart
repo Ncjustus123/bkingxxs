@@ -1,8 +1,9 @@
+import 'package:Libmot_Mobile/repository/user_repository.dart';
+import 'package:Libmot_Mobile/resources/database/user_preference.dart';
 import 'package:Libmot_Mobile/view/welcome_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 
 class OnBoardingInfo {
   final imageAsset;
@@ -106,7 +107,7 @@ class OnBoardingPage extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: List.generate(
                       _controller.onBoardingPages.length,
-                          (index) => Obx(() {
+                      (index) => Obx(() {
                         return Container(
                           margin: const EdgeInsets.all(3),
                           width: _controller.selectedPageIndex.value == index
@@ -170,8 +171,7 @@ class OnBoardingPage extends StatelessWidget {
   }
 
   goToWelcome() async {
-    Get.to(() => WelcomePage());
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setString('isNewUser', 'No');
+    final preference = await UserPreference.getInstance();
+    preference.firstTimeUser();
   }
 }

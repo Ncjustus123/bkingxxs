@@ -191,6 +191,7 @@ class TextFormFeildWidget extends StatelessWidget {
   final Widget suffixIcon;
   final Widget prefixIcon;
   final TextInputType keyboardType;
+  final TextCapitalization textCapitalization;
 
   const TextFormFeildWidget({
     this.controller,
@@ -200,6 +201,7 @@ class TextFormFeildWidget extends StatelessWidget {
     this.suffixIcon,
     this.prefixIcon,
     this.keyboardType,
+    this.textCapitalization,
     Key key,
   }) : super(key: key);
 
@@ -221,6 +223,7 @@ class TextFormFeildWidget extends StatelessWidget {
         child: TextFormField(
           keyboardType: keyboardType,
           obscureText: obscureText,
+          textCapitalization: textCapitalization ?? TextCapitalization.none,
           decoration: InputDecoration(
             suffixIcon: suffixIcon,
             prefixIcon: prefixIcon,

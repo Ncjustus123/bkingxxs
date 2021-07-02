@@ -103,45 +103,73 @@ class AdultOptions extends StatefulWidget {
 }
 
 class _AdultOptionsState extends State<AdultOptions> {
+   String numberAdult ;
+   String numberChildren ;
+   final TextEditingController adultController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
+    adultController.text = booking.getBuses.numberOfAdults.toString();
     return Expanded(
-        child: Column(
-      children: [
-        Center(
-            child: Text(
-          widget.title,
-          style: TextStyle(fontWeight: FontWeight.w500, fontSize: 16),
-        )),
-        SizedBox(height: 5),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            addButton(
-                context: context,
-                icon: Icons.add,
-                onTap: () {
-                  setState(() {
-                    booking.getBuses.numberOfAdults++;
-                  });
-                }),
-            Expanded(
-                child: Text(
-              booking.getBuses.numberOfAdults.toString(),
-              textAlign: TextAlign.center,
-              style: TextStyle(fontWeight: FontWeight.w500, fontSize: 16),
-            )),
-            subtractButton(
-                context: context,
-                icon: Icons.remove,
-                onTap: () {
-                  setState(() {
-                    booking.getBuses.numberOfAdults--;
-                  });
-                }),
-          ],
-        ),
-      ],
+        child: InkWell(
+      onTap: () {
+        FocusScope.of(context).unfocus();
+      },
+      child: Column(
+        children: [
+          Center(
+              child: Text(
+            widget.title,
+            style: TextStyle(fontWeight: FontWeight.w500, fontSize: 16),
+          )),
+          SizedBox(height: 5),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              addButton(
+                  context: context,
+                  icon: Icons.add,
+                  onTap: () {
+                    setState(() {
+                      booking.getBuses.numberOfAdults++;
+                      numberAdult =
+                          booking.getBuses.numberOfAdults.toString();
+                    });
+                  }),
+              Expanded(
+                child: TextFormField(
+                  textAlign: TextAlign.center,
+                  controller: adultController,
+                  // initialValue: booking.getBuses.numberOfAdults.toString(),
+                  onChanged: (value) {
+                    setState(() {
+                      numberAdult = value;
+                      booking.getBuses.numberOfAdults = int.parse(numberAdult);
+
+                    });
+                  },
+                ), //     Text(
+                //   booking.getBuses.numberOfAdults.toString(),
+                //   textAlign: TextAlign.center,
+                //   style: TextStyle(fontWeight: FontWeight.w500, fontSize: 16),
+                // ),
+              ),
+              subtractButton(
+                  context: context,
+                  icon: Icons.remove,
+                  onTap: () {
+                    setState(() {
+                      if (booking.getBuses.numberOfAdults != 0) {
+                        booking.getBuses.numberOfAdults--;
+                        numberAdult=
+                            booking.getBuses.numberOfAdults.toString();
+                      }
+                    });
+                  }),
+            ],
+          ),
+        ],
+      ),
     ));
   }
 }

@@ -23,7 +23,7 @@ class TwelveSeaterBus extends StatelessWidget {
     seatSelection = Provider.of<SeatSelectionRepository>(context);
     seatSelection.initialSetUp(bus);
     return Expanded(
-      child: Container(
+          child: Container(
         padding: const EdgeInsets.all(18.0),
         decoration: BoxDecoration(
             color: Theme.of(context).scaffoldBackgroundColor,
@@ -148,6 +148,7 @@ class TwelveSeaterBus extends StatelessWidget {
                 ],
               ),
               SizedBox(height: 30),
+
               Row(
                 children: [
                   blockedSeat(Colors.grey[800], 'Available'),
@@ -209,13 +210,13 @@ class TwelveSeaterBus extends StatelessWidget {
 
     switch (seatObject.status) {
       case SeatStatus.blocked:
-        stackImage = selectedSeat(Colors.grey.withOpacity(0.4), i.toString());
+        stackImage = selectedSeat(Colors.grey, i.toString());
         break;
       case SeatStatus.selected:
         stackImage = selectedSeat(Colors.green, i.toString());
         break;
       default:
-        stackImage = selectedSeat(Colors.grey[800], i.toString());
+        stackImage = selectedSeat(Colors.grey.withOpacity(0.4), i.toString());
         break;
     }
 

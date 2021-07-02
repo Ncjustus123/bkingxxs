@@ -141,7 +141,7 @@ void showLoading(
     Color textColor,
     EasyLoadingIndicatorType indicatorType,
     status}) {
-  EasyLoading.instance
+ EasyLoading.instance
     ..displayDuration = const Duration(milliseconds: 1000)
     ..indicatorType = indicatorType
     ..loadingStyle = EasyLoadingStyle.custom

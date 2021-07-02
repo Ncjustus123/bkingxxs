@@ -1,5 +1,7 @@
 import 'package:Libmot_Mobile/models/get_token_model.dart';
 import 'package:Libmot_Mobile/models/profile_model.dart';
+import 'package:Libmot_Mobile/view/welcome_page.dart';
+import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class UserPreference {
@@ -15,6 +17,7 @@ class UserPreference {
       return UserPreference(preferences: preferences);
     }
   }
+
 
   static final String token = "token";
   static final String refreshToken = "refreshToken";
@@ -46,6 +49,16 @@ class UserPreference {
     preferences.setString(token, tokenResponse.object.token);
     preferences.setString(refreshToken, tokenResponse.object.refreshToken);
     preferences.setString(expiresIn, tokenResponse.object.expires);
+  }
+
+  void saveLogin(email) async {
+    preferences.setString('email', email);
+
+  }
+
+  void firstTimeUser(){
+    preferences.setString('isNewUser', 'No');
+    Get.to(() => WelcomePage());
   }
 
   void saveProfile(Profile profile) {

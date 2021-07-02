@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:Libmot_Mobile/models/get_token_model.dart';
 import 'package:Libmot_Mobile/repository/user_repository.dart';
 import 'package:Libmot_Mobile/resources/database/user_preference.dart';
+import 'package:Libmot_Mobile/view/widgets/utils.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:Libmot_Mobile/resources/networking/end_points.dart';
@@ -17,13 +18,13 @@ class ApiCalls {
     // var token = tokenResponse.object.token;
     // final currentTime = DateTime.now();
     // final expiresIN = DateTime.parse(tokenResponse.object.expires);
-   
+
     // if (expiresIN.isBefore(currentTime)) {
     //   //call the refresh token endpoint.
     // tokenResponse =  await UserRepository().loginForAndroidIos();
     // token = tokenResponse.object.token;
 
-    
+
     // final refresh
     final header = {
       HttpHeaders.contentTypeHeader: 'application/json',
@@ -64,7 +65,7 @@ class ApiCalls {
     final header = await init();
     final url = Uri.parse(baseInstance.base.baseUrl + EndPoints.postHireBus);
     final response =
-        await http.post(url, body: json.encode(body), headers: header);
+    await http.post(url, body: json.encode(body), headers: header);
     return response;
   }
 
@@ -82,7 +83,7 @@ class ApiCalls {
     final url = Uri.parse(baseInstance.base.baseUrl + EndPoints.searchBuses);
     //final body = json.encode(body);
     final response =
-        await http.post(url, body: json.encode(body), headers: header);
+    await http.post(url, body: json.encode(body), headers: header);
     return response;
   }
 
@@ -90,7 +91,7 @@ class ApiCalls {
     final header = await init();
     final url = Uri.parse(baseInstance.base.baseUrl + EndPoints.postBooking);
     final response =
-        await http.post(url, body: json.encode(body), headers: header);
+    await http.post(url, body: json.encode(body), headers: header);
     return response;
   }
 
@@ -105,26 +106,27 @@ class ApiCalls {
   Future<http.Response> agentRequest(Map<String, dynamic> body) async {
     final header = await init();
     final url =
-        Uri.parse(baseInstance.base.baseUrl + EndPoints.postAgentRequest);
+    Uri.parse(baseInstance.base.baseUrl + EndPoints.postAgentRequest);
     final response =
-        await http.post(url, body: json.encode(body), headers: header);
+    await http.post(url, body: json.encode(body), headers: header);
     return response;
   }
 
   Future<http.Response> signUpCustomer(Map<String, dynamic> body) async {
     final header = await init();
     final url = Uri.parse(baseInstance.base.baseUrl + EndPoints.signUpCustomer);
+    print(body);
     final response =
-        await http.post(url, body: json.encode(body), headers: header);
+    await http.post(url, body: json.encode(body), headers: header);
     return response;
   }
 
   Future<http.Response> payStackPayment(Map<dynamic, dynamic> body) async {
     final header = await init();
     final url =
-        Uri.parse(baseInstance.base.baseUrl + EndPoints.payStackPayment);
+    Uri.parse(baseInstance.base.baseUrl + EndPoints.payStackPayment);
     final response =
-        await http.post(url, body: json.encode(body), headers: header);
+    await http.post(url, body: json.encode(body), headers: header);
     return response;
   }
 
@@ -133,6 +135,7 @@ class ApiCalls {
       'userNameOrEmail': username,
       'activationCode': otp,
     };
+    print(queryParameters);
     String queryString = Uri(queryParameters: queryParameters).query;
 
     final header = await init();
@@ -142,6 +145,25 @@ class ApiCalls {
         '?' +
         queryString);
     final response = await http.post(url, headers: header);
+
+
     return response;
+  }
+
+  Future<http.Response> resendOtp(String username) async {
+    final queryParameters = {
+      'userNameOrEmail': username,
+    };
+    print(queryParameters);
+    String queryString = Uri(queryParameters: queryParameters).query;
+
+    final header = await init();
+    final url = Uri.parse(baseInstance.base.baseUrl +
+        EndPoints.resendOtp +
+        '?' +
+        queryString);
+    final response = await http.post(url, headers: header);
+
+      return response;
   }
 }

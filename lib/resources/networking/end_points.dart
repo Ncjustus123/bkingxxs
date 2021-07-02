@@ -12,6 +12,7 @@ class EndPoints {
   static const String postBooking = "api/Booking/PostBooking";
   static const String activateAccount =  "api/Account/Activate/";
   static const String payStackPayment = "api/Booking/ProcessPaystackPayment";
+  static const String resendOtp = "/api/Customer/SendActivationCode";
 
   // @GET("api/Terminal/Get")
   // Call<DepartureTerminalResponse> getAllTerminals();

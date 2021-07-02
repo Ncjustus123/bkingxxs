@@ -10,7 +10,7 @@ import 'package:Libmot_Mobile/view/login/sign_up_page.dart';
 import 'package:flutter/material.dart';
 import 'view/become_agent/become_an_agent.dart';
 import 'view/booking/book_a_seat.dart';
-import 'view/booking/onboarding_page.dart';
+import 'view/onboarding_page.dart';
 import 'view/initial_page.dart';
 import 'view/login/forget_password_page.dart';
 import 'view/welcome_page.dart';
@@ -26,6 +26,11 @@ Route routes(RouteSettings settings) {
 
   switch (settings.name) {
     case "initial":
+      {
+        return MaterialPageRoute(builder: (context) => InitialPage());
+      }
+      break;
+    case "/onBoarding":
       {
         return MaterialPageRoute(builder: (context) => OnBoardingPage());
       }

@@ -1,7 +1,6 @@
 import 'package:Libmot_Mobile/Reusables/bottom_sheet.dart';
 import 'package:Libmot_Mobile/Reusables/buttons.dart';
 import 'package:Libmot_Mobile/Reusables/constants.dart';
-import 'package:Libmot_Mobile/Reusables/select_route_modal_sheet.dart';
 import 'package:Libmot_Mobile/Reusables/text_field.dart';
 import 'package:Libmot_Mobile/models/destination_terminal.dart';
 import 'package:Libmot_Mobile/models/get_route.dart';
@@ -11,14 +10,9 @@ import 'package:bubble_tab_indicator/bubble_tab_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 import '../../repository/booking_repository.dart';
-import 'select_bus_page.dart';
-import 'package:Libmot_Mobile/repository/booking_repository.dart';
-import 'package:Libmot_Mobile/view/widgets/appBar_passenger_info.dart';
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:provider/provider.dart';
 
 class BookASeatPage extends StatefulWidget {
   @override
@@ -42,8 +36,8 @@ class _BookASeatPageState extends State<BookASeatPage>
   List<int> departureIds;
   List<int> arrivalIds;
   int indexOfRoute = 0;
-    String tripOption = 'One Way';
-    String selectedFrom = '';
+  String tripOption = 'One Way';
+  String selectedFrom = '';
   String selectedTo = '';
   int departureId;
   int arrivalId;
@@ -329,17 +323,21 @@ class _BookASeatPageState extends State<BookASeatPage>
                             },
                           ),
                           SizedBox(height: 15),
-                          ButtonReusable(
-                            onpressed: () async {
-                              booking.getBuses.departureDate =
-                                  departuredateController.text.toString();
-                                  booking.getBuses.departureTerminalId=departureId;
-                                  booking.getBuses.destinationTerminalId=arrivalId;
-                                  booking.searchBuses(_scaffoldKey, context);
-                              //Get.to(() => SelectBusPage());
-                            },
-                            name: "Search",
-                          ),
+                          booking.getBuses.numberOfAdults < 0 && booking.getBuses.numberOfAdults < 0
+                              ? ButtonReusable(
+                                  onpressed: () async {
+                                    booking.getBuses.departureDate =
+                                        departuredateController.text.toString();
+                                    booking.getBuses.departureTerminalId =
+                                        departureId;
+                                    booking.getBuses.destinationTerminalId =
+                                        arrivalId;
+                                    booking.searchBuses(_scaffoldKey, context);
+                                    //Get.to(() => SelectBusPage());
+                                  },
+                                  name: "Search",
+                                )
+                              : Container(),
                           SizedBox(height: 20),
                         ],
                       ),
@@ -352,41 +350,6 @@ class _BookASeatPageState extends State<BookASeatPage>
         ),
       ),
     );
-  }
-
-
-
-  Expanded tripOptionButton({BuildContext context, title}) {
-    return Expanded(
-        child: InkWell(
-      onTap: () {
-        setState(() {
-          tripOption = title;
-        });
-      },
-      child: Container(
-          decoration: BoxDecoration(
-              boxShadow: <BoxShadow>[
-                BoxShadow(color: Colors.white, offset: Offset(2, 4))
-              ],
-              color: tripOption == title
-                  ? Theme.of(context).primaryColor
-                  : Colors.white,
-              borderRadius: BorderRadius.circular(35)),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 15),
-            child: Center(
-                child: Text(
-              title,
-              style: TextStyle(
-                  color: tripOption == title
-                      ? Colors.white
-                      : Theme.of(context).primaryColor,
-                  fontSize: 15,
-                  fontWeight: FontWeight.w500),
-            )),
-          )),
-    ));
   }
 
   Widget bottomRouteSheet(BuildContext context) {
@@ -436,7 +399,8 @@ class _BookASeatPageState extends State<BookASeatPage>
                         direction == 'from'
                             ? selectFromOption(
                                 departureOptions[index], departureIds[index])
-                            : selectToOption(arrivalOptions[index],arrivalIds[index]);
+                            : selectToOption(
+                                arrivalOptions[index], arrivalIds[index]);
                       },
                       title: Text(
                         direction == 'from'
@@ -477,7 +441,6 @@ class _BookASeatPageState extends State<BookASeatPage>
     );
   }
 
-
   void selectFromOption(String option, id) {
     setState(() {
       selectedFrom = option;
@@ -489,7 +452,7 @@ class _BookASeatPageState extends State<BookASeatPage>
     Get.back();
   }
 
-  void selectToOption(String option,id) {
+  void selectToOption(String option, id) {
     setState(() {
       selectedTo = option;
       arrivalController.text = selectedTo;

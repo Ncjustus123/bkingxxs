@@ -158,25 +158,21 @@ class _DrawerScreenState extends State<DrawerScreen> {
             ),
             Row(
               children: [
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 0),
-                  child: InkWell(
-                    onTap: (){
-                      user.logout();
-                    if (user.loggedInStatus == LoggedInStatus.LoggedOut) {
-                       Navigator.of(context).pushNamed("/welcome");
-                    }},
-                    child: Container(
-                      width: 150,
-                      decoration: BoxDecoration(color: Colors.black),
-                      child: Padding(
-                        padding: const EdgeInsets.all(15.0),
-                        child: Center(
-                          child: Text(
-                            'Log out',
-                            style: TextStyle(color: Colors.white),
-                          ),
-                        ),
+                InkWell(
+                  onTap: (){
+                    user.logout();
+                  if (user.loggedInStatus == LoggedInStatus.LoggedOut) {
+
+                     Navigator.of(context).pushNamed("/welcome");
+                  }},
+                  child: Container(
+                    width: 120,
+                    decoration: BoxDecoration(color: Colors.black),
+                    child: Padding(
+                      padding: const EdgeInsets.all(17.0),
+                      child: Text(
+                        'Log out',
+                        style: TextStyle(color: Colors.white),
                       ),
                     ),
                   ),
