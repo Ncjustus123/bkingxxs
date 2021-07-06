@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 
 //COLORS
@@ -101,6 +102,43 @@ class ButtonReusable extends StatelessWidget {
           style: TextStyle(color: textcolor),
         ),
         onPressed: onpressed,
+        style: ButtonStyle(
+          backgroundColor: MaterialStateProperty.all(color),
+          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+            RoundedRectangleBorder(
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(10),
+                bottomLeft: Radius.circular(10),
+                bottomRight: Radius.circular(10),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+const spinkit = SpinKitWave(
+  color: Colors.white,
+  size: 20.0,
+);
+class LoadingButton extends StatelessWidget {
+
+  final Color color;
+
+  const LoadingButton({this.color});
+
+
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 50,
+      width: 300,
+      child: ElevatedButton(
+        child: spinkit,
+        onPressed: (){},
         style: ButtonStyle(
           backgroundColor: MaterialStateProperty.all(color),
           shape: MaterialStateProperty.all<RoundedRectangleBorder>(

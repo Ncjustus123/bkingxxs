@@ -9,19 +9,25 @@ import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 
 // ignore: must_be_immutable
-class FifteenSeaterBus extends StatelessWidget {
+class FifteenSeaterBus extends StatefulWidget {
   Buses bus;
   dynamic scaffold;
   FifteenSeaterBus({this.bus, this.scaffold});
 
+  @override
+  _FifteenSeaterBusState createState() => _FifteenSeaterBusState();
+}
+
+class _FifteenSeaterBusState extends State<FifteenSeaterBus> {
   BookingRepository booking;
+
   SeatSelectionRepository seatSelection;
 
   @override
   Widget build(BuildContext context) {
     booking = Provider.of<BookingRepository>(context);
     seatSelection = Provider.of<SeatSelectionRepository>(context);
-    seatSelection.initialSetUp(bus);
+    seatSelection.initialSetUp(widget.bus);
     return Expanded(
           child: Container(
         padding: const EdgeInsets.all(18.0),
@@ -111,17 +117,20 @@ class FifteenSeaterBus extends StatelessWidget {
                 ],
               ),
               SizedBox(height: 30),
-             ButtonReusable(
+             isLoading? LoadingButton():ButtonReusable(
                 onpressed: () async {
                   int numberOfBooking = booking.getBuses.numberOfAdults +
                       booking.getBuses.numberOfChildren;
                   if (numberOfBooking != seatSelection.selectedSeats.length) {
-                    Dialogs.showErrorSnackBar('Oops!',
+                    Dialogs.showErrorSnackBar('Sorry!',
                         " You must select  $numberOfBooking Seat(s)");
                     print('$numberOfBooking');
                     return;
                   }
-                  String guid = "${bus.vehicleTripRegistrationId}:";
+                  String guid = "${widget.bus.vehicleTripRegistrationId}:";
+                  setState((){
+                    isLoading = true;
+                  });
                   if (numberOfBooking == 1) {
                     guid = guid + seatSelection.selectedSeats.first.toString();
                   } else {
@@ -131,7 +140,7 @@ class FifteenSeaterBus extends StatelessWidget {
                           : guid + i.toString() + ",";
                     }
                     booking.booking.seatRegistrations = guid;
-                    booking.booking.routeId = bus.routeId;
+                    booking.booking.routeId = widget.bus.routeId;
                   }
                   Get.to(() => PassengerInfoPage());
                 },
@@ -146,6 +155,8 @@ class FifteenSeaterBus extends StatelessWidget {
       ),
     );
   }
+
+ bool isLoading = false;
 
   SizedBox buildSizedBox() {
     return SizedBox(
@@ -181,7 +192,7 @@ class FifteenSeaterBus extends StatelessWidget {
               booking.getBuses.numberOfChildren;
 
           if (numberOfBooknings <= seatSelection.selectedSeats.length) {
-            Dialogs.showErrorSnackBar('Oops!', " You cant select more than $numberOfBooknings Seat(s)");
+            Dialogs.showErrorSnackBar('Sorry!', " You can't select more than $numberOfBooknings Seat(s)");
             // s
             print('$numberOfBooknings');
 
@@ -234,8 +245,6 @@ class FifteenSeaterBus extends StatelessWidget {
       ),
     );
   }
-
-
 
   blockedSeat(color, title) {
     return Expanded(
