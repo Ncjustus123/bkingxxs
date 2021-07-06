@@ -36,7 +36,7 @@ class InputFormField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 5.0, vertical: 12),
+      padding: const EdgeInsets.symmetric(horizontal: 5.0, vertical: 10),
       child: TextFormField(
         onTap: ontap,
         inputFormatters: inputFormatters,

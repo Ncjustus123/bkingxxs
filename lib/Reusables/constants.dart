@@ -14,7 +14,7 @@ const Color kRed = Color(0xFFF44336);
 
 //TextStyle
 
-const textStyle = TextStyle(color: Colors.white, fontSize: 18);
+const textStyle = TextStyle(color: Colors.white, fontSize: 18,fontWeight: FontWeight.w600);
 const textStyleHeading =
     TextStyle(color: Colors.black, fontSize: 18, fontWeight: FontWeight.w500);
 const textStyle1 =
