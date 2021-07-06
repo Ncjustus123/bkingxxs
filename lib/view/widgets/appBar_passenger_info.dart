@@ -42,7 +42,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
             ]),
         child: Column(
           children: [
-            Row(
+            Row(mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Padding(
                   padding: const EdgeInsets.only(
@@ -65,8 +65,8 @@ class _CustomAppBarState extends State<CustomAppBar> {
                       fadedContainer(
                         context: context,
                         title: booking.getBuses.numberOfChildren > 0
-                            ?"${totalTravellers}Traveller(s)"
-                            : "${booking.getBuses.numberOfAdults}Traveller(s)",
+                            ?"$totalTravellers Traveller(s)"
+                            : "${booking.getBuses.numberOfAdults} Traveller(s)",
                         bottom: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           crossAxisAlignment: CrossAxisAlignment.end,
@@ -131,6 +131,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
     return Container(
       padding: EdgeInsets.fromLTRB(10, 12, 10, 8),
       decoration: BoxDecoration(
+        border: Border.all(color: Colors.white.withOpacity(0.5)),
           color: Colors.white.withOpacity(0.2),
           borderRadius: BorderRadius.circular(5)),
       child: Column(

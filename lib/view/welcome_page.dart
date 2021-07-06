@@ -1,8 +1,6 @@
 import 'package:Libmot_Mobile/Reusables/buttons.dart';
 import 'package:Libmot_Mobile/internet_utils.dart';
 import 'package:Libmot_Mobile/repository/user_repository.dart';
-import 'package:Libmot_Mobile/view/onboarding_page.dart';
-import 'package:Libmot_Mobile/view/login/sign_up_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -134,7 +132,7 @@ class _WelcomePageState extends State<WelcomePage> {
     }
     else {
       Dialogs.showNoInternetSnackBar('No Internet Connection',
-          'You will not be able yto use the app effectivity without internet connection');
+          'Check your internet connection and try again.');
     }
   }
 }

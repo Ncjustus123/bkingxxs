@@ -310,7 +310,7 @@ if(await InternetUtils.checkConnectivity()) {
 }else{
 
   Dialogs.showNoInternetSnackBar('No Internet Connection',
-      'You will not be able yto use the app effectivity without internet connection');
+      'Check your internet connection and try again.');
 }
 
   }
@@ -342,7 +342,7 @@ if(await InternetUtils.checkConnectivity()) {
       }
     } else
 
-    Dialogs.showNoInternetSnackBar('No Internet Connection',
-        'You will not be able yto use the app effectivity without internet connection');
+      Dialogs.showNoInternetSnackBar('No Internet Connection',
+          'Check your internet connection and try again.');
   }
 }
