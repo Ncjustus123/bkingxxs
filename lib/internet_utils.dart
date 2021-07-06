@@ -5,6 +5,7 @@ import 'package:connectivity/connectivity.dart';
 
 class InternetUtils {
   static final Duration _CONNECTIVITY_TIMEOUT = Duration(seconds: 5);
+
   static Future<bool> checkConnectivity() async {
     try {
       ConnectivityResult conn = await Connectivity().checkConnectivity();

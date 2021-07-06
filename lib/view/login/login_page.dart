@@ -46,6 +46,7 @@ class _LoginPageState extends State<LoginPage> {
     setState(() {
       emailController.text = userStoredEmail;
     });
+    print(emailController.text);
   }
 
   @override
@@ -297,14 +298,20 @@ class _LoginPageState extends State<LoginPage> {
     });
   }
   loginForAndroidIos(user) async {
+if(await InternetUtils.checkConnectivity()) {
+  setState(() {
+    isLoadingGuest = true;
+  });
+  user.loginForAndroidIos(context);
+  Navigator.of(context).pushNamedAndRemoveUntil(
+      WelcomePage.dashboardPage, (route) => false);
+  Dialogs.showWelcomeSnackBar(
+      'You are welcome to LIBMOT', "Travel conveniently...");
+}else{
 
-    setState(() {
-      isLoadingGuest = true;
-    });
-    user.loginForAndroidIos(context);
-    Navigator.of(context).pushNamedAndRemoveUntil(WelcomePage.dashboardPage, (route) => false);
-    Dialogs.showWelcomeSnackBar('You are welcome to LIBMOT', "Travel conveniently...");
-
+  Dialogs.showNoInternetSnackBar('No Internet Connection',
+      'You will not be able yto use the app effectivity without internet connection');
+}
 
   }
 
@@ -334,7 +341,8 @@ class _LoginPageState extends State<LoginPage> {
         // EasyLoading.dismiss();
       }
     } else
-      Dialogs.showErrorSnackBar(
-          'Sorry!', "You do not have internet connection at the moment");
+
+    Dialogs.showNoInternetSnackBar('No Internet Connection',
+        'You will not be able yto use the app effectivity without internet connection');
   }
 }

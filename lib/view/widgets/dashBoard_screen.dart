@@ -4,8 +4,11 @@ import 'package:Libmot_Mobile/view/booking/book_a_seat.dart';
 import 'package:Libmot_Mobile/view/widgets/appBar_passenger_info.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
 class DashBoardScreen extends StatefulWidget {
+  DashBoardScreen({@required this.name});
+  final String name;
   @override
   _DashBoardScreen createState() => _DashBoardScreen();
 }
@@ -119,7 +122,7 @@ class _DashBoardScreen extends State<DashBoardScreen> {
                             padding: const EdgeInsets.symmetric(
                                 vertical: 20.0, horizontal: 8),
                             child: Text(
-                              'Welcome Guest',
+                              'Welcome ${toBeginningOfSentenceCase(widget.name)?? 'Guest'}',
                               style: TextStyle(
                                   fontWeight: FontWeight.w600,
                                   fontSize: 18,

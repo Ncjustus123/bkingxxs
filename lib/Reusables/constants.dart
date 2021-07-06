@@ -19,14 +19,18 @@ const textStyleHeading =
     TextStyle(color: Colors.black, fontSize: 18, fontWeight: FontWeight.w500);
 const textStyle1 =
     TextStyle(color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold);
-const textStyle2 =
-    TextStyle(color: Colors.black, fontSize: 15, fontWeight: FontWeight.w500);
+const textStyle2 = TextStyle(
+  color: Colors.black,
+  fontSize: 14,
+  fontWeight: FontWeight.w500,
+  fontFamily: 'Monserrat',
+);
 
 String getNairaSign() {
   return "₦";
 }
 
-dialog(context, String title, content,onpressed) {
+dialog(context, String title, content, onpressed) {
   showDialog(
     context: context,
     barrierDismissible: true,

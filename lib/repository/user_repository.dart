@@ -183,6 +183,7 @@ print('$email $password');
 
   Future<Profile> getProfile(String token) async {
     final response = await _api.profile(token);
+    print(response.body);
     if (response.statusCode == 200) {
       final Map<String, dynamic> responseData = json.decode(response.body);
       final profile = Profile.fromJson(responseData);

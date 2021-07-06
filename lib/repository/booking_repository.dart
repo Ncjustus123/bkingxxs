@@ -14,7 +14,7 @@ import 'package:flutterwave/models/responses/charge_response.dart';
 import 'package:http/http.dart';
 
 import '../resources/networking/api_calls.dart';
-
+class Taiwo{}
 class BookingRepository with ChangeNotifier {
   //bool depatureAvailable;
   //bool arrivalAvailable;
@@ -34,6 +34,30 @@ class BookingRepository with ChangeNotifier {
   PostBookingResponse postBookingResponse;
 
   String name;
+
+  addAdult() {
+    getBuses.numberOfAdults++;
+    notifyListeners();
+  }
+
+  addChildren() {
+    if (getBuses.numberOfChildren < 2) {
+      getBuses.numberOfChildren++;
+    }
+    notifyListeners();
+  }
+  notifyListeners();
+
+  subtractAdult() {
+    if (getBuses.numberOfAdults != 0) getBuses.numberOfAdults--;
+    notifyListeners();
+  }
+
+  subtractChildren() {
+    if (getBuses.numberOfChildren != 0) getBuses.numberOfChildren--;
+    notifyListeners();
+  }
+
   countButton({BuildContext context, icon, onTap}) {
     return Padding(
       padding: const EdgeInsets.all(10.0),
@@ -97,19 +121,12 @@ class BookingRepository with ChangeNotifier {
   }
 
   searchBuses(_scaffoldKey, BuildContext context) async {
-    // model = GetBusesModel(
-    //     tripType: getBuses.tripType ?? 0,
-    //     departureTerminalId: getBuses.departureTerminalId,
-    //     destinationTerminalId: getBuses.destinationTerminalId,
-    //     numberOfAdults: getBuses.numberOfAdults,
-    //     numberOfChildren: getBuses.numberOfChildren ?? 0,
-    //     departureDate: getBuses.departureDate,
-    //     returnDate: getBuses.returnDate);
+
       booking.passengerType = 0;
     booking.bookingStatus = 1;
     booking.routeIdReturn = 0;
     Response response = await ApiCalls().searchBuses(getBuses.toJson());
-
+print(getBuses.toJson());
     if (response.statusCode == 200) {
       final Map<String, dynamic> responseData = json.decode(response.body);
       print(response.body);
@@ -117,8 +134,8 @@ class BookingRepository with ChangeNotifier {
       getBusesResponseModel = GetBusesResponseModel.fromJson(responseData);
       if (getBusesResponseModel.object == null) {
         //depatureAvailable = false;
-        ScaffoldMessenger.of(context).showSnackBar(
-            new SnackBar(content: new Text("No buses available")));
+        Dialogs.showErrorSnackBar('Oops!', 'There are no buses available on this route at the moment');
+
       } else {
         currentBookingStatus = CurrentBookingStatus.Departure;
         Navigator.of(context).pushNamed(busSearch);
