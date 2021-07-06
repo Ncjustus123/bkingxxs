@@ -149,10 +149,7 @@ class _AdultOptionsState extends State<AdultOptions> {
                     });
                   },
                 ), //     Text(
-                //   booking.getBuses.numberOfAdults.toString(),
-                //   textAlign: TextAlign.center,
-                //   style: TextStyle(fontWeight: FontWeight.w500, fontSize: 16),
-                // ),
+
               ),
               subtractButton(
                   context: context,
