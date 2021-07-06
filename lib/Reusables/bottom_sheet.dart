@@ -20,10 +20,11 @@ class _BottomCardState extends State<BottomCard> {
     final _width = MediaQuery.of(context).size.width;
     final _height = MediaQuery.of(context).size.height;
     booking = Provider.of<BookingRepository>(context);
-    return Container(
+    return InkWell(
+      onTap: (){FocusScope.of(context).unfocus();}, child: Container(
       color: Colors.transparent,
       padding:
-          EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+      EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
       child: Container(
         decoration: BoxDecoration(
             borderRadius: BorderRadius.vertical(top: Radius.circular(35)),
@@ -85,6 +86,7 @@ class _BottomCardState extends State<BottomCard> {
           ),
         ),
       ),
+    ),
     );
   }
 }
@@ -111,59 +113,58 @@ class _AdultOptionsState extends State<AdultOptions> {
     adultController.text = booking.getBuses.numberOfAdults.toString();
     return Expanded(
         child: InkWell(
-      onTap: () {
-        FocusScope.of(context).unfocus();
-      },
-      child: Column(
-        children: [
-          Center(
-              child: Text(
-            widget.title,
-            style: TextStyle(fontWeight: FontWeight.w500, fontSize: 16),
-          )),
-          SizedBox(height: 5),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+          onTap: () {
+            FocusScope.of(context).unfocus();
+          },
+          child: Column(
             children: [
-              addButton(
-                  context: context,
-                  icon: Icons.add,
-                  onTap: () {
-                    setState(() {
-                      booking.getBuses.numberOfAdults++;
-                      numberAdult = booking.getBuses.numberOfAdults.toString();
-                    });
-                  }),
-              Expanded(
-                child: TextFormField(
-                  textAlign: TextAlign.center,
-                  controller: adultController,
-                  // initialValue: booking.getBuses.numberOfAdults.toString(),
-                  onChanged: (value) {
-                    setState(() {
-                      numberAdult = value;
-                      booking.getBuses.numberOfAdults = int.parse(numberAdult);
-                    });
-                  },
-                ), //     Text(
+              Center(
+                  child: Text(
+                    widget.title,
+                    style: TextStyle(fontWeight: FontWeight.w500, fontSize: 16),
+                  )),
+              SizedBox(height: 5),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  subtractButton(
+                      context: context,
+                      icon: Icons.remove,
+                      onTap: () {
+                        booking.subtractAdult();
+
+                        setState(() {
+                          numberAdult = booking.getBuses.numberOfAdults.toString();
+                        });
+                      }),
+                  Expanded(
+                    child: TextFormField(
+                      textAlign: TextAlign.center,
+                      controller: adultController,
+                      keyboardType: TextInputType.phone,
+                      // initialValue: booking.getBuses.numberOfAdults.toString(),
+                      onChanged: (value) {
+                        setState(() {
+                          numberAdult = value;
+                          booking.getBuses.numberOfAdults = int.parse(numberAdult);
+                        });
+                      },
+                    ), //
+                  ),
+                  addButton(
+                      context: context,
+                      icon: Icons.add,
+                      onTap: () {
+                        booking.addAdult();
+                        setState(() {
+                          numberAdult = booking.getBuses.numberOfAdults.toString();
+                        });
+                      }),
+                ],
               ),
-              subtractButton(
-                  context: context,
-                  icon: Icons.remove,
-                  onTap: () {
-                    setState(() {
-                      if (booking.getBuses.numberOfAdults != 0) {
-                        booking.getBuses.numberOfAdults--;
-                        numberAdult =
-                            booking.getBuses.numberOfAdults.toString();
-                      }
-                    });
-                  }),
             ],
           ),
-        ],
-      ),
-    ));
+        ));
   }
 }
 
@@ -182,66 +183,67 @@ class ChildrenOptions extends StatefulWidget {
 
 class _ChildrenOptionsState extends State<ChildrenOptions> {
   String numberChildren;
-  final TextEditingController childController = TextEditingController();
+
+  final TextEditingController childrenController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
-    childController.text = booking.getBuses.numberOfChildren.toString();
+    childrenController.text = booking.getBuses.numberOfChildren.toString();
+
     return Expanded(
-        child: InkWell(
-      onTap: () {
-        FocusScope.of(context).unfocus();
-      },
-      child: Column(
-        children: [
-          Center(
-              child: Text(
-            widget.title,
-            style: TextStyle(fontWeight: FontWeight.w500, fontSize: 16),
-          )),
-          SizedBox(height: 5),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              addButton(
-                  context: context,
-                  icon: Icons.add,
-                  onTap: () {
-                    setState(() {
-                      if (booking.getBuses.numberOfChildren < 2) {
-                        booking.getBuses.numberOfChildren++;
-                      }
-                      numberChildren =
-                          booking.getBuses.numberOfChildren.toString();
-                    });
-                  }),
-              Expanded(
+        child: Column(
+          children: [
+            Center(
+                child: Text(
+                  widget.title,
+                  style: TextStyle(fontWeight: FontWeight.w500, fontSize: 16),
+                )),
+            SizedBox(height: 5),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                subtractButton(
+                    context: context,
+                    icon: Icons.remove,
+                    onTap: () {
+                      booking.subtractChildren();
+
+                      setState(() {
+                        numberChildren =
+                            booking.getBuses.numberOfChildren.toString();
+                      });
+                    }),
+                Expanded(
                   child: TextFormField(
-                    controller: childController,
-                textAlign: TextAlign.center,
-                onChanged: (value){
-                  setState(() {
-                    numberChildren = value;
-                    booking.getBuses.numberOfChildren = int.parse(numberChildren);
-                  });
-                },
-                style: TextStyle(fontWeight: FontWeight.w500, fontSize: 16),
-              )),
-              subtractButton(
-                  context: context,
-                  icon: Icons.remove,
-                  onTap: () {
-                    setState(() {
-                      if (booking.getBuses.numberOfChildren != 0){
-                        booking.getBuses.numberOfChildren--;}
-                         numberChildren =
-                          booking.getBuses.numberOfChildren.toString();
-                    });
-                  }),
-            ],
-          ),
-        ],
-      ),
-    ));
+                    textAlign: TextAlign.center,
+                    controller: childrenController,
+                    keyboardType: TextInputType.phone,
+                    onChanged: (value) {
+                      setState(() {
+                        numberChildren = value;
+                        booking.getBuses.numberOfAdults = int.parse(numberChildren);
+                      });
+                    },
+                  ), //     Text(
+
+                ),
+                addButton(
+                    context: context,
+                    icon: Icons.add,
+                    onTap: () {
+                      booking.addChildren();
+
+                      setState(() {
+                        setState(() {
+                          numberChildren =
+                              booking.getBuses.numberOfChildren.toString();
+                        });
+                      });
+                    }),
+              ],
+            ),
+          ],
+        ));
   }
 }
 
@@ -267,10 +269,10 @@ subtractButton({BuildContext context, icon, onTap}) {
             padding: const EdgeInsets.all(10.0),
             child: Center(
                 child: Icon(
-              icon,
-              color: Theme.of(context).primaryColor,
-              size: 20,
-            )),
+                  icon,
+                  color: Theme.of(context).primaryColor,
+                  size: 20,
+                )),
           ),
         ),
       ),
@@ -300,10 +302,10 @@ addButton({BuildContext context, icon, onTap}) {
             padding: const EdgeInsets.all(10.0),
             child: Center(
                 child: Icon(
-              icon,
-              color: Theme.of(context).primaryColor,
-              size: 20,
-            )),
+                  icon,
+                  color: Theme.of(context).primaryColor,
+                  size: 20,
+                )),
           ),
         ),
       ),

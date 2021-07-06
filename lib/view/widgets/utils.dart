@@ -11,7 +11,7 @@ class Dialogs {
         Icons.emoji_emotions,
         color: Colors.red,
       ),
-      backgroundColor: Colors.black87,
+      backgroundColor: Colors.black54,
       colorText: Colors.white,
     );
   }
