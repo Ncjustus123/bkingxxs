@@ -88,7 +88,9 @@ class SelectBus extends StatelessWidget {
                               style: TextStyle(color: Colors.white,fontSize: 15),
                             ),
                           ),
-                        )
+                        ),
+                        SizedBox(height: 5,),
+                        
                       ]),
                 ),
                 Expanded(
@@ -180,7 +182,7 @@ class SelectBus extends StatelessWidget {
                               Navigator.of(context)
                                   .pushNamed(selectSeat, arguments: bus);
                             },
-                            child: Text("View seat(s)"),
+                            child: Text("view seat(s)"),
                             style: ButtonStyle(
                               backgroundColor:
                                   MaterialStateProperty.all(Colors.red),

@@ -103,9 +103,8 @@ class AdultOptions extends StatefulWidget {
 }
 
 class _AdultOptionsState extends State<AdultOptions> {
-   String numberAdult ;
-   String numberChildren ;
-   final TextEditingController adultController = TextEditingController();
+  String numberAdult;
+  final TextEditingController adultController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -132,8 +131,7 @@ class _AdultOptionsState extends State<AdultOptions> {
                   onTap: () {
                     setState(() {
                       booking.getBuses.numberOfAdults++;
-                      numberAdult =
-                          booking.getBuses.numberOfAdults.toString();
+                      numberAdult = booking.getBuses.numberOfAdults.toString();
                     });
                   }),
               Expanded(
@@ -145,11 +143,9 @@ class _AdultOptionsState extends State<AdultOptions> {
                     setState(() {
                       numberAdult = value;
                       booking.getBuses.numberOfAdults = int.parse(numberAdult);
-
                     });
                   },
                 ), //     Text(
-
               ),
               subtractButton(
                   context: context,
@@ -158,7 +154,7 @@ class _AdultOptionsState extends State<AdultOptions> {
                     setState(() {
                       if (booking.getBuses.numberOfAdults != 0) {
                         booking.getBuses.numberOfAdults--;
-                        numberAdult=
+                        numberAdult =
                             booking.getBuses.numberOfAdults.toString();
                       }
                     });
@@ -173,9 +169,11 @@ class _AdultOptionsState extends State<AdultOptions> {
 
 class ChildrenOptions extends StatefulWidget {
   final String title;
+  final String childCount;
 
   const ChildrenOptions({
     this.title,
+    this.childCount,
   });
 
   @override
@@ -183,48 +181,66 @@ class ChildrenOptions extends StatefulWidget {
 }
 
 class _ChildrenOptionsState extends State<ChildrenOptions> {
+  String numberChildren;
+  final TextEditingController childController = TextEditingController();
   @override
   Widget build(BuildContext context) {
+    childController.text = booking.getBuses.numberOfChildren.toString();
     return Expanded(
-        child: Column(
-      children: [
-        Center(
-            child: Text(
-          widget.title,
-          style: TextStyle(fontWeight: FontWeight.w500, fontSize: 16),
-        )),
-        SizedBox(height: 5),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            addButton(
-                context: context,
-                icon: Icons.add,
-                onTap: () {
+        child: InkWell(
+      onTap: () {
+        FocusScope.of(context).unfocus();
+      },
+      child: Column(
+        children: [
+          Center(
+              child: Text(
+            widget.title,
+            style: TextStyle(fontWeight: FontWeight.w500, fontSize: 16),
+          )),
+          SizedBox(height: 5),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              addButton(
+                  context: context,
+                  icon: Icons.add,
+                  onTap: () {
+                    setState(() {
+                      if (booking.getBuses.numberOfChildren < 2) {
+                        booking.getBuses.numberOfChildren++;
+                      }
+                      numberChildren =
+                          booking.getBuses.numberOfChildren.toString();
+                    });
+                  }),
+              Expanded(
+                  child: TextFormField(
+                    controller: childController,
+                textAlign: TextAlign.center,
+                onChanged: (value){
                   setState(() {
-                    if (booking.getBuses.numberOfChildren < 2) {
-                      booking.getBuses.numberOfChildren++;
-                    }
+                    numberChildren = value;
+                    booking.getBuses.numberOfChildren = int.parse(numberChildren);
                   });
-                }),
-            Expanded(
-                child: Text(
-              booking.getBuses.numberOfChildren.toString(),
-              textAlign: TextAlign.center,
-              style: TextStyle(fontWeight: FontWeight.w500, fontSize: 16),
-            )),
-            subtractButton(
-                context: context,
-                icon: Icons.remove,
-                onTap: () {
-                  setState(() {
-                    if (booking.getBuses.numberOfChildren != 0)
-                      booking.getBuses.numberOfChildren--;
-                  });
-                }),
-          ],
-        ),
-      ],
+                },
+                style: TextStyle(fontWeight: FontWeight.w500, fontSize: 16),
+              )),
+              subtractButton(
+                  context: context,
+                  icon: Icons.remove,
+                  onTap: () {
+                    setState(() {
+                      if (booking.getBuses.numberOfChildren != 0){
+                        booking.getBuses.numberOfChildren--;}
+                         numberChildren =
+                          booking.getBuses.numberOfChildren.toString();
+                    });
+                  }),
+            ],
+          ),
+        ],
+      ),
     ));
   }
 }

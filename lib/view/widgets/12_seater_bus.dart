@@ -154,13 +154,13 @@ class TwelveSeaterBus extends StatelessWidget {
 
     switch (seatObject.status) {
       case SeatStatus.blocked:
-        stackImage = selectedSeat(Colors.grey, i.toString());
+        stackImage = selectedSeat(Colors.grey.withOpacity(0.4), i.toString());
         break;
       case SeatStatus.selected:
         stackImage = selectedSeat(Colors.green, i.toString());
         break;
       default:
-        stackImage = selectedSeat(Colors.grey.withOpacity(0.4), i.toString());
+        stackImage = selectedSeat(Colors.grey[800], i.toString());
         break;
     }
 
