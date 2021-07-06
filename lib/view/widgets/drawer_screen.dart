@@ -1,17 +1,23 @@
 import 'package:Libmot_Mobile/repository/user_repository.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:Libmot_Mobile/view/login/profile_page.dart';
 
 class DrawerScreen extends StatefulWidget {
+  DrawerScreen({@required this.name});
+  final String name;
   @override
   _DrawerScreenState createState() => _DrawerScreenState();
 }
 
 class _DrawerScreenState extends State<DrawerScreen> {
+ static getInitial(String name)=>name.isNotEmpty?name.trim().split(' ').map((l)=>l[0]).take(2).join():'';
+
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<UserRepository>(context);
+
     return Container(
       color: Theme.of(context).scaffoldBackgroundColor,
       child: Padding(
@@ -21,7 +27,8 @@ class _DrawerScreenState extends State<DrawerScreen> {
           children: <Widget>[
             Padding(
               padding: const EdgeInsets.only(top: 30.0),
-              child: Row(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   GestureDetector(
                     onTap: () {},
@@ -29,16 +36,16 @@ class _DrawerScreenState extends State<DrawerScreen> {
                       decoration: BoxDecoration(
                           shape: BoxShape.circle, color: Colors.grey),
                       child: Padding(
-                        padding: const EdgeInsets.all(12.0),
+                        padding: const EdgeInsets.all(18.0),
                         child: Center(
                             child: Text(
-                          'DP',
+                         user.profile!=null? '${getInitial('${user.profile.object.lastName??'Guest'} ${user.profile.object.firstName??'Guest'}').toString().toUpperCase()}':'GT',
                           style: TextStyle(fontSize: 32, color: Colors.white),
                         )),
                       ),
                     ),
                   ),
-                  SizedBox(width: 10),
+                  SizedBox(height: 10),
                   GestureDetector(
                     onTap: () {
                       Navigator.push(
@@ -48,8 +55,9 @@ class _DrawerScreenState extends State<DrawerScreen> {
                                   ProfilePage()));
                     },
                     child: Text(
-                      'Hello! Chinedu',
-                      style: TextStyle(color: Colors.black87, fontSize: 22),
+                      'Hello ${toBeginningOfSentenceCase(widget.name?? 'Guest')}',
+
+                      style: TextStyle(color: Colors.black87, fontSize: 16),
                     ),
                   ),
                 ],

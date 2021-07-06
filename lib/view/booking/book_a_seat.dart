@@ -74,6 +74,8 @@ class _BookASeatPageState extends State<BookASeatPage>
             .map((DestinationObject object) => object.name)
             .toList();
     //TODO: show loading screen
+    print(booking.getBuses.numberOfChildren);
+    print(booking.getBuses.numberOfAdults);
     return Scaffold(
       key: _scaffoldKey,
       body: GestureDetector(
@@ -114,7 +116,7 @@ class _BookASeatPageState extends State<BookASeatPage>
                       ),
                     ),
                     Text(
-                      'One way trip booking',
+                      indexOfRoute == 0 ? 'One-way Trip Booking' : 'Round Trip Booking',
                       style: TextStyle(
                           fontWeight: FontWeight.w700,
                           fontSize: 16,
@@ -322,9 +324,10 @@ class _BookASeatPageState extends State<BookASeatPage>
                               );
                             },
                           ),
-                          SizedBox(height: 15),
-                          booking.getBuses.numberOfAdults < 0 && booking.getBuses.numberOfAdults < 0
-                              ? ButtonReusable(
+                          SizedBox(height: 25),
+                          (booking.getBuses.numberOfAdults.toString() == '0' &&
+                                  booking.getBuses.numberOfChildren.toString() == '0')
+                              ? Container():ButtonReusable(
                                   onpressed: () async {
                                     booking.getBuses.departureDate =
                                         departuredateController.text.toString();
@@ -336,8 +339,8 @@ class _BookASeatPageState extends State<BookASeatPage>
                                     //Get.to(() => SelectBusPage());
                                   },
                                   name: "Search",
-                                )
-                              : Container(),
+                                ),
+
                           SizedBox(height: 20),
                         ],
                       ),

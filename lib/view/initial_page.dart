@@ -1,15 +1,12 @@
+import 'package:Libmot_Mobile/Reusables/constants.dart';
 import 'package:Libmot_Mobile/repository/user_repository.dart';
-import 'package:Libmot_Mobile/resources/database/user_preference.dart';
-import 'package:Libmot_Mobile/view/onboarding_page.dart';
 import 'package:Libmot_Mobile/view/welcome_page.dart';
-import 'package:Libmot_Mobile/view/widgets/dashBoard_screen.dart';
-import 'package:after_layout/after_layout.dart';
+import 'package:Libmot_Mobile/view/widgets/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
-import 'dashboard_page.dart';
+import '../internet_utils.dart';
 
 class InitialPage extends StatefulWidget {
   @override
@@ -29,8 +26,14 @@ class _InitialPageState extends State<InitialPage> {
   }
 
   void getSecureStorage() async {
+    if (await InternetUtils.checkConnectivity()) {
       user.checkLogin(context);
+    } else {
 
+      Get.to(()=>WelcomePage());
+      noNetworkDialog(title:'Oops!', content: 'You seem not to be connected to the internet.',onPressed:(){Get.offAll(()=>InitialPage());});
+
+    }
     // SharedPreferences prefs = await SharedPreferences.getInstance();
     // final newUser = prefs.getString('isNewUser');
     // final preference = await UserPreference.getInstance();
@@ -52,7 +55,58 @@ class _InitialPageState extends State<InitialPage> {
     //     // Navigator.of(context).pushNamed(welcomeRoute);
     //   }
     // } else
-    //   Get.offAll(() => OnBoardingPage());
+    //   Get.offAll(() => OnBoardingPage());}
+  }
+
+  Future noNetworkDialog({title, content, onPressed}) {
+    return showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => Dialog(
+        child: Container(
+          padding: EdgeInsets.symmetric(horizontal: 20),
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10), color: Colors.white),
+          height: 350,
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                SizedBox(
+                  height: 20,
+                ),
+                Icon(
+                  Icons.wifi_off,
+                  color: Colors.blueGrey.withOpacity(0.4),
+                  size: 90,
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Text(
+                  title,
+                  style: TextStyle(fontWeight: FontWeight.w800, fontSize: 24),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Text(
+                  content,
+                  style: TextStyle(fontSize: 15),
+                  textAlign: TextAlign.center,
+                ),
+                SizedBox(height: 30),
+                SmallButtonReusable(name: "Retry", onpressed: onPressed),
+                SizedBox(
+                  height: 30,
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
   }
 
   @override
@@ -60,19 +114,9 @@ class _InitialPageState extends State<InitialPage> {
     user = Provider.of<UserRepository>(context);
 
     return Scaffold(
-      backgroundColor: Color(0xFFB8230B),
-      body: GestureDetector(
-        onTap: () {
-          Get.to(() => OnBoardingPage());
-        },
-        child: Container(
-          color: Color(0xFFB8230B),
-          child: Center(
-              child: Image.asset(
-            'images/LIBMOT LOGO 1.png',
-            width: MediaQuery.of(context).size.width * 0.6,
-          )),
-        ),
+      backgroundColor: Theme.of(context).primaryColor,
+      body: Container(
+        child: Center(child: Image.asset('images/LIBMOT LOGO 1.png',height: 100,)),
       ),
     );
   }
