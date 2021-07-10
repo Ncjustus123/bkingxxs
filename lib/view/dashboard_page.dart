@@ -19,7 +19,6 @@ class _DashboardPageState extends State<DashboardPage> {
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<UserRepository>(context);
-
     return Scaffold(
       key: _scaffoldKey,
       body: Container(

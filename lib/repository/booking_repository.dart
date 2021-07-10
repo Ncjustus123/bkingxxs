@@ -14,7 +14,9 @@ import 'package:flutterwave/models/responses/charge_response.dart';
 import 'package:http/http.dart';
 
 import '../resources/networking/api_calls.dart';
-class Taiwo{}
+
+
+
 class BookingRepository with ChangeNotifier {
   //bool depatureAvailable;
   //bool arrivalAvailable;
@@ -25,6 +27,7 @@ class BookingRepository with ChangeNotifier {
   final String busSearch = "/selectBus";
   final String applyCouponPage = "/applyCoupon";
   Buses departureSelectedBus = new Buses();
+  Buses arrivalSelectedBus = new Buses();
 
   GetRouteModel getRouteModel;
   DestinationTerminalModel destinationTerminalModel;
@@ -46,6 +49,7 @@ class BookingRepository with ChangeNotifier {
     }
     notifyListeners();
   }
+
   notifyListeners();
 
   subtractAdult() {
@@ -121,25 +125,28 @@ class BookingRepository with ChangeNotifier {
   }
 
   searchBuses(_scaffoldKey, BuildContext context) async {
-
-      booking.passengerType = 0;
+    booking.passengerType = 0;
     booking.bookingStatus = 1;
     booking.routeIdReturn = 0;
     Response response = await ApiCalls().searchBuses(getBuses.toJson());
-print(getBuses.toJson());
+    print(getBuses.toJson());
     if (response.statusCode == 200) {
       final Map<String, dynamic> responseData = json.decode(response.body);
       print(response.body);
 
       getBusesResponseModel = GetBusesResponseModel.fromJson(responseData);
+      print(responseData);
       if (getBusesResponseModel.object == null) {
         //depatureAvailable = false;
-        Dialogs.showErrorSnackBar('Oops!', 'There are no buses available on this route at the moment');
-
+        Dialogs.showErrorSnackBar('Oops!',
+            'There are no buses available on this route at the moment');
       } else {
         currentBookingStatus = CurrentBookingStatus.Departure;
         Navigator.of(context).pushNamed(busSearch);
       }
+        //   currentBookingStatus = CurrentBookingStatus.Arrival;
+        // Navigator.of(context).pushNamed(busSearch);
+      print(currentBookingStatus);
     } else {
       return null;
     }
@@ -305,24 +312,6 @@ print(getBuses.toJson());
   }
 }
 
-//ios
-Future<DateTime> showiosDate(
-    BuildContext context, Function ondateselect) async {
-  final now = DateTime.now();
-  showModalBottomSheet(
-      context: context,
-      builder: (BuildContext builder) {
-        return Container(
-          height: MediaQuery.of(context).copyWith().size.height / 3,
-          color: Colors.white,
-          child: CupertinoDatePicker(
-            onDateTimeChanged: ondateselect,
-            mode: CupertinoDatePickerMode.date,
-            minimumDate: now,
-            maximumDate: now.add(Duration(days: 14)),
-          ),
-        );
-      });
-}
+
 
 enum CurrentBookingStatus { Departure, Arrival }

@@ -2,14 +2,15 @@ import 'package:Libmot_Mobile/Reusables/appBar.dart';
 import 'package:Libmot_Mobile/Reusables/constants.dart';
 import 'package:Libmot_Mobile/models/get_buses_response.dart';
 import 'package:Libmot_Mobile/repository/booking_repository.dart';
-import 'package:Libmot_Mobile/view/widgets/select_bus_widget.dart';
+import 'package:Libmot_Mobile/view/booking/roundtrip_bus_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'select_seat_page.dart';
+import 'package:Libmot_Mobile/view/widgets/roundtrip_bus.dart';
 
 // ignore: must_be_immutable
-class SelectBusPage extends StatelessWidget {
+class RoundBusPage extends StatelessWidget {
   BookingRepository booking;
 
   //CurrentBookingStatus currentBookingStatus;
@@ -21,9 +22,8 @@ class SelectBusPage extends StatelessWidget {
     final _height = MediaQuery.of(context).size.height;
 
     booking = Provider.of<BookingRepository>(context);
-    (booking.currentBookingStatus.index == 0)
-        ? bus = booking.getBusesResponseModel.object.departures
-        : bus = booking.getBusesResponseModel.object.arrivals;
+    
+   bus = booking.getBusesResponseModel.object.arrivals;
 
     return Scaffold(
         backgroundColor: Theme.of(context).primaryColor,
@@ -46,8 +46,8 @@ class SelectBusPage extends StatelessWidget {
                       scrollDirection: Axis.vertical,
                       shrinkWrap: true,
                       itemBuilder: (context, index) {
-                        booking.departureSelectedBus = bus[index];
-                        return SelectBus(
+                        booking.arrivalSelectedBus = bus[index];
+                        return RoundTripBus(
                           index: index,
                           bus: bus[index],
                           noOfChildren: booking.getBuses.numberOfChildren,

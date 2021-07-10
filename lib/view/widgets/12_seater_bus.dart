@@ -12,6 +12,8 @@ import 'package:provider/provider.dart';
 class TwelveSeaterBus extends StatelessWidget {
   Buses bus;
   dynamic scaffold;
+  final String busSearch = "/selectBus";
+  final String roundTripSearch = "/roundTripBus";
   TwelveSeaterBus({this.bus, this.scaffold});
 
   BookingRepository booking;
@@ -23,7 +25,7 @@ class TwelveSeaterBus extends StatelessWidget {
     seatSelection = Provider.of<SeatSelectionRepository>(context);
     seatSelection.initialSetUp(bus);
     return Expanded(
-          child: Container(
+      child: Container(
         padding: const EdgeInsets.all(18.0),
         decoration: BoxDecoration(
             color: Theme.of(context).scaffoldBackgroundColor,
@@ -36,10 +38,7 @@ class TwelveSeaterBus extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Expanded(
-                    child: Image.asset(
-                  'images/steering.png',
-                  height: 55
-                    ),
+                    child: Image.asset('images/steering.png', height: 55),
                   ),
                   SizedBox(width: 12),
                   emptySeat(),
@@ -73,7 +72,6 @@ class TwelveSeaterBus extends StatelessWidget {
                   Expanded(child: seat(7)),
                   SizedBox(width: 12),
                   Expanded(child: seat(8)),
-
                   SizedBox(width: 45),
                   Expanded(child: seat(9)),
                 ],
@@ -84,14 +82,11 @@ class TwelveSeaterBus extends StatelessWidget {
                   Expanded(child: seat(10)),
                   SizedBox(width: 12),
                   Expanded(child: seat(11)),
-
                   SizedBox(width: 45),
                   Expanded(child: seat(12)),
-
                 ],
               ),
               SizedBox(height: 30),
-
               Row(
                 children: [
                   blockedSeat(Colors.grey[800], 'Available'),
@@ -105,8 +100,8 @@ class TwelveSeaterBus extends StatelessWidget {
                   int numberOfBooking = booking.getBuses.numberOfAdults +
                       booking.getBuses.numberOfChildren;
                   if (numberOfBooking != seatSelection.selectedSeats.length) {
-                    Dialogs.showErrorSnackBar('Oops!',
-                        " You must select $numberOfBooking  Seat(s)");
+                    Dialogs.showErrorSnackBar(
+                        'Oops!', " You must select $numberOfBooking  Seat(s)");
                     print('$numberOfBooking');
                     return;
                   }
@@ -122,7 +117,9 @@ class TwelveSeaterBus extends StatelessWidget {
                     booking.booking.seatRegistrations = guid;
                     booking.booking.routeId = bus.routeId;
                   }
-                  Get.to(() => PassengerInfoPage());
+                  (booking.getBusesResponseModel.object.tripType == 0)
+                      ? Get.to(() => PassengerInfoPage())
+                      : Navigator.of(context).pushNamed(roundTripSearch);
                 },
                 name: "Continue",
               ),
@@ -219,8 +216,7 @@ class TwelveSeaterBus extends StatelessWidget {
                 height: 10,
               ),
               Padding(
-                padding:
-                    const EdgeInsets.only(right: 20.0, left: 20, top: 10),
+                padding: const EdgeInsets.only(right: 20.0, left: 20, top: 10),
                 child: Text("Seat $seatNumber"),
               ),
             ],

@@ -1,21 +1,27 @@
 import 'package:Libmot_Mobile/Reusables/constants.dart';
 import 'package:Libmot_Mobile/Reusables/text_field.dart';
+import 'package:Libmot_Mobile/repository/user_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:provider/provider.dart';
 
 import 'change_password.dart';
 
 class ProfilePage extends StatefulWidget {
+  ProfilePage({@required this.name});
+  final String name;
   @override
   _ProfilePageState createState() => _ProfilePageState();
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+   static getInitial(String name)=>name.isNotEmpty?name.trim().split(' ').map((l)=>l[0]).take(2).join():'';
   bool _enabled = false;
   @override
   Widget build(BuildContext context) {
     final _width = MediaQuery.of(context).size.width;
     final _height = MediaQuery.of(context).size.height;
+    final user = Provider.of<UserRepository>(context);
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
@@ -90,7 +96,7 @@ class _ProfilePageState extends State<ProfilePage> {
               padding: EdgeInsets.all(8.0),
               child: CircleAvatar(
                 child: Text(
-                  'CJ',
+                   user.profile!=null? '${getInitial('${user.profile.object.lastName??'Guest'} ${user.profile.object.firstName??'Guest'}').toString().toUpperCase()}':'GT',
                   style: TextStyle(fontSize: 23),
                 ),
                 //backgroundImage: AssetImage('assets/NEDU.jpeg'),

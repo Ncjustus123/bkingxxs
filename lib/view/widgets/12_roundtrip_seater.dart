@@ -7,30 +7,22 @@ import 'package:Libmot_Mobile/view/widgets/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
-import 'package:Libmot_Mobile/view/booking/roundtrip_bus_page.dart';
 
 // ignore: must_be_immutable
-class FifteenSeaterBus extends StatefulWidget {
+class RoundTripTwelveSeaterBus extends StatelessWidget {
   Buses bus;
   dynamic scaffold;
-  FifteenSeaterBus({this.bus, this.scaffold});
-
-  @override
-  _FifteenSeaterBusState createState() => _FifteenSeaterBusState();
-}
-
-class _FifteenSeaterBusState extends State<FifteenSeaterBus> {
-  BookingRepository booking;
   final String busSearch = "/selectBus";
-  final String roundTripSearch = "/roundTripBus";
+  RoundTripTwelveSeaterBus({this.bus, this.scaffold});
 
+  BookingRepository booking;
   SeatSelectionRepository seatSelection;
 
   @override
   Widget build(BuildContext context) {
     booking = Provider.of<BookingRepository>(context);
     seatSelection = Provider.of<SeatSelectionRepository>(context);
-    seatSelection.initialSetUp(widget.bus);
+    seatSelection.initialSetUp(bus);
     return Expanded(
       child: Container(
         padding: const EdgeInsets.all(18.0),
@@ -45,69 +37,52 @@ class _FifteenSeaterBusState extends State<FifteenSeaterBus> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Expanded(
-                    child: Image.asset(
-                      'images/steering.png',
-                      height: 55,
-                    ),
+                    child: Image.asset('images/steering.png', height: 55),
                   ),
                   SizedBox(width: 12),
-                  Expanded(
-                      child: Container(
-                    height: 20,
-                    width: 30,
-                  )),
-                  SizedBox(width: 12),
-                  Expanded(child: seat(2)),
-                  SizedBox(width: 12),
+                  emptySeat(),
+                  SizedBox(width: 45),
                   Expanded(child: seat(1)),
                 ],
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Expanded(child: seat(3)),
+                  Expanded(child: seat(2)),
                   SizedBox(width: 12),
+                  Expanded(child: seat(3)),
+                  SizedBox(width: 45),
+                  emptySeat(),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
                   Expanded(child: seat(4)),
                   SizedBox(width: 12),
                   Expanded(child: seat(5)),
-                  SizedBox(width: 12),
-                  emptySeat(),
+                  SizedBox(width: 45),
+                  Expanded(child: seat(6)),
                 ],
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Expanded(child: seat(6)),
-                  SizedBox(width: 12),
                   Expanded(child: seat(7)),
                   SizedBox(width: 12),
-                  emptySeat(),
-                  SizedBox(width: 12),
                   Expanded(child: seat(8)),
+                  SizedBox(width: 45),
+                  Expanded(child: seat(9)),
                 ],
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Expanded(child: seat(9)),
-                  SizedBox(width: 12),
                   Expanded(child: seat(10)),
                   SizedBox(width: 12),
-                  emptySeat(),
-                  SizedBox(width: 12),
                   Expanded(child: seat(11)),
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
+                  SizedBox(width: 45),
                   Expanded(child: seat(12)),
-                  SizedBox(width: 12),
-                  Expanded(child: seat(13)),
-                  SizedBox(width: 12),
-                  Expanded(child: seat(14)),
-                  SizedBox(width: 12),
-                  Expanded(child: seat(15)),
                 ],
               ),
               SizedBox(height: 30),
@@ -119,46 +94,32 @@ class _FifteenSeaterBusState extends State<FifteenSeaterBus> {
                 ],
               ),
               SizedBox(height: 30),
-              isLoading
-                  ? LoadingButton()
-                  : ButtonReusable(
-                      onpressed: () async {
-                        int numberOfBooking = booking.getBuses.numberOfAdults +
-                            booking.getBuses.numberOfChildren;
-                        if (numberOfBooking !=
-                            seatSelection.selectedSeats.length) {
-                          Dialogs.showErrorSnackBar('Sorry!',
-                              " You must select  $numberOfBooking Seat(s)");
-                          print('$numberOfBooking');
-                          return;
-                        }
-                        String guid =
-                            "${widget.bus.vehicleTripRegistrationId}:";
-                        setState(() {
-                          isLoading = true;
-                        });
-                        if (numberOfBooking == 1) {
-                          guid = guid +
-                              seatSelection.selectedSeats.first.toString();
-                        } else {
-                          for (int i in seatSelection.selectedSeats) {
-                            guid = (i == seatSelection.selectedSeats.last)
-                                ? guid + i.toString()
-                                : guid + i.toString() + ",";
-                          }
-                          booking.booking.seatRegistrations = guid;
-                          booking.booking.routeId = widget.bus.routeId;
-                        }
-                        (booking.getBusesResponseModel.object.tripType == 0)
-                            ? Get.to(() => PassengerInfoPage())
-                            : Navigator.of(context).pushNamed(roundTripSearch);
-
-                        setState(() {
-                          isLoading = false;
-                        });
-                      },
-                      name: "Continue",
-                    ),
+              ButtonReusable(
+                onpressed: () async {
+                  int numberOfBooking = booking.getBuses.numberOfAdults +
+                      booking.getBuses.numberOfChildren;
+                  if (numberOfBooking != seatSelection.selectedSeats.length) {
+                    Dialogs.showErrorSnackBar(
+                        'Oops!', " You must select $numberOfBooking  Seat(s)");
+                    print('$numberOfBooking');
+                    return;
+                  }
+                  String guid = "${bus.vehicleTripRegistrationId}:";
+                  if (numberOfBooking == 1) {
+                    guid = guid + seatSelection.selectedSeats.first.toString();
+                  } else {
+                    for (int i in seatSelection.selectedSeats) {
+                      guid = (i == seatSelection.selectedSeats.last)
+                          ? guid + i.toString()
+                          : guid + i.toString() + ",";
+                    }
+                    booking.booking.seatRegistrations = guid;
+                    booking.booking.routeId = bus.routeId;
+                  }
+                  Get.to(() => PassengerInfoPage());
+                },
+                name: "Continue",
+              ),
               SizedBox(
                 height: 10,
               ),
@@ -168,8 +129,6 @@ class _FifteenSeaterBusState extends State<FifteenSeaterBus> {
       ),
     );
   }
-
-  bool isLoading = false;
 
   SizedBox buildSizedBox() {
     return SizedBox(
@@ -201,14 +160,14 @@ class _FifteenSeaterBusState extends State<FifteenSeaterBus> {
     return GestureDetector(
       onTap: () {
         if (seatObject.status == SeatStatus.unSelected) {
-          int numberOfBooknings = booking.getBuses.numberOfAdults +
+          int numberOfBookings = booking.getBuses.numberOfAdults +
               booking.getBuses.numberOfChildren;
 
-          if (numberOfBooknings <= seatSelection.selectedSeats.length) {
-            Dialogs.showErrorSnackBar('Sorry!',
-                " You can't select more than $numberOfBooknings Seat(s)");
+          if (numberOfBookings <= seatSelection.selectedSeats.length) {
+            Dialogs.showErrorSnackBar('Oops!',
+                " You cant select more than $numberOfBookings Seat(s)");
             // s
-            print('$numberOfBooknings');
+            print('$numberOfBookings');
 
             return;
           }
@@ -222,12 +181,10 @@ class _FifteenSeaterBusState extends State<FifteenSeaterBus> {
     );
   }
 
-  emptySeat() {
+  Expanded emptySeat() {
     return Expanded(
-        child: Container(
-      height: 20,
-      width: 30,
-    ));
+      child: Container(),
+    );
   }
 
   selectedSeat(color, seatNumber) {

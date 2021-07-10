@@ -46,13 +46,21 @@
 //   }
 // }
 
+
 import 'package:Libmot_Mobile/Reusables/appBar.dart';
 import 'package:Libmot_Mobile/Reusables/constants.dart';
 import 'package:Libmot_Mobile/Reusables/text_field.dart';
+import 'package:Libmot_Mobile/repository/booking_repository.dart';
+import 'package:Libmot_Mobile/resources/networking/getBase.dart';
+import 'package:Libmot_Mobile/resources/networking/test_data.dart';
 import 'package:Libmot_Mobile/view/initial_page.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flip_card/flip_card.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_paystack/flutter_paystack.dart';
+import 'package:get/get_connect/http/src/response/response.dart';
+import 'package:provider/provider.dart';
 
 class PaymentPaystack extends StatefulWidget {
   @override
@@ -68,6 +76,13 @@ class _PaymentPaystackState extends State<PaymentPaystack> {
   String monthAndyear = "MM/YY";
   String cvvNumber = "CVV";
   String cardHolderName = "CARD HOLDER";
+  final plugin = PaystackPlugin();
+  BookingRepository booking;
+  @override
+  void initState(){
+    plugin.initialize(publicKey: TestData().paystackPublicKey);
+    super.initState();
+  }
 
   _renderContent(context) {
     return Container(
@@ -160,6 +175,8 @@ class _PaymentPaystackState extends State<PaymentPaystack> {
 
   @override
   Widget build(BuildContext context) {
+    booking = Provider.of<BookingRepository>(context);
+    
     return Scaffold(
       body: Stack(
         fit: StackFit.expand,
@@ -175,6 +192,11 @@ class _PaymentPaystackState extends State<PaymentPaystack> {
                       InputFormField(
                         label: 'Card Number',
                         keyboardType: TextInputType.number,
+                        inputFormatters: [
+                          LengthLimitingTextInputFormatter(24),
+                          MaskedTextInputFormatter(
+                              mask: "XXXX XXXX XXXX XXXX XXXX", separator: " ")
+                        ],
                         controller: cardNumbercontroller,
                         onChanged: (value) {
                           setState(() {
@@ -187,9 +209,14 @@ class _PaymentPaystackState extends State<PaymentPaystack> {
                         children: [
                           Expanded(
                             child: InputFormField(
+                              maxlenght: 5,
                               label: 'Expired Date',
                               keyboardType: TextInputType.number,
                               controller: monthAndyearofCardExpiry,
+                              inputFormatters: [
+                                CVVMaskedTextInputFormatter(
+                                    mask: "XX XX", separator: "/")
+                              ],
                               onChanged: (value) {
                                 setState(() {
                                   monthAndyear = monthAndyearofCardExpiry.text;
@@ -200,6 +227,7 @@ class _PaymentPaystackState extends State<PaymentPaystack> {
                           ),
                           Expanded(
                             child: InputFormField(
+                              maxlenght: 3,
                               label: 'CVV',
                               keyboardType: TextInputType.number,
                               controller: cvv,
@@ -227,18 +255,15 @@ class _PaymentPaystackState extends State<PaymentPaystack> {
                       SmallButtonReusable(
                         name: "Proceed",
                         onpressed: () {
-                          dialog(
-                            context,
-                            "Payment Successful",
-                            "Your Payment of 10,000 was successful",
-                            (){
-                               int count = 0;
-                                Navigator.popUntil(context, (route) {
-                                  return count++ == 8;
-                                });
-                                setState(() {});
-                            }
-                          );
+                          processPayment(context);
+                          dialog(context, "Payment Successful",
+                              "Your Payment of 10,000 was successful", () {
+                            int count = 0;
+                            Navigator.popUntil(context, (route) {
+                              return count++ == 8;
+                            });
+                            setState(() {});
+                          });
                         },
                       ),
                       SizedBox(
@@ -253,5 +278,125 @@ class _PaymentPaystackState extends State<PaymentPaystack> {
         ],
       ),
     );
+  }
+
+  void processPayment(context) {
+    int month = int.parse(monthAndyearofCardExpiry.text.split("/")[0]);
+    int year = int.parse(monthAndyearofCardExpiry.text.split("/")[1]);
+    PaymentCard card = PaymentCard(
+      number: cardNumbercontroller.text,
+      cvc: cvv.text,
+      expiryMonth: month,
+      expiryYear: year,
+    );
+    if (!card.isValid()) {
+      return;
+    }
+    Charge c = Charge();
+    c.amount = booking.postBookingResponse.object.amount.toInt();
+    c.card = card;
+    c.email = booking.booking.email;
+    c.reference = booking.postBookingResponse.object.bookingReferenceCode;
+    try {
+      initializePayment(c,context);
+    } catch (e) {}
+  }
+  void initializePayment(Charge c,context) async{
+   final response = await plugin.chargeCard(context, charge: c);
+    // Use the response
+  }
+}
+
+
+
+
+class MaskedTextInputFormatter extends TextInputFormatter {
+  final String mask;
+  final String separator;
+
+  RegExp regExp;
+  MaskedTextInputFormatter({
+    @required this.mask,
+    @required this.separator,
+  }) {
+    assert(mask != null);
+    assert(separator != null);
+  }
+
+  @override
+  TextEditingValue formatEditUpdate(
+      TextEditingValue oldValue, TextEditingValue newValue) {
+    var reg = RegExp(r"^[0-9]+$");
+
+    if (!reg.hasMatch(newValue.text.replaceAll(" ", ""))) {
+      return oldValue;
+    }
+
+    if (newValue.text.endsWith(" ") &&
+        newValue.text.length > oldValue.text.length) {
+      return oldValue;
+    }
+
+    if (newValue.text.length > 0) {
+      if (newValue.text.length > oldValue.text.length) {
+        if (newValue.text.length > mask.length) return oldValue;
+        if (newValue.text.endsWith(' ')) {
+          print("trimming");
+          return TextEditingValue(
+            text: newValue.text.substring(0, newValue.text.length - 2),
+            selection: TextSelection.collapsed(
+              offset: newValue.selection.end - 1,
+            ),
+          );
+        }
+        if (newValue.text.length < mask.length &&
+            mask[newValue.text.length - 1] == separator) {
+          return TextEditingValue(
+            text:
+                '${oldValue.text}$separator${newValue.text.substring(newValue.text.length - 1)}',
+            selection: TextSelection.collapsed(
+              offset: newValue.selection.end + 1,
+            ),
+          );
+        }
+      }
+    }
+    return newValue;
+  }
+}
+
+class CVVMaskedTextInputFormatter extends TextInputFormatter {
+  final String mask;
+  final String separator;
+  CVVMaskedTextInputFormatter({
+    @required this.mask,
+    @required this.separator,
+  }) {
+    assert(mask != null);
+    assert(separator != null);
+  }
+
+  @override
+  TextEditingValue formatEditUpdate(
+      TextEditingValue oldValue, TextEditingValue newValue) {
+    var reg = RegExp(r"^[0-9]+$");
+    if (newValue.text.length > 0) {
+      if (newValue.text.length < oldValue.text.length) {
+        return newValue;
+      }
+      if (!reg.hasMatch(newValue.text.replaceAll("/", ""))) {
+        return oldValue;
+      }
+      if (newValue.text.length > 2) {
+        String text = newValue.text.replaceAll("/", "");
+        String n = '${text.substring(0, 2)}/${text.substring(2)}';
+        return TextEditingValue(
+            text: n,
+            selection: TextSelection.collapsed(
+              offset: newValue.selection.end + 1,
+            ));
+      }
+    }
+    return newValue;
   }
 }

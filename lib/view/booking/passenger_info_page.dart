@@ -11,6 +11,7 @@ import 'package:Libmot_Mobile/repository/booking_repository.dart';
 import 'package:Libmot_Mobile/repository/seat_selection_repository.dart';
 import 'package:Libmot_Mobile/repository/user_repository.dart';
 import 'package:Libmot_Mobile/view/widgets/appBar_passenger_info.dart';
+import 'package:Libmot_Mobile/view/booking/modal.dart';
 import 'package:after_layout/after_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -108,10 +109,11 @@ class _PassengerInfoPageState extends State<PassengerInfoPage>
                         ),
                         ...adultBeneficiaryNames,
                         (noOfAdultBeneficiaries > adultBeneficiaryNames.length)
-                            ? travllersContainer(
-                                _height,
-                                _width,
-                              )
+                        ?SizedBox()
+                            // ? travllersContainer(
+                            //     _height,
+                            //     _width,
+                            //   )
                             : SizedBox()
                       ],
                     )
@@ -132,10 +134,11 @@ class _PassengerInfoPageState extends State<PassengerInfoPage>
                         ...childrenBeneficiaryNames,
                         (noOfChildrenBeneficiaries >
                                 childrenBeneficiaryNames.length)
-                            ? travllersContainer(
-                                _height,
-                                _width,
-                              )
+                                ? SizedBox()//popupDialog(context,  beneficiaryType)
+                            // ? travllersContainer(
+                            //     _height,
+                            //     _width,
+                            //   )
                             : SizedBox()
                       ],
                     )
@@ -238,7 +241,8 @@ class _PassengerInfoPageState extends State<PassengerInfoPage>
                             suffixIcon: Icon(Icons.expand_more),
                             textCapitalization: TextCapitalization.words,
                             controller: genderController,
-                            onSaved: (value) => booking.booking.gender = (value == "Male") ? 0:1,
+                            onSaved: (value) => booking.booking.gender =
+                                (value == "Male") ? 0 : 1,
                             validator: (value) {
                               if (value.isEmpty) {
                                 return 'error';
@@ -323,52 +327,53 @@ class _PassengerInfoPageState extends State<PassengerInfoPage>
     );
   }
 
-  InkWell travllersContainer(
-    _height,
-    _width,
-  ) {
-    return InkWell(
-      onTap: () {
-        showModalBottomSheet(
-          context: context,
-          isScrollControlled: true,
-          backgroundColor: Colors.transparent,
-          builder: (context) => SingleChildScrollView(
-            child: bottomSheet(
-              context:context,
-             height:_height,
-              width:_width,
-            ),
-          ),
-        );
-      },
-      child: TravellersContainer(
-        'Click here to add travelling partner(s)',
-        Colors.black54,
-        Colors.white,
-        Icon(
-          Icons.add_circle,
-          color: Colors.white,
-          size: 20,
-        ),
-      ),
-    );
-  }
+  // InkWell travllersContainer(
+  //   _height,
+  //   _width,
+  // ) {
+  //   return InkWell(
+  //     onTap: () {
+  //       showModalBottomSheet(
+  //         context: context,
+  //         isScrollControlled: true,
+  //         backgroundColor: Colors.transparent,
+  //         builder: (context) => SingleChildScrollView(
+  //           child: 
+  //           //popupDialog(),
+  //           //ModalSheet(),
+  //           // child: bottomSheet(
+  //           //   context: context,
+  //           //   height: _height,
+  //           //   width: _width,
+  //           // ),
+  //         ),
+  //       );
+  //     },
+  //     child: TravellersContainer(
+  //       'Click here to add travelling partner(s)',
+  //       Colors.black54,
+  //       Colors.white,
+  //       Icon(
+  //         Icons.add_circle,
+  //         color: Colors.white,
+  //         size: 20,
+  //       ),
+  //     ),
+  //   );
+  // }
 
- 
-
-  Container bottomSheet(
-   { BuildContext context,
+  Container bottomSheet({
+    BuildContext context,
     double height,
     double width,
-    BeneficiaryType beneficiaryType,}
-  ) {
-    beneficiaryController.clear();
-    Beneficiaries beneficiaries = Beneficiaries();
-    int seatNumber = myList.last;
-    int index = (beneficiaryType.index == 0)
-        ? adultBeneficiaryNames.length
-        : childrenBeneficiaryNames.length;
+    // BeneficiaryType beneficiaryType,
+  }) {
+    // beneficiaryController.clear();
+    // Beneficiaries beneficiaries = Beneficiaries();
+    // int seatNumber = myList.last;
+    // int index = (beneficiaryType.index == 0)
+    //     ? adultBeneficiaryNames.length
+    //     : childrenBeneficiaryNames.length;
     return Container(
       color: Colors.transparent,
       padding:
@@ -412,12 +417,7 @@ class _PassengerInfoPageState extends State<PassengerInfoPage>
                   textCapitalization: TextCapitalization.words,
                   controller: beneficiaryController,
                 ),
-                InputFormField(
-                  label: 'Gender',
-                  textCapitalization: TextCapitalization.words,
-                  suffixIcon: Icon(Icons.expand_more),
-                  controller: genderController,
-                ),
+                RadioListBuilder(),
                 SizedBox(height: 20),
                 Buttons.coloredButton(
                     context: context,
@@ -427,38 +427,38 @@ class _PassengerInfoPageState extends State<PassengerInfoPage>
                         leading: Icon(Icons.person),
                         title: Text(beneficiaryController.text),
                         trailing: IconButton(
-                          icon: Icon(Icons.cancel), 
+                          icon: Icon(Icons.cancel),
                           onPressed: () {
-                            myList.add(seatNumber);
-                            if (beneficiaryType.index == 0) {
-                              adultBeneficiary.remove(beneficiaries);
-                              adultBeneficiaryNames.removeAt(index);
-                            } else {
-                              childrenBeneficiary.remove(beneficiaries);
-                              childrenBeneficiaryNames.removeAt(index);
-                            }
+                            // myList.add(seatNumber);
+                            // if (beneficiaryType.index == 0) {
+                            //   adultBeneficiary.remove(beneficiaries);
+                            //   adultBeneficiaryNames.removeAt(index);
+                            // } else {
+                            //   childrenBeneficiary.remove(beneficiaries);
+                            //   childrenBeneficiaryNames.removeAt(index);
+                            // }
 
-                            setState(() {});
+                            // setState(() {});
                           },
                         ),
                       );
 
                       setState(() {
-                        beneficiaries.fullName = beneficiaryController.text;
+                        // beneficiaries.fullName = beneficiaryController.text;
 
-                        beneficiaries.seatNumber = seatNumber;
+                        // beneficiaries.seatNumber = seatNumber;
 
-                        if (beneficiaryType.index == 0) {
-                          beneficiaries.passengerType = 0; //adult passenger
-                          adultBeneficiaryNames.insert(index, listTile);
-                          adultBeneficiary.add(beneficiaries);
-                        } else {
-                          beneficiaries.passengerType = 1; //child passenger
-                          childrenBeneficiaryNames.insert(index, listTile);
-                          childrenBeneficiary.add(beneficiaries);
-                        }
+                        // if (beneficiaryType.index == 0) {
+                        //   beneficiaries.passengerType = 0; //adult passenger
+                        //   adultBeneficiaryNames.insert(index, listTile);
+                        //   adultBeneficiary.add(beneficiaries);
+                        // } else {
+                        //   beneficiaries.passengerType = 1; //child passenger
+                        //   childrenBeneficiaryNames.insert(index, listTile);
+                        //   childrenBeneficiary.add(beneficiaries);
+                        // }
 
-                        myList.remove(seatNumber);
+                        // myList.remove(seatNumber);
                       });
                       Navigator.pop(context);
                     })
@@ -515,111 +515,108 @@ class _PassengerInfoPageState extends State<PassengerInfoPage>
     });
   }
 
+  popupDialog(BuildContext context, BeneficiaryType beneficiaryType) {
+    beneficiaryController.clear();
+    Beneficiaries beneficial = Beneficiaries();
+    Gender selectedGender = Gender.male;
+    int seatNumber = myList.last;
+    int index = (beneficiaryType.index == 0)
+        ? adultBeneficiaryNames.length
+        : childrenBeneficiaryNames.length;
+    showDialog(
+        context: context,
+        builder: (context) {
+          return Dialog(
+            child: Container(
+              height: 200,
+              child: Column(
+                children: [
+                  TextField(
+                    decoration: InputDecoration(
+                      hintText: "Name of traveller",
+                    ),
+                    controller: beneficiaryController,
+                  ),
+                  StatefulBuilder(
+                    builder: (BuildContext context, StateSetter setState) {
+  return Row(
+    children: <Widget>[
+      Expanded(
+        child: RadioListTile(
+          title: const Text('Male'),
+          value: Gender.male,
+          groupValue: selectedGender,
+          onChanged: (Gender value) {
+            beneficial.gender = value.index;
+            selectedGender = value;
+            setState(() {});
+          },
+        ),
+      ),
+                          Expanded(
+                            child: RadioListTile(
+                              title: const Text('Female'),
+                              groupValue: selectedGender,
+                              value: Gender.female,
+                              onChanged: (Gender value) {
+                                beneficial.gender = value.index;
+                                selectedGender = value;
+                                setState(() {});
+                              },
+                            ),
+                          ),
+                        ],
+                      );
+                    },
+                  ),
+                  ElevatedButton(
+                      child: Text("Add traveller"),
+                      onPressed: () {
+                        Widget listTile = ListTile(
+                          leading: Icon(Icons.person),
+                          title: Text(beneficiaryController.text),
+                          trailing: IconButton(
+                            icon: Icon(Icons.cancel),
+                            onPressed: () {
+                              myList.add(seatNumber);
+                              if (beneficiaryType.index == 0) {
+                                adultBeneficiary.remove(beneficial);
+                                adultBeneficiaryNames.removeAt(index);
+                              } else {
+                                childrenBeneficiary.remove(beneficial);
+                                childrenBeneficiaryNames.removeAt(index);
+                              }
 
-  
+                              setState(() {});
+                            },
+                          ),
+                        );
 
-  // popupDialog(BuildContext context, BeneficiaryType beneficiaryType) {
-  //   beneficiaryController.clear();
-  //   Beneficiaries beneficial = Beneficiaries();
-  //   Gender selectedGender = Gender.male;
-  //   int seatNumber = myList.last;
-  //   int index = (beneficiaryType.index == 0)
-  //       ? adultBeneficiaryNames.length
-  //       : childrenBeneficiaryNames.length;
-  //   showDialog(
-  //       context: context,
-  //       builder: (context) {
-  //         return Dialog(
-  //           child: Container(
-  //             height: 200,
-  //             child: Column(
-  //               children: [
-  //                 TextField(
-  //                   decoration: InputDecoration(
-  //                     hintText: "Name of traveller",
-  //                   ),
-  //                   controller: beneficiaryController,
-  //                 ),
-  //                 StatefulBuilder(
-  //                   builder: (BuildContext context, StateSetter setState) {
-  //                     return Row(
-  //                       children: <Widget>[
-  //                         Expanded(
-  //                           child: RadioListTile(
-  //                             title: const Text('Male'),
-  //                             value: Gender.male,
-  //                             groupValue: selectedGender,
-  //                             onChanged: (Gender value) {
-  //                               beneficial.gender = value.index;
-  //                               selectedGender = value;
-  //                               setState(() {});
-  //                             },
-  //                           ),
-  //                         ),
-  //                         Expanded(
-  //                           child: RadioListTile(
-  //                             title: const Text('Female'),
-  //                             groupValue: selectedGender,
-  //                             value: Gender.female,
-  //                             onChanged: (Gender value) {
-  //                               beneficial.gender = value.index;
-  //                               selectedGender = value;
-  //                               setState(() {});
-  //                             },
-  //                           ),
-  //                         ),
-  //                       ],
-  //                     );
-  //                   },
-  //                 ),
-  //                 ElevatedButton(
-  //                     child: Text("Add traveller"),
-  //                     onPressed: () {
-  //                       Widget listTile = ListTile(
-  //                         leading: Icon(Icons.person),
-  //                         title: Text(beneficiaryController.text),
-  //                         trailing: IconButton(
-  //                           icon: Icon(Icons.cancel),
-  //                           onPressed: () {
-  //                             myList.add(seatNumber);
-  //                             if (beneficiaryType.index == 0) {
-  //                               adultBeneficiary.remove(beneficial);
-  //                               adultBeneficiaryNames.removeAt(index);
-  //                             } else {
-  //                               childrenBeneficiary.remove(beneficial);
-  //                               childrenBeneficiaryNames.removeAt(index);
-  //                             }
+                        setState(() {
+                          beneficial.fullName = beneficiaryController.text;
 
-  //                             setState(() {});
-  //                           },
-  //                         ),
-  //                       );
+                          beneficial.seatNumber = seatNumber;
 
-  //                       setState(() {
-  //                         beneficial.fullName = beneficiaryController.text;
+                          if (beneficiaryType.index == 0) {
+                            beneficial.passengerType = 0; //adult passenger
+                            adultBeneficiaryNames.insert(index, listTile);
+                            adultBeneficiary.add(beneficial);
+                          } else {
+                            beneficial.passengerType = 1; //child passenger
+                            childrenBeneficiaryNames.insert(index, listTile);
+                            childrenBeneficiary.add(beneficial);
+                          }
 
-  //                         beneficial.seatNumber = seatNumber;
-
-  //                         if (beneficiaryType.index == 0) {
-  //                           beneficial.passengerType = 0; //adult passenger
-  //                           adultBeneficiaryNames.insert(index, listTile);
-  //                           adultBeneficiary.add(beneficial);
-  //                         } else {
-  //                           beneficial.passengerType = 1; //child passenger
-  //                           childrenBeneficiaryNames.insert(index, listTile);
-  //                           childrenBeneficiary.add(beneficial);
-  //                         } 
-
-  //                         myList.remove(seatNumber);
-  //                       });
-  //                       Navigator.pop(context);
-  //                     })
-  //               ],
-  //             ),
-  //           ),
-  //         );
-  //       });
-  // }
+                          myList.remove(seatNumber);
+                        });
+                        Navigator.pop(context);
+                      })
+                ],
+              ),
+            ),
+          );
+        });
+  }
 
   @override
   void dispose() {
@@ -669,3 +666,165 @@ class TravellersContainer extends StatelessWidget {
 
 enum Gender { male, female }
 enum BeneficiaryType { adult, children }
+
+class RadioListBuilder extends StatefulWidget {
+  @override
+  RadioListBuilderState createState() {
+    return RadioListBuilderState();
+  }
+}
+
+class RadioListBuilderState extends State<RadioListBuilder> {
+  Gender selectedGender = Gender.male;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Expanded(
+          child: RadioListTile(
+              value: Gender.male,
+              title: Text("Male"),
+              groupValue: selectedGender,
+              onChanged: (Gender value) {
+                selectedGender = value;
+                setState(() {});
+              }),
+        ),
+        Expanded(
+          child: RadioListTile(
+              value: Gender.female,
+              title: Text("Female"),
+              groupValue: selectedGender,
+              onChanged: (Gender value) {
+                selectedGender = value;
+                setState(() {});
+              }),
+        ),
+      ],
+    );
+  }
+}
+
+// class ModalSheet extends StatefulWidget {
+//   const ModalSheet();
+
+//   @override
+//   _ModalSheetState createState() => _ModalSheetState();
+// }
+
+// class _ModalSheetState extends State<ModalSheet> {
+//   BeneficiaryType beneficiaryType;
+//   var beneficiaryController = TextEditingController();
+//   var myList = [];
+//   List<Widget> adultBeneficiaryNames = [];
+//   List<Widget> childrenBeneficiaryNames = [];
+//   List<Beneficiaries> adultBeneficiary = [];
+//   List<Beneficiaries> childrenBeneficiary = [];
+
+//   @override
+//   Widget build(BuildContext context) {
+//     beneficiaryController.clear();
+//     Beneficiaries beneficiaries = Beneficiaries();
+//     int seatNumber = myList.last;
+//     int index = (beneficiaryType.index == 0)
+//         ? adultBeneficiaryNames.length
+//         : childrenBeneficiaryNames.length;
+//     final width = MediaQuery.of(context).size.width;
+//     final height = MediaQuery.of(context).size.height;
+//     return Container(
+//       color: Colors.transparent,
+//       padding:
+//           EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+//       child: Container(
+//         decoration: BoxDecoration(
+//             borderRadius: BorderRadius.vertical(top: Radius.circular(35)),
+//             color: Theme.of(context).scaffoldBackgroundColor),
+//         height: height * 0.5,
+//         width: width,
+//         child: SingleChildScrollView(
+//           child: Padding(
+//             padding: const EdgeInsets.symmetric(horizontal: 15.0),
+//             child: Column(
+//               children: [
+//                 Padding(
+//                   padding: const EdgeInsets.all(20.0),
+//                   child: InkWell(
+//                     onTap: () {
+//                       Get.back();
+//                     },
+//                     child: Container(
+//                       width: 50,
+//                       height: 4,
+//                       color: Theme.of(context).primaryColor,
+//                     ),
+//                   ),
+//                 ),
+//                 Text(
+//                   'Add Beneficiary\'s Name',
+//                   style: TextStyle(fontWeight: FontWeight.w700, fontSize: 20),
+//                 ),
+//                 SizedBox(height: 15),
+//                 Text(
+//                   'Add the name of a travelling partner',
+//                   textAlign: TextAlign.center,
+//                 ),
+//                 SizedBox(height: 20),
+//                 InputFormField(
+//                   label: 'Full Name',
+//                   textCapitalization: TextCapitalization.words,
+//                   controller: beneficiaryController,
+//                 ),
+//                 RadioListBuilder(),
+//                 SizedBox(height: 20),
+//                 Buttons.coloredButton(
+//                     context: context,
+//                     title: 'Add Beneficiary',
+//                     onTap: () {
+//                       Widget listTile = ListTile(
+//                         leading: Icon(Icons.person),
+//                         title: Text(beneficiaryController.text),
+//                         trailing: IconButton(
+//                           icon: Icon(Icons.cancel),
+//                           onPressed: () {
+//                             myList.add(seatNumber);
+//                             if (beneficiaryType.index == 0) {
+//                               adultBeneficiary.remove(beneficiaries);
+//                               adultBeneficiaryNames.removeAt(index);
+//                             } else {
+//                               childrenBeneficiary.remove(beneficiaries);
+//                               childrenBeneficiaryNames.removeAt(index);
+//                             }
+
+//                             setState(() {});
+//                           },
+//                         ),
+//                       );
+
+//                       setState(() {
+//                         beneficiaries.fullName = beneficiaryController.text;
+
+//                         beneficiaries.seatNumber = seatNumber;
+
+//                         if (beneficiaryType.index == 0) {
+//                           beneficiaries.passengerType = 0; //adult passenger
+//                           adultBeneficiaryNames.insert(index, listTile);
+//                           adultBeneficiary.add(beneficiaries);
+//                         } else {
+//                           beneficiaries.passengerType = 1; //child passenger
+//                           childrenBeneficiaryNames.insert(index, listTile);
+//                           childrenBeneficiary.add(beneficiaries);
+//                         }
+
+//                         myList.remove(seatNumber);
+//                       });
+//                       Navigator.pop(context);
+//                     })
+//               ],
+//             ),
+//           ),
+//         ),
+//       ),
+//     );
+//   }
+// }

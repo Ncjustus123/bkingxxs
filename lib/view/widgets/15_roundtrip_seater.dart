@@ -10,16 +10,16 @@ import 'package:provider/provider.dart';
 import 'package:Libmot_Mobile/view/booking/roundtrip_bus_page.dart';
 
 // ignore: must_be_immutable
-class FifteenSeaterBus extends StatefulWidget {
+class RoundTripFifteenSeaterBus extends StatefulWidget {
   Buses bus;
   dynamic scaffold;
-  FifteenSeaterBus({this.bus, this.scaffold});
+  RoundTripFifteenSeaterBus({this.bus, this.scaffold});
 
   @override
-  _FifteenSeaterBusState createState() => _FifteenSeaterBusState();
+  _RoundTripFifteenSeaterBus createState() => _RoundTripFifteenSeaterBus();
 }
 
-class _FifteenSeaterBusState extends State<FifteenSeaterBus> {
+class _RoundTripFifteenSeaterBus extends State<RoundTripFifteenSeaterBus> {
   BookingRepository booking;
   final String busSearch = "/selectBus";
   final String roundTripSearch = "/roundTripBus";
@@ -149,10 +149,7 @@ class _FifteenSeaterBusState extends State<FifteenSeaterBus> {
                           booking.booking.seatRegistrations = guid;
                           booking.booking.routeId = widget.bus.routeId;
                         }
-                        (booking.getBusesResponseModel.object.tripType == 0)
-                            ? Get.to(() => PassengerInfoPage())
-                            : Navigator.of(context).pushNamed(roundTripSearch);
-
+                        Get.to(() => PassengerInfoPage());
                         setState(() {
                           isLoading = false;
                         });

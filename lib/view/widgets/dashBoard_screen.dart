@@ -5,6 +5,7 @@ import 'package:Libmot_Mobile/view/widgets/appBar_passenger_info.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:Libmot_Mobile/view/widgets/change_mode_button.dart';
 
 class DashBoardScreen extends StatefulWidget {
   DashBoardScreen({@required this.name});
@@ -101,10 +102,7 @@ class _DashBoardScreen extends State<DashBoardScreen> {
                     ),
                     Padding(
                       padding: const EdgeInsets.fromLTRB(8, 0, 0, 8),
-                      child: Icon(
-                        Icons.notifications_outlined,
-                        color: Colors.white,
-                      ),
+                      child:  ChangeModeButton(),
                     ),
                   ],
                 ),

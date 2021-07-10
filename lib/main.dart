@@ -10,6 +10,7 @@ import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'repository/booking_repository.dart';
 import 'routes.dart';
+import 'package:Libmot_Mobile/repository/theme_provider.dart';
 
 void main() {
   runApp(MyApp());
@@ -18,6 +19,8 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    
+    //final themeProvider = Provider.of<ThemeProvider>(context);
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => UserRepository()),
@@ -27,23 +30,17 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => AgentProvider()),
         ChangeNotifierProvider(create: (_) => SeatSelectionRepository()),
         ChangeNotifierProvider(create: (_) => CouponRepository()),
+        ChangeNotifierProvider(create: (_) => ThemeProvider()),
       ],
+      
       child: GetMaterialApp(
         defaultTransition: Transition.upToDown,
-        theme: ThemeData(
-          scaffoldBackgroundColor: Color(0xFFEDF6FC),
-          primarySwatch: Colors.red,
-          primaryColor: Color(0xFFFD1919),
-          accentColor: Color(0xFFE7AA07),
-          fontFamily: 'Circular',
-        ),
-        // darkTheme: ThemeData(
-        //   scaffoldBackgroundColor: Color(0xFF4D4D4D),
-        //   primaryColor: Color(0xFF62010D),
-        // ),
+        theme: MyThemes.lightTheme,
         debugShowCheckedModeBanner: false,
         title: "Libmot Mobile",
         initialRoute: "initial",
+        themeMode: ThemeProvider().themeMode,
+        darkTheme: MyThemes.darkTheme,
         onGenerateRoute: routes,
         builder: EasyLoading.init(),
       ),

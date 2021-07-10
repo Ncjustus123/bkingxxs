@@ -248,7 +248,7 @@ class _BookASeatPageState extends State<BookASeatPage>
                                     if (selectedTime != null) {
                                       arrivaldateController.text =
                                           '${DateFormat('yMMMd').format(selectedTime)}';
-                                      booking.getBuses.departureDate =
+                                      booking.getBuses.returnDate =
                                           "${DateFormat('yyyy-MM-dd').format(selectedTime)}";
                                     }
                                   },

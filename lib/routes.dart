@@ -20,6 +20,8 @@ import 'view/bus_hire/bus_hire_page.dart';
 import 'view/bus_hire/bus_hire_details_page.dart';
 import 'view/bus_hire/bus_hire_success_page.dart';
 import 'view/booking/select_seat_page.dart';
+import 'package:Libmot_Mobile/view/booking/roundtrip_bus_page.dart';
+import 'package:Libmot_Mobile/view/booking/roundtrip_selectseat.dart';
 
 Route routes(RouteSettings settings) {
   final args = settings.arguments;
@@ -75,9 +77,21 @@ Route routes(RouteSettings settings) {
         return MaterialPageRoute(builder: (context) => SelectBusPage());
       }
       break;
+      case "/roundTripBus":
+      {
+        return MaterialPageRoute(builder: (context) => RoundBusPage());
+      }
+      break;
       case "/selectSeats":
       {
         return MaterialPageRoute(builder: (context) => SelectSeatPage(
+          bus : args,
+        ));
+      }
+      break;
+      case "/roundTripselectSeats":
+      {
+        return MaterialPageRoute(builder: (context) => RoundTripSelectSeatPage(
           bus : args,
         ));
       }

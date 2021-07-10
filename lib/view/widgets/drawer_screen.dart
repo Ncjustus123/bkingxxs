@@ -12,7 +12,9 @@ class DrawerScreen extends StatefulWidget {
 }
 
 class _DrawerScreenState extends State<DrawerScreen> {
- static getInitial(String name)=>name.isNotEmpty?name.trim().split(' ').map((l)=>l[0]).take(2).join():'';
+  static getInitial(String name) => name.isNotEmpty
+      ? name.trim().split(' ').map((l) => l[0]).take(2).join()
+      : '';
 
   @override
   Widget build(BuildContext context) {
@@ -32,16 +34,35 @@ class _DrawerScreenState extends State<DrawerScreen> {
                 children: <Widget>[
                   GestureDetector(
                     onTap: () {},
-                    child: Container(
-                      decoration: BoxDecoration(
-                          shape: BoxShape.circle, color: Colors.grey),
-                      child: Padding(
-                        padding: const EdgeInsets.all(18.0),
-                        child: Center(
-                            child: Text(
-                         user.profile!=null? '${getInitial('${user.profile.object.lastName??'Guest'} ${user.profile.object.firstName??'Guest'}').toString().toUpperCase()}':'GT',
-                          style: TextStyle(fontSize: 32, color: Colors.white),
-                        )),
+                    child: Padding(
+                      padding: const EdgeInsets.only(right: 250),
+                      child: GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (BuildContext context) =>
+                                      ProfilePage(
+                                        name: user.profile != null
+                                            ? '${user.profile.object.lastName ?? 'Guest'}'
+                                            : 'Guest',
+                                      )));
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                              shape: BoxShape.circle, color: Colors.grey),
+                          child: Padding(
+                            padding: const EdgeInsets.all(12.0),
+                            child: Center(
+                                child: Text(
+                              user.profile != null
+                                  ? '${getInitial('${user.profile.object.lastName ?? 'Guest'} ${user.profile.object.firstName ?? 'Guest'}').toString().toUpperCase()}'
+                                  : 'GT',
+                              style:
+                                  TextStyle(fontSize: 32, color: Colors.white),
+                            )),
+                          ),
+                        ),
                       ),
                     ),
                   ),
@@ -51,23 +72,51 @@ class _DrawerScreenState extends State<DrawerScreen> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (BuildContext context) =>
-                                  ProfilePage()));
+                              builder: (BuildContext context) => ProfilePage(
+                                    name: user.profile != null
+                                        ? '${user.profile.object.lastName ?? 'Guest'}'
+                                        : 'Guest',
+                                  )));
                     },
                     child: Text(
-                      'Hello ${toBeginningOfSentenceCase(widget.name?? 'Guest')}',
-
+                      'Hello ${toBeginningOfSentenceCase(widget.name ?? 'Guest')}',
                       style: TextStyle(color: Colors.black87, fontSize: 16),
                     ),
                   ),
                 ],
               ),
             ),
+            SizedBox(height: 10),
             Column(
               children: <Widget>[
+                user.profile == null
+                    ? menuOption(
+                        icon: 'icons/login.jpg',
+                        title: 'Log in',
+                        onTap: () {},
+                      )
+                    : menuOption(
+                        icon: 'icons/history.png',
+                        title: 'Booking History',
+                        onTap: () {},
+                      ),
+                user.profile == null
+                    ? menuOption(
+                        icon: 'icons/signup.png',
+                        title: 'Sign Up',
+                        onTap: () {},
+                      )
+                    : SizedBox(),
                 menuOption(
-                  icon: 'icons/history.png',
-                  title: 'Booking History',
+                  icon: 'icons/coupons.png',
+                  title: 'Check Booking Status',
+                  onTap: () {
+                    Navigator.of(context).pushNamed("/checkBookingStatus");
+                  },
+                ),
+                menuOption(
+                  icon: 'icons/notification.png',
+                  title: 'Notification',
                   onTap: () {},
                 ),
                 menuOption(
@@ -75,11 +124,13 @@ class _DrawerScreenState extends State<DrawerScreen> {
                   title: 'Help & Support',
                   onTap: () {},
                 ),
-                menuOption(
-                  icon: 'icons/coupons.png',
-                  title: 'My Coupons',
-                  onTap: () {},
-                ),
+                user.profile == null
+                    ? SizedBox()
+                    : menuOption(
+                        icon: 'icons/coupons.png',
+                        title: 'My Coupons',
+                        onTap: () {},
+                      ),
                 menuOption(
                   icon: 'icons/rate us.png',
                   title: 'Rate Us',
@@ -90,7 +141,7 @@ class _DrawerScreenState extends State<DrawerScreen> {
                   title: 'Share App',
                   onTap: () {},
                 ),
-                SizedBox(height: 100),
+                SizedBox(height: 50),
                 // GestureDetector(
                 //   onTap: () {
                 //     user.logout();
@@ -160,34 +211,36 @@ class _DrawerScreenState extends State<DrawerScreen> {
                 //   icon: Icons.share,
                 // ),
                 SizedBox(
-                  height: 20,
+                  height: 15,
                 ),
               ],
             ),
-            Row(
-              children: [
-                InkWell(
-                  onTap: (){
-                    user.logout();
-                  if (user.loggedInStatus == LoggedInStatus.LoggedOut) {
-
-                     Navigator.of(context).pushNamed("/welcome");
-                  }},
-                  child: Container(
-                    width: 120,
-                    decoration: BoxDecoration(color: Colors.black),
-                    child: Padding(
-                      padding: const EdgeInsets.all(17.0),
-                      child: Text(
-                        'Log out',
-                        style: TextStyle(color: Colors.white),
+            user.profile == null
+                ? SizedBox()
+                : Row(
+                    children: [
+                      InkWell(
+                        onTap: () {
+                          print("tapped");
+                          user.logout();
+                          if (user.loggedInStatus == LoggedInStatus.LoggedOut) {
+                            Navigator.of(context).pushNamed("/welcome");
+                          }
+                        },
+                        child: Container(
+                          width: 120,
+                          decoration: BoxDecoration(color: Colors.black),
+                          child: Padding(
+                            padding: const EdgeInsets.all(17.0),
+                            child: Text(
+                              'Log out',
+                              style: TextStyle(color: Colors.white),
+                            ),
+                          ),
+                        ),
                       ),
-                    ),
+                    ],
                   ),
-                ),
-              ],
-            ),
-
             // Row(
             //   children: <Widget>[
             //     Icon(
@@ -221,7 +274,7 @@ class _DrawerScreenState extends State<DrawerScreen> {
     return InkWell(
       onTap: onTap,
       child: Padding(
-        padding: const EdgeInsets.only(bottom: 12.0),
+        padding: const EdgeInsets.only(bottom: 8.0),
         child: Row(
           children: [
             Container(

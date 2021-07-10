@@ -6,15 +6,15 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 
-class SelectBus extends StatelessWidget {
-  final String selectSeat = "/selectSeats";
+class RoundTripBus extends StatelessWidget {
+  final String roundTripselectSeat = "/roundTripselectSeats";
   final index;
   final Buses bus;
   final int noOfChildren;
   final int tripType;
   BookingRepository booking;
 
-  SelectBus({this.index, this.bus, this.noOfChildren, this.tripType});
+  RoundTripBus({this.index, this.bus, this.noOfChildren, this.tripType});
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +22,7 @@ class SelectBus extends StatelessWidget {
       padding: EdgeInsets.symmetric(vertical: 3),
       child: InkWell(
         onTap: () {
-          Navigator.of(context).pushNamed(selectSeat, arguments: bus);
+          Navigator.of(context).pushNamed(roundTripselectSeat, arguments: bus);
         },
         child: Card(
           elevation: 2,
@@ -189,7 +189,7 @@ class SelectBus extends StatelessWidget {
                             onPressed: () {
                               ///Get.to(() => SelectSeatPage());
                               Navigator.of(context)
-                                  .pushNamed(selectSeat, arguments: bus);
+                                  .pushNamed(roundTripselectSeat, arguments: bus);
                             },
                             child: Text("view seat(s)"),
                             style: ButtonStyle(
