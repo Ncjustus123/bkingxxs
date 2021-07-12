@@ -15,8 +15,6 @@ import 'package:http/http.dart';
 
 import '../resources/networking/api_calls.dart';
 
-
-
 class BookingRepository with ChangeNotifier {
   //bool depatureAvailable;
   //bool arrivalAvailable;
@@ -35,6 +33,9 @@ class BookingRepository with ChangeNotifier {
   GetBusesModel model;
   GetBusesResponseModel getBusesResponseModel;
   PostBookingResponse postBookingResponse;
+  int triptype;
+  String guid;
+  int routeid;
 
   String name;
 
@@ -124,10 +125,24 @@ class BookingRepository with ChangeNotifier {
     }
   }
 
+  void tripTypeChange(int i) {
+    getBuses.tripType = i ?? 0;
+    booking.tripType = i ?? 0;
+    notifyListeners();
+  }
+
   searchBuses(_scaffoldKey, BuildContext context) async {
     booking.passengerType = 0;
     booking.bookingStatus = 1;
     booking.routeIdReturn = 0;
+    booking.routeId = routeid;
+    booking.seatRegistrations = guid;
+    booking.tripType = triptype;
+    booking.hasCoupon = false;
+    booking.isGhanaRoute = false;
+    booking.isSub = false;
+    booking.isLoggedIn = true;
+
     Response response = await ApiCalls().searchBuses(getBuses.toJson());
     print(getBuses.toJson());
     if (response.statusCode == 200) {
@@ -136,6 +151,7 @@ class BookingRepository with ChangeNotifier {
 
       getBusesResponseModel = GetBusesResponseModel.fromJson(responseData);
       print(responseData);
+      print(getBusesResponseModel.object.departures[0].tripId);
       if (getBusesResponseModel.object == null) {
         //depatureAvailable = false;
         Dialogs.showErrorSnackBar('Oops!',
@@ -144,18 +160,12 @@ class BookingRepository with ChangeNotifier {
         currentBookingStatus = CurrentBookingStatus.Departure;
         Navigator.of(context).pushNamed(busSearch);
       }
-        //   currentBookingStatus = CurrentBookingStatus.Arrival;
-        // Navigator.of(context).pushNamed(busSearch);
+      //   currentBookingStatus = CurrentBookingStatus.Arrival;
+      // Navigator.of(context).pushNamed(busSearch);
       print(currentBookingStatus);
     } else {
       return null;
     }
-  }
-
-  void tripTypeChange(int i) {
-    getBuses.tripType = i;
-    booking.tripType = i;
-    notifyListeners();
   }
 
   //Andriod
@@ -205,9 +215,9 @@ class BookingRepository with ChangeNotifier {
     // booking.passengerType = 0;
     // booking.bookingStatus = 1;
     // booking.routeIdReturn = 0;
-    // booking.seatRegistrations =
-    //     "${getBusesResponseModel.object.departures[0].tripId}${":6"}";
-    // booking.routeId = getBusesResponseModel.object.departures[0].routeId;
+    //booking.seatRegistrations =
+    //"${getBusesResponseModel.object.departures[0].tripId}${":6"}";
+    //booking.routeId = getBusesResponseModel.object.departures[0].routeId;
     // booking.isLoggedIn = true;
     // booking.isSubReturn = false;
     // booking.isSub = false;
@@ -216,23 +226,11 @@ class BookingRepository with ChangeNotifier {
     //  booking.paymentMethod = 5;
     // booking.passengerType = 0;
     // booking.bookingType = 2;
+    // booking.gender ==
     // BookingModel model;
-    // model = BookingModel(
-    //   passengerType: 0,
-    //   paymentMethod: 5,
-    //   bookingType: 2,
-    //   bookingStatus:1 ,
-    //   isLoggedIn: true,
-    //   isGhanaRoute: false,
-    //   isSub: false,
-    //   isSubReturn: false,
-    //   hasCoupon: false,
-    //   routeIdReturn: 0,
-    //   routeId: getBusesResponseModel.object.departures[0].routeId,
-    //   seatRegistrations: "${getBusesResponseModel.object.departures[0].tripId}${":6"}",
-    // );
 
     final response = await ApiCalls().postBooking(booking.toJson());
+    print(booking);
 
     if (response.statusCode == 200) {
       final Map<String, dynamic> responseData = json.decode(response.body);
@@ -311,7 +309,5 @@ class BookingRepository with ChangeNotifier {
         response.data.txRef == txref;
   }
 }
-
-
 
 enum CurrentBookingStatus { Departure, Arrival }

@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     
-    //final themeProvider = Provider.of<ThemeProvider>(context);
+    // final themeProvider = Provider.of<ThemeProvider>(context);
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => UserRepository()),
@@ -39,7 +39,8 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: "Libmot Mobile",
         initialRoute: "initial",
-        themeMode: ThemeProvider().themeMode,
+        themeMode:ThemeMode.system,
+        //ThemeProvider().themeMode,
         darkTheme: MyThemes.darkTheme,
         onGenerateRoute: routes,
         builder: EasyLoading.init(),

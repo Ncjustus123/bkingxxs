@@ -116,7 +116,9 @@ class _BookASeatPageState extends State<BookASeatPage>
                       ),
                     ),
                     Text(
-                      indexOfRoute == 0 ? 'One-way Trip Booking' : 'Round Trip Booking',
+                      indexOfRoute == 0
+                          ? 'One-way Trip Booking'
+                          : 'Round Trip Booking',
                       style: TextStyle(
                           fontWeight: FontWeight.w700,
                           fontSize: 16,
@@ -156,8 +158,11 @@ class _BookASeatPageState extends State<BookASeatPage>
                         print('$index');
                         setState(() {
                           indexOfRoute = index;
+                          booking.triptype = indexOfRoute;
+                          print('triptype');
+                          print(booking.triptype);
                         });
-                        booking.getBuses.tripType = index;
+                        booking.getBuses.tripType = index ?? 0 ;
                         booking.tripTypeChange(index);
                       },
                     ),
@@ -326,8 +331,11 @@ class _BookASeatPageState extends State<BookASeatPage>
                           ),
                           SizedBox(height: 25),
                           (booking.getBuses.numberOfAdults.toString() == '0' &&
-                                  booking.getBuses.numberOfChildren.toString() == '0')
-                              ? Container():ButtonReusable(
+                                  booking.getBuses.numberOfChildren
+                                          .toString() ==
+                                      '0')
+                              ? Container()
+                              : ButtonReusable(
                                   onpressed: () async {
                                     booking.getBuses.departureDate =
                                         departuredateController.text.toString();
@@ -340,7 +348,6 @@ class _BookASeatPageState extends State<BookASeatPage>
                                   },
                                   name: "Search",
                                 ),
-
                           SizedBox(height: 20),
                         ],
                       ),

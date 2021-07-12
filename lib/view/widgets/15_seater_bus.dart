@@ -146,9 +146,11 @@ class _FifteenSeaterBusState extends State<FifteenSeaterBus> {
                                 ? guid + i.toString()
                                 : guid + i.toString() + ",";
                           }
-                          booking.booking.seatRegistrations = guid;
-                          booking.booking.routeId = widget.bus.routeId;
+                          booking.guid = guid;
+                          booking.routeid = widget.bus.routeId;
                         }
+                        print(guid);
+                        print(widget.bus.routeId);
                         (booking.getBusesResponseModel.object.tripType == 0)
                             ? Get.to(() => PassengerInfoPage())
                             : Navigator.of(context).pushNamed(roundTripSearch);
@@ -199,7 +201,8 @@ class _FifteenSeaterBusState extends State<FifteenSeaterBus> {
     }
 
     return GestureDetector(
-      onTap: () {
+      onTap: () {print("$i,${widget.bus.tripId}");
+
         if (seatObject.status == SeatStatus.unSelected) {
           int numberOfBooknings = booking.getBuses.numberOfAdults +
               booking.getBuses.numberOfChildren;

@@ -39,6 +39,7 @@ class _SelectSeatPageState extends State<SelectSeatPage>
 
   @override
   Widget build(BuildContext context) {
+    print(widget.bus);
     booking = Provider.of<BookingRepository>(context);
     seatSelection = Provider.of<SeatSelectionRepository>(context);
     final _width = MediaQuery.of(context).size.width;

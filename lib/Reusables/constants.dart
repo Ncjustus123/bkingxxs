@@ -19,7 +19,7 @@ const textStyle = TextStyle(color: Colors.white, fontSize: 18,fontWeight: FontWe
 const textStyleHeading =
     TextStyle(color: Colors.black, fontSize: 18, fontWeight: FontWeight.w500);
 const textStyle1 =
-    TextStyle(color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold);
+    TextStyle( fontSize: 20, fontWeight: FontWeight.bold);
 const textStyle2 = TextStyle(
   color: Colors.black,
   fontSize: 14,

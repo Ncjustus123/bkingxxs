@@ -125,8 +125,8 @@ class _ApplyCouponState extends State<ApplyCoupon> {
                     SizedBox(height: 10),
                     ButtonReusable(
                       onpressed: () async {
-                        Navigator.of(context).pushNamed("/paymentpage");
-                        //repository.couponProceedButton(context);
+                        //Navigator.of(context).pushNamed("/paymentpage");
+                        repository.couponProceedButton(context);
                       },
                       name: "Proceed to payment",
                     ),

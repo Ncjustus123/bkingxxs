@@ -1,5 +1,8 @@
 import 'package:Libmot_Mobile/repository/user_repository.dart';
+import 'package:Libmot_Mobile/view/login/login_page.dart';
+import 'package:Libmot_Mobile/view/login/sign_up_page.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:Libmot_Mobile/view/login/profile_page.dart';
@@ -7,6 +10,7 @@ import 'package:Libmot_Mobile/view/login/profile_page.dart';
 class DrawerScreen extends StatefulWidget {
   DrawerScreen({@required this.name});
   final String name;
+  static final loginpage = "/login"; 
   @override
   _DrawerScreenState createState() => _DrawerScreenState();
 }
@@ -93,7 +97,9 @@ class _DrawerScreenState extends State<DrawerScreen> {
                     ? menuOption(
                         icon: 'icons/login.jpg',
                         title: 'Log in',
-                        onTap: () {},
+                        onTap: () {
+                          Get.offAll(LoginPage());
+                        },
                       )
                     : menuOption(
                         icon: 'icons/history.png',
@@ -104,7 +110,9 @@ class _DrawerScreenState extends State<DrawerScreen> {
                     ? menuOption(
                         icon: 'icons/signup.png',
                         title: 'Sign Up',
-                        onTap: () {},
+                        onTap: () {
+                          Get.offAll(SignUpPage());
+                        },
                       )
                     : SizedBox(),
                 menuOption(
