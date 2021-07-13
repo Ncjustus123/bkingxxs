@@ -113,9 +113,9 @@ class RoundTripTwelveSeaterBus extends StatelessWidget {
                           ? guid + i.toString()
                           : guid + i.toString() + ",";
                     }
-                    booking.booking.seatRegistrations = guid;
-                    booking.booking.routeId = bus.routeId;
                   }
+                  booking.booking.seatRegistrations = guid;
+                  booking.booking.routeId = bus.routeId;
                   Get.to(() => PassengerInfoPage());
                 },
                 name: "Continue",

@@ -1,65 +1,20 @@
-// import 'dart:io';
-// import 'package:Libmot_Mobile/payment.dart';
-// import 'package:Libmot_Mobile/repository/booking_repository.dart';
-// import 'package:Libmot_Mobile/resources/networking/getBase.dart';
-// import 'package:Libmot_Mobile/resources/networking/test_data.dart';
-// import 'package:flutter/material.dart';
-// import 'package:flutter_paystack/flutter_paystack.dart';
-// import 'package:provider/provider.dart';
-
-// class PaymentPaystack extends StatefulWidget {
-//   @override
-//   _PaymentPaystackState createState() => _PaymentPaystackState();
-// }
-
-// class _PaymentPaystackState extends State<PaymentPaystack> {
-//   final plugin = PaystackPlugin();
-//   @override
-//     void initState() {
-//        plugin.initialize(publicKey: baseInstance.base.paystackPublicKey);
-//     // PaystackPlugin.initialize(
-//     //     publicKey: "pk_test");
-//      super.initState();
-//   }
-//   BookingRepository booking;
-
-//   Widget build(BuildContext context) {
-//     booking = Provider.of<BookingRepository>(context);
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: Text(
-//           "PAYSTACK",
-//         ),
-//         centerTitle: true,
-//         elevation: 0.0,
-//       ),
-//       body: Container(
-//           // padding: EdgeInsets.all(10),
-//           child: Center(
-//             child: FlatButton(
-//               color: Colors.green,
-//               child: Text("Charge", style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold),),
-//               onPressed: () {}
-//             ),
-//           )),
-//     );
-//   }
-// }
-
-
 import 'package:Libmot_Mobile/Reusables/appBar.dart';
 import 'package:Libmot_Mobile/Reusables/constants.dart';
 import 'package:Libmot_Mobile/Reusables/text_field.dart';
 import 'package:Libmot_Mobile/repository/booking_repository.dart';
+import 'package:Libmot_Mobile/resources/networking/api_calls.dart';
 import 'package:Libmot_Mobile/resources/networking/getBase.dart';
 import 'package:Libmot_Mobile/resources/networking/test_data.dart';
+import 'package:Libmot_Mobile/view/booking/Booking_confirmation_page.dart';
+import 'package:Libmot_Mobile/view/booking/booking_confirmation.dart';
 import 'package:Libmot_Mobile/view/initial_page.dart';
 import 'package:flutter/material.dart';
-
 import 'package:flip_card/flip_card.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_paystack/flutter_paystack.dart';
+import 'package:get/get.dart';
 import 'package:get/get_connect/http/src/response/response.dart';
+import 'package:http/src/response.dart';
 import 'package:provider/provider.dart';
 
 class PaymentPaystack extends StatefulWidget {
@@ -79,7 +34,7 @@ class _PaymentPaystackState extends State<PaymentPaystack> {
   final plugin = PaystackPlugin();
   BookingRepository booking;
   @override
-  void initState(){
+  void initState() {
     plugin.initialize(publicKey: TestData().paystackPublicKey);
     super.initState();
   }
@@ -176,7 +131,6 @@ class _PaymentPaystackState extends State<PaymentPaystack> {
   @override
   Widget build(BuildContext context) {
     booking = Provider.of<BookingRepository>(context);
-    
     return Scaffold(
       body: Stack(
         fit: StackFit.expand,
@@ -255,15 +209,8 @@ class _PaymentPaystackState extends State<PaymentPaystack> {
                       SmallButtonReusable(
                         name: "Proceed",
                         onpressed: () {
-                          processPayment(context);
-                          dialog(context, "Payment Successful",
-                              "Your Payment of 10,000 was successful", () {
-                            int count = 0;
-                            Navigator.popUntil(context, (route) {
-                              return count++ == 8;
-                            });
-                            setState(() {});
-                          });
+                          Get.to(BookingConfirmation());
+                          //processPayment(context);
                         },
                       ),
                       SizedBox(
@@ -283,32 +230,81 @@ class _PaymentPaystackState extends State<PaymentPaystack> {
   void processPayment(context) {
     int month = int.parse(monthAndyearofCardExpiry.text.split("/")[0]);
     int year = int.parse(monthAndyearofCardExpiry.text.split("/")[1]);
+
     PaymentCard card = PaymentCard(
       number: cardNumbercontroller.text,
       cvc: cvv.text,
       expiryMonth: month,
       expiryYear: year,
     );
-    if (!card.isValid()) {
-      return;
+    print(card);
+    if (card.isValid()) {
+      print(card.isValid().toString());
+      Charge c = Charge();
+      c.amount = (booking.totalestimate * 100).toInt();
+      //booking.postBookingResponse.object.amount.toInt();
+      c.card = card;
+      c.email = booking.booking.email;
+      c.reference = booking.postBookingResponse.object.bookingReferenceCode;
+      print(c.card);
+      try {
+        initializePayment(c, context);
+      } catch (e) {}
     }
-    Charge c = Charge();
-    c.amount = booking.postBookingResponse.object.amount.toInt();
-    c.card = card;
-    c.email = booking.booking.email;
-    c.reference = booking.postBookingResponse.object.bookingReferenceCode;
-    try {
-      initializePayment(c,context);
-    } catch (e) {}
   }
-  void initializePayment(Charge c,context) async{
-   final response = await plugin.chargeCard(context, charge: c);
+
+  void initializePayment(Charge c, context) async {
+    print(c.card.number);
+    final response = await plugin.chargeCard(context, charge: c);
+    print('response');
+    //if message: Duplicate Transaction Reference, show a snackbarr
+    print(response);
+    if (response.status) {
+      await processPaystackPayment();
+    } else {
+      Get.snackbar(
+        "Error",
+        "cant process request",
+        icon: Icon(Icons.emoji_emotions,color: Colors.red,),
+
+        duration: Duration(seconds: 5),
+        backgroundColor: Colors.black54,
+        colorText: Colors.white,
+      );
+    }
+
     // Use the response
   }
+
+  Future<void> processPaystackPayment() async {
+    Map object = {
+      "email": booking.booking.email,
+      "amount": (booking.totalestimate * 100).toInt(),
+      //booking.postBookingResponse.object.amount,
+      "referenceNumber":
+          booking.postBookingResponse.object.bookingReferenceCode,
+      "PayStackReference": 5,
+    };
+    final response = await ApiCalls().payStackPayment(object);
+    print('backend');
+    print(response.body);
+    if (response.statusCode == 200) {
+      print("payment sucess");
+
+      dialog(context, "Payment Successful",
+          "Your booking 0f ${getNairaSign()}${booking.totalestimate} was successful",
+          () {
+        int count = 0;
+        Navigator.popUntil(context, (route) {
+          return count++ == 8;
+        });
+        setState(() {});
+      });
+    } else {
+      print("payment failed");
+    }
+  }
 }
-
-
-
 
 class MaskedTextInputFormatter extends TextInputFormatter {
   final String mask;

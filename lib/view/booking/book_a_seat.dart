@@ -74,8 +74,6 @@ class _BookASeatPageState extends State<BookASeatPage>
             .map((DestinationObject object) => object.name)
             .toList();
     //TODO: show loading screen
-    print(booking.getBuses.numberOfChildren);
-    print(booking.getBuses.numberOfAdults);
     return Scaffold(
       key: _scaffoldKey,
       body: GestureDetector(
@@ -155,15 +153,15 @@ class _BookASeatPageState extends State<BookASeatPage>
                         Text("Round Trip"),
                       ],
                       onTap: (index) {
-                        print('$index');
                         setState(() {
                           indexOfRoute = index;
                           booking.triptype = indexOfRoute;
+                          booking.getBuses.tripType = indexOfRoute;
                           print('triptype');
                           print(booking.triptype);
                         });
-                        booking.getBuses.tripType = index ?? 0 ;
-                        booking.tripTypeChange(index);
+                        // booking.getBuses.tripType = index ?? 0 ;
+                        // booking.tripTypeChange(index);
                       },
                     ),
                   ),

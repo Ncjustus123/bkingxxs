@@ -36,8 +36,9 @@ class BookingRepository with ChangeNotifier {
   int triptype;
   String guid;
   int routeid;
-
   String name;
+  double totalestimate;
+  int totalTravellers;
 
   addAdult() {
     getBuses.numberOfAdults++;
@@ -137,7 +138,7 @@ class BookingRepository with ChangeNotifier {
     booking.routeIdReturn = 0;
     booking.routeId = routeid;
     booking.seatRegistrations = guid;
-    booking.tripType = triptype;
+    booking.tripType = triptype ?? 0;
     booking.hasCoupon = false;
     booking.isGhanaRoute = false;
     booking.isSub = false;

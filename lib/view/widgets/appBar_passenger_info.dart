@@ -39,6 +39,8 @@ class _CustomAppBarState extends State<CustomAppBar> {
                 booking.arrivalSelectedBus.childFare;
 
     double totalEstimate = estimatedAdultfare + estimateChildfare;
+    booking.totalestimate = totalEstimate;
+    booking.totalTravellers = totalTravellers;
     return Padding(
       padding: const EdgeInsets.fromLTRB(8, 8, 8, 4),
       child: Container(

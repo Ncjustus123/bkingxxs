@@ -146,9 +146,9 @@ class _RoundTripFifteenSeaterBus extends State<RoundTripFifteenSeaterBus> {
                                 ? guid + i.toString()
                                 : guid + i.toString() + ",";
                           }
-                          booking.booking.seatRegistrations = guid;
-                          booking.booking.routeId = widget.bus.routeId;
                         }
+                        booking.booking.seatRegistrations = guid;
+                        booking.booking.routeId = widget.bus.routeId;
                         Get.to(() => PassengerInfoPage());
                         setState(() {
                           isLoading = false;

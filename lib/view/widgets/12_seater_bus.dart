@@ -114,9 +114,10 @@ class TwelveSeaterBus extends StatelessWidget {
                           ? guid + i.toString()
                           : guid + i.toString() + ",";
                     }
-                    booking.booking.seatRegistrations = guid;
-                    booking.booking.routeId = bus.routeId;
+                   
                   }
+                   booking.booking.seatRegistrations = guid;
+                    booking.booking.routeId = bus.routeId;
                   (booking.getBusesResponseModel.object.tripType == 0)
                       ? Get.to(() => PassengerInfoPage())
                       : Navigator.of(context).pushNamed(roundTripSearch);

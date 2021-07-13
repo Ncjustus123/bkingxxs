@@ -15,11 +15,12 @@ const Color kRed = Color(0xFFF44336);
 
 //TextStyle
 
-const textStyle = TextStyle(color: Colors.white, fontSize: 18,fontWeight: FontWeight.w600);
+const textStyle =
+    TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.w600);
+const confirmationTextsstyle = TextStyle(fontSize: 12, color: Colors.black54);
 const textStyleHeading =
     TextStyle(color: Colors.black, fontSize: 18, fontWeight: FontWeight.w500);
-const textStyle1 =
-    TextStyle( fontSize: 20, fontWeight: FontWeight.bold);
+const textStyle1 = TextStyle(fontSize: 20, fontWeight: FontWeight.bold);
 const textStyle2 = TextStyle(
   color: Colors.black,
   fontSize: 14,
@@ -123,13 +124,11 @@ const spinkit = SpinKitWave(
   color: Colors.white,
   size: 20.0,
 );
-class LoadingButton extends StatelessWidget {
 
+class LoadingButton extends StatelessWidget {
   final Color color;
 
   const LoadingButton({this.color});
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -138,7 +137,7 @@ class LoadingButton extends StatelessWidget {
       width: 300,
       child: ElevatedButton(
         child: spinkit,
-        onPressed: (){},
+        onPressed: () {},
         style: ButtonStyle(
           backgroundColor: MaterialStateProperty.all(color),
           shape: MaterialStateProperty.all<RoundedRectangleBorder>(
