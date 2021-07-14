@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:Libmot_Mobile/repository/theme_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
@@ -17,12 +18,12 @@ const Color kRed = Color(0xFFF44336);
 
 const textStyle =
     TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.w600);
-const confirmationTextsstyle = TextStyle(fontSize: 12, color: Colors.black54);
+ TextStyle confirmationTextsstyle = TextStyle(fontSize: 12, color: MyThemes.darkTheme != null?Color(0xFF85000D) : Colors.black54);
 const textStyleHeading =
     TextStyle(color: Colors.black, fontSize: 18, fontWeight: FontWeight.w500);
 const textStyle1 = TextStyle(fontSize: 20, fontWeight: FontWeight.bold);
 const textStyle2 = TextStyle(
-  color: Colors.black,
+  
   fontSize: 14,
   fontWeight: FontWeight.w500,
   fontFamily: 'Monserrat',
@@ -35,7 +36,7 @@ String getNairaSign() {
 dialog(context, String title, content, onpressed) {
   showDialog(
     context: context,
-    barrierDismissible: true,
+    barrierDismissible: false,
     builder: (context) => Dialog(
       child: Container(
         margin: EdgeInsets.all(10),
@@ -54,19 +55,20 @@ dialog(context, String title, content, onpressed) {
               color: Colors.green,
               size: 90,
             ),
+
             SizedBox(
               height: 10,
             ),
             Text(
               title,
-              style: TextStyle(fontWeight: FontWeight.normal, fontSize: 15),
+              style: TextStyle(fontWeight: FontWeight.normal, fontSize: 15,color: Colors.black),
             ),
             SizedBox(
               height: 10,
             ),
             Text(
               content,
-              style: TextStyle(fontSize: 13),
+              style: TextStyle(fontSize: 13,color: Colors.black,fontFamily: 'Monserrat'),
               textAlign: TextAlign.center,
             ),
             SizedBox(

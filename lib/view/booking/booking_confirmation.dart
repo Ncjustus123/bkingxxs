@@ -1,5 +1,6 @@
 import 'package:Libmot_Mobile/Reusables/constants.dart';
 import 'package:Libmot_Mobile/repository/booking_repository.dart';
+import 'package:Libmot_Mobile/repository/theme_provider.dart';
 import 'package:Libmot_Mobile/view/widgets/appBar_passenger_info.dart';
 import 'package:Libmot_Mobile/view/widgets/paymentPaystack.dart';
 import 'package:flutter/gestures.dart';
@@ -8,12 +9,18 @@ import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class BookingConfirmation extends StatelessWidget {
+class BookingConfirmation extends StatefulWidget {
+  @override
+  _BookingConfirmationState createState() => _BookingConfirmationState();
+}
+
+class _BookingConfirmationState extends State<BookingConfirmation> {
   @override
   Widget build(BuildContext context) {
     booking = Provider.of<BookingRepository>(context);
     return Scaffold(
-      backgroundColor: Colors.grey,
+      backgroundColor:
+          MyThemes.darkTheme != null ? Color(0xFF85000D) : Colors.grey,
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.fromLTRB(20, 50, 20, 0),
@@ -26,7 +33,7 @@ class BookingConfirmation extends StatelessWidget {
                       padding: EdgeInsets.fromLTRB(15, 50, 15, 20),
                       margin: EdgeInsets.only(top: 30, right: 10, left: 10),
                       decoration: BoxDecoration(
-                        color: Colors.white,
+                        color: Colors.grey.shade900,
                         borderRadius: BorderRadius.circular(8),
                       ),
                       child: Column(
@@ -34,9 +41,9 @@ class BookingConfirmation extends StatelessWidget {
                           Text(
                             "Booking Confirmed !",
                             style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 20,
-                                color: Colors.black),
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20,
+                            ),
                           ),
                           SizedBox(
                             height: 10,
@@ -79,11 +86,7 @@ class BookingConfirmation extends StatelessWidget {
                                           "Trip time",
                                           style: confirmationTextsstyle,
                                         ),
-                                        Text(booking
-                                            .getBusesResponseModel
-                                            .object
-                                            .departures[0]
-                                            .departureTime),
+                                        Text(booking.departureSelectedBus.departureTime),
                                       ],
                                     ),
                                   ),
@@ -185,7 +188,7 @@ class BookingConfirmation extends StatelessWidget {
                             text: TextSpan(
                                 text:
                                     "For further enquiries, please call our customer care line on ",
-                                style: TextStyle(color: Colors.black),
+                                style: TextStyle(),
                                 children: [
                                   TextSpan(
                                       text: "08154757464",
@@ -202,15 +205,15 @@ class BookingConfirmation extends StatelessWidget {
                                         }),
                                   TextSpan(text: " or email us on "),
                                   TextSpan(
-                                      text: "info@libmot.com",
-                                      style: TextStyle(
-                                          color: Colors.blueAccent,
-                                          fontWeight: FontWeight.bold),
-                                      recognizer: TapGestureRecognizer()
-                                        ..onTap = () =>Get.to(PaymentPaystack()),
-                                        
-                                          // navigate to desired screen
-                                        ),
+                                    text: "info@libmot.com",
+                                    style: TextStyle(
+                                        color: Colors.blueAccent,
+                                        fontWeight: FontWeight.bold),
+                                    recognizer: TapGestureRecognizer()
+                                      ..onTap = () => Get.to(PaymentPaystack()),
+
+                                    // navigate to desired screen
+                                  ),
                                 ]),
                           ),
                           SizedBox(
@@ -225,7 +228,23 @@ class BookingConfirmation extends StatelessWidget {
                           SizedBox(
                             height: 20,
                           ),
-                          ElevatedButton(onPressed: () {}, child: Text("Done")),
+                          ElevatedButton(
+                            onPressed: () {
+                              int count = 0;
+                              Navigator.popUntil(context, (route) {
+                                return count++ == 10;
+                              });
+                              setState(() {});
+                            },
+                            child: Text("Done",
+                                style: TextStyle(
+                                    color: MyThemes.darkTheme != null
+                                        ? Colors.white
+                                        : Colors.black)),
+                            style: ButtonStyle(
+                                backgroundColor: MaterialStateProperty.all(
+                                    Theme.of(context).primaryColor)),
+                          ),
                         ],
                       ),
                     ),
@@ -257,7 +276,9 @@ class BookingConfirmation extends StatelessWidget {
                     Expanded(
                         child: Container(
                       height: 0.6,
-                      color: Colors.grey,
+                      color: MyThemes.darkTheme != null
+                          ? Color(0xFF85000D)
+                          : Colors.grey,
                     )),
                     smallContainer(),
                   ],
@@ -314,7 +335,7 @@ class smallContainer extends StatelessWidget {
       width: 20,
       decoration: BoxDecoration(
         shape: BoxShape.circle,
-        color: Colors.grey,
+        color: MyThemes.darkTheme != null ? Color(0xFF85000D) : Colors.grey,
       ),
     );
   }

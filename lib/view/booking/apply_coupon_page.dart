@@ -1,4 +1,5 @@
 import 'package:Libmot_Mobile/Reusables/appBar.dart';
+import 'package:Libmot_Mobile/Reusables/buttons.dart';
 import 'package:Libmot_Mobile/Reusables/constants.dart';
 import 'package:Libmot_Mobile/Reusables/text_field.dart';
 import 'package:Libmot_Mobile/payment.dart';
@@ -22,9 +23,11 @@ class _ApplyCouponState extends State<ApplyCoupon> {
     repository = Provider.of<BookingRepository>(context);
     final _width = MediaQuery.of(context).size.width;
     final _height = MediaQuery.of(context).size.height;
-    double estimatedAdultfare = repository.getBuses.numberOfAdults * repository.departureSelectedBus.adultFare;
-    double estimateChildfare = repository.getBuses.numberOfChildren * repository.departureSelectedBus.childFare;
-    double totalEstimate = estimatedAdultfare +estimateChildfare;
+    double estimatedAdultfare = repository.getBuses.numberOfAdults *
+        repository.departureSelectedBus.adultFare;
+    double estimateChildfare = repository.getBuses.numberOfChildren *
+        repository.departureSelectedBus.childFare;
+    double totalEstimate = estimatedAdultfare + estimateChildfare;
     return Scaffold(
       backgroundColor: Theme.of(context).primaryColor,
       body: Container(
@@ -45,8 +48,9 @@ class _ApplyCouponState extends State<ApplyCoupon> {
                     SizedBox(
                       height: 20,
                     ),
-                    Text("Do you have a coupon?",
-                        style: TextStyle(color: Colors.black)),
+                    Text(
+                      "Do you have a coupon?",
+                    ),
                     InputFormField(
                       label: 'Coupon code(optional)',
                       textCapitalization: TextCapitalization.words,
@@ -71,9 +75,7 @@ class _ApplyCouponState extends State<ApplyCoupon> {
                           Expanded(
                             child: Text("FarePrice:",
                                 style: TextStyle(
-                                    fontSize: 18,
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.w600)),
+                                    fontSize: 18, fontWeight: FontWeight.w600)),
                           ),
                           Expanded(
                             child: Text("${getNairaSign()}${totalEstimate}",
@@ -87,9 +89,7 @@ class _ApplyCouponState extends State<ApplyCoupon> {
                         ],
                       ),
                     ),
-                    SizedBox(
-                      height: 50
-                    ),
+                    SizedBox(height: 50),
                     Row(
                       children: [
                         Theme(
@@ -112,7 +112,8 @@ class _ApplyCouponState extends State<ApplyCoupon> {
                             TextSpan(
                                 text: "I agree with the",
                                 style: TextStyle(
-                                    fontSize: 10, color: Colors.black)),
+                                  fontSize: 10,
+                                )),
                             TextSpan(
                                 text: " terms and condition",
                                 style: TextStyle(
@@ -123,12 +124,13 @@ class _ApplyCouponState extends State<ApplyCoupon> {
                       ],
                     ),
                     SizedBox(height: 10),
-                    ButtonReusable(
-                      onpressed: () async {
+                    Buttons.coloredButton(
+                      context: context,
+                      title: "Proceed to payment",
+                      onTap: () async {
                         //Navigator.of(context).pushNamed("/paymentpage");
                         repository.couponProceedButton(context);
                       },
-                      name: "Proceed to payment",
                     ),
                   ],
                 ),

@@ -1,7 +1,9 @@
+import 'package:Libmot_Mobile/repository/theme_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class InputFormField extends StatelessWidget {
-  const InputFormField({
+   InputFormField({
     this.suffixIcon,
     this.prefixIcon,
     this.onSaved,
@@ -34,9 +36,11 @@ class InputFormField extends StatelessWidget {
   final TextInputType keyboardType;
   final String hintText;
   final inputFormatters;
+  ThemeProvider  themeProvider;
 
   @override
   Widget build(BuildContext context) {
+    themeProvider = Provider.of<ThemeProvider>(context);
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 5.0, vertical: 10),
       child: TextFormField(
@@ -57,7 +61,7 @@ class InputFormField extends StatelessWidget {
         obscureText: obscure??false,
         decoration: InputDecoration(
           filled: true,
-          fillColor: Color(0xFFFFFFFF),
+          fillColor: MyThemes.darkTheme != null?Color(0xFF020504) : Color(0xFFFFFFFF),
           border: InputBorder.none,
           enabledBorder: buildOutlineBorder(context),
           disabledBorder: buildOutlineBorder(context),

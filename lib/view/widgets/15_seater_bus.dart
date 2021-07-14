@@ -1,3 +1,6 @@
+
+
+import 'package:Libmot_Mobile/Reusables/buttons.dart';
 import 'package:Libmot_Mobile/Reusables/constants.dart';
 import 'package:Libmot_Mobile/models/get_buses_response.dart';
 import 'package:Libmot_Mobile/repository/booking_repository.dart';
@@ -121,8 +124,48 @@ class _FifteenSeaterBusState extends State<FifteenSeaterBus> {
               SizedBox(height: 30),
               isLoading
                   ? LoadingButton()
-                  : ButtonReusable(
-                      onpressed: () async {
+                  // : ButtonReusable(
+                  //     onpressed: () async {
+                  //       int numberOfBooking = booking.getBuses.numberOfAdults +
+                  //           booking.getBuses.numberOfChildren;
+                  //       if (numberOfBooking !=
+                  //           seatSelection.selectedSeats.length) {
+                  //         Dialogs.showErrorSnackBar('Sorry!',
+                  //             " You must select  $numberOfBooking Seat(s)");
+                  //         print('$numberOfBooking');
+                  //         return;
+                  //       }
+                  //       String guid =
+                  //           "${widget.bus.vehicleTripRegistrationId}:";
+                  //       setState(() {
+                  //         isLoading = true;
+                  //       });
+                  //       if (numberOfBooking == 1) {
+                  //         guid = guid +
+                  //             seatSelection.selectedSeats.first.toString();
+                  //       } else {
+                  //         for (int i in seatSelection.selectedSeats) {
+                  //           guid = (i == seatSelection.selectedSeats.last)
+                  //               ? guid + i.toString()
+                  //               : guid + i.toString() + ",";
+                  //         }
+                  //       }
+                  //       booking.booking.seatRegistrations = guid;
+                  //       booking.booking.routeId = widget.bus.routeId;
+                  //       (booking.getBusesResponseModel.object.tripType == 0)
+                  //           ? Get.to(() => PassengerInfoPage())
+                  //           : Navigator.of(context).pushNamed(roundTripSearch);
+
+                  //       setState(() {
+                  //         isLoading = false;
+                  //       });
+                  //     },
+                  //     name: "Continue",
+                  //   ),
+                    :Buttons.coloredButton(
+                      context: context,
+                      title: "Continue",
+                      onTap: (){
                         int numberOfBooking = booking.getBuses.numberOfAdults +
                             booking.getBuses.numberOfChildren;
                         if (numberOfBooking !=
@@ -157,7 +200,6 @@ class _FifteenSeaterBusState extends State<FifteenSeaterBus> {
                           isLoading = false;
                         });
                       },
-                      name: "Continue",
                     ),
               SizedBox(
                 height: 10,
@@ -259,7 +301,7 @@ class _FifteenSeaterBusState extends State<FifteenSeaterBus> {
               ),
               Padding(
                 padding: const EdgeInsets.only(right: 20.0, left: 20, top: 10),
-                child: Text("Seat $seatNumber"),
+                child: Text("Seat $seatNumber",style: TextStyle(color: Colors.black),),
               ),
             ],
           ),

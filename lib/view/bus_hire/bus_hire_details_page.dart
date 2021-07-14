@@ -1,4 +1,7 @@
+
+
 import 'package:Libmot_Mobile/Reusables/appBar.dart';
+import 'package:Libmot_Mobile/Reusables/buttons.dart';
 import 'package:Libmot_Mobile/Reusables/constants.dart';
 import 'package:Libmot_Mobile/Reusables/text_field.dart';
 import 'package:Libmot_Mobile/repository/hire_bus_repository.dart';
@@ -20,7 +23,6 @@ class BusHIreDetailsPage extends StatelessWidget {
   final nextKinPhoneController = TextEditingController();
 
   HireBusRepository hireBus;
-
 
   @override
   Widget build(BuildContext context) {
@@ -163,19 +165,18 @@ class BusHIreDetailsPage extends StatelessWidget {
           SizedBox(
             height: 30,
           ),
-          ButtonReusable(
-            name: "Get A Quote",
-            onpressed: () => dialog(
-              context,
-              'Thank You Taiwo',
-              "We are processing your request. A member of our team will get in toudh with you soon.\n\n"
-                  "For quick information you can send an email to support@libmot.com or call +2349031565022\n\n"
-                  "Thank you for choosing LIBMOT.COM",(){
-
-                  }
-              
-            ),
-          ),
+          Buttons.coloredButton(
+              context: context,
+              title: "Get A Quote",
+              onTap: () {
+                dialog(
+                    context,
+                    'Thank You Taiwo',
+                    "We are processing your request. A member of our team will get in toudh with you soon.\n\n"
+                        "For quick information you can send an email to support@libmot.com or call +2349031565022\n\n"
+                        "Thank you for choosing LIBMOT.COM",
+                    () {});
+              }),
         ]),
       ),
     );

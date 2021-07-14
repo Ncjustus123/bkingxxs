@@ -333,18 +333,33 @@ class _BookASeatPageState extends State<BookASeatPage>
                                           .toString() ==
                                       '0')
                               ? Container()
-                              : ButtonReusable(
-                                  onpressed: () async {
-                                    booking.getBuses.departureDate =
+                              // : ButtonReusable(
+                              //     onpressed: () async {
+                              //       booking.getBuses.departureDate =
+                              //           departuredateController.text.toString();
+                              //       booking.getBuses.departureTerminalId =
+                              //           departureId;
+                              //       booking.getBuses.destinationTerminalId =
+                              //           arrivalId;
+                              //       booking.searchBuses(_scaffoldKey, context);
+                              //       //Get.to(() => SelectBusPage());
+                              //     },
+                              //     name: "Search",
+                              //   ),
+                               : Buttons.coloredButton(
+                                  context: context,
+                                  title: "Search",
+                                  onTap: ()async{
+                                     booking.getBuses.departureDate =
                                         departuredateController.text.toString();
                                     booking.getBuses.departureTerminalId =
                                         departureId;
                                     booking.getBuses.destinationTerminalId =
                                         arrivalId;
                                     booking.searchBuses(_scaffoldKey, context);
-                                    //Get.to(() => SelectBusPage());
-                                  },
-                                  name: "Search",
+
+                                  }
+
                                 ),
                           SizedBox(height: 20),
                         ],

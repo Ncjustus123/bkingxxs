@@ -25,7 +25,7 @@ class MyThemes {
     scaffoldBackgroundColor: Colors.grey.shade900,
     colorScheme: ColorScheme.dark(),
     primarySwatch: Colors.red,
-    primaryColor: Color(0xFFFD1919),
+    primaryColor: Color(0xFF85000D),
     accentColor: Color(0xFFE7AA07),
     fontFamily: 'Circular',
       );

@@ -1,4 +1,5 @@
 import 'package:Libmot_Mobile/Reusables/appBar.dart';
+import 'package:Libmot_Mobile/Reusables/buttons.dart';
 import 'package:Libmot_Mobile/Reusables/constants.dart';
 import 'package:Libmot_Mobile/Reusables/text_field.dart';
 import 'package:Libmot_Mobile/repository/hire_bus_repository.dart';
@@ -132,13 +133,13 @@ class _BusHirePageState extends State<BusHirePage> {
                       SizedBox(
                         height: 50,
                       ),
-                      ButtonReusable(
-                        name: "Proceed",
-                        onpressed: () {
-                          //Get.to(PlaceDetailWidget());
-                          //Navigator.of(context).pushNamed(busHireDetailsPage);
-                        },
-                      ),
+                      Buttons.coloredButton(
+                          title: "Proceed",
+                          context: context,
+                          onTap: () {
+                            //Get.to(PlaceDetailWidget());
+                            Navigator.of(context).pushNamed(busHireDetailsPage);
+                          }),
                     ],
                   ),
                 ),

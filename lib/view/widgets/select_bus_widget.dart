@@ -1,6 +1,7 @@
 import 'package:Libmot_Mobile/Reusables/constants.dart';
 import 'package:Libmot_Mobile/models/get_buses_response.dart';
 import 'package:Libmot_Mobile/repository/booking_repository.dart';
+import 'package:Libmot_Mobile/repository/theme_provider.dart';
 import 'package:Libmot_Mobile/view/booking/select_seat_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -114,7 +115,6 @@ class SelectBus extends StatelessWidget {
                             TextSpan(
                                 text: "${getNairaSign()}${bus.farePrice}",
                                 style: TextStyle(
-                                    color: Colors.black,
                                     decorationColor: Colors.red,
                                     fontSize: 15,
                                     decoration: TextDecoration.lineThrough,
@@ -122,7 +122,6 @@ class SelectBus extends StatelessWidget {
                             TextSpan(
                                 text: " Terminal",
                                 style: TextStyle(
-                                    color: Colors.black,
                                     decorationColor: Colors.red,
                                     decoration: TextDecoration.lineThrough,
                                     fontSize: 12)),
@@ -145,13 +144,10 @@ class SelectBus extends StatelessWidget {
                             TextSpan(
                                 text: "${getNairaSign()}${bus.adultFare}",
                                 style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.w500)),
+                                    fontSize: 15, fontWeight: FontWeight.w500)),
                             TextSpan(
                                 text: " per adult",
-                                style: TextStyle(
-                                    color: Colors.black, fontSize: 11)),
+                                style: TextStyle(fontSize: 11)),
                           ])),
 
                           // Text(
@@ -168,13 +164,11 @@ class SelectBus extends StatelessWidget {
                                   TextSpan(
                                       text: "${getNairaSign()}${bus.childFare}",
                                       style: TextStyle(
-                                          color: Colors.black,
                                           fontSize: 15,
                                           fontWeight: FontWeight.w500)),
                                   TextSpan(
                                       text: " per child",
-                                      style: TextStyle(
-                                          color: Colors.black, fontSize: 11)),
+                                      style: TextStyle(fontSize: 11)),
                                 ])),
                                 // Text(
                                 //   "${getNairaSign()}${bus.childFare}\n per child",
@@ -187,14 +181,13 @@ class SelectBus extends StatelessWidget {
                               top: 5, bottom: 5, right: 5, left: 50),
                           child: ElevatedButton(
                             onPressed: () {
-                              ///Get.to(() => SelectSeatPage());
                               Navigator.of(context)
                                   .pushNamed(selectSeat, arguments: bus);
                             },
-                            child: Text("view seat(s)"),
+                            child: Text("view seat(s)",style: TextStyle(color:Colors.white),),
                             style: ButtonStyle(
                               backgroundColor:
-                                  MaterialStateProperty.all(Colors.red),
+                                  MaterialStateProperty.all(MyThemes.darkTheme != null?Color(0xFF85000D) :Colors.red),
                               shape: MaterialStateProperty.all<
                                   RoundedRectangleBorder>(
                                 RoundedRectangleBorder(

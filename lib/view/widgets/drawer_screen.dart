@@ -84,7 +84,7 @@ class _DrawerScreenState extends State<DrawerScreen> {
                     },
                     child: Text(
                       'Hello ${toBeginningOfSentenceCase(widget.name ?? 'Guest')}',
-                      style: TextStyle(color: Colors.black87, fontSize: 16),
+                      style: TextStyle( fontSize: 16),
                     ),
                   ),
                 ],

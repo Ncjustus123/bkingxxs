@@ -2,6 +2,7 @@ import 'package:Libmot_Mobile/Reusables/appBar.dart';
 import 'package:Libmot_Mobile/Reusables/constants.dart';
 import 'package:Libmot_Mobile/Reusables/text_field.dart';
 import 'package:Libmot_Mobile/repository/booking_repository.dart';
+import 'package:Libmot_Mobile/repository/theme_provider.dart';
 import 'package:Libmot_Mobile/resources/networking/api_calls.dart';
 import 'package:Libmot_Mobile/resources/networking/getBase.dart';
 import 'package:Libmot_Mobile/resources/networking/test_data.dart';
@@ -55,7 +56,9 @@ class _PaymentPaystackState extends State<PaymentPaystack> {
               height: MediaQuery.of(context).size.height * 0.25,
               width: double.infinity,
               decoration: BoxDecoration(
-                color: Colors.indigo[900],
+                color: MyThemes.darkTheme != null
+                    ? Color(0xFF85000D)
+                    : Colors.indigo[900],
                 borderRadius: BorderRadius.circular(5),
               ),
               child: Column(
@@ -89,7 +92,9 @@ class _PaymentPaystackState extends State<PaymentPaystack> {
                   height: 110,
                   width: 110,
                   decoration: BoxDecoration(
-                      color: Colors.indigo[500],
+                      color: MyThemes.darkTheme != null
+                          ? Color(0xFF85000D)
+                          : Colors.indigo[500],
                       shape: BoxShape.circle,
                       border: Border.all(
                           width: 1.2, color: Colors.white.withOpacity(0.2))),
@@ -98,7 +103,9 @@ class _PaymentPaystackState extends State<PaymentPaystack> {
                         height: 65,
                         width: 65,
                         decoration: BoxDecoration(
-                            color: Colors.indigo[800],
+                            color: MyThemes.darkTheme != null
+                                ? Color(0xFF85000D)
+                                : Colors.indigo[800],
                             shape: BoxShape.circle,
                             border: Border.all(
                                 width: 1.2,
@@ -111,7 +118,9 @@ class _PaymentPaystackState extends State<PaymentPaystack> {
           height: MediaQuery.of(context).size.height * 0.25,
           width: double.infinity,
           decoration: BoxDecoration(
-            color: Colors.indigo[900],
+            color: MyThemes.darkTheme != null
+                ? Color(0xFF89000D)
+                : Colors.indigo[900],
             borderRadius: BorderRadius.all(Radius.circular(5)),
           ),
           child: Column(
@@ -209,8 +218,7 @@ class _PaymentPaystackState extends State<PaymentPaystack> {
                       SmallButtonReusable(
                         name: "Proceed",
                         onpressed: () {
-                          Get.to(BookingConfirmation());
-                          //processPayment(context);
+                          processPayment(context);
                         },
                       ),
                       SizedBox(
@@ -265,8 +273,10 @@ class _PaymentPaystackState extends State<PaymentPaystack> {
       Get.snackbar(
         "Error",
         "cant process request",
-        icon: Icon(Icons.emoji_emotions,color: Colors.red,),
-
+        icon: Icon(
+          Icons.emoji_emotions,
+          color: Colors.red,
+        ),
         duration: Duration(seconds: 5),
         backgroundColor: Colors.black54,
         colorText: Colors.white,
@@ -294,11 +304,7 @@ class _PaymentPaystackState extends State<PaymentPaystack> {
       dialog(context, "Payment Successful",
           "Your booking 0f ${getNairaSign()}${booking.totalestimate} was successful",
           () {
-        int count = 0;
-        Navigator.popUntil(context, (route) {
-          return count++ == 8;
-        });
-        setState(() {});
+        Get.to(BookingConfirmation());
       });
     } else {
       print("payment failed");

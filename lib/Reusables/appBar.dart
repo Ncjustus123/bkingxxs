@@ -75,7 +75,7 @@ Padding myWhiteAppBar(BuildContext context,title) {
           style: TextStyle(
               fontWeight: FontWeight.w700,
               fontSize: 16,
-              color: Colors.black),
+              ),
         ),
         SizedBox(width: 35),
       ],

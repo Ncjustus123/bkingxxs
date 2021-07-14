@@ -297,8 +297,24 @@ class _PassengerInfoPageState extends State<PassengerInfoPage>
                             },
                           ),
                           SizedBox(height: 30),
-                          ButtonReusable(
-                            onpressed: () async {
+                          // ButtonReusable(
+                          //   onpressed: () async {
+                          //     if (_formKey.currentState.validate()) {
+                          //       booking.booking.beneficiaries = [
+                          //         ...adultBeneficiary,
+                          //         ...childrenBeneficiary
+                          //       ];
+                          //       _formKey.currentState.save();
+                          //       booking.savePassengerInfo(context);
+                          //     }
+                          //     Get.to(() => ApplyCoupon());
+                          //   },
+                          //   name: "Proceed",
+                          // ),
+                          Buttons.coloredButton(
+                            context: context,
+                            title: "Proceed",
+                            onTap: ()async {
                               if (_formKey.currentState.validate()) {
                                 booking.booking.beneficiaries = [
                                   ...adultBeneficiary,
@@ -309,7 +325,7 @@ class _PassengerInfoPageState extends State<PassengerInfoPage>
                               }
                               Get.to(() => ApplyCoupon());
                             },
-                            name: "Proceed",
+                            
                           ),
                           SizedBox(
                             height: 15,
