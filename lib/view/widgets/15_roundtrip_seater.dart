@@ -1,3 +1,6 @@
+
+
+import 'package:Libmot_Mobile/Reusables/buttons.dart';
 import 'package:Libmot_Mobile/Reusables/constants.dart';
 import 'package:Libmot_Mobile/models/get_buses_response.dart';
 import 'package:Libmot_Mobile/repository/booking_repository.dart';
@@ -121,8 +124,10 @@ class _RoundTripFifteenSeaterBus extends State<RoundTripFifteenSeaterBus> {
               SizedBox(height: 30),
               isLoading
                   ? LoadingButton()
-                  : ButtonReusable(
-                      onpressed: () async {
+                  : Buttons.coloredButton(
+                      title: "Continue",
+                      context: context,
+                      onTap: () async {
                         int numberOfBooking = booking.getBuses.numberOfAdults +
                             booking.getBuses.numberOfChildren;
                         if (numberOfBooking !=
@@ -154,7 +159,6 @@ class _RoundTripFifteenSeaterBus extends State<RoundTripFifteenSeaterBus> {
                           isLoading = false;
                         });
                       },
-                      name: "Continue",
                     ),
               SizedBox(
                 height: 10,
@@ -254,7 +258,7 @@ class _RoundTripFifteenSeaterBus extends State<RoundTripFifteenSeaterBus> {
               ),
               Padding(
                 padding: const EdgeInsets.only(right: 20.0, left: 20, top: 10),
-                child: Text("Seat $seatNumber"),
+                child: Text("Seat $seatNumber",style: TextStyle(color: Colors.black),),
               ),
             ],
           ),

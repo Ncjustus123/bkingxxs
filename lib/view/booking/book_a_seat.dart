@@ -2,12 +2,14 @@ import 'package:Libmot_Mobile/Reusables/bottom_sheet.dart';
 import 'package:Libmot_Mobile/Reusables/buttons.dart';
 import 'package:Libmot_Mobile/Reusables/constants.dart';
 import 'package:Libmot_Mobile/Reusables/text_field.dart';
+import 'package:Libmot_Mobile/Reusables/ui_reusables.dart';
 import 'package:Libmot_Mobile/models/destination_terminal.dart';
 import 'package:Libmot_Mobile/models/get_route.dart';
 import 'package:Libmot_Mobile/repository/booking_repository.dart';
 import 'package:after_layout/after_layout.dart';
 import 'package:bubble_tab_indicator/bubble_tab_indicator.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -41,7 +43,6 @@ class _BookASeatPageState extends State<BookASeatPage>
   String selectedTo = '';
   int departureId;
   int arrivalId;
-
   @override
   Widget build(BuildContext context) {
     booking = Provider.of<BookingRepository>(context);
@@ -346,21 +347,18 @@ class _BookASeatPageState extends State<BookASeatPage>
                               //     },
                               //     name: "Search",
                               //   ),
-                               : Buttons.coloredButton(
+                              : Buttons.coloredButton(
                                   context: context,
                                   title: "Search",
-                                  onTap: ()async{
-                                     booking.getBuses.departureDate =
+                                  onTap: () async {
+                                    booking.getBuses.departureDate =
                                         departuredateController.text.toString();
                                     booking.getBuses.departureTerminalId =
                                         departureId;
                                     booking.getBuses.destinationTerminalId =
                                         arrivalId;
                                     booking.searchBuses(_scaffoldKey, context);
-
-                                  }
-
-                                ),
+                                  }),
                           SizedBox(height: 20),
                         ],
                       ),

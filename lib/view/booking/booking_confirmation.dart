@@ -232,7 +232,7 @@ class _BookingConfirmationState extends State<BookingConfirmation> {
                             onPressed: () {
                               int count = 0;
                               Navigator.popUntil(context, (route) {
-                                return count++ == 10;
+                                return count++ == 9;
                               });
                               setState(() {});
                             },

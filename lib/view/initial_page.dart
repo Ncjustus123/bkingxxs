@@ -86,14 +86,14 @@ class _InitialPageState extends State<InitialPage> {
                 ),
                 Text(
                   title,
-                  style: TextStyle(fontWeight: FontWeight.w800, fontSize: 24),
+                  style: TextStyle(fontWeight: FontWeight.w800, fontSize: 24,color: Colors.black),
                 ),
                 SizedBox(
                   height: 10,
                 ),
                 Text(
                   content,
-                  style: TextStyle(fontSize: 15),
+                  style: TextStyle(fontSize: 15,color: Colors.black),
                   textAlign: TextAlign.center,
                 ),
                 SizedBox(height: 30),

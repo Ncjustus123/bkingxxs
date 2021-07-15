@@ -23,11 +23,6 @@ class _ApplyCouponState extends State<ApplyCoupon> {
     repository = Provider.of<BookingRepository>(context);
     final _width = MediaQuery.of(context).size.width;
     final _height = MediaQuery.of(context).size.height;
-    double estimatedAdultfare = repository.getBuses.numberOfAdults *
-        repository.departureSelectedBus.adultFare;
-    double estimateChildfare = repository.getBuses.numberOfChildren *
-        repository.departureSelectedBus.childFare;
-    double totalEstimate = estimatedAdultfare + estimateChildfare;
     return Scaffold(
       backgroundColor: Theme.of(context).primaryColor,
       body: Container(
@@ -78,7 +73,7 @@ class _ApplyCouponState extends State<ApplyCoupon> {
                                     fontSize: 18, fontWeight: FontWeight.w600)),
                           ),
                           Expanded(
-                            child: Text("${getNairaSign()}${totalEstimate}",
+                            child: Text("${getNairaSign()}${repository.totalestimate}",
                                 textAlign: TextAlign.right,
                                 style: TextStyle(
                                     fontSize: 18,

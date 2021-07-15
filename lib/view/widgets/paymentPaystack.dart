@@ -1,6 +1,7 @@
 import 'package:Libmot_Mobile/Reusables/appBar.dart';
 import 'package:Libmot_Mobile/Reusables/constants.dart';
 import 'package:Libmot_Mobile/Reusables/text_field.dart';
+import 'package:Libmot_Mobile/Reusables/ui_reusables.dart';
 import 'package:Libmot_Mobile/repository/booking_repository.dart';
 import 'package:Libmot_Mobile/repository/theme_provider.dart';
 import 'package:Libmot_Mobile/resources/networking/api_calls.dart';
@@ -12,6 +13,7 @@ import 'package:Libmot_Mobile/view/initial_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flip_card/flip_card.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_paystack/flutter_paystack.dart';
 import 'package:get/get.dart';
 import 'package:get/get_connect/http/src/response/response.dart';
@@ -218,6 +220,21 @@ class _PaymentPaystackState extends State<PaymentPaystack> {
                       SmallButtonReusable(
                         name: "Proceed",
                         onpressed: () {
+                          showLoading(
+                              progressColor: MyThemes.darkTheme != null
+                                  ? Color(0xFF85000D)
+                                  : Colors.red,
+                              indicatorColor: MyThemes.darkTheme != null
+                                  ? Color(0xFF85000D)
+                                  : Colors.red,
+                              backgroundColor: MyThemes.darkTheme != null
+                                  ? Color(0xFF020504)
+                                  : Colors.white,
+                              textColor: MyThemes.darkTheme != null
+                                  ? Color(0xFF85000D)
+                                  : Colors.red,
+                              indicatorType: EasyLoadingIndicatorType.circle,
+                              status: "\nLoading.....");
                           processPayment(context);
                         },
                       ),
@@ -300,6 +317,7 @@ class _PaymentPaystackState extends State<PaymentPaystack> {
     print(response.body);
     if (response.statusCode == 200) {
       print("payment sucess");
+      EasyLoading.dismiss();
 
       dialog(context, "Payment Successful",
           "Your booking 0f ${getNairaSign()}${booking.totalestimate} was successful",
@@ -307,6 +325,7 @@ class _PaymentPaystackState extends State<PaymentPaystack> {
         Get.to(BookingConfirmation());
       });
     } else {
+      EasyLoading.dismiss();
       print("payment failed");
     }
   }

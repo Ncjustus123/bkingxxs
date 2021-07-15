@@ -321,7 +321,7 @@ class _PassengerInfoPageState extends State<PassengerInfoPage>
                                   ...childrenBeneficiary
                                 ];
                                 _formKey.currentState.save();
-                                booking.savePassengerInfo(context);
+                                //booking.savePassengerInfo(context);
                               }
                               Get.to(() => ApplyCoupon());
                             },

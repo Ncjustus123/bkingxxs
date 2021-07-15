@@ -1,14 +1,17 @@
 import 'dart:convert';
 
+import 'package:Libmot_Mobile/Reusables/ui_reusables.dart';
 import 'package:Libmot_Mobile/models/booking_model.dart';
 import 'package:Libmot_Mobile/models/destination_terminal.dart';
 import 'package:Libmot_Mobile/models/get_buses_model.dart';
 import 'package:Libmot_Mobile/models/get_buses_response.dart';
 import 'package:Libmot_Mobile/models/get_route.dart';
 import 'package:Libmot_Mobile/models/post_booking_response.dart';
+import 'package:Libmot_Mobile/repository/theme_provider.dart';
 import 'package:Libmot_Mobile/view/widgets/utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutterwave/flutterwave.dart';
 import 'package:flutterwave/models/responses/charge_response.dart';
 import 'package:http/http.dart';
@@ -98,10 +101,21 @@ class BookingRepository with ChangeNotifier {
   }
 
   getAllRoute() async {
+    showLoading(
+        progressColor:
+            MyThemes.darkTheme != null ? Color(0xFF85000D) : Colors.red,
+        indicatorColor:
+            MyThemes.darkTheme != null ? Color(0xFF85000D) : Colors.red,
+        backgroundColor:
+            MyThemes.darkTheme != null ? Color(0xFF020504) : Colors.white,
+        textColor: MyThemes.darkTheme != null ? Color(0xFF85000D) : Colors.red,
+        indicatorType: EasyLoadingIndicatorType.fadingCircle,
+        status: "\nLoading.....");
     final response = await ApiCalls().getAllRoutes();
     if (response.statusCode == 200) {
       final Map<String, dynamic> responseData = json.decode(response.body);
       getRouteModel = GetRouteModel.fromJson(responseData);
+      EasyLoading.dismiss();
       notifyListeners();
     } else {
       return null;
@@ -109,6 +123,16 @@ class BookingRepository with ChangeNotifier {
   }
 
   getDestinationTerminals(int id) async {
+    showLoading(
+        progressColor:
+            MyThemes.darkTheme != null ? Color(0xFF85000D) : Colors.red,
+        indicatorColor:
+            MyThemes.darkTheme != null ? Color(0xFF85000D) : Colors.red,
+        backgroundColor:
+            MyThemes.darkTheme != null ? Color(0xFF020504) : Colors.white,
+        textColor: MyThemes.darkTheme != null ? Color(0xFF85000D) : Colors.red,
+        indicatorType: EasyLoadingIndicatorType.wave,
+        status: "\nLoading.....");
     print('gbntyen');
     print(id);
     destinationTerminalModel = null;
@@ -119,6 +143,7 @@ class BookingRepository with ChangeNotifier {
       final Map<String, dynamic> responseData = json.decode(response.body);
       destinationTerminalModel =
           DestinationTerminalModel.fromJson(responseData);
+      EasyLoading.dismiss();
 
       notifyListeners();
     } else {
@@ -133,6 +158,16 @@ class BookingRepository with ChangeNotifier {
   }
 
   searchBuses(_scaffoldKey, BuildContext context) async {
+    showLoading(
+        progressColor:
+            MyThemes.darkTheme != null ? Color(0xFF85000D) : Colors.red,
+        indicatorColor:
+            MyThemes.darkTheme != null ? Color(0xFF85000D) : Colors.red,
+        backgroundColor:
+            MyThemes.darkTheme != null ? Color(0xFF020504) : Colors.white,
+        textColor: MyThemes.darkTheme != null ? Color(0xFF85000D) : Colors.red,
+        indicatorType: EasyLoadingIndicatorType.wave,
+        status: "\nLoading.....");
     booking.passengerType = 0;
     booking.bookingStatus = 1;
     booking.routeIdReturn = 0;
@@ -154,10 +189,12 @@ class BookingRepository with ChangeNotifier {
       print(responseData);
       print(getBusesResponseModel.object.departures[0].tripId);
       if (getBusesResponseModel.object == null) {
+        EasyLoading.dismiss();
         //depatureAvailable = false;
         Dialogs.showErrorSnackBar('Oops!',
             'There are no buses available on this route at the moment');
       } else {
+        EasyLoading.dismiss();
         currentBookingStatus = CurrentBookingStatus.Departure;
         Navigator.of(context).pushNamed(busSearch);
       }
@@ -204,31 +241,20 @@ class BookingRepository with ChangeNotifier {
     if (!agreeTerms) {
       Dialogs.showErrorSnackBar('Oops!',
           'You need to agree to our terms and conditions before you can proceed');
-      // final snackBar = SnackBar(
-      //     content: Text(
-      //         'You need to agree to our terms and conditions before you can proceed'));
-      // ScaffoldMessenger.of(context).showSnackBar(snackBar);
       return;
     }
 
     //TODO: CHECK IF TWENTY MINUTES HAVE NOT ELAPSED AND THE BOOKING REFERENCE IS AVAILABLE.
-
-    // booking.passengerType = 0;
-    // booking.bookingStatus = 1;
-    // booking.routeIdReturn = 0;
-    //booking.seatRegistrations =
-    //"${getBusesResponseModel.object.departures[0].tripId}${":6"}";
-    //booking.routeId = getBusesResponseModel.object.departures[0].routeId;
-    // booking.isLoggedIn = true;
-    // booking.isSubReturn = false;
-    // booking.isSub = false;
-    // booking.isGhanaRoute = false;
-    // booking.hasCoupon = false;
-    //  booking.paymentMethod = 5;
-    // booking.passengerType = 0;
-    // booking.bookingType = 2;
-    // booking.gender ==
-    // BookingModel model;
+    showLoading(
+        progressColor:
+            MyThemes.darkTheme != null ? Color(0xFF85000D) : Colors.red,
+        indicatorColor:
+            MyThemes.darkTheme != null ? Color(0xFF85000D) : Colors.red,
+        backgroundColor:
+            MyThemes.darkTheme != null ? Color(0xFF020504) : Colors.white,
+        textColor: MyThemes.darkTheme != null ? Color(0xFF85000D) : Colors.red,
+        indicatorType: EasyLoadingIndicatorType.circle,
+        status: "\nLoading.....");
 
     final response = await ApiCalls().postBooking(booking.toJson());
     print(booking);
@@ -241,6 +267,7 @@ class BookingRepository with ChangeNotifier {
       //TODO: end the first dialog box
 
       //show dialog box
+      EasyLoading.dismiss();
       Navigator.of(context).pushNamed("/paymentpage");
     }
   }
