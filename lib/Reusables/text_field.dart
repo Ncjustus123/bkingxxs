@@ -1,4 +1,4 @@
-import 'package:Libmot_Mobile/repository/theme_provider.dart';
+import 'package:Libmot_Mobile/controllers/theme_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

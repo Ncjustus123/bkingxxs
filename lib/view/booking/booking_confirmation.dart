@@ -1,8 +1,8 @@
-import 'package:Libmot_Mobile/Reusables/constants.dart';
-import 'package:Libmot_Mobile/repository/booking_repository.dart';
-import 'package:Libmot_Mobile/repository/theme_provider.dart';
-import 'package:Libmot_Mobile/view/widgets/appBar_passenger_info.dart';
-import 'package:Libmot_Mobile/view/widgets/paymentPaystack.dart';
+import 'package:Libmot_Mobile/constants/constants.dart';
+import 'package:Libmot_Mobile/controllers/booking_repository.dart';
+import 'package:Libmot_Mobile/controllers/theme_provider.dart';
+import 'package:Libmot_Mobile/Reusables/appBar_passenger_info.dart';
+import 'package:Libmot_Mobile/view/payment/paymentPaystack.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';

@@ -1,10 +1,10 @@
 import 'package:Libmot_Mobile/Reusables/appBar.dart';
-import 'package:Libmot_Mobile/Reusables/constants.dart';
+import 'package:Libmot_Mobile/constants/constants.dart';
 import 'package:Libmot_Mobile/models/get_buses_response.dart';
-import 'package:Libmot_Mobile/repository/booking_repository.dart';
-import 'package:Libmot_Mobile/repository/seat_selection_repository.dart';
-import 'package:Libmot_Mobile/view/widgets/12_seater_bus.dart';
-import 'package:Libmot_Mobile/view/widgets/15_seater_bus.dart';
+import 'package:Libmot_Mobile/controllers/booking_repository.dart';
+import 'package:Libmot_Mobile/controllers/seat_selection_repository.dart';
+import 'package:Libmot_Mobile/widgets/12_seater_bus.dart';
+import 'package:Libmot_Mobile/widgets/15_seater_bus.dart';
 import 'package:after_layout/after_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';

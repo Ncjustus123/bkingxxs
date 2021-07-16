@@ -1,5 +1,5 @@
-import 'package:Libmot_Mobile/repository/booking_repository.dart';
-import 'package:Libmot_Mobile/view/widgets/appBar_passenger_info.dart';
+import 'package:Libmot_Mobile/controllers/booking_repository.dart';
+import 'package:Libmot_Mobile/Reusables/appBar_passenger_info.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';

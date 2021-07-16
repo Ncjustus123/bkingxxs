@@ -1,13 +1,12 @@
-import 'package:Libmot_Mobile/Reusables/constants.dart';
+import 'package:Libmot_Mobile/constants/constants.dart';
 import 'package:Libmot_Mobile/Reusables/ui_reusables.dart';
 import 'package:Libmot_Mobile/models/sign_up_model.dart';
-import 'package:Libmot_Mobile/repository/user_repository.dart';
-import 'package:Libmot_Mobile/view/widgets/utils.dart';
+import 'package:Libmot_Mobile/controllers/user_repository.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:provider/provider.dart';
-
-import '../../internet_utils.dart';
+import 'package:Libmot_Mobile/services/networking/internet_utils.dart';
+import 'package:Libmot_Mobile/constants/dialogs/dialog.dart';
+import 'package:Libmot_Mobile/constants/Buttons/buttons.dart';
 
 // ignore: must_be_immutable
 class SignUpPage extends StatefulWidget {

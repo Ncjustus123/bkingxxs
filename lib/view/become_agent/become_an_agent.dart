@@ -1,5 +1,5 @@
 import 'package:Libmot_Mobile/models/agent_Registration_model.dart';
-import 'package:Libmot_Mobile/repository/agent_provider.dart';
+import 'package:Libmot_Mobile/controllers/agent_provider.dart';
 import 'package:bubble_tab_indicator/bubble_tab_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

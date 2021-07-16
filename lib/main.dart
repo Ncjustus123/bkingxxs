@@ -1,16 +1,16 @@
-import 'package:Libmot_Mobile/repository/agent_provider.dart';
-import 'package:Libmot_Mobile/repository/booking_status_repository.dart';
-import 'package:Libmot_Mobile/repository/coupon_repository.dart';
-import 'package:Libmot_Mobile/repository/hire_bus_repository.dart';
-import 'package:Libmot_Mobile/repository/seat_selection_repository.dart';
-import 'package:Libmot_Mobile/repository/user_repository.dart';
+import 'package:Libmot_Mobile/controllers/agent_provider.dart';
+import 'package:Libmot_Mobile/controllers/booking_status_repository.dart';
+import 'package:Libmot_Mobile/controllers/coupon_repository.dart';
+import 'package:Libmot_Mobile/controllers/hire_bus_repository.dart';
+import 'package:Libmot_Mobile/controllers/seat_selection_repository.dart';
+import 'package:Libmot_Mobile/controllers/user_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
-import 'repository/booking_repository.dart';
+import 'controllers/booking_repository.dart';
 import 'routes.dart';
-import 'package:Libmot_Mobile/repository/theme_provider.dart';
+import 'package:Libmot_Mobile/controllers/theme_provider.dart';
 
 void main() {
   runApp(MyApp());

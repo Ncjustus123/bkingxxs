@@ -1,5 +1,4 @@
 
-import 'package:Libmot_Mobile/payment.dart';
 import 'package:Libmot_Mobile/view/booking/apply_coupon_page.dart';
 import 'package:Libmot_Mobile/view/booking/passenger_info_page.dart';
 import 'package:Libmot_Mobile/view/booking/check_booking_status.dart';
@@ -10,11 +9,11 @@ import 'package:Libmot_Mobile/view/login/sign_up_page.dart';
 import 'package:flutter/material.dart';
 import 'view/become_agent/become_an_agent.dart';
 import 'view/booking/book_a_seat.dart';
-import 'view/onboarding_page.dart';
-import 'view/initial_page.dart';
+import 'package:Libmot_Mobile/view/dasboard_view/dashboard_page.dart';
+import 'package:Libmot_Mobile/view/onboarding/onboarding_page.dart';
+import 'package:Libmot_Mobile/view/welcome/welcome_page.dart';
 import 'view/login/forget_password_page.dart';
-import 'view/welcome_page.dart';
-import 'view/dashboard_page.dart';
+import 'package:Libmot_Mobile/view/welcome/initial_page.dart';
 import 'view/login/login_page.dart';
 import 'view/bus_hire/bus_hire_page.dart';
 import 'view/bus_hire/bus_hire_details_page.dart';
@@ -22,6 +21,8 @@ import 'view/bus_hire/bus_hire_success_page.dart';
 import 'view/booking/select_seat_page.dart';
 import 'package:Libmot_Mobile/view/booking/roundtrip_bus_page.dart';
 import 'package:Libmot_Mobile/view/booking/roundtrip_selectseat.dart';
+import 'package:Libmot_Mobile/view/payment/payment.dart';
+
 
 Route routes(RouteSettings settings) {
   final args = settings.arguments;

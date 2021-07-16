@@ -1,8 +1,8 @@
 import 'package:Libmot_Mobile/Reusables/appBar.dart';
-import 'package:Libmot_Mobile/Reusables/constants.dart';
+import 'package:Libmot_Mobile/constants/constants.dart';
 import 'package:Libmot_Mobile/models/get_buses_response.dart';
-import 'package:Libmot_Mobile/repository/booking_repository.dart';
-import 'package:Libmot_Mobile/view/widgets/select_bus_widget.dart';
+import 'package:Libmot_Mobile/controllers/booking_repository.dart';
+import 'package:Libmot_Mobile/widgets/select_bus_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
