@@ -97,23 +97,13 @@ class _PassengerInfoPageState extends State<PassengerInfoPage>
               (booking.getBuses.numberOfAdults > 1)
                   ? Column(
                       children: [
-                        TravellersContainer(
-                          "Extra Adult Traveller(s)",
-                          Theme.of(context).scaffoldBackgroundColor,
-                          Colors.black,
-                          Icon(
-                            Icons.person,
-                            color: Colors.black,
-                            size: 20,
-                          ),
-                        ),
+                        Text("Extra Adult Traveller",style: TextStyle(fontSize: 15),),
                         ...adultBeneficiaryNames,
                         (noOfAdultBeneficiaries > adultBeneficiaryNames.length)
-                        ?SizedBox()
-                            // ? travllersContainer(
-                            //     _height,
-                            //     _width,
-                            //   )
+                            ? travllersContainer(
+                                _height,
+                                _width,
+                              )
                             : SizedBox()
                       ],
                     )
@@ -121,25 +111,15 @@ class _PassengerInfoPageState extends State<PassengerInfoPage>
               (noOfChildrenBeneficiaries > 0)
                   ? Column(
                       children: [
-                        TravellersContainer(
-                          "Extra Child Traveller(s)",
-                          Theme.of(context).scaffoldBackgroundColor,
-                          Colors.black,
-                          Icon(
-                            Icons.person,
-                            color: Colors.black,
-                            size: 20,
-                          ),
-                        ),
+                        Text("Extra Child Traveller",style: TextStyle(fontSize: 15),),
                         ...childrenBeneficiaryNames,
                         (noOfChildrenBeneficiaries >
                                 childrenBeneficiaryNames.length)
-                                ? SizedBox()//popupDialog(context,  beneficiaryType)
-                            // ? travllersContainer(
-                            //     _height,
-                            //     _width,
-                            //   )
-                            : SizedBox()
+                            ? travllersContainer(
+                                _height,
+                                _width,
+                              )
+                            : SizedBox(),
                       ],
                     )
                   : SizedBox(),
@@ -297,24 +277,10 @@ class _PassengerInfoPageState extends State<PassengerInfoPage>
                             },
                           ),
                           SizedBox(height: 30),
-                          // ButtonReusable(
-                          //   onpressed: () async {
-                          //     if (_formKey.currentState.validate()) {
-                          //       booking.booking.beneficiaries = [
-                          //         ...adultBeneficiary,
-                          //         ...childrenBeneficiary
-                          //       ];
-                          //       _formKey.currentState.save();
-                          //       booking.savePassengerInfo(context);
-                          //     }
-                          //     Get.to(() => ApplyCoupon());
-                          //   },
-                          //   name: "Proceed",
-                          // ),
                           Buttons.coloredButton(
                             context: context,
                             title: "Proceed",
-                            onTap: ()async {
+                            onTap: () async {
                               if (_formKey.currentState.validate()) {
                                 booking.booking.beneficiaries = [
                                   ...adultBeneficiary,
@@ -325,7 +291,6 @@ class _PassengerInfoPageState extends State<PassengerInfoPage>
                               }
                               Get.to(() => ApplyCoupon());
                             },
-                            
                           ),
                           SizedBox(
                             height: 15,
@@ -342,54 +307,52 @@ class _PassengerInfoPageState extends State<PassengerInfoPage>
       ),
     );
   }
+  
 
-  // InkWell travllersContainer(
-  //   _height,
-  //   _width,
-  // ) {
-  //   return InkWell(
-  //     onTap: () {
-  //       showModalBottomSheet(
-  //         context: context,
-  //         isScrollControlled: true,
-  //         backgroundColor: Colors.transparent,
-  //         builder: (context) => SingleChildScrollView(
-  //           child: 
-  //           //popupDialog(),
-  //           //ModalSheet(),
-  //           // child: bottomSheet(
-  //           //   context: context,
-  //           //   height: _height,
-  //           //   width: _width,
-  //           // ),
-  //         ),
-  //       );
-  //     },
-  //     child: TravellersContainer(
-  //       'Click here to add travelling partner(s)',
-  //       Colors.black54,
-  //       Colors.white,
-  //       Icon(
-  //         Icons.add_circle,
-  //         color: Colors.white,
-  //         size: 20,
-  //       ),
-  //     ),
-  //   );
-  // }
+  InkWell travllersContainer(
+    _height,
+    _width,
+  ) {
+    return InkWell(
+      onTap: () {
+        showModalBottomSheet(
+          context: context,
+          isScrollControlled: true,
+          backgroundColor: Colors.transparent,
+          builder: (context) => SingleChildScrollView(
+            child: bottomSheet(
+              context: context,
+              height: _height,
+              width: _width,
+            ),
+          ),
+        );
+      },
+      child: TravellersContainer(
+        'Click here to add travelling partner(s)',
+        Colors.black54,
+        Colors.white,
+        Icon(
+          Icons.add_circle,
+          color: Colors.white,
+          size: 20,
+        ),
+      ),
+    );
+  }
 
   Container bottomSheet({
     BuildContext context,
     double height,
     double width,
-    // BeneficiaryType beneficiaryType,
+    BeneficiaryType beneficiaryType,
   }) {
-    // beneficiaryController.clear();
-    // Beneficiaries beneficiaries = Beneficiaries();
-    // int seatNumber = myList.last;
-    // int index = (beneficiaryType.index == 0)
-    //     ? adultBeneficiaryNames.length
-    //     : childrenBeneficiaryNames.length;
+    beneficiaryController.clear();
+    Beneficiaries beneficiaries = Beneficiaries();
+    int seatNumber = myList.last;
+    int index = (beneficiaryType.index == 0)
+        ? adultBeneficiaryNames.length
+        : childrenBeneficiaryNames.length;
     return Container(
       color: Colors.transparent,
       padding:
@@ -445,36 +408,36 @@ class _PassengerInfoPageState extends State<PassengerInfoPage>
                         trailing: IconButton(
                           icon: Icon(Icons.cancel),
                           onPressed: () {
-                            // myList.add(seatNumber);
-                            // if (beneficiaryType.index == 0) {
-                            //   adultBeneficiary.remove(beneficiaries);
-                            //   adultBeneficiaryNames.removeAt(index);
-                            // } else {
-                            //   childrenBeneficiary.remove(beneficiaries);
-                            //   childrenBeneficiaryNames.removeAt(index);
-                            // }
+                            myList.add(seatNumber);
+                            if (beneficiaryType.index == 0) {
+                              adultBeneficiary.remove(beneficiaries);
+                              adultBeneficiaryNames.removeAt(index);
+                            } else {
+                              childrenBeneficiary.remove(beneficiaries);
+                              childrenBeneficiaryNames.removeAt(index);
+                            }
 
-                            // setState(() {});
+                            setState(() {});
                           },
                         ),
                       );
 
                       setState(() {
-                        // beneficiaries.fullName = beneficiaryController.text;
+                        beneficiaries.fullName = beneficiaryController.text;
 
-                        // beneficiaries.seatNumber = seatNumber;
+                        beneficiaries.seatNumber = seatNumber;
 
-                        // if (beneficiaryType.index == 0) {
-                        //   beneficiaries.passengerType = 0; //adult passenger
-                        //   adultBeneficiaryNames.insert(index, listTile);
-                        //   adultBeneficiary.add(beneficiaries);
-                        // } else {
-                        //   beneficiaries.passengerType = 1; //child passenger
-                        //   childrenBeneficiaryNames.insert(index, listTile);
-                        //   childrenBeneficiary.add(beneficiaries);
-                        // }
+                        if (beneficiaryType.index == 0) {
+                          beneficiaries.passengerType = 0; //adult passenger
+                          adultBeneficiaryNames.insert(index, listTile);
+                          adultBeneficiary.add(beneficiaries);
+                        } else {
+                          beneficiaries.passengerType = 1; //child passenger
+                          childrenBeneficiaryNames.insert(index, listTile);
+                          childrenBeneficiary.add(beneficiaries);
+                        }
 
-                        // myList.remove(seatNumber);
+                        myList.remove(seatNumber);
                       });
                       Navigator.pop(context);
                     })
@@ -485,41 +448,13 @@ class _PassengerInfoPageState extends State<PassengerInfoPage>
       ),
     );
   }
-
-  SizedBox proceedButton(BuildContext context) {
-    return SizedBox(
-      width: 200.0,
-      height: 50.0,
-      child: ElevatedButton(
-        onPressed: () {
-          if (_formKey.currentState.validate()) {
-            booking.booking.beneficiaries = [
-              ...adultBeneficiary,
-              ...childrenBeneficiary
-            ];
-            _formKey.currentState.save();
-            booking.savePassengerInfo(context);
-          }
-        },
-        child: Text("Proceed"),
-        style: ButtonStyle(
-          backgroundColor: MaterialStateProperty.all(Colors.red),
-          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-            RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10.0),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
+  
   ///TODO TST WITH GUEST LOGIN
 
   @override
   void afterFirstLayout(BuildContext context) {
-    //myList = seatSelection.selectedSeats;
-    //myList.removeAt(0);
+    myList = seatSelection.selectedSeats;
+    myList.removeAt(0);
     repository.getSavedProfile().then((_) {
       firstNamecontroller.text = repository.profile.object.firstName ?? "";
       lastNamecontroller.text = repository.profile.object.lastName ?? "";
@@ -529,109 +464,6 @@ class _PassengerInfoPageState extends State<PassengerInfoPage>
       nextOfkincontroller.text = repository.profile.object.nextOfKin ?? "";
       kinNumbercontroller.text = repository.profile.object.nextOfKinPhone ?? "";
     });
-  }
-
-  popupDialog(BuildContext context, BeneficiaryType beneficiaryType) {
-    beneficiaryController.clear();
-    Beneficiaries beneficial = Beneficiaries();
-    Gender selectedGender = Gender.male;
-    int seatNumber = myList.last;
-    int index = (beneficiaryType.index == 0)
-        ? adultBeneficiaryNames.length
-        : childrenBeneficiaryNames.length;
-    showDialog(
-        context: context,
-        builder: (context) {
-          return Dialog(
-            child: Container(
-              height: 200,
-              child: Column(
-                children: [
-                  TextField(
-                    decoration: InputDecoration(
-                      hintText: "Name of traveller",
-                    ),
-                    controller: beneficiaryController,
-                  ),
-                  StatefulBuilder(
-                    builder: (BuildContext context, StateSetter setState) {
-  return Row(
-    children: <Widget>[
-      Expanded(
-        child: RadioListTile(
-          title: const Text('Male'),
-          value: Gender.male,
-          groupValue: selectedGender,
-          onChanged: (Gender value) {
-            beneficial.gender = value.index;
-            selectedGender = value;
-            setState(() {});
-          },
-        ),
-      ),
-                          Expanded(
-                            child: RadioListTile(
-                              title: const Text('Female'),
-                              groupValue: selectedGender,
-                              value: Gender.female,
-                              onChanged: (Gender value) {
-                                beneficial.gender = value.index;
-                                selectedGender = value;
-                                setState(() {});
-                              },
-                            ),
-                          ),
-                        ],
-                      );
-                    },
-                  ),
-                  ElevatedButton(
-                      child: Text("Add traveller"),
-                      onPressed: () {
-                        Widget listTile = ListTile(
-                          leading: Icon(Icons.person),
-                          title: Text(beneficiaryController.text),
-                          trailing: IconButton(
-                            icon: Icon(Icons.cancel),
-                            onPressed: () {
-                              myList.add(seatNumber);
-                              if (beneficiaryType.index == 0) {
-                                adultBeneficiary.remove(beneficial);
-                                adultBeneficiaryNames.removeAt(index);
-                              } else {
-                                childrenBeneficiary.remove(beneficial);
-                                childrenBeneficiaryNames.removeAt(index);
-                              }
-
-                              setState(() {});
-                            },
-                          ),
-                        );
-
-                        setState(() {
-                          beneficial.fullName = beneficiaryController.text;
-
-                          beneficial.seatNumber = seatNumber;
-
-                          if (beneficiaryType.index == 0) {
-                            beneficial.passengerType = 0; //adult passenger
-                            adultBeneficiaryNames.insert(index, listTile);
-                            adultBeneficiary.add(beneficial);
-                          } else {
-                            beneficial.passengerType = 1; //child passenger
-                            childrenBeneficiaryNames.insert(index, listTile);
-                            childrenBeneficiary.add(beneficial);
-                          }
-
-                          myList.remove(seatNumber);
-                        });
-                        Navigator.pop(context);
-                      })
-                ],
-              ),
-            ),
-          );
-        });
   }
 
   @override
@@ -661,7 +493,7 @@ class TravellersContainer extends StatelessWidget {
               Expanded(
                 child: Text(
                   title,
-                  style: TextStyle(color: textColor, fontSize: 13),
+                  style: TextStyle(fontSize: 13),
                 ),
               ),
               icon,
@@ -721,126 +553,4 @@ class RadioListBuilderState extends State<RadioListBuilder> {
     );
   }
 }
-
-// class ModalSheet extends StatefulWidget {
-//   const ModalSheet();
-
-//   @override
-//   _ModalSheetState createState() => _ModalSheetState();
-// }
-
-// class _ModalSheetState extends State<ModalSheet> {
-//   BeneficiaryType beneficiaryType;
-//   var beneficiaryController = TextEditingController();
-//   var myList = [];
-//   List<Widget> adultBeneficiaryNames = [];
-//   List<Widget> childrenBeneficiaryNames = [];
-//   List<Beneficiaries> adultBeneficiary = [];
-//   List<Beneficiaries> childrenBeneficiary = [];
-
-//   @override
-//   Widget build(BuildContext context) {
-//     beneficiaryController.clear();
-//     Beneficiaries beneficiaries = Beneficiaries();
-//     int seatNumber = myList.last;
-//     int index = (beneficiaryType.index == 0)
-//         ? adultBeneficiaryNames.length
-//         : childrenBeneficiaryNames.length;
-//     final width = MediaQuery.of(context).size.width;
-//     final height = MediaQuery.of(context).size.height;
-//     return Container(
-//       color: Colors.transparent,
-//       padding:
-//           EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
-//       child: Container(
-//         decoration: BoxDecoration(
-//             borderRadius: BorderRadius.vertical(top: Radius.circular(35)),
-//             color: Theme.of(context).scaffoldBackgroundColor),
-//         height: height * 0.5,
-//         width: width,
-//         child: SingleChildScrollView(
-//           child: Padding(
-//             padding: const EdgeInsets.symmetric(horizontal: 15.0),
-//             child: Column(
-//               children: [
-//                 Padding(
-//                   padding: const EdgeInsets.all(20.0),
-//                   child: InkWell(
-//                     onTap: () {
-//                       Get.back();
-//                     },
-//                     child: Container(
-//                       width: 50,
-//                       height: 4,
-//                       color: Theme.of(context).primaryColor,
-//                     ),
-//                   ),
-//                 ),
-//                 Text(
-//                   'Add Beneficiary\'s Name',
-//                   style: TextStyle(fontWeight: FontWeight.w700, fontSize: 20),
-//                 ),
-//                 SizedBox(height: 15),
-//                 Text(
-//                   'Add the name of a travelling partner',
-//                   textAlign: TextAlign.center,
-//                 ),
-//                 SizedBox(height: 20),
-//                 InputFormField(
-//                   label: 'Full Name',
-//                   textCapitalization: TextCapitalization.words,
-//                   controller: beneficiaryController,
-//                 ),
-//                 RadioListBuilder(),
-//                 SizedBox(height: 20),
-//                 Buttons.coloredButton(
-//                     context: context,
-//                     title: 'Add Beneficiary',
-//                     onTap: () {
-//                       Widget listTile = ListTile(
-//                         leading: Icon(Icons.person),
-//                         title: Text(beneficiaryController.text),
-//                         trailing: IconButton(
-//                           icon: Icon(Icons.cancel),
-//                           onPressed: () {
-//                             myList.add(seatNumber);
-//                             if (beneficiaryType.index == 0) {
-//                               adultBeneficiary.remove(beneficiaries);
-//                               adultBeneficiaryNames.removeAt(index);
-//                             } else {
-//                               childrenBeneficiary.remove(beneficiaries);
-//                               childrenBeneficiaryNames.removeAt(index);
-//                             }
-
-//                             setState(() {});
-//                           },
-//                         ),
-//                       );
-
-//                       setState(() {
-//                         beneficiaries.fullName = beneficiaryController.text;
-
-//                         beneficiaries.seatNumber = seatNumber;
-
-//                         if (beneficiaryType.index == 0) {
-//                           beneficiaries.passengerType = 0; //adult passenger
-//                           adultBeneficiaryNames.insert(index, listTile);
-//                           adultBeneficiary.add(beneficiaries);
-//                         } else {
-//                           beneficiaries.passengerType = 1; //child passenger
-//                           childrenBeneficiaryNames.insert(index, listTile);
-//                           childrenBeneficiary.add(beneficiaries);
-//                         }
-
-//                         myList.remove(seatNumber);
-//                       });
-//                       Navigator.pop(context);
-//                     })
-//               ],
-//             ),
-//           ),
-//         ),
-//       ),
-//     );
-//   }
-// }
+ 
