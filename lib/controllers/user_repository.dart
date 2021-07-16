@@ -9,6 +9,7 @@ import 'package:Libmot_Mobile/services/database/user_preference.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart' as route;
+import 'package:get/get.dart';
 import 'package:http/http.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../services/networking/api_calls.dart';
@@ -52,7 +53,6 @@ class UserRepository with ChangeNotifier {
     final newUser = prefs.getString('isNewUser');
 
     if (newUser == 'No') {
-
       if (loggedIn) {
         _loggedInStatus = LoggedInStatus.LoggedIn;
         route.Get.offAll(() => DashboardPage());
@@ -67,7 +67,6 @@ class UserRepository with ChangeNotifier {
     } else
       route.Get.offAll(() => OnBoardingPage());
 
-
     // if (loggedIn) {
     //   _loggedInStatus = LoggedInStatus.LoggedIn;
     //   Navigator.of(context).pushNamed(dashboardRoute);
@@ -81,13 +80,14 @@ class UserRepository with ChangeNotifier {
     final pref = await UserPreference.getInstance();
     pref.deleteProfile();
     _loggedInStatus = LoggedInStatus.LoggedOut;
+    Get.offAll(() => WelcomePage());
     notifyListeners();
   }
 
   loginRepo(context, String email, String password) async {
     // _status = Status.Authenticating;
     // notifyListeners();
-print('$email $password');
+    print('$email $password');
     final response = await _api.login(email, password);
     print('response');
     print(response.body);
@@ -146,9 +146,11 @@ print('$email $password');
         }
       }
     } else if (response.statusCode == 400) {
-      EasyLoading.dismiss();
+      Get.back();
+
     } else {
-      EasyLoading.dismiss();
+      Get.back();
+
       _loggedInStatus = LoggedInStatus.LoggedOut;
       notifyListeners();
     }
@@ -203,7 +205,7 @@ print('$email $password');
   }
 
   signUpCustomer(context, signUp) async {
-    Response response = await _api.signUpCustomer(signUp);
+    var response = await _api.signUpCustomer(signUp);
     print('body');
     print(response.body);
     print(response.statusCode);
@@ -240,12 +242,10 @@ print('$email $password');
                         if (data.code == '400')
                           Dialogs.showErrorSnackBar(
                               'Oops!', "${data.shortDescription}");
-                        else{
+                        else {
                           Dialogs.showSuccessSnackBar(
                               'Oops!', "${data.shortDescription}");
                           Navigator.of(context).pushNamed("/dashboard");
-
-
                         }
                       } else {}
                     },

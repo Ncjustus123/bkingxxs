@@ -1,3 +1,4 @@
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
@@ -129,6 +130,53 @@ class UIReusable{
 }
 }
 class Dialogs {
+  static showLoadingDialog({BuildContext context, text}) {
+    Get.dialog(
+      AlertDialog(
+        // shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        backgroundColor: Colors.transparent,
+        titlePadding: EdgeInsets.zero,
+        content: Container(
+          height: MediaQuery.of(context).size.height * 0.1,
+          width: MediaQuery.of(context).size.width * 0.9,
+          decoration: BoxDecoration(
+              color: Colors.white, borderRadius: BorderRadius.circular(10)),
+          child: Center(child: loadingRow(context, text)),
+        ),
+      ),
+      barrierDismissible: false,
+    );
+  }
+
+  static Row loadingRow(BuildContext context, String text) {
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Center(
+            child: Image.asset(
+              'images/logo.png',
+              height: 60,
+            )),
+        SizedBox(width: 20),
+        DefaultTextStyle(
+          style: TextStyle(
+            color: Theme.of(context).primaryColor,
+            letterSpacing: 1.2,
+            fontSize: 14,
+            fontWeight: FontWeight.w500,
+          ),
+          textAlign: TextAlign.center,
+          child: AnimatedTextKit(
+            onTap: () {},
+            animatedTexts: [
+              TypewriterAnimatedText(text),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
   static showErrorSnackBar(String title, String message) {
     Get.snackbar(
       title,

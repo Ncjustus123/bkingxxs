@@ -3,6 +3,7 @@ import 'package:Libmot_Mobile/Reusables/ui_reusables.dart';
 import 'package:Libmot_Mobile/services/networking/internet_utils.dart';
 import 'package:Libmot_Mobile/controllers/user_repository.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:Libmot_Mobile/constants/dialogs/dialog.dart';
 
@@ -35,7 +36,7 @@ class _WelcomePageState extends State<WelcomePage> {
           ),
           Container(
             decoration: BoxDecoration(
-              color: Colors.lightBlueAccent.withOpacity(0.2),
+              color: Colors.grey.withOpacity(0.6),
             ),
           ),
           Padding(
@@ -44,7 +45,7 @@ class _WelcomePageState extends State<WelcomePage> {
               children: [
                 Spacer(),
                 Text("LIBMOT",
-                    style: TextStyle(
+                    style: GoogleFonts.libreBaskerville(
                         color: Colors.red,
                         fontWeight: FontWeight.bold,
                         fontSize: 50)),

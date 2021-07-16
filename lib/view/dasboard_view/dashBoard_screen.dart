@@ -1,14 +1,15 @@
 import 'package:Libmot_Mobile/constants/constants.dart';
+import 'package:Libmot_Mobile/controllers/theme_provider.dart';
 import 'package:Libmot_Mobile/view/booking/book_a_seat.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:Libmot_Mobile/constants/Buttons/buttons.dart';
-
 
 class DashBoardScreen extends StatefulWidget {
   DashBoardScreen({@required this.name});
+
   final String name;
+
   @override
   _DashBoardScreen createState() => _DashBoardScreen();
 }
@@ -43,7 +44,7 @@ class _DashBoardScreen extends State<DashBoardScreen> {
             image: AssetImage("images/background.png"),
             fit: BoxFit.cover,
             colorFilter: ColorFilter.mode(
-                Color(0x0000000).withOpacity(0.8), BlendMode.srcOver),
+                Get.isDarkMode?Color(0x0000000).withOpacity(0.8):Color(0xFFFFFFF).withOpacity(0.2), BlendMode.srcOver),
           ),
           // color: Colors.white,
           borderRadius: isDrawerOpen
@@ -84,13 +85,14 @@ class _DashBoardScreen extends State<DashBoardScreen> {
                                   const EdgeInsets.only(right: 8.0, bottom: 8),
                               child: Icon(
                                 Icons.sort,
+                                size: 32,
                                 color: Colors.white,
                               ),
                             ),
                             onTap: () {
                               setState(() {
-                                xOffset = 300;
-                                yOffset = 70;
+                                xOffset = 360;
+                                yOffset = 90;
                                 isDrawerOpen = true;
                               });
                             },
@@ -99,9 +101,16 @@ class _DashBoardScreen extends State<DashBoardScreen> {
                       "",
                       style: TextStyle(color: Colors.white),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(8, 0, 0, 8),
-                      child:  ChangeModeButton(),
+                    InkWell(
+                      onTap: (){
+                        Get.isDarkMode?Get.changeTheme(MyThemes.lightTheme):Get.changeTheme(MyThemes.darkTheme);
+                      },
+                      child: Padding(
+                          padding: const EdgeInsets.fromLTRB(8, 0, 0, 8),
+                          child: Icon(Get.isDarkMode?Icons.dark_mode:Icons.light_mode,
+                              size: 32, color: Colors.white)
+                          // ChangeModeButton(),
+                          ),
                     ),
                   ],
                 ),
@@ -119,7 +128,7 @@ class _DashBoardScreen extends State<DashBoardScreen> {
                             padding: const EdgeInsets.symmetric(
                                 vertical: 20.0, horizontal: 8),
                             child: Text(
-                              'Welcome ${toBeginningOfSentenceCase(widget.name)?? 'Guest'}',
+                              'Hello ${toBeginningOfSentenceCase(widget.name) ?? 'Guest'}',
                               style: TextStyle(
                                   fontWeight: FontWeight.w600,
                                   fontSize: 18,
@@ -131,11 +140,10 @@ class _DashBoardScreen extends State<DashBoardScreen> {
                             children: [
                               dashboardCard(
                                 context: context,
-                                color: Color(0xFFB8230B),
+                                color: Theme.of(context).primaryColor,
                                 title: 'Ticket Booking',
                                 onTap: () {
-                                  
-                                      Get.to(()=>BookASeatPage());
+                                  Get.to(() => BookASeatPage());
                                 },
                                 icon: Icon(
                                   Icons.airport_shuttle_outlined,

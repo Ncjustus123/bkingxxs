@@ -173,7 +173,6 @@ class _LoginPageState extends State<LoginPage> {
                                         children: [
                                           Text("Continue as guest",
                                               style: TextStyle(
-                                                  color: Colors.black87,
                                                   fontSize: 13)),
                                           Icon(
                                             Icons.arrow_right_alt,
@@ -201,7 +200,7 @@ class _LoginPageState extends State<LoginPage> {
                                         TextSpan(
                                             text: " Sign Up",
                                             style: TextStyle(
-                                                color: Colors.black,
+                                                color: Theme.of(context).primaryColor,
                                                 fontSize: 14)),
                                       ])),
                                     ]),
@@ -317,24 +316,21 @@ if(await InternetUtils.checkConnectivity()) {
 
   onLoginPressed(UserRepository user, context) async {
     if (await InternetUtils.checkConnectivity()) {
-      showLoading(
-          progressColor: Colors.red,
-          indicatorColor: Colors.red,
-          backgroundColor: Colors.white,
-          textColor: Colors.red,
-          indicatorType: EasyLoadingIndicatorType.foldingCube,
-          status: "\nLogin in.....");
+
       if (_formKeyLogin.currentState.validate()) {
+        Dialogs.showLoadingDialog(context: context, text: 'SIGNING IN...');
+
         await user.loginRepo(
             context, emailController.text, passwordController.text);
         if (user.loggedInStatus == LoggedInStatus.LoggedIn) {
           // Navigator.of(context).pushNamed(dashboardPage);
           Get.offAll(()=>DashboardPage());
-          EasyLoading.dismiss();
+         Get.back();
           Dialogs.showWelcomeSnackBar('Successful!', "You are welcome back");
         } else {
           print("An errorOccurred");
-          EasyLoading.dismiss();
+          Get.back();
+
         }
       } else {
         print("validation not done");

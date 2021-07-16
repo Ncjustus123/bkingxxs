@@ -9,8 +9,10 @@ import 'package:Libmot_Mobile/view/login/profile_page.dart';
 
 class DrawerScreen extends StatefulWidget {
   DrawerScreen({@required this.name});
+
   final String name;
-  static final loginpage = "/login"; 
+  static final loginpage = "/login";
+
   @override
   _DrawerScreenState createState() => _DrawerScreenState();
 }
@@ -26,13 +28,13 @@ class _DrawerScreenState extends State<DrawerScreen> {
 
     return Container(
       color: Theme.of(context).scaffoldBackgroundColor,
+      height: MediaQuery.of(context).size.height,
       child: Padding(
         padding: EdgeInsets.only(top: 50, left: 25, bottom: 70),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             Padding(
-              padding: const EdgeInsets.only(top: 30.0),
+              padding: const EdgeInsets.only(top: 30.0, left: 20),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
@@ -56,15 +58,16 @@ class _DrawerScreenState extends State<DrawerScreen> {
                           decoration: BoxDecoration(
                               shape: BoxShape.circle, color: Colors.grey),
                           child: Padding(
-                            padding: const EdgeInsets.all(12.0),
+                            padding: const EdgeInsets.all(16.0),
                             child: Center(
-                                child: Text(
-                              user.profile != null
-                                  ? '${getInitial('${user.profile.object.lastName ?? 'Guest'} ${user.profile.object.firstName ?? 'Guest'}').toString().toUpperCase()}'
-                                  : 'GT',
-                              style:
-                                  TextStyle(fontSize: 32, color: Colors.white),
-                            )),
+                              child: Text(
+                                user.profile != null
+                                    ? '${getInitial('${user.profile.object.lastName} ${user.profile.object.firstName}').toString().toUpperCase()}'
+                                    : 'GT',
+                                style: TextStyle(
+                                    fontSize: 32, color: Colors.white),
+                              ),
+                            ),
                           ),
                         ),
                       ),
@@ -83,14 +86,14 @@ class _DrawerScreenState extends State<DrawerScreen> {
                                   )));
                     },
                     child: Text(
-                      'Hello ${toBeginningOfSentenceCase(widget.name ?? 'Guest')}',
-                      style: TextStyle( fontSize: 16),
+                      '${toBeginningOfSentenceCase(widget.name ?? 'Guest')}',
+                      style: TextStyle(fontSize: 16),
                     ),
                   ),
                 ],
               ),
             ),
-            SizedBox(height: 10),
+            SizedBox(height: 40),
             Column(
               children: <Widget>[
                 user.profile == null
@@ -149,7 +152,6 @@ class _DrawerScreenState extends State<DrawerScreen> {
                   title: 'Share App',
                   onTap: () {},
                 ),
-                SizedBox(height: 50),
                 // GestureDetector(
                 //   onTap: () {
                 //     user.logout();
@@ -223,26 +225,25 @@ class _DrawerScreenState extends State<DrawerScreen> {
                 ),
               ],
             ),
+            Spacer(),
             user.profile == null
                 ? SizedBox()
                 : Row(
                     children: [
-                      InkWell(
-                        onTap: () {
-                          print("tapped");
-                          user.logout();
-                          if (user.loggedInStatus == LoggedInStatus.LoggedOut) {
-                            Navigator.of(context).pushNamed("/welcome");
-                          }
-                        },
-                        child: Container(
-                          width: 120,
-                          decoration: BoxDecoration(color: Colors.black),
-                          child: Padding(
-                            padding: const EdgeInsets.all(17.0),
-                            child: Text(
-                              'Log out',
-                              style: TextStyle(color: Colors.white),
+                      Expanded(
+                        child: InkWell(
+                          onTap: () {
+                            print("log out");
+                            user.logout();
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(color: Colors.black),
+                            child: Padding(
+                              padding: const EdgeInsets.all(17.0),
+                              child: Text(
+                                'Log out',
+                                style: TextStyle(color: Colors.white),
+                              ),
                             ),
                           ),
                         ),

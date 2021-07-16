@@ -20,13 +20,13 @@ class ThemeProvider extends ChangeNotifier {
   }
 } 
  
-class MyThemes { 
+class MyThemes {
   static final darkTheme = ThemeData(
     scaffoldBackgroundColor: Colors.grey.shade900,
     colorScheme: ColorScheme.dark(),
     primarySwatch: Colors.red,
     primaryColor: Color(0xFF85000D),
-    accentColor: Color(0xFFE7AA07),
+    accentColor: Color(0xFFFCA800),
     fontFamily: 'Circular',
       );
   static final lightTheme = ThemeData(

@@ -1,5 +1,6 @@
 import 'package:Libmot_Mobile/controllers/theme_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 
 class InputFormField extends StatelessWidget {
@@ -61,7 +62,7 @@ class InputFormField extends StatelessWidget {
         obscureText: obscure??false,
         decoration: InputDecoration(
           filled: true,
-          fillColor: MyThemes.darkTheme != null?Color(0xFF020504) : Color(0xFFFFFFFF),
+          fillColor: Get.isDarkMode?Color(0xFF020504) : Color(0xFFFFFFFF),
           border: InputBorder.none,
           enabledBorder: buildOutlineBorder(context),
           disabledBorder: buildOutlineBorder(context),

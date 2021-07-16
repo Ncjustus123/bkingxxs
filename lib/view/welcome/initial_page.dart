@@ -1,12 +1,11 @@
-import 'package:Libmot_Mobile/constants/constants.dart';
-import 'package:Libmot_Mobile/services/networking/internet_utils.dart';
+import 'package:Libmot_Mobile/constants/Buttons/buttons.dart';
 import 'package:Libmot_Mobile/controllers/user_repository.dart';
+import 'package:Libmot_Mobile/services/networking/internet_utils.dart';
+import 'package:Libmot_Mobile/view/onboarding/onboarding_page.dart';
+import 'package:Libmot_Mobile/view/welcome/welcome_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
-import 'package:Libmot_Mobile/view/welcome/welcome_page.dart';
-import 'package:Libmot_Mobile/constants/Buttons/buttons.dart';
-
 
 class InitialPage extends StatefulWidget {
   @override
@@ -20,7 +19,8 @@ class _InitialPageState extends State<InitialPage> {
   @override
   void initState() {
     Future.delayed(Duration(seconds: 2), () {
-      getSecureStorage();
+      // getSecureStorage();
+      Get.offAll(() => OnBoardingPage());
     });
     super.initState();
   }
@@ -29,10 +29,13 @@ class _InitialPageState extends State<InitialPage> {
     if (await InternetUtils.checkConnectivity()) {
       user.checkLogin(context);
     } else {
-
-      Get.to(()=>WelcomePage());
-      noNetworkDialog(title:'Oops!', content: 'You seem not to be connected to the internet.',onPressed:(){Get.offAll(()=>InitialPage());});
-
+      Get.offAll(() => WelcomePage());
+      noNetworkDialog(
+          title: 'Oops!',
+          content: 'You seem not to be connected to the internet.',
+          onPressed: () {
+            Get.offAll(() => InitialPage());
+          });
     }
     // SharedPreferences prefs = await SharedPreferences.getInstance();
     // final newUser = prefs.getString('isNewUser');
@@ -86,14 +89,17 @@ class _InitialPageState extends State<InitialPage> {
                 ),
                 Text(
                   title,
-                  style: TextStyle(fontWeight: FontWeight.w800, fontSize: 24,color: Colors.black),
+                  style: TextStyle(
+                      fontWeight: FontWeight.w800,
+                      fontSize: 24,
+                      color: Colors.black),
                 ),
                 SizedBox(
                   height: 10,
                 ),
                 Text(
                   content,
-                  style: TextStyle(fontSize: 15,color: Colors.black),
+                  style: TextStyle(fontSize: 15, color: Colors.black),
                   textAlign: TextAlign.center,
                 ),
                 SizedBox(height: 30),
@@ -116,7 +122,11 @@ class _InitialPageState extends State<InitialPage> {
     return Scaffold(
       backgroundColor: Theme.of(context).primaryColor,
       body: Container(
-        child: Center(child: Image.asset('images/LIBMOT LOGO 1.png',height: 100,)),
+        child: Center(
+            child: Image.asset(
+          'images/LIBMOT LOGO 1.png',
+          height: 100,
+        )),
       ),
     );
   }

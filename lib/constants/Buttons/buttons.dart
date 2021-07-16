@@ -137,11 +137,11 @@ class ButtonReusable extends StatelessWidget {
       child: ElevatedButton(
         child: Text(
           name,
-          style: TextStyle(color: textcolor),
+          style: TextStyle(color: Colors.white),
         ),
         onPressed: onpressed,
         style: ButtonStyle(
-          backgroundColor: MaterialStateProperty.all(color),
+          backgroundColor: MaterialStateProperty.all(Theme.of(context).primaryColor),
           shape: MaterialStateProperty.all<RoundedRectangleBorder>(
             RoundedRectangleBorder(
               borderRadius: BorderRadius.only(

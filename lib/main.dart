@@ -34,13 +34,12 @@ class MyApp extends StatelessWidget {
       ],
       
       child: GetMaterialApp(
-        defaultTransition: Transition.upToDown,
+        defaultTransition: Transition.zoom,
         theme: MyThemes.lightTheme,
         debugShowCheckedModeBanner: false,
         title: "Libmot Mobile",
         initialRoute: "initial",
         themeMode:ThemeMode.system,
-        //ThemeProvider().themeMode,
         darkTheme: MyThemes.darkTheme,
         onGenerateRoute: routes,
         builder: EasyLoading.init(),
@@ -48,3 +47,4 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+

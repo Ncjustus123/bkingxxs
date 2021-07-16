@@ -30,7 +30,7 @@ class Buttons{
 
   static whiteButton({BuildContext context, title, onTap}) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 25.0),
+      padding: const EdgeInsets.symmetric(horizontal: 30.0),
 
       child: InkWell(
         onTap: onTap,
