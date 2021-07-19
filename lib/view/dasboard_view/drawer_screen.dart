@@ -25,7 +25,6 @@ class _DrawerScreenState extends State<DrawerScreen> {
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<UserRepository>(context);
-
     return Container(
       color: Theme.of(context).scaffoldBackgroundColor,
       height: MediaQuery.of(context).size.height,

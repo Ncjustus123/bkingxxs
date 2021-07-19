@@ -1,20 +1,15 @@
 import 'package:Libmot_Mobile/Reusables/appBar.dart';
 import 'package:Libmot_Mobile/Reusables/buttons.dart';
-import 'package:Libmot_Mobile/constants/constants.dart';
 import 'package:Libmot_Mobile/Reusables/text_field.dart';
 import 'package:Libmot_Mobile/controllers/hire_bus_repository.dart';
-import 'package:Libmot_Mobile/services/networking/getBase.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:intl/intl.dart';
-import 'package:provider/provider.dart';
 import 'package:flutter_google_places/flutter_google_places.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_maps_webservice/places.dart';
+import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
-import 'testbus.dart';
 
-// ignore: must_be_immutable
 class BusHirePage extends StatefulWidget {
   @override
   _BusHirePageState createState() => _BusHirePageState();
@@ -31,13 +26,14 @@ class _BusHirePageState extends State<BusHirePage> {
 
   final busHireDetailsPage = "/busHireDetails";
 
-  TextEditingController departuredateController = TextEditingController();
+  TextEditingController departureDateController = TextEditingController();
 
   HireBusRepository hireBus;
   GoogleMapsPlaces _places;
   LatLng userLocation;
   List<AddressComponent> _placeDetails;
   Map _json;
+
   @override
   void initState() {
     _places = GoogleMapsPlaces(
@@ -84,7 +80,7 @@ class _BusHirePageState extends State<BusHirePage> {
                     children: [
                       InkWell(
                         onTap: () {
-                          handlepress();
+                          handlePress();
                         },
                         child: InputFormField(
                           suffixIcon: Icon(Icons.place),
@@ -116,7 +112,7 @@ class _BusHirePageState extends State<BusHirePage> {
                           );
                           if (chosenDate != null) {
                             setState(() {
-                              departuredateController.text =
+                              departureDateController.text =
                                   DateFormat('yyyy-MM-dd')
                                       .format(chosenDate)
                                       .toString();
@@ -125,7 +121,7 @@ class _BusHirePageState extends State<BusHirePage> {
                         },
                         child: InputFormField(
                           enabled: false,
-                          controller: departuredateController,
+                          controller: departureDateController,
                           suffixIcon: Icon(Icons.event_note),
                           label: 'Departure Date',
                         ),
@@ -153,7 +149,7 @@ class _BusHirePageState extends State<BusHirePage> {
 
   //open for only two weeks
 
-  Future<void> handlepress() async {
+  Future<void> handlePress() async {
     Prediction p = await PlacesAutocomplete.show(
       context: context,
       apiKey: "AIzaSyD6mAOR2Bp-obgXHVCb_iyhTbQliRfhFZM",
