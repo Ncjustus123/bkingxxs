@@ -422,6 +422,21 @@ class _PassengerInfoPageState extends State<PassengerInfoPage>
                           },
                         ),
                       );
+                       beneficiaries.fullName = beneficiaryController.text;
+                        
+                        beneficiaries.seatNumber = seatNumber;
+                        
+                        if (beneficiaryType.index == 0) {
+                          beneficiaries.passengerType = 0; //adult passenger
+                          adultBeneficiaryNames.insert(index, listTile);
+                          adultBeneficiary.add(beneficiaries);
+                        } else {
+                          beneficiaries.passengerType = 1; //child passenger
+                          childrenBeneficiaryNames.insert(index, listTile);
+                          childrenBeneficiary.add(beneficiaries);
+                        }
+
+                        myList.remove(seatNumber);
 
                       setState(() {
                         // Widget listTile = ListTile(

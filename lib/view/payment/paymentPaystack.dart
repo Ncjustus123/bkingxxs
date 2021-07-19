@@ -59,7 +59,7 @@ class _PaymentPaystackState extends State<PaymentPaystack> {
               height: MediaQuery.of(context).size.height * 0.25,
               width: double.infinity,
               decoration: BoxDecoration(
-                color: MyThemes.darkTheme != null
+                color:Get.isDarkMode
                     ? Color(0xFF85000D)
                     : Colors.indigo[900],
                 borderRadius: BorderRadius.circular(5),
@@ -95,7 +95,7 @@ class _PaymentPaystackState extends State<PaymentPaystack> {
                   height: 110,
                   width: 110,
                   decoration: BoxDecoration(
-                      color: MyThemes.darkTheme != null
+                      color: Get.isDarkMode
                           ? Color(0xFF85000D)
                           : Colors.indigo[500],
                       shape: BoxShape.circle,
@@ -106,7 +106,7 @@ class _PaymentPaystackState extends State<PaymentPaystack> {
                         height: 65,
                         width: 65,
                         decoration: BoxDecoration(
-                            color: MyThemes.darkTheme != null
+                            color:Get.isDarkMode
                                 ? Color(0xFF85000D)
                                 : Colors.indigo[800],
                             shape: BoxShape.circle,
@@ -121,7 +121,7 @@ class _PaymentPaystackState extends State<PaymentPaystack> {
           height: MediaQuery.of(context).size.height * 0.25,
           width: double.infinity,
           decoration: BoxDecoration(
-            color: MyThemes.darkTheme != null
+            color: Get.isDarkMode
                 ? Color(0xFF89000D)
                 : Colors.indigo[900],
             borderRadius: BorderRadius.all(Radius.circular(5)),
@@ -222,16 +222,16 @@ class _PaymentPaystackState extends State<PaymentPaystack> {
                         name: "Proceed",
                         onpressed: () {
                           showLoading(
-                              progressColor: MyThemes.darkTheme != null
+                              progressColor: Get.isDarkMode 
                                   ? Color(0xFF85000D)
                                   : Colors.red,
-                              indicatorColor: MyThemes.darkTheme != null
+                              indicatorColor: Get.isDarkMode
                                   ? Color(0xFF85000D)
                                   : Colors.red,
-                              backgroundColor: MyThemes.darkTheme != null
+                              backgroundColor: Get.isDarkMode
                                   ? Color(0xFF020504)
                                   : Colors.white,
-                              textColor: MyThemes.darkTheme != null
+                              textColor: Get.isDarkMode
                                   ? Color(0xFF85000D)
                                   : Colors.red,
                               indicatorType: EasyLoadingIndicatorType.circle,
@@ -308,7 +308,6 @@ class _PaymentPaystackState extends State<PaymentPaystack> {
     Map object = {
       "email": booking.booking.email,
       "amount": (booking.totalestimate * 100).toInt(),
-      //booking.postBookingResponse.object.amount,
       "referenceNumber":
           booking.postBookingResponse.object.bookingReferenceCode,
       "PayStackReference": 5,

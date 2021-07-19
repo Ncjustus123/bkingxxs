@@ -318,7 +318,6 @@ class _LoginPageState extends State<LoginPage> {
     if (await InternetUtils.checkConnectivity()) {
       if (_formKeyLogin.currentState.validate()) {
         Dialogs.showLoadingDialog(context: context, text: 'SIGNING IN...');
-
         await user.loginRepo(
             context, emailController.text, passwordController.text);
         if (user.loggedInStatus == LoggedInStatus.LoggedIn) {

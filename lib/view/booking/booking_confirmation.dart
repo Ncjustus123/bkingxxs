@@ -20,7 +20,7 @@ class _BookingConfirmationState extends State<BookingConfirmation> {
     booking = Provider.of<BookingRepository>(context);
     return Scaffold(
       backgroundColor:
-          MyThemes.darkTheme != null ? Color(0xFF85000D) : Colors.grey,
+          Get.isDarkMode ? Color(0xFF85000D) : Colors.grey,
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.fromLTRB(20, 50, 20, 0),
@@ -33,7 +33,7 @@ class _BookingConfirmationState extends State<BookingConfirmation> {
                       padding: EdgeInsets.fromLTRB(15, 50, 15, 20),
                       margin: EdgeInsets.only(top: 30, right: 10, left: 10),
                       decoration: BoxDecoration(
-                        color: Colors.grey.shade900,
+                        color:Get.isDarkMode ? Colors.grey.shade900: Colors.white,
                         borderRadius: BorderRadius.circular(8),
                       ),
                       child: Column(
@@ -276,7 +276,7 @@ class _BookingConfirmationState extends State<BookingConfirmation> {
                     Expanded(
                         child: Container(
                       height: 0.6,
-                      color: MyThemes.darkTheme != null
+                      color: Get.isDarkMode
                           ? Color(0xFF85000D)
                           : Colors.grey,
                     )),
@@ -335,7 +335,7 @@ class smallContainer extends StatelessWidget {
       width: 20,
       decoration: BoxDecoration(
         shape: BoxShape.circle,
-        color: MyThemes.darkTheme != null ? Color(0xFF85000D) : Colors.grey,
+        color: Get.isDarkMode ? Color(0xFF85000D) : Colors.grey,
       ),
     );
   }
