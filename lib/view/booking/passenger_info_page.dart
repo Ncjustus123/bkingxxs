@@ -330,7 +330,7 @@ class _PassengerInfoPageState extends State<PassengerInfoPage>
       },
       child: TravellersContainer(
         'Click here to add travelling partner(s)',
-        Colors.black54,
+        Colors.black26,
         Colors.white,
         Icon(
           Icons.add_circle,
@@ -350,9 +350,10 @@ class _PassengerInfoPageState extends State<PassengerInfoPage>
     beneficiaryController.clear();
     Beneficiaries beneficiaries = Beneficiaries();
     int seatNumber = myList.last;
-    int index = (beneficiaryType.index == 0)
-        ? adultBeneficiaryNames.length
-        : childrenBeneficiaryNames.length;
+    print(beneficiaryType);
+    // int index = (beneficiaryType.length == 0)
+    //     ? adultBeneficiaryNames.length
+    //     : childrenBeneficiaryNames.length;
     return Container(
       color: Colors.transparent,
       padding:
@@ -423,21 +424,41 @@ class _PassengerInfoPageState extends State<PassengerInfoPage>
                       );
 
                       setState(() {
-                        beneficiaries.fullName = beneficiaryController.text;
+                        // Widget listTile = ListTile(
+                        //   leading: Icon(Icons.person),
+                        //   title: Text(beneficiaryController.text),
+                        //   trailing: IconButton(
+                        //     icon: Icon(Icons.cancel),
+                        //     onPressed: () {
+                        //       myList.add(seatNumber);
+                        //       if (beneficiaryType.index == 0) {
+                        //         adultBeneficiary.remove(beneficiaries);
+                        //         adultBeneficiaryNames.removeAt(index);
+                        //       } else {
+                        //         childrenBeneficiary.remove(beneficiaries);
+                        //         childrenBeneficiaryNames.removeAt(index);
+                        //       }
+                        //
+                        //       // setState(() {});
+                        //     },
+                        //   ),
+                        // );
+                        //
+                        // beneficiaries.fullName = beneficiaryController.text;
+                        //
+                        // beneficiaries.seatNumber = seatNumber;
+                        //
+                        // if (beneficiaryType.index == 0) {
+                        //   beneficiaries.passengerType = 0; //adult passenger
+                        //   adultBeneficiaryNames.insert(index, listTile);
+                        //   adultBeneficiary.add(beneficiaries);
+                        // } else {
+                        //   beneficiaries.passengerType = 1; //child passenger
+                        //   childrenBeneficiaryNames.insert(index, listTile);
+                        //   childrenBeneficiary.add(beneficiaries);
+                        // }
 
-                        beneficiaries.seatNumber = seatNumber;
-
-                        if (beneficiaryType.index == 0) {
-                          beneficiaries.passengerType = 0; //adult passenger
-                          adultBeneficiaryNames.insert(index, listTile);
-                          adultBeneficiary.add(beneficiaries);
-                        } else {
-                          beneficiaries.passengerType = 1; //child passenger
-                          childrenBeneficiaryNames.insert(index, listTile);
-                          childrenBeneficiary.add(beneficiaries);
-                        }
-
-                        myList.remove(seatNumber);
+                        // myList.remove(seatNumber);
                       });
                       Navigator.pop(context);
                     })

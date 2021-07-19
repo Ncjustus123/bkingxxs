@@ -100,16 +100,7 @@ class BookingRepository with ChangeNotifier {
   }
 
   getAllRoute() async {
-    showLoading(
-        progressColor:
-            MyThemes.darkTheme != null ? Color(0xFF85000D) : Colors.red,
-        indicatorColor:
-            MyThemes.darkTheme != null ? Color(0xFF85000D) : Colors.red,
-        backgroundColor:
-            MyThemes.darkTheme != null ? Color(0xFF020504) : Colors.white,
-        textColor: MyThemes.darkTheme != null ? Color(0xFF85000D) : Colors.red,
-        indicatorType: EasyLoadingIndicatorType.fadingCircle,
-        status: "\nLoading.....");
+    showFetchingData('Fetching routes');
     final response = await ApiCalls().getAllRoutes();
     if (response.statusCode == 200) {
       final Map<String, dynamic> responseData = json.decode(response.body);
@@ -122,16 +113,7 @@ class BookingRepository with ChangeNotifier {
   }
 
   getDestinationTerminals(int id) async {
-    showLoading(
-        progressColor:
-            MyThemes.darkTheme != null ? Color(0xFF85000D) : Colors.red,
-        indicatorColor:
-            MyThemes.darkTheme != null ? Color(0xFF85000D) : Colors.red,
-        backgroundColor:
-            MyThemes.darkTheme != null ? Color(0xFF020504) : Colors.white,
-        textColor: MyThemes.darkTheme != null ? Color(0xFF85000D) : Colors.red,
-        indicatorType: EasyLoadingIndicatorType.wave,
-        status: "\nLoading.....");
+    showFetchingData('Fetching destination');
     print('gbntyen');
     print(id);
     destinationTerminalModel = null;
@@ -150,6 +132,16 @@ class BookingRepository with ChangeNotifier {
     }
   }
 
+  void showFetchingData(text) {
+    return showLoading(
+      progressColor: Colors.red,
+      indicatorColor:Colors.red,
+      backgroundColor: Colors.white,
+      textColor:  Colors.red,
+      indicatorType: EasyLoadingIndicatorType.fadingCircle,
+      status: "\n$text...");
+  }
+
   void tripTypeChange(int i) {
     getBuses.tripType = i ?? 0;
     booking.tripType = i ?? 0;
@@ -157,16 +149,7 @@ class BookingRepository with ChangeNotifier {
   }
 
   searchBuses(_scaffoldKey, BuildContext context) async {
-    showLoading(
-        progressColor:
-            MyThemes.darkTheme != null ? Color(0xFF85000D) : Colors.red,
-        indicatorColor:
-            MyThemes.darkTheme != null ? Color(0xFF85000D) : Colors.red,
-        backgroundColor:
-            MyThemes.darkTheme != null ? Color(0xFF020504) : Colors.white,
-        textColor: MyThemes.darkTheme != null ? Color(0xFF85000D) : Colors.red,
-        indicatorType: EasyLoadingIndicatorType.wave,
-        status: "\nLoading.....");
+    showFetchingData('Fetching buses');
     booking.passengerType = 0;
     booking.bookingStatus = 1;
     booking.routeIdReturn = 0;
@@ -244,16 +227,7 @@ class BookingRepository with ChangeNotifier {
     }
 
     //TODO: CHECK IF TWENTY MINUTES HAVE NOT ELAPSED AND THE BOOKING REFERENCE IS AVAILABLE.
-    showLoading(
-        progressColor:
-            MyThemes.darkTheme != null ? Color(0xFF85000D) : Colors.red,
-        indicatorColor:
-            MyThemes.darkTheme != null ? Color(0xFF85000D) : Colors.red,
-        backgroundColor:
-            MyThemes.darkTheme != null ? Color(0xFF020504) : Colors.white,
-        textColor: MyThemes.darkTheme != null ? Color(0xFF85000D) : Colors.red,
-        indicatorType: EasyLoadingIndicatorType.circle,
-        status: "\nLoading.....");
+    showFetchingData('Checking coupon');
 
     final response = await ApiCalls().postBooking(booking.toJson());
     print(booking);

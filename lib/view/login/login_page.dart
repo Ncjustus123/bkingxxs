@@ -1,4 +1,3 @@
-
 import 'package:Libmot_Mobile/constants/constants.dart';
 import 'package:Libmot_Mobile/Reusables/ui_reusables.dart';
 import 'package:Libmot_Mobile/services/networking/internet_utils.dart';
@@ -8,6 +7,7 @@ import 'package:Libmot_Mobile/view/dasboard_view/dashboard_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:Libmot_Mobile/constants/dialogs/dialog.dart';
@@ -38,7 +38,6 @@ class _LoginPageState extends State<LoginPage> {
     getSecureStorage();
     super.initState();
   }
-
 
   void getSecureStorage() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -172,8 +171,7 @@ class _LoginPageState extends State<LoginPage> {
                                             MainAxisAlignment.center,
                                         children: [
                                           Text("Continue as guest",
-                                              style: TextStyle(
-                                                  fontSize: 13)),
+                                              style: TextStyle(fontSize: 13)),
                                           Icon(
                                             Icons.arrow_right_alt,
                                             color: Colors.grey,
@@ -200,7 +198,8 @@ class _LoginPageState extends State<LoginPage> {
                                         TextSpan(
                                             text: " Sign Up",
                                             style: TextStyle(
-                                                color: Theme.of(context).primaryColor,
+                                                color: Theme.of(context)
+                                                    .primaryColor,
                                                 fontSize: 14)),
                                       ])),
                                     ]),
@@ -289,6 +288,7 @@ class _LoginPageState extends State<LoginPage> {
   //   ],
   // );
   //
+
   bool isLoadingGuest = false;
 
   changeGuestLoading() {
@@ -296,27 +296,26 @@ class _LoginPageState extends State<LoginPage> {
       isLoadingGuest = !isLoadingGuest;
     });
   }
+
   loginForAndroidIos(user) async {
-if(await InternetUtils.checkConnectivity()) {
-  setState(() {
-    isLoadingGuest = true;
-  });
-  user.loginForAndroidIos(context);
-  Navigator.of(context).pushNamedAndRemoveUntil(
-      WelcomePage.dashboardPage, (route) => false);
-  Dialogs.showWelcomeSnackBar(
-      'You are welcome to LIBMOT', "Travel conveniently...");
-}else{
-
-  Dialogs.showNoInternetSnackBar('No Internet Connection',
-      'Check your internet connection and try again.');
-}
-
+    if (await InternetUtils.checkConnectivity()) {
+      setState(() {
+        isLoadingGuest = true;
+      });
+      user.loginForAndroidIos(context);
+      Navigator.of(context)
+          .pushNamedAndRemoveUntil(WelcomePage.dashboardPage, (route) => false);
+      Dialogs.showWelcomeSnackBar(
+          'You are welcome to LIBMOT', "Travel conveniently...");
+    } else {
+      Dialogs.showNoInternetSnackBar('No Internet Connection',
+          'Check your internet connection and try again.');
+    }
   }
+
 
   onLoginPressed(UserRepository user, context) async {
     if (await InternetUtils.checkConnectivity()) {
-
       if (_formKeyLogin.currentState.validate()) {
         Dialogs.showLoadingDialog(context: context, text: 'SIGNING IN...');
 
@@ -324,21 +323,92 @@ if(await InternetUtils.checkConnectivity()) {
             context, emailController.text, passwordController.text);
         if (user.loggedInStatus == LoggedInStatus.LoggedIn) {
           // Navigator.of(context).pushNamed(dashboardPage);
-          Get.offAll(()=>DashboardPage());
-         Get.back();
-          Dialogs.showWelcomeSnackBar('Successful!', "You are welcome back");
+          Get.offAll(() => LoginAnim());
+
+          Get.back();
         } else {
           print("An errorOccurred");
           Get.back();
-
         }
       } else {
         print("validation not done");
         // EasyLoading.dismiss();
       }
     } else
-
       Dialogs.showNoInternetSnackBar('No Internet Connection',
           'Check your internet connection and try again.');
+  }
+}
+
+class LoginAnim extends StatefulWidget {
+  @override
+  _LoginAnimState createState() => _LoginAnimState();
+}
+
+class _LoginAnimState extends State<LoginAnim>
+    with SingleTickerProviderStateMixin {
+  AnimationController _controller;
+  Animation<Offset> _offsetAnimation;
+
+  @override
+  void initState() {
+    _controller = AnimationController(
+      duration: const Duration(seconds: 2),
+      vsync: this,
+    )..forward();
+    _offsetAnimation = Tween<Offset>(
+      begin: Offset.zero,
+      end: const Offset(1.5, 0.0),
+    ).animate(CurvedAnimation(
+      parent: _controller,
+      curve: Curves.elasticIn,
+    ));
+    Future.delayed(Duration(seconds: 2), () {
+      Get.offAll(() => DashboardPage());
+    });
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _controller.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        body: Container(
+      decoration: BoxDecoration(
+        image: DecorationImage(
+          image: AssetImage("images/background.png"),
+          fit: BoxFit.cover,
+          colorFilter: ColorFilter.mode(
+              Colors.red[100].withOpacity(0.2), BlendMode.srcOver),
+        ),
+      ),
+      child: Column(
+        children: [
+          Spacer(),
+          Text("LIBMOT",
+              style: GoogleFonts.libreBaskerville(
+                  color: Colors.red,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 50)),
+          Text("Travel conveniently...",
+              style: TextStyle(
+                  fontStyle: FontStyle.italic,
+                  color: Colors.white,
+                  letterSpacing: 0.5,
+                  fontWeight: FontWeight.w100,
+                  fontSize: 12)),
+          Spacer(),
+          SlideTransition(
+              position: _offsetAnimation,
+              child: Image.asset('images/haice_2020.png')),
+          SizedBox(height: 80),
+        ],
+      ),
+    ));
   }
 }

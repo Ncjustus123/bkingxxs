@@ -35,7 +35,7 @@ class SelectBusPage extends StatelessWidget {
               myAppBar(context, 'Available Buses'),
               Expanded(
                 child: Container(
-                  padding: const EdgeInsets.all(15.0),
+                  padding: const EdgeInsets.fromLTRB(10,15,10,15),
                   decoration: BoxDecoration(
                       color: Theme.of(context).scaffoldBackgroundColor,
                       borderRadius:

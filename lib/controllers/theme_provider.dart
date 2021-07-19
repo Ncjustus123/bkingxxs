@@ -27,6 +27,8 @@ class MyThemes {
     primarySwatch: Colors.red,
     primaryColor: Color(0xFF85000D),
     accentColor: Color(0xFFFCA800),
+    hintColor: Colors.grey,
+
     fontFamily: 'Circular',
       );
   static final lightTheme = ThemeData(
@@ -34,6 +36,8 @@ class MyThemes {
     primarySwatch: Colors.red,
     primaryColor: Color(0xFFFD1919),
     accentColor: Color(0xFFE7AA07),
+    hintColor: Colors.black,
+
     fontFamily: 'Circular',
   );
 }

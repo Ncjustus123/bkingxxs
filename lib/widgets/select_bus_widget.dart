@@ -26,7 +26,7 @@ class SelectBus extends StatelessWidget {
           Navigator.of(context).pushNamed(selectSeat, arguments: bus);
         },
         child: Card(
-          elevation: 2,
+          elevation: 1,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -114,14 +114,14 @@ class SelectBus extends StatelessWidget {
                               text: TextSpan(children: [
                             TextSpan(
                                 text: "${getNairaSign()}${bus.farePrice}",
-                                style: TextStyle(
+                                style: TextStyle(color: Theme.of(context).hintColor,
                                     decorationColor: Colors.red,
                                     fontSize: 15,
                                     decoration: TextDecoration.lineThrough,
                                     fontWeight: FontWeight.w500)),
                             TextSpan(
                                 text: " Terminal",
-                                style: TextStyle(
+                                style: TextStyle(color: Theme.of(context).hintColor,
                                     decorationColor: Colors.red,
                                     decoration: TextDecoration.lineThrough,
                                     fontSize: 12)),
@@ -143,11 +143,11 @@ class SelectBus extends StatelessWidget {
                               text: TextSpan(children: [
                             TextSpan(
                                 text: "${getNairaSign()}${bus.adultFare}",
-                                style: TextStyle(
+                                style: TextStyle(color: Theme.of(context).hintColor,
                                     fontSize: 15, fontWeight: FontWeight.w500)),
                             TextSpan(
                                 text: " per adult",
-                                style: TextStyle(fontSize: 11)),
+                                style: TextStyle(fontSize: 11,color: Theme.of(context).hintColor)),
                           ])),
 
                           // Text(
@@ -164,11 +164,11 @@ class SelectBus extends StatelessWidget {
                                   TextSpan(
                                       text: "${getNairaSign()}${bus.childFare}",
                                       style: TextStyle(
-                                          fontSize: 15,
+                                          fontSize: 15,color: Theme.of(context).hintColor,
                                           fontWeight: FontWeight.w500)),
                                   TextSpan(
                                       text: " per child",
-                                      style: TextStyle(fontSize: 11)),
+                                      style: TextStyle(color: Theme.of(context).hintColor,fontSize: 11)),
                                 ])),
                                 // Text(
                                 //   "${getNairaSign()}${bus.childFare}\n per child",
@@ -187,7 +187,7 @@ class SelectBus extends StatelessWidget {
                             child: Text("view seat(s)",style: TextStyle(color:Colors.white),),
                             style: ButtonStyle(
                               backgroundColor:
-                                  MaterialStateProperty.all(MyThemes.darkTheme != null?Color(0xFF85000D) :Colors.red),
+                                  MaterialStateProperty.all(Theme.of(context).primaryColor),
                               shape: MaterialStateProperty.all<
                                   RoundedRectangleBorder>(
                                 RoundedRectangleBorder(
