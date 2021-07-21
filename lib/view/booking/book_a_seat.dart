@@ -322,6 +322,7 @@ class _BookASeatPageState extends State<BookASeatPage>
                               showModalBottomSheet(
                                 context: context,
                                 isScrollControlled: true,
+                                isDismissible: false,
                                 backgroundColor: Colors.transparent,
                                 builder: (context) =>
                                     SingleChildScrollView(child: BottomCard()),
@@ -357,7 +358,15 @@ class _BookASeatPageState extends State<BookASeatPage>
                                         departureId;
                                     booking.getBuses.destinationTerminalId =
                                         arrivalId;
-                                    booking.searchBuses(_scaffoldKey, context);
+                                    print(depatureController.text.length);
+                                    print(arrivaldateController.text);
+                                    print(departuredateController.text);
+                                    print(arrivaldateController.text);
+                                    if (depatureController.text == '')
+                                   {  Dialogs.showErrorSnackBar('Error!',
+                                          'Select a departure terminal');}
+                                    else
+                                      searchBus();
                                   }),
                           SizedBox(height: 20),
                         ],
@@ -373,9 +382,19 @@ class _BookASeatPageState extends State<BookASeatPage>
     );
   }
 
+  searchBus() {
+    if (arrivalController.text == '')
+      Dialogs.showErrorSnackBar('Error!', 'Select a arrival terminal');
+    else if (departuredateController.text == '')
+      Dialogs.showErrorSnackBar('Error!', 'Select a departure date');
+    else if (indexOfRoute != 0 && arrivaldateController.text == '')
+      Dialogs.showErrorSnackBar('Error!', 'Select a arrival date');
+    else
+      booking.searchBuses(_scaffoldKey, context);
+  }
+
   Widget bottomRouteSheet(BuildContext context) {
     booking = Provider.of<BookingRepository>(context);
-
     //int index = booking.getRouteModel.object.items.length;
     final _width = MediaQuery.of(context).size.width;
     final _height = MediaQuery.of(context).size.height;

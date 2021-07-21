@@ -10,7 +10,7 @@ import 'package:Libmot_Mobile/constants/dialogs/dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
-import 'package:Libmot_Mobile/Reusables/bottom_sheet.dart';
+import 'package:Libmot_Mobile/view/booking/select_passanger.dart';
 
 // ignore: must_be_immutable
 class BusHIreDetailsPage extends StatelessWidget {

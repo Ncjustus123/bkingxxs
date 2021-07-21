@@ -42,6 +42,12 @@ class BookingRepository with ChangeNotifier {
   double totalestimate;
   int totalTravellers;
 
+  updatePassenger({numberAdult, numberChildren}) {
+    getBuses.numberOfAdults = int.parse(numberAdult);
+    getBuses.numberOfChildren = int.parse(numberChildren);
+    notifyListeners();
+  }
+
   addAdult() {
     getBuses.numberOfAdults++;
     notifyListeners();
@@ -50,6 +56,9 @@ class BookingRepository with ChangeNotifier {
   addChildren() {
     if (getBuses.numberOfChildren < 2) {
       getBuses.numberOfChildren++;
+    } else {
+      Dialogs.showWelcomeSnackBar(
+          'Sorry!', 'You can not add more than 2 children.');
     }
     notifyListeners();
   }
@@ -134,12 +143,12 @@ class BookingRepository with ChangeNotifier {
 
   void showFetchingData(text) {
     return showLoading(
-      progressColor: Colors.red,
-      indicatorColor:Colors.red,
-      backgroundColor: Colors.white,
-      textColor:  Colors.red,
-      indicatorType: EasyLoadingIndicatorType.fadingCircle,
-      status: "\n$text...");
+        progressColor: Colors.red,
+        indicatorColor: Colors.red,
+        backgroundColor: Colors.white,
+        textColor: Colors.red,
+        indicatorType: EasyLoadingIndicatorType.fadingCircle,
+        status: "\n$text...");
   }
 
   void tripTypeChange(int i) {
@@ -168,14 +177,17 @@ class BookingRepository with ChangeNotifier {
       print(response.body);
 
       getBusesResponseModel = GetBusesResponseModel.fromJson(responseData);
-      print(responseData);
-      print(getBusesResponseModel.object.departures[0].tripId);
+
       if (getBusesResponseModel.object == null) {
         EasyLoading.dismiss();
-        //depatureAvailable = false;
         Dialogs.showErrorSnackBar('Oops!',
             'There are no buses available on this route at the moment');
-      } else {
+      } else if(getBusesResponseModel.object.departures.isEmpty){
+        EasyLoading.dismiss();
+        Dialogs.showErrorSnackBar('Oops!',
+            'There are no buses available on this route, kindly check the detail you provided.');
+      }
+      else {
         EasyLoading.dismiss();
         currentBookingStatus = CurrentBookingStatus.Departure;
         Navigator.of(context).pushNamed(busSearch);

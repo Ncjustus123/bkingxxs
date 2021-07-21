@@ -1,3 +1,4 @@
+import 'package:Libmot_Mobile/Reusables/text_field.dart';
 import 'package:Libmot_Mobile/constants/constants.dart';
 import 'package:Libmot_Mobile/Reusables/ui_reusables.dart';
 import 'package:Libmot_Mobile/services/networking/internet_utils.dart';
@@ -89,11 +90,11 @@ class _LoginPageState extends State<LoginPage> {
                         child: Column(
                           children: [
                             Padding(
-                              padding: const EdgeInsets.only(bottom: 10),
+                              padding: const EdgeInsets.only(bottom: 7),
                               child: Text("Login",
                                   style: TextStyle(
                                       color: Colors.black,
-                                      fontWeight: FontWeight.w500,
+                                      fontWeight: FontWeight.w700,letterSpacing: 0.8,
                                       fontSize: 25)),
                             ),
                             Text(
