@@ -2,8 +2,6 @@ import 'dart:ui';
 
 import 'package:Libmot_Mobile/controllers/theme_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:provider/provider.dart';
 
 //COLORS
 const Color kWhite = Color(0xFFFFFFFF);

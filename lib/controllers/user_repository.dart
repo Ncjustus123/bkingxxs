@@ -1,16 +1,13 @@
 import 'dart:convert';
 import 'dart:io';
-
 import 'package:Libmot_Mobile/constants/dialogs/dialog.dart';
 import 'package:Libmot_Mobile/models/get_token_model.dart';
 import 'package:Libmot_Mobile/models/profile_model.dart';
 import 'package:Libmot_Mobile/models/sign_up_model.dart';
 import 'package:Libmot_Mobile/services/database/user_preference.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart' as route;
 import 'package:get/get.dart';
-import 'package:http/http.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../services/networking/api_calls.dart';
 import 'package:Libmot_Mobile/view/dasboard_view/dashboard_page.dart';

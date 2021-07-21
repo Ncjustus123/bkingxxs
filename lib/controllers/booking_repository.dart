@@ -7,7 +7,6 @@ import 'package:Libmot_Mobile/models/get_buses_model.dart';
 import 'package:Libmot_Mobile/models/get_buses_response.dart';
 import 'package:Libmot_Mobile/models/get_route.dart';
 import 'package:Libmot_Mobile/models/post_booking_response.dart';
-import 'package:Libmot_Mobile/controllers/theme_provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';

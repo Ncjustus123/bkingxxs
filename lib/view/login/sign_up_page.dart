@@ -1,5 +1,4 @@
 import 'package:Libmot_Mobile/constants/constants.dart';
-import 'package:Libmot_Mobile/Reusables/ui_reusables.dart';
 import 'package:Libmot_Mobile/models/sign_up_model.dart';
 import 'package:Libmot_Mobile/controllers/user_repository.dart';
 import 'package:flutter/material.dart';

@@ -1,13 +1,9 @@
 import 'package:Libmot_Mobile/Reusables/appBar.dart';
 import 'package:Libmot_Mobile/constants/constants.dart';
 import 'package:Libmot_Mobile/Reusables/text_field.dart';
-import 'package:Libmot_Mobile/Reusables/ui_reusables.dart';
 import 'package:Libmot_Mobile/controllers/booking_repository.dart';
-import 'package:Libmot_Mobile/controllers/theme_provider.dart';
 import 'package:Libmot_Mobile/services/networking/api_calls.dart';
-import 'package:Libmot_Mobile/services/networking/getBase.dart';
 import 'package:Libmot_Mobile/services/networking/test_data.dart';
-import 'package:Libmot_Mobile/view/booking/Booking_confirmation_page.dart';
 import 'package:Libmot_Mobile/view/booking/booking_confirmation.dart';
 import 'package:flutter/material.dart';
 import 'package:flip_card/flip_card.dart';
@@ -15,8 +11,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_paystack/flutter_paystack.dart';
 import 'package:get/get.dart';
-import 'package:get/get_connect/http/src/response/response.dart';
-import 'package:http/src/response.dart';
 import 'package:provider/provider.dart';
 import 'package:Libmot_Mobile/constants/dialogs/dialog.dart';
 import 'package:Libmot_Mobile/constants/Buttons/buttons.dart';
@@ -307,11 +301,13 @@ class _PaymentPaystackState extends State<PaymentPaystack> {
   Future<void> processPaystackPayment() async {
     Map object = {
       "email": booking.booking.email,
-      "amount": (booking.totalestimate * 100).toInt(),
+      "amount": booking.totalestimate.toInt(),
       "referenceNumber":
           booking.postBookingResponse.object.bookingReferenceCode,
       "PayStackReference": 5,
     };
+    print("object");
+    print(object);
     final response = await ApiCalls().payStackPayment(object);
     print('backend');
     print(response.body);

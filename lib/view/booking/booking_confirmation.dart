@@ -2,8 +2,6 @@ import 'package:Libmot_Mobile/constants/constants.dart';
 import 'package:Libmot_Mobile/controllers/booking_repository.dart';
 import 'package:Libmot_Mobile/controllers/theme_provider.dart';
 import 'package:Libmot_Mobile/Reusables/appBar_passenger_info.dart';
-import 'package:Libmot_Mobile/view/payment/paymentPaystack.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
@@ -19,8 +17,7 @@ class _BookingConfirmationState extends State<BookingConfirmation> {
   Widget build(BuildContext context) {
     booking = Provider.of<BookingRepository>(context);
     return Scaffold(
-      backgroundColor:
-          Get.isDarkMode ? Color(0xFF85000D) : Colors.grey,
+      backgroundColor: Get.isDarkMode ? Color(0xFF85000D) : Colors.grey,
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.fromLTRB(20, 50, 20, 0),
@@ -33,7 +30,9 @@ class _BookingConfirmationState extends State<BookingConfirmation> {
                       padding: EdgeInsets.fromLTRB(15, 50, 15, 20),
                       margin: EdgeInsets.only(top: 30, right: 10, left: 10),
                       decoration: BoxDecoration(
-                        color:Get.isDarkMode ? Colors.grey.shade900: Colors.white,
+                        color: Get.isDarkMode
+                            ? Colors.grey.shade900
+                            : Colors.white,
                         borderRadius: BorderRadius.circular(8),
                       ),
                       child: Column(
@@ -86,7 +85,8 @@ class _BookingConfirmationState extends State<BookingConfirmation> {
                                           "Trip time",
                                           style: confirmationTextsstyle,
                                         ),
-                                        Text(booking.departureSelectedBus.departureTime),
+                                        Text(booking.departureSelectedBus
+                                            .departureTime),
                                       ],
                                     ),
                                   ),
@@ -183,41 +183,37 @@ class _BookingConfirmationState extends State<BookingConfirmation> {
                           SizedBox(
                             height: 20,
                           ),
-                          RichText(
-                            textAlign: TextAlign.center,
-                            text: TextSpan(
-                                text:
-                                    "For further enquiries, please call our customer care line on ",
-                                style: TextStyle(),
-                                children: [
-                                  TextSpan(
-                                      text: "08154757464",
-                                      style: TextStyle(
-                                          color: Colors.blueAccent,
-                                          fontWeight: FontWeight.bold),
-                                      recognizer: TapGestureRecognizer()
-                                        ..onTap = () {
-                                          print("tapp");
-                                          launch("tel://08154757464");
-                                          //_makePhoneCall("tel://08154757464");
-
-                                          // navigate to desired screen
-                                        }),
-                                  TextSpan(text: " or email us on "),
-                                  TextSpan(
-                                    text: "info@libmot.com",
-                                    style: TextStyle(
-                                        color: Colors.blueAccent,
-                                        fontWeight: FontWeight.bold),
-                                    recognizer: TapGestureRecognizer()
-                                      ..onTap = () => Get.to(PaymentPaystack()),
-
-                                    // navigate to desired screen
-                                  ),
-                                ]),
+                          Text("For further enquiries, please call our  "),
+                          Row(
+                            children: [
+                              Text("customer care line on"),
+                              SizedBox(
+                                width: 5,
+                              ),
+                              GestureDetector(
+                                child: Text(
+                                  "08154757464",
+                                  style: TextStyle(color: Colors.red),
+                                ),
+                                onTap: () {
+                                  launch("tel://08154757464");
+                                },
+                              ),
+                            ],
                           ),
-                          SizedBox(
-                            height: 20,
+                          Row(
+                            children: [
+                              Text(" or email us on "),
+                              GestureDetector(
+                                  onTap: () {
+                                    launch(
+                                        'mailto:info@libmot.com?subject=Complaint%20Email&body=Complaint%20');
+                                  },
+                                  child: Text(
+                                    "info@libmot.com",
+                                    style: TextStyle(color: Colors.red),
+                                  )),
+                            ],
                           ),
                           Text(
                             "Thank you for booking your trip with Libmot.",
@@ -276,9 +272,7 @@ class _BookingConfirmationState extends State<BookingConfirmation> {
                     Expanded(
                         child: Container(
                       height: 0.6,
-                      color: Get.isDarkMode
-                          ? Color(0xFF85000D)
-                          : Colors.grey,
+                      color: Get.isDarkMode ? Color(0xFF85000D) : Colors.grey,
                     )),
                     smallContainer(),
                   ],
@@ -305,13 +299,6 @@ class _BookingConfirmationState extends State<BookingConfirmation> {
     );
   }
 
-  Future<void> _makePhoneCall(String url) async {
-    if (await canLaunch(url)) {
-      await launch(url);
-    } else {
-      throw 'Could not launch $url';
-    }
-  }
 
   Widget customWrap(String title, String value) {
     return Wrap(

@@ -3,14 +3,10 @@
 import 'package:Libmot_Mobile/Reusables/appBar.dart';
 import 'package:Libmot_Mobile/Reusables/buttons.dart';
 import 'package:Libmot_Mobile/constants/constants.dart';
-import 'package:Libmot_Mobile/Reusables/text_field.dart';
 import 'package:Libmot_Mobile/controllers/hire_bus_repository.dart';
-import 'package:Libmot_Mobile/services/networking/getBase.dart';
 import 'package:Libmot_Mobile/constants/dialogs/dialog.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:provider/provider.dart';
-import 'package:Libmot_Mobile/Reusables/bottom_sheet.dart';
 
 // ignore: must_be_immutable
 class BusHIreDetailsPage extends StatelessWidget {

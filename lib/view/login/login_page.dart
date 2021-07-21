@@ -1,11 +1,9 @@
 import 'package:Libmot_Mobile/constants/constants.dart';
-import 'package:Libmot_Mobile/Reusables/ui_reusables.dart';
 import 'package:Libmot_Mobile/services/networking/internet_utils.dart';
 import 'package:Libmot_Mobile/controllers/user_repository.dart';
 import 'package:Libmot_Mobile/view/welcome/welcome_page.dart';
 import 'package:Libmot_Mobile/view/dasboard_view/dashboard_page.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -116,8 +114,9 @@ class _LoginPageState extends State<LoginPage> {
                                 children: [
                                   GestureDetector(
                                       onTap: () {
-                                        Navigator.of(context)
-                                            .pushNamed("/forget_password");
+                                        
+                                         Navigator.of(context)
+                                             .pushNamed("/forget_password");
                                       },
                                       child: Padding(
                                         padding: const EdgeInsets.all(12.0),

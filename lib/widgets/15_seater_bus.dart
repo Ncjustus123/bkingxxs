@@ -1,5 +1,4 @@
 import 'package:Libmot_Mobile/Reusables/buttons.dart';
-import 'package:Libmot_Mobile/Reusables/ui_reusables.dart';
 import 'package:Libmot_Mobile/models/get_buses_response.dart';
 import 'package:Libmot_Mobile/controllers/booking_repository.dart';
 import 'package:Libmot_Mobile/controllers/seat_selection_repository.dart';
@@ -7,7 +6,6 @@ import 'package:Libmot_Mobile/view/booking/passenger_info_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
-import 'package:Libmot_Mobile/view/booking/roundtrip_bus_page.dart';
 import 'package:Libmot_Mobile/constants/Buttons/buttons.dart';
 import 'package:Libmot_Mobile/constants/dialogs/dialog.dart';
 

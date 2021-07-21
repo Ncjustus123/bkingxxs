@@ -1,9 +1,6 @@
 import 'package:Libmot_Mobile/controllers/booking_repository.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:dropdown_search/dropdown_search.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:get/get.dart';
 
 class ReusableCard extends StatelessWidget {
   final Color colour;
