@@ -1,13 +1,10 @@
 import 'dart:io';
-
 import 'package:Libmot_Mobile/Reusables/appBar.dart';
 import 'package:Libmot_Mobile/controllers/booking_repository.dart';
-import 'package:Libmot_Mobile/services/networking/api_calls.dart';
 import 'package:Libmot_Mobile/services/networking/test_data.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_paystack/flutter_paystack.dart';
 import 'package:get/get.dart';
-import 'package:http/http.dart';
 import 'package:provider/provider.dart';
 import 'package:Libmot_Mobile/view/payment/paymentPaystack.dart';
 

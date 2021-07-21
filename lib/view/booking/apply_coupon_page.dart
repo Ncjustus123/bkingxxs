@@ -3,11 +3,8 @@ import 'package:Libmot_Mobile/Reusables/buttons.dart';
 import 'package:Libmot_Mobile/constants/constants.dart';
 import 'package:Libmot_Mobile/Reusables/text_field.dart';
 import 'package:Libmot_Mobile/constants/Buttons/buttons.dart';
-import 'package:Libmot_Mobile/view/payment/payment.dart';
 import 'package:Libmot_Mobile/controllers/booking_repository.dart';
-import 'package:Libmot_Mobile/controllers/coupon_repository.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 
 class ApplyCoupon extends StatefulWidget {

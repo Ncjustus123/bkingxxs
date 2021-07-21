@@ -1,9 +1,7 @@
-import 'package:Libmot_Mobile/controllers/user_repository.dart';
+
 import 'package:Libmot_Mobile/services/database/user_preference.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
 class OnBoardingInfo {
   final imageAsset;
   final title;

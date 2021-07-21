@@ -1,5 +1,4 @@
 import 'package:Libmot_Mobile/Reusables/appBar.dart';
-import 'package:Libmot_Mobile/constants/constants.dart';
 import 'package:Libmot_Mobile/models/get_buses_response.dart';
 import 'package:Libmot_Mobile/controllers/booking_repository.dart';
 import 'package:Libmot_Mobile/controllers/seat_selection_repository.dart';
@@ -7,10 +6,8 @@ import 'package:Libmot_Mobile/widgets/12_roundtrip_seater.dart';
 import 'package:Libmot_Mobile/widgets/15_roundtrip_seater.dart';
 import 'package:after_layout/after_layout.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 
-import 'passenger_info_page.dart';
 
 class RoundTripSelectSeatPage extends StatefulWidget {
   final Buses bus;

@@ -64,7 +64,7 @@ class _DrawerScreenState extends State<DrawerScreen> {
                                     ? '${getInitial('${user.profile.object.lastName} ${user.profile.object.firstName}').toString().toUpperCase()}'
                                     : 'GT',
                                 style: TextStyle(
-                                    fontSize: 32, color: Colors.white),
+                                    fontSize: 20, color: Colors.white),
                               ),
                             ),
                           ),
@@ -103,6 +103,9 @@ class _DrawerScreenState extends State<DrawerScreen> {
                           Get.offAll(LoginPage());
                         },
                       )
+                    : SizedBox(),
+                user.profile == null
+                    ? SizedBox()
                     : menuOption(
                         icon: 'icons/history.png',
                         title: 'Booking History',
@@ -151,98 +154,27 @@ class _DrawerScreenState extends State<DrawerScreen> {
                   title: 'Share App',
                   onTap: () {},
                 ),
-                // GestureDetector(
-                //   onTap: () {
-                //     user.logout();
-                //     Navigator.of(context).pushNamed("/login");
-                //   },
-                //   child: NewRow(
-                //     text: 'LogIn',
-                //     icon: Icons.login,
-                //   ),
-                // ),
-                // SizedBox(
-                //   height: 20,
-                // ),
-                // GestureDetector(
-                //   onTap: () {
-                //     user.logout();
-                //     Navigator.of(context).pushNamed("/signUpPage");
-                //   },
-                //   child: NewRow(
-                //     text: 'Sign Up',
-                //     icon: Icons.person_outline,
-                //   ),
-                // ),
-                // SizedBox(
-                //   height: 20,
-                // ),
-                // NewRow(
-                //   text: 'Notification',
-                //   icon: Icons.notifications_active,
-                // ),
-                // SizedBox(
-                //   height: 20,
-                // ),
-                // GestureDetector(
-                //   onTap: () {
-                //     Navigator.of(context).pushNamed("/checkBookingStatus");
-                //   },
-                //   child: NewRow(
-                //     text: 'Check booking Status',
-                //     icon: Icons.assignment_turned_in,
-                //   ),
-                // ),
-                // SizedBox(
-                //   height: 20,
-                // ),
-                // GestureDetector(
-                //   onTap: () {
-                //     Navigator.of(context).pushNamed("/helpSupportPage");
-                //   },
-                //   child: NewRow(
-                //     text: 'Help & Support',
-                //     icon: Icons.headset_mic,
-                //   ),
-                // ),
-                // SizedBox(
-                //   height: 20,
-                // ),
-                // NewRow(
-                //   text: 'Rate App',
-                //   icon: Icons.favorite,
-                // ),
-                // SizedBox(
-                //   height: 20,
-                // ),
-                // NewRow(
-                //   text: 'Share',
-                //   icon: Icons.share,
-                // ),
                 SizedBox(
                   height: 15,
                 ),
               ],
             ),
-            Spacer(),
             user.profile == null
                 ? SizedBox()
                 : Row(
                     children: [
-                      Expanded(
-                        child: InkWell(
-                          onTap: () {
-                            print("log out");
-                            user.logout();
-                          },
-                          child: Container(
-                            decoration: BoxDecoration(color: Colors.black),
-                            child: Padding(
-                              padding: const EdgeInsets.all(17.0),
-                              child: Text(
-                                'Log out',
-                                style: TextStyle(color: Colors.white),
-                              ),
+                      InkWell(
+                        onTap: () {
+                          print("log out");
+                          user.logout();
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(color: Colors.black),
+                          child: Padding(
+                            padding: const EdgeInsets.all(17.0),
+                            child: Text(
+                              'Log out',
+                              style: TextStyle(color: Colors.white),
                             ),
                           ),
                         ),
@@ -282,7 +214,7 @@ class _DrawerScreenState extends State<DrawerScreen> {
     return InkWell(
       onTap: onTap,
       child: Padding(
-        padding: const EdgeInsets.only(bottom: 8.0),
+        padding: const EdgeInsets.only(bottom: 5.0),
         child: Row(
           children: [
             Container(

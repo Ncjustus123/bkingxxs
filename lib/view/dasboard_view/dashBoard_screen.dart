@@ -44,7 +44,10 @@ class _DashBoardScreen extends State<DashBoardScreen> {
             image: AssetImage("images/background.png"),
             fit: BoxFit.cover,
             colorFilter: ColorFilter.mode(
-                Get.isDarkMode?Color(0x0000000).withOpacity(0.8):Color(0xFFFFFFF).withOpacity(0.2), BlendMode.srcOver),
+                Get.isDarkMode
+                    ? Color(0x0000000).withOpacity(0.8)
+                    : Color(0xFFFFFFF).withOpacity(0.2),
+                BlendMode.srcOver),
           ),
           // color: Colors.white,
           borderRadius: isDrawerOpen
@@ -102,15 +105,27 @@ class _DashBoardScreen extends State<DashBoardScreen> {
                       style: TextStyle(color: Colors.white),
                     ),
                     InkWell(
-                      onTap: (){
-                        Get.isDarkMode?Get.changeTheme(MyThemes.lightTheme):Get.changeTheme(MyThemes.darkTheme);
+                      onTap: () {
+                        Get.isDarkMode
+                            ? Get.changeTheme(MyThemes.lightTheme)
+                            : Get.changeTheme(MyThemes.darkTheme);
                       },
                       child: Padding(
-                          padding: const EdgeInsets.fromLTRB(8, 0, 0, 8),
-                          child: Icon(Get.isDarkMode?Icons.dark_mode:Icons.light_mode,
-                              size: 32, color: Colors.white)
-                          // ChangeModeButton(),
-                          ),
+                        padding: const EdgeInsets.fromLTRB(8, 0, 0, 8),
+                        child: Get.isDarkMode
+                            ? Image.asset(
+                                'icons/dark_mode.png',
+                                color: Colors.white,
+                                height: 35,
+                                width: 35,
+                              )
+                            : Image.asset(
+                                'icons/light_mode.png',
+                                color: Colors.white,
+                                height: 35,
+                                width: 35,
+                              ),
+                      ),
                     ),
                   ],
                 ),

@@ -1,13 +1,9 @@
 import 'package:Libmot_Mobile/Reusables/appBar.dart';
 import 'package:Libmot_Mobile/constants/constants.dart';
 import 'package:Libmot_Mobile/Reusables/text_field.dart';
-import 'package:Libmot_Mobile/Reusables/ui_reusables.dart';
 import 'package:Libmot_Mobile/controllers/booking_repository.dart';
-import 'package:Libmot_Mobile/controllers/theme_provider.dart';
 import 'package:Libmot_Mobile/services/networking/api_calls.dart';
-import 'package:Libmot_Mobile/services/networking/getBase.dart';
 import 'package:Libmot_Mobile/services/networking/test_data.dart';
-import 'package:Libmot_Mobile/view/booking/Booking_confirmation_page.dart';
 import 'package:Libmot_Mobile/view/booking/booking_confirmation.dart';
 import 'package:flutter/material.dart';
 import 'package:flip_card/flip_card.dart';
@@ -15,8 +11,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_paystack/flutter_paystack.dart';
 import 'package:get/get.dart';
-import 'package:get/get_connect/http/src/response/response.dart';
-import 'package:http/src/response.dart';
 import 'package:provider/provider.dart';
 import 'package:Libmot_Mobile/constants/dialogs/dialog.dart';
 import 'package:Libmot_Mobile/constants/Buttons/buttons.dart';
@@ -59,7 +53,7 @@ class _PaymentPaystackState extends State<PaymentPaystack> {
               height: MediaQuery.of(context).size.height * 0.25,
               width: double.infinity,
               decoration: BoxDecoration(
-                color: MyThemes.darkTheme != null
+                color:Get.isDarkMode
                     ? Color(0xFF85000D)
                     : Colors.indigo[900],
                 borderRadius: BorderRadius.circular(5),
@@ -95,7 +89,7 @@ class _PaymentPaystackState extends State<PaymentPaystack> {
                   height: 110,
                   width: 110,
                   decoration: BoxDecoration(
-                      color: MyThemes.darkTheme != null
+                      color: Get.isDarkMode
                           ? Color(0xFF85000D)
                           : Colors.indigo[500],
                       shape: BoxShape.circle,
@@ -106,7 +100,7 @@ class _PaymentPaystackState extends State<PaymentPaystack> {
                         height: 65,
                         width: 65,
                         decoration: BoxDecoration(
-                            color: MyThemes.darkTheme != null
+                            color:Get.isDarkMode
                                 ? Color(0xFF85000D)
                                 : Colors.indigo[800],
                             shape: BoxShape.circle,
@@ -121,7 +115,7 @@ class _PaymentPaystackState extends State<PaymentPaystack> {
           height: MediaQuery.of(context).size.height * 0.25,
           width: double.infinity,
           decoration: BoxDecoration(
-            color: MyThemes.darkTheme != null
+            color: Get.isDarkMode
                 ? Color(0xFF89000D)
                 : Colors.indigo[900],
             borderRadius: BorderRadius.all(Radius.circular(5)),
@@ -222,16 +216,16 @@ class _PaymentPaystackState extends State<PaymentPaystack> {
                         name: "Proceed",
                         onpressed: () {
                           showLoading(
-                              progressColor: MyThemes.darkTheme != null
+                              progressColor: Get.isDarkMode 
                                   ? Color(0xFF85000D)
                                   : Colors.red,
-                              indicatorColor: MyThemes.darkTheme != null
+                              indicatorColor: Get.isDarkMode
                                   ? Color(0xFF85000D)
                                   : Colors.red,
-                              backgroundColor: MyThemes.darkTheme != null
+                              backgroundColor: Get.isDarkMode
                                   ? Color(0xFF020504)
                                   : Colors.white,
-                              textColor: MyThemes.darkTheme != null
+                              textColor: Get.isDarkMode
                                   ? Color(0xFF85000D)
                                   : Colors.red,
                               indicatorType: EasyLoadingIndicatorType.circle,
@@ -307,12 +301,13 @@ class _PaymentPaystackState extends State<PaymentPaystack> {
   Future<void> processPaystackPayment() async {
     Map object = {
       "email": booking.booking.email,
-      "amount": (booking.totalestimate * 100).toInt(),
-      //booking.postBookingResponse.object.amount,
+      "amount": booking.totalestimate.toInt(),
       "referenceNumber":
           booking.postBookingResponse.object.bookingReferenceCode,
       "PayStackReference": 5,
     };
+    print("object");
+    print(object);
     final response = await ApiCalls().payStackPayment(object);
     print('backend');
     print(response.body);
