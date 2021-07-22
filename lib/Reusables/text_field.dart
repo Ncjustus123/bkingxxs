@@ -102,7 +102,7 @@ OutlineInputBorder buildOutlineBorder(BuildContext context) {
   );
 }
 
-class TextFormFeildWidget extends StatelessWidget {
+class TextFormFieldWidget extends StatelessWidget {
   final String lableText;
   final Function validator;
   final TextEditingController controller;
@@ -112,7 +112,7 @@ class TextFormFeildWidget extends StatelessWidget {
   final TextInputType keyboardType;
   final TextCapitalization textCapitalization;
 
-  const TextFormFeildWidget({
+  const TextFormFieldWidget({
     this.controller,
     this.lableText,
     this.validator,

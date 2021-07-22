@@ -236,7 +236,7 @@ class _LoginPageState extends State<LoginPage> {
               },
             ),
             SizedBox(height: 10),
-            TextFormFeildWidget(
+            TextFormFieldWidget(
               controller: passwordController,
               obscureText: _passwordVisible,
               lableText: 'Password',

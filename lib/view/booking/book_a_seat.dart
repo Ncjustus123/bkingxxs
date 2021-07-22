@@ -1,10 +1,11 @@
-import 'package:Libmot_Mobile/Reusables/bottom_sheet.dart';
 import 'package:Libmot_Mobile/Reusables/buttons.dart';
 import 'package:Libmot_Mobile/constants/constants.dart';
 import 'package:Libmot_Mobile/Reusables/text_field.dart';
+import 'package:Libmot_Mobile/constants/dialogs/dialog.dart';
 import 'package:Libmot_Mobile/models/destination_terminal.dart';
 import 'package:Libmot_Mobile/models/get_route.dart';
 import 'package:Libmot_Mobile/controllers/booking_repository.dart';
+import 'package:Libmot_Mobile/view/booking/select_passanger.dart';
 import 'package:after_layout/after_layout.dart';
 import 'package:bubble_tab_indicator/bubble_tab_indicator.dart';
 import 'package:flutter/material.dart';
@@ -333,19 +334,7 @@ class _BookASeatPageState extends State<BookASeatPage>
                                           .toString() ==
                                       '0')
                               ? Container()
-                              // : ButtonReusable(
-                              //     onpressed: () async {
-                              //       booking.getBuses.departureDate =
-                              //           departuredateController.text.toString();
-                              //       booking.getBuses.departureTerminalId =
-                              //           departureId;
-                              //       booking.getBuses.destinationTerminalId =
-                              //           arrivalId;
-                              //       booking.searchBuses(_scaffoldKey, context);
-                              //       //Get.to(() => SelectBusPage());
-                              //     },
-                              //     name: "Search",
-                              //   ),
+
                               : Buttons.coloredButton(
                                   context: context,
                                   title: "Search",

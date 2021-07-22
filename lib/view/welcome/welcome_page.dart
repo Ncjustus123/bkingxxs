@@ -1,10 +1,10 @@
 import 'package:Libmot_Mobile/Reusables/buttons.dart';
-import 'package:Libmot_Mobile/services/networking/internet_utils.dart';
-import 'package:Libmot_Mobile/controllers/user_repository.dart';
-import 'package:animated_text_kit/animated_text_kit.dart';
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:Libmot_Mobile/constants/dialogs/dialog.dart';
+import 'package:Libmot_Mobile/controllers/user_repository.dart';
+import 'package:Libmot_Mobile/services/networking/internet_utils.dart';
+import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 
 class WelcomePage extends StatefulWidget {
   static final loginPage = "/login";

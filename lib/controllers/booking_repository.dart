@@ -157,7 +157,7 @@ class BookingRepository with ChangeNotifier {
   }
 
   searchBuses(_scaffoldKey, BuildContext context) async {
-    showFetchingData('Fetching buses');
+    showFetchingData('We are fetching\navailable buses');
     booking.passengerType = 0;
     booking.bookingStatus = 1;
     booking.routeIdReturn = 0;
