@@ -3,6 +3,7 @@ import 'package:Libmot_Mobile/models/get_buses_response.dart';
 import 'package:Libmot_Mobile/controllers/booking_repository.dart';
 import 'package:Libmot_Mobile/controllers/seat_selection_repository.dart';
 import 'package:Libmot_Mobile/view/booking/passenger_info_page.dart';
+import 'package:after_layout/after_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
@@ -25,6 +26,12 @@ class _FifteenSeaterBusState extends State<FifteenSeaterBus> {
   final String roundTripSearch = "/roundTripBus";
 
   SeatSelectionRepository seatSelection;
+  //  @override
+  //  void initState() {
+  //    seatSelection.selectedSeats.clear();
+  //   // TODO: implement initState
+  //   super.initState();
+  // }
 
   @override
   Widget build(BuildContext context) {

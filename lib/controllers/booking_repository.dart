@@ -168,6 +168,8 @@ class BookingRepository with ChangeNotifier {
     booking.isGhanaRoute = false;
     booking.isSub = false;
     booking.isLoggedIn = true;
+    booking.bookingType = 2;
+    booking.paymentMethod= 5;
 
     Response response = await ApiCalls().searchBuses(getBuses.toJson());
     print(getBuses.toJson());
@@ -241,10 +243,12 @@ class BookingRepository with ChangeNotifier {
     showFetchingData('Checking coupon');
 
     final response = await ApiCalls().postBooking(booking.toJson());
-    print(booking);
+    print("booking");
+    print(booking.toJson());
 
     if (response.statusCode == 200) {
       final Map<String, dynamic> responseData = json.decode(response.body);
+      print("responseData");
       print(responseData);
       postBookingResponse = PostBookingResponse.fromJson(responseData);
 

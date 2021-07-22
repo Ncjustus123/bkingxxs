@@ -101,164 +101,170 @@ class _PassengerInfoPageState extends State<PassengerInfoPage>
                       child: Form(
                         key: _formKey,
                         child: Column(
-                            crossAxisAlignment:CrossAxisAlignment.start,children: [
-
-                          beneficiaryCard(),
-
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text(
-                              "Contact Information",
-                              style: textStyle2,
-                            ),
-                          ),
-                          InputFormField(
-                            label: 'First Name',
-                            textCapitalization: TextCapitalization.words,
-                            controller: firstNamecontroller,
-                            onSaved: (value) {
-                              booking.booking.firstName = value;
-                            },
-                            validator: (value) {
-                              if (value.isEmpty) {
-                                return 'error';
-                              }
-                              return null;
-                            },
-                          ),
-                          InputFormField(
-                            label: 'Last Name',
-                            textCapitalization: TextCapitalization.words,
-                            controller: lastNamecontroller,
-                            onSaved: (value) =>
-                                booking.booking.lastName = value,
-                            validator: (value) {
-                              if (value.isEmpty) {
-                                return 'error';
-                              }
-                              return null;
-                            },
-                          ),
-                          InputFormField(
-                            prefixIcon: CountryCodePicker(
-                              onChanged: (value) => code = value.toString(),
-                              initialSelection: '+234',
-                              favorite: ['+234', 'NG'],
-                              showCountryOnly: false,
-                              showFlag: true,
-                              showOnlyCountryWhenClosed: false,
-                              alignLeft: false,
-                              barrierColor: Colors.red,
-                              textStyle:
-                                  TextStyle(fontSize: 14, color: Colors.black),
-                            ),
-                            label: 'Phone Number',
-                            keyboardType: TextInputType.phone,
-                            controller: phoneNumbercontroller,
-                            onSaved: (value) =>
-                                booking.booking.phoneNumber = value,
-                            validator: (value) {
-                              if (value.isEmpty) {
-                                return 'error';
-                              } else if (value.length != 11) {
-                                return "phone number must be 11 digits";
-                              }
-                              return null;
-                            },
-                          ),
-                          InputFormField(
-                            label: 'Email',
-                            keyboardType: TextInputType.emailAddress,
-                            controller: emailcontroller,
-                            onSaved: (value) => booking.booking.email = value,
-                            validator: (value) {
-                              if (value.isEmpty) {
-                                return 'error';
-                              }
-                              return null;
-                            },
-                          ),
-                          InputFormField(
-                            label: 'Gender',
-                            keyboardType: TextInputType.name,
-                            suffixIcon: Icon(Icons.expand_more),
-                            textCapitalization: TextCapitalization.words,
-                            controller: genderController,
-                            onSaved: (value) => booking.booking.gender =
-                                (value == "Male") ? 0 : 1,
-                            validator: (value) {
-                              if (value.isEmpty) {
-                                return 'error';
-                              }
-                              return null;
-                            },
-                          ),
-
-
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text(
-                              "Next of Kin Information",
-                              style: textStyle2,
-                            ),
-                          ),
-                          InputFormField(
-                            label: 'Full Name',
-                            textCapitalization: TextCapitalization.words,
-                            controller: nextOfkincontroller,
-                            onSaved: (value) =>
-                                booking.booking.nextOfKinName = value,
-                            validator: (value) {
-                              if (value.isEmpty) {
-                                return 'error';
-                              }
-                              return null;
-                            },
-                          ),
-                          InputFormField(
-                            prefixIcon: CountryCodePicker(
-                              onChanged: (value) => code = value.toString(),
-                              initialSelection: '+234',
-                              favorite: ['+234', 'NG'],
-                              showFlag: true,
-                              showCountryOnly: false,
-                              showOnlyCountryWhenClosed: false,
-                              alignLeft: false,
-                              textStyle:
-                                  TextStyle(fontSize: 14, color: Colors.black),
-                            ),
-                            label: 'Phone Number',
-                            keyboardType: TextInputType.phone,
-                            controller: kinNumbercontroller,
-                            onSaved: (value) =>
-                                booking.booking.nextOfKinPhone = value,
-                            validator: (value) {
-                              if (value.isEmpty) {
-                                return 'error';
-                              }
-                              return null;
-                            },
-                          ),
-                          SizedBox(height: 30),
-                          Buttons.coloredButton(
-                            context: context,
-                            title: "Proceed",
-                            onTap: () async {
-                              if (_formKey.currentState.validate()) {
-                                _formKey.currentState.save();
-                                booking.booking.beneficiaries = [
-                                  ...adultBeneficiary,
-                                  ...childrenBeneficiary
-                                ];
-                                booking.savePassengerInfo(context);
-                              }
-                              Get.to(() => ApplyCoupon());
-                            },
-                          ),
-                          SizedBox(
-                            height: 15,
-                          ),
-                        ]),
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              beneficiaryCard(),
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(
+                                  "Contact Information",
+                                  style: textStyle2,
+                                ),
+                              ),
+                              InputFormField(
+                                label: 'First Name',
+                                textCapitalization: TextCapitalization.words,
+                                controller: firstNamecontroller,
+                                onSaved: (value) {
+                                  booking.booking.firstName = value;
+                                },
+                                validator: (value) {
+                                  if (value.isEmpty) {
+                                    return 'error';
+                                  }
+                                  return null;
+                                },
+                              ),
+                              InputFormField(
+                                label: 'Last Name',
+                                textCapitalization: TextCapitalization.words,
+                                controller: lastNamecontroller,
+                                onSaved: (value) =>
+                                    booking.booking.lastName = value,
+                                validator: (value) {
+                                  if (value.isEmpty) {
+                                    return 'error';
+                                  }
+                                  return null;
+                                },
+                              ),
+                              InputFormField(
+                                prefixIcon: CountryCodePicker(
+                                  onChanged: (value) => code = value.toString(),
+                                  initialSelection: '+234',
+                                  favorite: ['+234', 'NG'],
+                                  showCountryOnly: false,
+                                  showFlag: true,
+                                  showOnlyCountryWhenClosed: false,
+                                  alignLeft: false,
+                                  barrierColor: Colors.red,
+                                  textStyle: TextStyle(
+                                      fontSize: 14, color: Colors.black),
+                                ),
+                                label: 'Phone Number',
+                                keyboardType: TextInputType.phone,
+                                controller: phoneNumbercontroller,
+                                onSaved: (value) =>
+                                    booking.booking.phoneNumber = value,
+                                validator: (value) {
+                                  if (value.isEmpty) {
+                                    return 'error';
+                                  } else if (value.length != 11) {
+                                    return "phone number must be 11 digits";
+                                  }
+                                  return null;
+                                },
+                              ),
+                              InputFormField(
+                                label: 'Email',
+                                keyboardType: TextInputType.emailAddress,
+                                controller: emailcontroller,
+                                onSaved: (value) =>
+                                    booking.booking.email = value,
+                                validator: (value) {
+                                  if (value.isEmpty) {
+                                    return 'error';
+                                  }
+                                  return null;
+                                },
+                              ),
+                              InputFormField(
+                                label: 'Gender',
+                                keyboardType: TextInputType.name,
+                                suffixIcon: Icon(Icons.expand_more),
+                                textCapitalization: TextCapitalization.words,
+                                controller: genderController,
+                                onSaved: (value) => booking.booking.gender =
+                                    (value == "Male") ? 0 : 1,
+                                validator: (value) {
+                                  if (value.isEmpty) {
+                                    return 'error';
+                                  }
+                                  return null;
+                                },
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(
+                                  "Next of Kin Information",
+                                  style: textStyle2,
+                                ),
+                              ),
+                              InputFormField(
+                                label: 'Full Name',
+                                textCapitalization: TextCapitalization.words,
+                                controller: nextOfkincontroller,
+                                onSaved: (value) =>
+                                    booking.booking.nextOfKinName = value,
+                                validator: (value) {
+                                  if (value.isEmpty) {
+                                    return 'error';
+                                  }
+                                  return null;
+                                },
+                              ),
+                              InputFormField(
+                                prefixIcon: CountryCodePicker(
+                                  onChanged: (value) => code = value.toString(),
+                                  initialSelection: '+234',
+                                  favorite: ['+234', 'NG'],
+                                  showFlag: true,
+                                  showCountryOnly: false,
+                                  showOnlyCountryWhenClosed: false,
+                                  alignLeft: false,
+                                  textStyle: TextStyle(
+                                      fontSize: 14, color: Colors.black),
+                                ),
+                                label: 'Phone Number',
+                                keyboardType: TextInputType.phone,
+                                controller: kinNumbercontroller,
+                                onSaved: (value) =>
+                                    booking.booking.nextOfKinPhone = value,
+                                validator: (value) {
+                                  if (value.isEmpty) {
+                                    return 'error';
+                                  }
+                                  return null;
+                                },
+                              ),
+                              SizedBox(height: 30),
+                              Buttons.coloredButton(
+                                context: context,
+                                title: "Proceed",
+                                onTap: () async {
+                                  if (_formKey.currentState.validate()) {
+                                    _formKey.currentState.save();
+                                    booking.booking.beneficiaries = [
+                                      ...adultBeneficiary,
+                                      ...childrenBeneficiary
+                                    ];
+                                  }
+                                  if (booking.getBuses.numberOfAdults - 1 ==
+                                      adultBeneficiaryNames.length && booking.getBuses.numberOfChildren ==
+                                      childrenBeneficiary.length) {
+                                     Get.to(() => ApplyCoupon());
+                                  } else {
+                                    Get.snackbar("Oops",
+                                        "You need to add beneficiaries");
+                                  }
+                                  
+                                  // Get.to(() => ApplyCoupon());
+                                },
+                              ),
+                              SizedBox(
+                                height: 15,
+                              ),
+                            ]),
                       ),
                     ),
                   ),
@@ -284,14 +290,12 @@ class _PassengerInfoPageState extends State<PassengerInfoPage>
               height: _height,
               width: _width,
               beneficiaryType: travellerType,
-
             ),
           ),
         );
       },
       child: TravellersContainer(
-          travellerType == BeneficiaryType.adult? 'Adult(s)':'Child(ren)'
-      ),
+          travellerType == BeneficiaryType.adult ? 'Adult(s)' : 'Child(ren)'),
     );
   }
 
@@ -300,7 +304,6 @@ class _PassengerInfoPageState extends State<PassengerInfoPage>
     double height,
     double width,
     BeneficiaryType beneficiaryType,
-
   }) {
     beneficiaryController.clear();
     Beneficiaries beneficiaries = Beneficiaries();
@@ -362,7 +365,7 @@ class _PassengerInfoPageState extends State<PassengerInfoPage>
                     context: context,
                     title: 'Add Beneficiary',
                     onTap: () {
-                      if(beneficiaryController.text!='') {
+                      if (beneficiaryController.text != '') {
                         Widget listTile = Padding(
                           padding: EdgeInsets.symmetric(horizontal: 15),
                           child: Row(
@@ -370,9 +373,9 @@ class _PassengerInfoPageState extends State<PassengerInfoPage>
                               Icon(Icons.account_circle),
                               SizedBox(width: 15),
                               Expanded(
-                                child: Text(beneficiaryController.text),),
+                                child: Text(beneficiaryController.text),
+                              ),
                               SizedBox(width: 5),
-
                               IconButton(
                                 icon: Icon(Icons.cancel,
                                     size: 20, color: Colors.redAccent),
@@ -390,7 +393,8 @@ class _PassengerInfoPageState extends State<PassengerInfoPage>
                                   setState(() {});
                                 },
                               )
-                            ],),
+                            ],
+                          ),
                         );
                         // Widget listTile = ListTile(
                         //   leading: Icon(Icons.person),
@@ -444,7 +448,10 @@ class _PassengerInfoPageState extends State<PassengerInfoPage>
                           myList.remove(seatNumber);
                         });
                         Get.back();
-                      } else Dialogs.showErrorSnackBar('Error!', 'Beneficiary field is empty');})
+                      } else
+                        Dialogs.showErrorSnackBar(
+                            'Error!', 'Beneficiary field is empty');
+                    })
               ],
             ),
           ),
@@ -486,28 +493,30 @@ class _PassengerInfoPageState extends State<PassengerInfoPage>
       children: [
         (booking.getBuses.numberOfAdults > 1)
             ? Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-
-          children: [
-            (noOfAdultBeneficiaries == adultBeneficiaryNames.length)? beneficiaryHeader('Adults', Colors.indigo):Container(),
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  (noOfAdultBeneficiaries == adultBeneficiaryNames.length)
+                      ? beneficiaryHeader('Adults', Colors.indigo)
+                      : Container(),
                   ...adultBeneficiaryNames,
                   (noOfAdultBeneficiaries > adultBeneficiaryNames.length)
                       ? travllersContainer(
-                          _height, _width, BeneficiaryType.adult,)
+                          _height,
+                          _width,
+                          BeneficiaryType.adult,
+                        )
                       : SizedBox()
                 ],
               )
             : SizedBox(),
         (noOfChildrenBeneficiaries > 0)
-            ? Column(            crossAxisAlignment: CrossAxisAlignment.stretch,
-
-          children: [
-
-            (noOfChildrenBeneficiaries == childrenBeneficiaryNames.length)
-                ?  beneficiaryHeader('Adults',Colors.blueAccent):Container(),
-
-
-            ...childrenBeneficiaryNames,
+            ? Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  (noOfChildrenBeneficiaries == childrenBeneficiaryNames.length)
+                      ? beneficiaryHeader('Child(ren)', Colors.blueAccent)
+                      : Container(),
+                  ...childrenBeneficiaryNames,
                   (noOfChildrenBeneficiaries > childrenBeneficiaryNames.length)
                       ? travllersContainer(
                           _height, _width, BeneficiaryType.children)
@@ -519,14 +528,19 @@ class _PassengerInfoPageState extends State<PassengerInfoPage>
     );
   }
 
-  Padding beneficiaryHeader(title,color) {
+  Padding beneficiaryHeader(title, color) {
     return Padding(
-                  padding: const EdgeInsets.symmetric(horizontal:8.0),
-                  child: Container(color:color,child: Padding(
-                    padding: const EdgeInsets.all(5.0),
-                    child: Text(title, style: TextStyle(color: Colors.white,fontSize: 13),),
-                  )),
-                );
+      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+      child: Container(
+          color: color,
+          child: Padding(
+            padding: const EdgeInsets.all(5.0),
+            child: Text(
+              title,
+              style: TextStyle(color: Colors.white, fontSize: 13),
+            ),
+          )),
+    );
   }
 }
 
@@ -547,21 +561,22 @@ class TravellersContainer extends StatelessWidget {
               Expanded(
                 child: Text(
                   'Click here to add travelling $partner',
-                  style: TextStyle(fontSize: 13,color: Colors.white),
+                  style: TextStyle(fontSize: 13, color: Colors.white),
                 ),
               ),
-
-
               Icon(
                 Icons.add_circle,
                 color: Colors.white,
                 size: 18,
               ),
-              SizedBox(width: 15,)
+              SizedBox(
+                width: 15,
+              )
             ],
           ),
         ),
-        decoration: BoxDecoration(color: Colors.blueGrey, boxShadow: <BoxShadow>[
+        decoration:
+            BoxDecoration(color: Colors.blueGrey, boxShadow: <BoxShadow>[
           BoxShadow(
               spreadRadius: 2,
               blurRadius: 2,
