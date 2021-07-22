@@ -1,3 +1,4 @@
+
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -228,24 +229,24 @@ class Dialogs {
       message,
       borderRadius: 5,
       duration: Duration(seconds: 4),
-      icon: Padding(
-        padding: const EdgeInsets.all(2.0),
-        child: Container(
-          decoration: BoxDecoration(
-              shape: BoxShape.circle, color: Colors.redAccent.withOpacity(0.3)),
-          child: Center(
-            child: Padding(
-              padding: const EdgeInsets.all(7.0),
-              child: Image.asset(
-                'images/LIBMOT LOGO 1.png',
-                width: 75,
-                height: 75,
-              ),
-            ),
-          ),
-        ),
-      ),
-      backgroundColor: Colors.white,
+      // icon: Padding(
+      //   padding: const EdgeInsets.all(2.0),
+      //   child: Container(
+      //     decoration: BoxDecoration(
+      //         shape: BoxShape.circle, color: Colors.redAccent.withOpacity(0.3)),
+      //     child: Center(
+      //       child: Padding(
+      //         padding: const EdgeInsets.all(7.0),
+      //         child: Image.asset(
+      //           'images/LIBMOT LOGO 1.png',
+      //           width: 75,
+      //           height: 75,
+      //         ),
+      //       ),
+      //     ),
+      //   ),
+      // ),
+      backgroundColor: Colors.white70,
       colorText: Colors.blueGrey,
     );
   }

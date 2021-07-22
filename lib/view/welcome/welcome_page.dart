@@ -1,10 +1,10 @@
 import 'package:Libmot_Mobile/Reusables/buttons.dart';
-import 'package:Libmot_Mobile/services/networking/internet_utils.dart';
-import 'package:Libmot_Mobile/controllers/user_repository.dart';
-import 'package:animated_text_kit/animated_text_kit.dart';
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:Libmot_Mobile/constants/dialogs/dialog.dart';
+import 'package:Libmot_Mobile/controllers/user_repository.dart';
+import 'package:Libmot_Mobile/services/networking/internet_utils.dart';
+import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 
 class WelcomePage extends StatefulWidget {
   static final loginPage = "/login";
@@ -18,17 +18,13 @@ class WelcomePage extends StatefulWidget {
 class _WelcomePageState extends State<WelcomePage>
     with SingleTickerProviderStateMixin {
   AnimationController _controller;
-  Animation<double> _animation;
   UserRepository user;
 
   @override
   void initState() {
     _controller = AnimationController(
         duration: const Duration(milliseconds: 1700), vsync: this);
-    _animation = Tween<double>(begin: 40, end: 300).animate(_controller)
-      ..addListener(() {
-        setState(() {});
-      });
+
     _controller.forward();
     super.initState();
   }
@@ -61,47 +57,44 @@ class _WelcomePageState extends State<WelcomePage>
             padding: const EdgeInsets.all(23.0),
             child: Column(
               children: [
-                Spacer(),
-                SizedBox(
-                  width: 250.0,
-                  height: 50,
-                  child: Center(
-                    child: DefaultTextStyle(
-                      style: const TextStyle(
-                        fontSize: 17.0,
-                        color: Colors.red,
-                      ),
-                      child: AnimatedTextKit(
-                        totalRepeatCount: 1,
-                        pause: Duration(milliseconds: 500),
-                        animatedTexts: [
-                          ScaleAnimatedText('Travel'),
-                          ScaleAnimatedText('conveniently'),
-                        ],
-                        onTap: () {
-                          print("Tap Event");
-                        },
-                      ),
-                    ),
-                  ),
-                ),
-                // Container(
-                //   height: _animation.value,
-                //   width: _animation.value,
-                //   child: Text("LIBMOT",
-                //       style: GoogleFonts.libreBaskerville(
-                //           color: Colors.red,
-                //           fontWeight: FontWeight.bold,
-                //           fontSize: 50)),
+                Spacer(flex: 1),
+                // SizedBox(
+                //   width: 250.0,
+                //   height: 50,
+                //   child: Center(
+                //     child: DefaultTextStyle(
+                //       style: const TextStyle(
+                //         fontSize: 17.0,
+                //         color: Colors.red,
+                //       ),
+                //       child: AnimatedTextKit(
+                //         totalRepeatCount: 1,
+                //         pause: Duration(milliseconds: 500),
+                //         animatedTexts: [
+                //           ScaleAnimatedText('Travel'),
+                //           ScaleAnimatedText('conveniently'),
+                //         ],
+                //         onTap: () {
+                //           print("Tap Event");
+                //         },
+                //       ),
+                //     ),
+                //   ),
                 // ),
+                Text("LIBMOT",
+                    style: GoogleFonts.libreBaskerville(
+                        color: Colors.red,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 50)),
+                //
                 Text("Travel conveniently...",
                     style: TextStyle(
                         fontStyle: FontStyle.italic,
                         color: Colors.white,
                         letterSpacing: 0.5,
                         fontWeight: FontWeight.w100,
-                        fontSize: 12)),
-                Spacer(),
+                        fontSize: 14)),
+                Spacer(flex: 2),
                 Buttons.coloredButton(
                   context: context,
                   title: 'Sign In',
@@ -117,9 +110,7 @@ class _WelcomePageState extends State<WelcomePage>
                     Navigator.of(context).pushNamed(WelcomePage.signUpPage);
                   },
                 ),
-                SizedBox(
-                  height: 35,
-                ),
+                SizedBox(height: 37),
                 isLoadingGuest
                     ? Center(
                         child: CircularProgressIndicator(),
@@ -132,9 +123,10 @@ class _WelcomePageState extends State<WelcomePage>
                           child: Text(
                             "Continue as guest",
                             style: TextStyle(
+                              decoration: TextDecoration.underline,
                               fontSize: 15,
                               fontWeight: FontWeight.w500,
-                              color: Theme.of(context).primaryColor,
+                              color: Colors.white,
                             ),
                           ),
                         ),

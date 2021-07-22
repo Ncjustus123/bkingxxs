@@ -1,10 +1,11 @@
-import 'package:Libmot_Mobile/Reusables/bottom_sheet.dart';
 import 'package:Libmot_Mobile/Reusables/buttons.dart';
 import 'package:Libmot_Mobile/constants/constants.dart';
 import 'package:Libmot_Mobile/Reusables/text_field.dart';
+import 'package:Libmot_Mobile/constants/dialogs/dialog.dart';
 import 'package:Libmot_Mobile/models/destination_terminal.dart';
 import 'package:Libmot_Mobile/models/get_route.dart';
 import 'package:Libmot_Mobile/controllers/booking_repository.dart';
+import 'package:Libmot_Mobile/view/booking/select_passanger.dart';
 import 'package:after_layout/after_layout.dart';
 import 'package:bubble_tab_indicator/bubble_tab_indicator.dart';
 import 'package:flutter/material.dart';
@@ -320,6 +321,7 @@ class _BookASeatPageState extends State<BookASeatPage>
                               showModalBottomSheet(
                                 context: context,
                                 isScrollControlled: true,
+                                isDismissible: false,
                                 backgroundColor: Colors.transparent,
                                 builder: (context) =>
                                     SingleChildScrollView(child: BottomCard()),
@@ -332,19 +334,7 @@ class _BookASeatPageState extends State<BookASeatPage>
                                           .toString() ==
                                       '0')
                               ? Container()
-                              // : ButtonReusable(
-                              //     onpressed: () async {
-                              //       booking.getBuses.departureDate =
-                              //           departuredateController.text.toString();
-                              //       booking.getBuses.departureTerminalId =
-                              //           departureId;
-                              //       booking.getBuses.destinationTerminalId =
-                              //           arrivalId;
-                              //       booking.searchBuses(_scaffoldKey, context);
-                              //       //Get.to(() => SelectBusPage());
-                              //     },
-                              //     name: "Search",
-                              //   ),
+
                               : Buttons.coloredButton(
                                   context: context,
                                   title: "Search",
@@ -355,7 +345,15 @@ class _BookASeatPageState extends State<BookASeatPage>
                                         departureId;
                                     booking.getBuses.destinationTerminalId =
                                         arrivalId;
-                                    booking.searchBuses(_scaffoldKey, context);
+                                    print(depatureController.text.length);
+                                    print(arrivaldateController.text);
+                                    print(departuredateController.text);
+                                    print(arrivaldateController.text);
+                                    if (depatureController.text == '')
+                                   {  Dialogs.showErrorSnackBar('Error!',
+                                          'Select a departure terminal');}
+                                    else
+                                      searchBus();
                                   }),
                           SizedBox(height: 20),
                         ],
@@ -371,9 +369,19 @@ class _BookASeatPageState extends State<BookASeatPage>
     );
   }
 
+  searchBus() {
+    if (arrivalController.text == '')
+      Dialogs.showErrorSnackBar('Error!', 'Select a arrival terminal');
+    else if (departuredateController.text == '')
+      Dialogs.showErrorSnackBar('Error!', 'Select a departure date');
+    else if (indexOfRoute != 0 && arrivaldateController.text == '')
+      Dialogs.showErrorSnackBar('Error!', 'Select a arrival date');
+    else
+      booking.searchBuses(_scaffoldKey, context);
+  }
+
   Widget bottomRouteSheet(BuildContext context) {
     booking = Provider.of<BookingRepository>(context);
-
     //int index = booking.getRouteModel.object.items.length;
     final _width = MediaQuery.of(context).size.width;
     final _height = MediaQuery.of(context).size.height;
