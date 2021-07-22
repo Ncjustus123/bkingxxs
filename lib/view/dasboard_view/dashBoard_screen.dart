@@ -4,6 +4,7 @@ import 'package:Libmot_Mobile/view/booking/book_a_seat.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class DashBoardScreen extends StatefulWidget {
   DashBoardScreen({@required this.name});
@@ -220,7 +221,8 @@ class _DashBoardScreen extends State<DashBoardScreen> {
                                 color: Color(0xFFFCA800),
                                 title: "Libmot Express",
                                 onTap: () {
-                                  // Navigator.of(context).pushNamed(getTicketPage);
+                                  launch(
+                                      "https://play.google.com/store/apps/details?id=com.libramotors.libmotexpress");
                                 },
                                 icon: Image.asset(
                                   "images/Libmot Express Logo 1.png",
