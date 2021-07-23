@@ -293,6 +293,7 @@ class _PaymentPaystackState extends State<PaymentPaystack> {
         backgroundColor: Colors.black54,
         colorText: Colors.white,
       );
+      EasyLoading.dismiss();
     }
 
     // Use the response
@@ -301,7 +302,7 @@ class _PaymentPaystackState extends State<PaymentPaystack> {
   Future<void> processPaystackPayment() async {
     Map object = {
       "email": booking.booking.email,
-      "amount": booking.totalestimate.toInt(),
+      "amount": booking.postBookingResponse.object.amount.toInt(),
       "referenceNumber":
           booking.postBookingResponse.object.bookingReferenceCode,
       "PayStackReference": 5,
@@ -321,8 +322,8 @@ class _PaymentPaystackState extends State<PaymentPaystack> {
         Get.to(BookingConfirmation());
       });
     } else {
-      EasyLoading.dismiss();
       print("payment failed");
+      EasyLoading.dismiss();
     }
   }
 }
