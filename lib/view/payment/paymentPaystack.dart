@@ -14,6 +14,7 @@ import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:Libmot_Mobile/constants/dialogs/dialog.dart';
 import 'package:Libmot_Mobile/constants/Buttons/buttons.dart';
+import 'package:Libmot_Mobile/models/paymentPaystackModel.dart';
 
 class PaymentPaystack extends StatefulWidget {
   @override
@@ -31,6 +32,7 @@ class _PaymentPaystackState extends State<PaymentPaystack> {
   String cardHolderName = "CARD HOLDER";
   final plugin = PaystackPlugin();
   BookingRepository booking;
+  PaymentModelObject object;
   @override
   void initState() {
     plugin.initialize(publicKey: TestData().paystackPublicKey);
@@ -53,9 +55,7 @@ class _PaymentPaystackState extends State<PaymentPaystack> {
               height: MediaQuery.of(context).size.height * 0.25,
               width: double.infinity,
               decoration: BoxDecoration(
-                color:Get.isDarkMode
-                    ? Color(0xFF85000D)
-                    : Colors.indigo[900],
+                color: Get.isDarkMode ? Color(0xFF85000D) : Colors.indigo[900],
                 borderRadius: BorderRadius.circular(5),
               ),
               child: Column(
@@ -100,7 +100,7 @@ class _PaymentPaystackState extends State<PaymentPaystack> {
                         height: 65,
                         width: 65,
                         decoration: BoxDecoration(
-                            color:Get.isDarkMode
+                            color: Get.isDarkMode
                                 ? Color(0xFF85000D)
                                 : Colors.indigo[800],
                             shape: BoxShape.circle,
@@ -115,9 +115,7 @@ class _PaymentPaystackState extends State<PaymentPaystack> {
           height: MediaQuery.of(context).size.height * 0.25,
           width: double.infinity,
           decoration: BoxDecoration(
-            color: Get.isDarkMode
-                ? Color(0xFF89000D)
-                : Colors.indigo[900],
+            color: Get.isDarkMode ? Color(0xFF89000D) : Colors.indigo[900],
             borderRadius: BorderRadius.all(Radius.circular(5)),
           ),
           child: Column(
@@ -216,7 +214,7 @@ class _PaymentPaystackState extends State<PaymentPaystack> {
                         name: "Proceed",
                         onpressed: () {
                           showLoading(
-                              progressColor: Get.isDarkMode 
+                              progressColor: Get.isDarkMode
                                   ? Color(0xFF85000D)
                                   : Colors.red,
                               indicatorColor: Get.isDarkMode
@@ -300,16 +298,17 @@ class _PaymentPaystackState extends State<PaymentPaystack> {
   }
 
   Future<void> processPaystackPayment() async {
-    Map object = {
-      "email": booking.booking.email,
-      "amount": booking.postBookingResponse.object.amount.toInt(),
-      "referenceNumber":
-          booking.postBookingResponse.object.bookingReferenceCode,
-      "PayStackReference": 5,
-    };
+    object = PaymentModelObject(
+      email: booking.booking.email,
+      amount: booking.postBookingResponse.object.amount.toInt(),
+      refCode: booking.postBookingResponse.object.bookingReferenceCode,
+      paystackrefrence: 5,
+    );
+
     print("object");
     print(object);
-    final response = await ApiCalls().payStackPayment(object);
+    final response = await ApiCalls().payStackPayment(
+        object.toJson());
     print('backend');
     print(response.body);
     if (response.statusCode == 200) {

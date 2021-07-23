@@ -115,7 +115,7 @@ class ApiCalls {
     return response;
   }
 
-  Future<http.Response> payStackPayment(Map<dynamic, dynamic> body) async {
+  Future<http.Response> payStackPayment(Map<String, dynamic> body) async {
     final header = await init();
     final url =
         Uri.parse(baseInstance.base.baseUrl + EndPoints.payStackPayment);
