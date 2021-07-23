@@ -8,7 +8,7 @@ class BookingStatusRepository with ChangeNotifier {
   BookingStatusState status = BookingStatusState.notSearching;
   CheckBookingDetailsResponse bookingResponse = CheckBookingDetailsResponse();
   Future getBookingStatus(String bookingRef) async {
-    final response = await ApiCalls().getBookingStatus(bookingRef);
+    final response = await ApiCalls().checkBookingStatus(bookingRef);
     if (response.statusCode == 200) {
       final Map<String, dynamic> responseData = json.decode(response.body);
       print(responseData);

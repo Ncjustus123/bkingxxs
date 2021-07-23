@@ -7,6 +7,7 @@ class EndPoints {
   static const String searchBuses = "api/Booking/Search";
   static const String postHireBus = "api/HireRequest/Add";
   static const String getBookingDetails = "api/Booking/Details/";
+  static const String getTripHistory = "api/Booking/GetTripHistory/";
   static const String postAgentRequest = "api/Agents/AddApplicant";
   static const String signUpCustomer = "api/Customer/Add";
   static const String postBooking = "api/Booking/PostBooking";

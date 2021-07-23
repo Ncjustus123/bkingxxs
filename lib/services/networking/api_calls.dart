@@ -89,10 +89,18 @@ class ApiCalls {
     return response;
   }
 
-  Future<http.Response> getBookingStatus(String bookingRef) async {
+  Future<http.Response> checkBookingStatus(String bookingRef) async {
     final header = await init();
     final url = Uri.parse(
         baseInstance.base.baseUrl + EndPoints.getBookingDetails + bookingRef);
+    final response = await http.get(url, headers: header);
+    return response;
+  }
+  
+  Future<http.Response> getTripHistory(String phonenumber) async {
+    final header = await init();
+    final url = Uri.parse(
+        baseInstance.base.baseUrl + EndPoints.getTripHistory + phonenumber);
     final response = await http.get(url, headers: header);
     return response;
   }
