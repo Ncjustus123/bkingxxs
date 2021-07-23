@@ -76,6 +76,7 @@ class UserRepository with ChangeNotifier {
   logout() async {
     final pref = await UserPreference.getInstance();
     pref.deleteProfile();
+
     _loggedInStatus = LoggedInStatus.LoggedOut;
     Get.offAll(() => WelcomePage());
     notifyListeners();

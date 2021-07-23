@@ -244,7 +244,8 @@ class BookingRepository with ChangeNotifier {
 
     final response = await ApiCalls().postBooking(booking.toJson());
     print("booking");
-    print(booking.toJson());
+    print(booking.toJson()); print("response");
+    print(response);
 
     if (response.statusCode == 200) {
       final Map<String, dynamic> responseData = json.decode(response.body);
