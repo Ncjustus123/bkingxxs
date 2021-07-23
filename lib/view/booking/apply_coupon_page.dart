@@ -135,3 +135,4 @@ class _ApplyCouponState extends State<ApplyCoupon> {
     );
   }
 }
+
