@@ -6,12 +6,16 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:Libmot_Mobile/view/login/profile_page.dart';
+import 'package:share/share.dart';
 
 class DrawerScreen extends StatefulWidget {
   DrawerScreen({@required this.name});
 
   final String name;
   static final loginpage = "/login";
+   String text = '';
+  String subject = '';
+  List<String> imagePaths = [];
 
   @override
   _DrawerScreenState createState() => _DrawerScreenState();
@@ -181,35 +185,32 @@ class _DrawerScreenState extends State<DrawerScreen> {
                       ),
                     ],
                   ),
-            // Row(
-            //   children: <Widget>[
-            //     Icon(
-            //       Icons.logout,
-            //       color: Colors.white.withOpacity(0.5),
-            //     ),
-            //     SizedBox(
-            //       width: 10,
-            //     ),
-            //     GestureDetector(
-            //       onTap: () {
-            //         user.logout();
-            //         if (user.loggedInStatus == LoggedInStatus.LoggedOut) {
-            //           Navigator.of(context).pushNamed("/welcome");
-            //         }
-            //       },
-            //       child: Text(
-            //         'Log out',
-            //         style: TextStyle(color: Colors.white.withOpacity(0.5)),
-            //       ),
-            //     )
-            //   ],
-            // )
           ],
         ),
       ),
     );
   }
+  _onShare(BuildContext context) async {
+    // A builder is used to retrieve the context immediately
+    // surrounding the ElevatedButton.
+    //
+    // The context's `findRenderObject` returns the first
+    // RenderObject in its descendent tree when it's not
+    // a RenderObjectWidget. The ElevatedButton's RenderObject
+    // has its position and size after it's built.
+    final RenderBox box = context.findRenderObject() as RenderBox;
 
+    if (imagePaths.isNotEmpty) {
+      await Share.shareFiles(imagePaths,
+          text: "text",
+          subject: "subject",
+          sharePositionOrigin: box.localToGlobal(Offset.zero) & box.size);
+    } else {
+      await Share.share("text",
+          subject: "subject",
+          sharePositionOrigin: box.localToGlobal(Offset.zero) & box.size);
+    }
+  }
   InkWell menuOption({icon, onTap, title}) {
     return InkWell(
       onTap: onTap,
