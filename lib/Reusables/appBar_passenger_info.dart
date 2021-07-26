@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class CustomAppBar extends StatefulWidget implements PreferredSizeWidget {
+
   CustomAppBar() : preferredSize = Size.fromHeight(100);
   @override
   final Size preferredSize;
@@ -42,7 +43,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
     booking.totalestimate = totalEstimate;
     booking.totalTravellers = totalTravellers;
     return Padding(
-      padding: const EdgeInsets.fromLTRB(8, 8, 8, 4),
+      padding: const EdgeInsets.fromLTRB(8, 0, 8, 8),
       child: Container(
         padding: EdgeInsets.fromLTRB(15, 10, 10, 10),
         decoration: BoxDecoration(

@@ -157,7 +157,7 @@ class BookingRepository with ChangeNotifier {
   }
 
   searchBuses(_scaffoldKey, BuildContext context) async {
-    showFetchingData('Fetching buses');
+    showFetchingData('We are fetching\navailable buses');
     booking.passengerType = 0;
     booking.bookingStatus = 1;
     booking.routeIdReturn = 0;
@@ -168,6 +168,8 @@ class BookingRepository with ChangeNotifier {
     booking.isGhanaRoute = false;
     booking.isSub = false;
     booking.isLoggedIn = true;
+    booking.bookingType = 2;
+    booking.paymentMethod= 5;
 
     Response response = await ApiCalls().searchBuses(getBuses.toJson());
     print(getBuses.toJson());
@@ -241,10 +243,13 @@ class BookingRepository with ChangeNotifier {
     showFetchingData('Checking coupon');
 
     final response = await ApiCalls().postBooking(booking.toJson());
-    print(booking);
+    print("booking");
+    print(booking.toJson()); print("response");
+    print(response);
 
     if (response.statusCode == 200) {
       final Map<String, dynamic> responseData = json.decode(response.body);
+      print("responseData");
       print(responseData);
       postBookingResponse = PostBookingResponse.fromJson(responseData);
 
