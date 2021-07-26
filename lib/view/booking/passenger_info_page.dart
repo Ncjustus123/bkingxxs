@@ -250,14 +250,15 @@ class _PassengerInfoPageState extends State<PassengerInfoPage>
                                     ];
                                   }
                                   if (booking.getBuses.numberOfAdults - 1 ==
-                                      adultBeneficiaryNames.length && booking.getBuses.numberOfChildren ==
-                                      childrenBeneficiary.length) {
-                                     Get.to(() => ApplyCoupon());
+                                          adultBeneficiaryNames.length &&
+                                      booking.getBuses.numberOfChildren ==
+                                          childrenBeneficiary.length) {
+                                    Get.to(() => ApplyCoupon());
                                   } else {
                                     Get.snackbar("Oops",
                                         "You need to add beneficiaries");
                                   }
-                                  
+
                                   // Get.to(() => ApplyCoupon());
                                 },
                               ),

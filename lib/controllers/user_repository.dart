@@ -45,6 +45,7 @@ class UserRepository with ChangeNotifier {
   checkLogin(BuildContext context) async {
     final preference = await UserPreference.getInstance();
     SharedPreferences prefs = await SharedPreferences.getInstance();
+    
 
     bool loggedIn = preference.isLoggedIn() ?? false;
     final newUser = prefs.getString('isNewUser');
@@ -57,11 +58,13 @@ class UserRepository with ChangeNotifier {
         // Navigator.of(context).pushNamed(dashboardRoute);
       } else {
         _loggedInStatus = LoggedInStatus.LoggedOut;
+        await prefs.clear();
         route.Get.offAll(() => WelcomePage());
 
         // Navigator.of(context).pushNamed(welcomeRoute);
       }
     } else
+    await prefs.clear();
       route.Get.offAll(() => OnBoardingPage());
 
     // if (loggedIn) {
@@ -78,6 +81,7 @@ class UserRepository with ChangeNotifier {
     pref.deleteProfile();
 
     _loggedInStatus = LoggedInStatus.LoggedOut;
+    
     Get.offAll(() => WelcomePage());
     notifyListeners();
   }
@@ -200,6 +204,7 @@ class UserRepository with ChangeNotifier {
     profile.object = await preference.getProfile();
     notifyListeners();
     return profile;
+    
   }
 
   signUpCustomer(context, signUp) async {
