@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 import 'package:Libmot_Mobile/services/networking/internet_utils.dart';
 import 'package:Libmot_Mobile/constants/dialogs/dialog.dart';
 import 'package:Libmot_Mobile/constants/Buttons/buttons.dart';
+import 'package:Libmot_Mobile/Reusables/text_field.dart';
 
 // ignore: must_be_immutable
 class SignUpPage extends StatefulWidget {
@@ -103,11 +104,11 @@ class _SignUpPageState extends State<SignUpPage> {
         child: Column(
           children: <Widget>[
             SizedBox(height: 20),
-            TextFormFeildWidget(
-              obscureText: false,
+            InputFormField(
+              obscure: false,
               controller: firstNamecontroller,
               textCapitalization: TextCapitalization.words,
-              lableText: 'First Name',
+              label: 'First Name',
               validator: (value) {
                 if (value.isEmpty) {
                   return 'Please input your Firstname';
@@ -115,10 +116,10 @@ class _SignUpPageState extends State<SignUpPage> {
                 return null;
               },
             ),
-            TextFormFeildWidget(
+            InputFormField(
               controller: lastNamecontroller,
-              obscureText: false,
-              lableText: 'Last Name',
+              obscure: false,
+              label: 'Last Name',
               textCapitalization: TextCapitalization.words,
               validator: (value) {
                 if (value.isEmpty) {
@@ -127,10 +128,10 @@ class _SignUpPageState extends State<SignUpPage> {
                 return null;
               },
             ),
-            TextFormFeildWidget(
+            InputFormField(
               controller: emailcontroller,
-              lableText: "Email",
-              obscureText: false,
+              label: "Email",
+              obscure: false,
               keyboardType: TextInputType.emailAddress,
               validator: (value) {
                 if (value.isEmpty) {
@@ -139,9 +140,9 @@ class _SignUpPageState extends State<SignUpPage> {
                 return null;
               },
             ),
-            TextFormFeildWidget(
-              obscureText: false,
-              lableText: "Phone number",
+            InputFormField(
+              obscure: false,
+              label: "Phone number",
               controller: phoneNumbercontroller,
               keyboardType: TextInputType.phone,
               validator: (value) {
@@ -151,9 +152,9 @@ class _SignUpPageState extends State<SignUpPage> {
                 return null;
               },
             ),
-            TextFormFeildWidget(
-              lableText: "Gender",
-              obscureText: false,
+            InputFormField(
+              label: "Gender",
+              obscure: false,
               textCapitalization: TextCapitalization.words,
               controller: gendercontroller,
               validator: (value) {
@@ -163,10 +164,10 @@ class _SignUpPageState extends State<SignUpPage> {
                 return null;
               },
             ),
-            TextFormFeildWidget(
+            InputFormField(
               controller: passwordcontroller,
-              obscureText: _passwordVisible,
-              lableText: 'Password',
+              obscure: _passwordVisible,
+              label: 'Password',
               validator: (value) {
                 if (value.isEmpty) {
                   return 'Please put in your Password';
@@ -188,10 +189,10 @@ class _SignUpPageState extends State<SignUpPage> {
                 },
               ),
             ),
-            TextFormFeildWidget(
+            InputFormField(
               controller: confirmPasswordcontroller,
-              obscureText: _confirmPasswordVisible,
-              lableText: 'Confirm Password',
+              obscure: _confirmPasswordVisible,
+              label: 'Confirm Password',
               validator: (value) {
                 if (value.isEmpty) {
                   return 'Please confirm the Password';
@@ -215,10 +216,10 @@ class _SignUpPageState extends State<SignUpPage> {
                 },
               ),
             ),
-            TextFormFeildWidget(
-              obscureText: false,
+            InputFormField(
+              obscure: false,
               controller: referralcontroller,
-              lableText: "Referral code",
+              label: "Referral code",
             ),
             SizedBox(
               height: 20,

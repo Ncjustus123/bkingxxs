@@ -13,7 +13,7 @@ class EndPoints {
   static const String activateAccount =  "api/Account/Activate/";
   static const String payStackPayment = "api/Booking/ProcessPaystackPayment";
   static const String resendOtp = "/api/Customer/SendActivationCode";
-
+  // DF2CBE57TAG
   // @GET("api/Terminal/Get")
   // Call<DepartureTerminalResponse> getAllTerminals();
 

@@ -1,10 +1,8 @@
-import 'package:Libmot_Mobile/controllers/theme_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:provider/provider.dart';
 
 class InputFormField extends StatelessWidget {
-   InputFormField({
+  InputFormField({
     this.suffixIcon,
     this.prefixIcon,
     this.onSaved,
@@ -37,11 +35,9 @@ class InputFormField extends StatelessWidget {
   final TextInputType keyboardType;
   final String hintText;
   final inputFormatters;
-  ThemeProvider  themeProvider;
 
   @override
   Widget build(BuildContext context) {
-    themeProvider = Provider.of<ThemeProvider>(context);
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 5.0, vertical: 10),
       child: TextFormField(
@@ -52,17 +48,16 @@ class InputFormField extends StatelessWidget {
         controller: controller,
         keyboardType: keyboardType,
         style: TextStyle(
-          
           fontSize: 14,
         ),
-        textCapitalization: textCapitalization??TextCapitalization.none,
+        textCapitalization: textCapitalization ?? TextCapitalization.none,
         validator: validator,
         onChanged: onChanged,
         onSaved: onSaved,
-        obscureText: obscure??false,
+        obscureText: obscure ?? false,
         decoration: InputDecoration(
           filled: true,
-          fillColor: Get.isDarkMode?Color(0xFF020504) : Color(0xFFFFFFFF),
+          fillColor: Get.isDarkMode ? Color(0xFF020504) : Color(0xFFFFFFFF),
           border: InputBorder.none,
           enabledBorder: buildOutlineBorder(context),
           disabledBorder: buildOutlineBorder(context),
@@ -78,7 +73,7 @@ class InputFormField extends StatelessWidget {
           hintText: hintText,
           labelStyle: TextStyle(fontSize: 13, color: Colors.grey),
           contentPadding:
-          EdgeInsets.symmetric(vertical: 18.0, horizontal: 25.0),
+              EdgeInsets.symmetric(vertical: 18.0, horizontal: 25.0),
         ),
       ),
     );
@@ -102,7 +97,7 @@ OutlineInputBorder buildOutlineBorder(BuildContext context) {
   );
 }
 
-class TextFormFeildWidget extends StatelessWidget {
+class TextFormFieldWidget extends StatelessWidget {
   final String lableText;
   final Function validator;
   final TextEditingController controller;
@@ -112,7 +107,7 @@ class TextFormFeildWidget extends StatelessWidget {
   final TextInputType keyboardType;
   final TextCapitalization textCapitalization;
 
-  const TextFormFeildWidget({
+  const TextFormFieldWidget({
     this.controller,
     this.lableText,
     this.validator,
@@ -140,7 +135,7 @@ class TextFormFeildWidget extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.only(left: 0, right: 0, top: 0),
         child: TextFormField(
-          style: TextStyle(fontSize: 13,color: Colors.black87),
+          style: TextStyle(fontSize: 13, color: Colors.black87),
           keyboardType: keyboardType,
           obscureText: obscureText,
           textCapitalization: textCapitalization ?? TextCapitalization.none,
@@ -148,8 +143,7 @@ class TextFormFeildWidget extends StatelessWidget {
             suffixIcon: suffixIcon,
             prefixIcon: prefixIcon,
             filled: true,
-            fillColor: Get.isDarkMode?Color(0xFF020504) : Color(0xFFFFFFFF),
-
+            fillColor: Get.isDarkMode ? Color(0xFF020504) : Color(0xFFFFFFFF),
             enabledBorder: OutlineInputBorder(
                 borderSide: BorderSide(
                     color: Colors.grey.withOpacity(0.3), width: 0.4)),
@@ -159,7 +153,7 @@ class TextFormFeildWidget extends StatelessWidget {
             focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.all(Radius.circular(10)),
                 borderSide:
-                BorderSide(color: Colors.red.withOpacity(0.6), width: 0.6)),
+                    BorderSide(color: Colors.red.withOpacity(0.6), width: 0.6)),
             labelText: lableText,
             labelStyle: TextStyle(color: Colors.grey),
             contentPadding: EdgeInsets.symmetric(vertical: 8, horizontal: 20),

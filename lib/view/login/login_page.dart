@@ -223,11 +223,11 @@ class _LoginPageState extends State<LoginPage> {
         key: _formKeyLogin,
         child: Column(
           children: <Widget>[
-            TextFormFeildWidget(
-              obscureText: _emailVisible,
+            InputFormField(
+              obscure: _emailVisible,
               prefixIcon: Icon(Icons.person_outlined, color: Colors.grey),
               controller: emailController,
-              lableText: 'Email or Phone Number',
+              label: 'Email or Phone Number',
               validator: (value) {
                 if (value.isEmpty) {
                   return 'Please put in your email';
@@ -236,10 +236,10 @@ class _LoginPageState extends State<LoginPage> {
               },
             ),
             SizedBox(height: 10),
-            TextFormFeildWidget(
+            InputFormField(
               controller: passwordController,
-              obscureText: _passwordVisible,
-              lableText: 'Password',
+              obscure: _passwordVisible,
+              label: 'Password',
               validator: (value) {
                 if (value.isEmpty) {
                   return 'Please put in your Password';

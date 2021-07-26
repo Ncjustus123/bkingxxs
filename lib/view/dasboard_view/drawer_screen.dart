@@ -93,88 +93,92 @@ class _DrawerScreenState extends State<DrawerScreen> {
               ),
             ),
             SizedBox(height: 40),
-            Column(
-              children: <Widget>[
-                user.profile == null
-                    ? menuOption(
-                        icon: 'icons/login.jpg',
-                        title: 'Log in',
-                        onTap: () {
-                          Get.offAll(LoginPage());
-                        },
-                      )
-                    : SizedBox(),
-                user.profile == null
-                    ? SizedBox()
-                    : menuOption(
-                        icon: 'icons/history.png',
-                        title: 'Booking History',
-                        onTap: () {},
-                      ),
-                user.profile == null
-                    ? menuOption(
-                        icon: 'icons/signup.png',
-                        title: 'Sign Up',
-                        onTap: () {
-                          Get.offAll(SignUpPage());
-                        },
-                      )
-                    : SizedBox(),
-                menuOption(
-                  icon: 'icons/coupons.png',
-                  title: 'Check Booking Status',
-                  onTap: () {
-                    Navigator.of(context).pushNamed("/checkBookingStatus");
-                  },
-                ),
-                menuOption(
-                  icon: 'icons/notification.png',
-                  title: 'Notification',
-                  onTap: () {},
-                ),
-                menuOption(
-                  icon: 'icons/help.png',
-                  title: 'Help & Support',
-                  onTap: () {},
-                ),
-                user.profile == null
-                    ? SizedBox()
-                    : menuOption(
-                        icon: 'icons/coupons.png',
-                        title: 'My Coupons',
-                        onTap: () {},
-                      ),
-                menuOption(
-                  icon: 'icons/rate us.png',
-                  title: 'Rate Us',
-                  onTap: () {},
-                ),
-                menuOption(
-                  icon: 'icons/share.png',
-                  title: 'Share App',
-                  onTap: () {},
-                ),
-                SizedBox(
-                  height: 15,
-                ),
-              ],
+            Expanded(
+              child: Column(
+                children: <Widget>[
+                  user.profile == null
+                      ? menuOption(
+                          icon: 'icons/login.jpg',
+                          title: 'Log in',
+                          onTap: () {
+                            Get.offAll(LoginPage());
+                          },
+                        )
+                      : SizedBox(),
+                  user.profile == null
+                      ? SizedBox()
+                      : menuOption(
+                          icon: 'icons/history.png',
+                          title: 'Booking History',
+                          onTap: () {},
+                        ),
+                  user.profile == null
+                      ? menuOption(
+                          icon: 'icons/signup.png',
+                          title: 'Sign Up',
+                          onTap: () {
+                            Get.offAll(SignUpPage());
+                          },
+                        )
+                      : SizedBox(),
+                  menuOption(
+                    icon: 'icons/coupons.png',
+                    title: 'Check Booking Status',
+                    onTap: () {
+                      Navigator.of(context).pushNamed("/checkBookingStatus");
+                    },
+                  ),
+                  menuOption(
+                    icon: 'icons/notification.png',
+                    title: 'Notification',
+                    onTap: () {},
+                  ),
+                  menuOption(
+                    icon: 'icons/help.png',
+                    title: 'Help & Support',
+                    onTap: () {},
+                  ),
+                  user.profile == null
+                      ? SizedBox()
+                      : menuOption(
+                          icon: 'icons/coupons.png',
+                          title: 'My Coupons',
+                          onTap: () {},
+                        ),
+                  menuOption(
+                    icon: 'icons/rate us.png',
+                    title: 'Rate Us',
+                    onTap: () {},
+                  ),
+                  menuOption(
+                    icon: 'icons/share.png',
+                    title: 'Share App',
+                    onTap: () {},
+                  ),
+                  SizedBox(
+                    height: 15,
+                  ),
+                ],
+              ),
             ),
             user.profile == null
                 ? SizedBox()
                 : Row(
                     children: [
-                      InkWell(
-                        onTap: () {
-                          print("log out");
-                          user.logout();
-                        },
-                        child: Container(
-                          decoration: BoxDecoration(color: Colors.black),
-                          child: Padding(
-                            padding: const EdgeInsets.all(17.0),
-                            child: Text(
-                              'Log out',
-                              style: TextStyle(color: Colors.white),
+                      Expanded(
+                        child: InkWell(
+                          onTap: () {
+                            print("log out");
+                            user.logout();
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(color: Colors.black),
+                            child: Padding(
+                              padding: const EdgeInsets.all(17.0),
+                              child: Text(
+                                'Log out',
+                                style: TextStyle(color: Colors.white),
+                              ),
                             ),
                           ),
                         ),

@@ -1,7 +1,8 @@
-import 'package:Libmot_Mobile/Reusables/bottom_sheet.dart';
+
 import 'package:Libmot_Mobile/Reusables/buttons.dart';
 import 'package:Libmot_Mobile/constants/constants.dart';
 import 'package:Libmot_Mobile/Reusables/text_field.dart';
+import 'package:Libmot_Mobile/constants/dialogs/dialog.dart';
 import 'package:Libmot_Mobile/models/destination_terminal.dart';
 import 'package:Libmot_Mobile/models/get_route.dart';
 import 'package:Libmot_Mobile/controllers/booking_repository.dart';
@@ -13,6 +14,7 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 import '../../controllers/booking_repository.dart';
+import 'select_passanger.dart';
 
 class BookASeatPage extends StatefulWidget {
   @override
