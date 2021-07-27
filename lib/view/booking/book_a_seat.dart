@@ -42,6 +42,24 @@ class _BookASeatPageState extends State<BookASeatPage>
   String selectedTo = '';
   int departureId;
   int arrivalId;
+
+
+  List<String> nyscArrivalOptions;
+  filterNysc(arrivalOptions) {
+    if (arrivalOptions != null && arrivalOptions != []) {
+      nyscArrivalOptions = arrivalOptions
+          .where((i) =>
+      i.contains('NYSC') ||
+          i == null)
+          .toList();
+
+      print('nyscArrival List');
+      print(nyscArrivalOptions);
+    } else {
+      print('no nysc arrival list list');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     booking = Provider.of<BookingRepository>(context);
@@ -214,7 +232,8 @@ class _BookASeatPageState extends State<BookASeatPage>
                                 isScrollControlled: true,
                                 backgroundColor: Colors.transparent,
                                 builder: (context) => SingleChildScrollView(
-                                    child: bottomRouteSheet(context)),
+                                  child: bottomRouteSheet(context),
+                                ),
                               );
                             },
                             child: InputFormField(
@@ -361,10 +380,10 @@ class _BookASeatPageState extends State<BookASeatPage>
                                     print(arrivaldateController.text);
                                     print(departuredateController.text);
                                     print(arrivaldateController.text);
-                                    if (depatureController.text == '')
-                                   {  Dialogs.showErrorSnackBar('Error!',
-                                          'Select a departure terminal');}
-                                    else
+                                    if (depatureController.text == '') {
+                                      Dialogs.showErrorSnackBar('Error!',
+                                          'Select a departure terminal');
+                                    } else
                                       searchBus();
                                   }),
                           SizedBox(height: 20),
@@ -480,6 +499,7 @@ class _BookASeatPageState extends State<BookASeatPage>
     );
   }
 
+
   void selectFromOption(String option, id) {
     setState(() {
       selectedFrom = option;
@@ -487,7 +507,7 @@ class _BookASeatPageState extends State<BookASeatPage>
       departureId = id;
     });
     booking.getDestinationTerminals(departureId);
-    print('depatureId' + departureId.toString());
+    print('depatureId ' + departureId.toString());
     Get.back();
   }
 
@@ -497,6 +517,8 @@ class _BookASeatPageState extends State<BookASeatPage>
       arrivalController.text = selectedTo;
       arrivalId = id;
     });
+
+
     Get.back();
     print("arrivalId" + arrivalId.toString());
   }

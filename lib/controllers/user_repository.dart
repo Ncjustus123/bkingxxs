@@ -109,9 +109,13 @@ class UserRepository with ChangeNotifier {
         _loggedInStatus = LoggedInStatus.LoggedIn;
         notifyListeners();
       } else {
+
         print('error');
         print('${tokenData.shortDescription}');
         Dialogs.showErrorSnackBar('Oops!', "${tokenData.shortDescription}");
+
+        Get.back();
+
         if ("${tokenData.shortDescription}" ==
             "Account not active. Please activate your acccount to continue.") {
           showDialog(

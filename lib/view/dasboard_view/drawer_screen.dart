@@ -1,4 +1,5 @@
 import 'package:Libmot_Mobile/controllers/user_repository.dart';
+import 'package:Libmot_Mobile/view/booking/booking_history.dart';
 import 'package:Libmot_Mobile/view/login/login_page.dart';
 import 'package:Libmot_Mobile/view/login/sign_up_page.dart';
 import 'package:flutter/material.dart';
@@ -101,7 +102,7 @@ class _DrawerScreenState extends State<DrawerScreen> {
                           icon: 'icons/login.jpg',
                           title: 'Log in',
                           onTap: () {
-                            Get.offAll(LoginPage());
+                            Get.offAll(()=>LoginPage());
                           },
                         )
                       : SizedBox(),
@@ -110,14 +111,17 @@ class _DrawerScreenState extends State<DrawerScreen> {
                       : menuOption(
                           icon: 'icons/history.png',
                           title: 'Booking History',
-                          onTap: () {},
+                          onTap: () {
+                            Get.to(()=>BookingHistory());
+                          },
                         ),
                   user.profile == null
                       ? menuOption(
                           icon: 'icons/signup.png',
                           title: 'Sign Up',
                           onTap: () {
-                            Get.offAll(SignUpPage());
+                            Get.offAll(
+                                ()=>SignUpPage());
                           },
                         )
                       : SizedBox(),

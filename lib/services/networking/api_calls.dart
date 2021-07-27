@@ -68,6 +68,7 @@ class ApiCalls {
     final url = Uri.parse(baseInstance.base.baseUrl +
         EndPoints.getDestinationTerminal +
         id.toString());
+    print(url);
     final response = await http.get(url, headers: header);
     return response;
   }
@@ -93,6 +94,7 @@ class ApiCalls {
     final header = await init();
     final url = Uri.parse(
         baseInstance.base.baseUrl + EndPoints.getBookingDetails + bookingRef);
+    print(url);
     final response = await http.get(url, headers: header);
     return response;
   }
@@ -102,6 +104,7 @@ class ApiCalls {
     final url = Uri.parse(
         baseInstance.base.baseUrl + EndPoints.getTripHistory + phonenumber);
     final response = await http.get(url, headers: header);
+    print(url);
     return response;
   }
 
