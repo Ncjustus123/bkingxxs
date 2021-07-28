@@ -9,6 +9,7 @@ import 'package:provider/provider.dart';
 import 'package:Libmot_Mobile/services/networking/internet_utils.dart';
 import 'package:Libmot_Mobile/constants/dialogs/dialog.dart';
 import 'package:Libmot_Mobile/constants/Buttons/buttons.dart';
+import 'package:Libmot_Mobile/Reusables/text_field.dart';
 
 // ignore: must_be_immutable
 class SignUpPage extends StatefulWidget {
@@ -97,138 +98,139 @@ class _SignUpPageState extends State<SignUpPage> {
 
   Widget _formPage(UserRepository user, context) {
     return SingleChildScrollView(
-        child: Form(
-      key: _formKeyLogin,
-      child: Column(children: <Widget>[
-        SizedBox(height: 20),
-        TextFormFeildWidget(
-          obscureText: false,
-          controller: firstNamecontroller,
-          textCapitalization: TextCapitalization.words,
-          lableText: 'First Name',
-          validator: (value) {
-            if (value.isEmpty) {
-              return 'Please input your Firstname';
-            }
-            return null;
-          },
-        ),
-        TextFormFeildWidget(
-          controller: lastNamecontroller,
-          obscureText: false,
-          lableText: 'Last Name',
-          textCapitalization: TextCapitalization.words,
-          validator: (value) {
-            if (value.isEmpty) {
-              return 'Please input your Lastname';
-            }
-            return null;
-          },
-        ),
-        TextFormFeildWidget(
-          controller: emailcontroller,
-          lableText: "Email",
-          obscureText: false,
-          keyboardType: TextInputType.emailAddress,
-          validator: (value) {
-            if (value.isEmpty) {
-              return 'Please input an email';
-            }
-            return null;
-          },
-        ),
-        TextFormFeildWidget(
-          obscureText: false,
-          lableText: "Phone number",
-          controller: phoneNumbercontroller,
-          keyboardType: TextInputType.phone,
-          validator: (value) {
-            if (value.isEmpty) {
-              return 'Please input a phone number';
-            }
-            return null;
-          },
-        ),
-        TextFormFeildWidget(
-          lableText: "Gender",
-          obscureText: false,
-          textCapitalization: TextCapitalization.words,
-          controller: gendercontroller,
-          validator: (value) {
-            if (value.isEmpty) {
-              return 'Please input gender';
-            }
-            return null;
-          },
-        ),
-        TextFormFeildWidget(
-          controller: passwordcontroller,
-          obscureText: _passwordVisible,
-          lableText: 'Password',
-          validator: (value) {
-            if (value.isEmpty) {
-              return 'Please put in your Password';
-            }
-            return null;
-          },
-          prefixIcon: Icon(Icons.lock_outlined, color: Colors.grey),
-          suffixIcon: IconButton(
-            icon: Icon(
-              _passwordVisible
-                  ? Icons.visibility_off_outlined
-                  : Icons.visibility_outlined,
-              color: Colors.grey,
+      child: Form(
+        key: _formKeyLogin,
+        child: Column(
+          children: <Widget>[
+            SizedBox(height: 20),
+            InputFormField(
+              obscure: false,
+              controller: firstNamecontroller,
+              textCapitalization: TextCapitalization.words,
+              label: 'First Name',
+              validator: (value) {
+                if (value.isEmpty) {
+                  return 'Please input your Firstname';
+                }
+                return null;
+              },
             ),
-            onPressed: () {
-              setState(() {
-                _passwordVisible = !_passwordVisible;
-              });
-            },
-          ),
-        ),
-        TextFormFeildWidget(
-          controller: confirmPasswordcontroller,
-          obscureText: _confirmPasswordVisible,
-          lableText: 'Confirm Password',
-          validator: (value) {
-            if (value.isEmpty) {
-              return 'Please confirm the Password';
-            } else if (value != passwordcontroller.text) {
-              return 'Password do not match';
-            }
-            return null;
-          },
-          prefixIcon: Icon(Icons.lock_outlined, color: Colors.grey),
-          suffixIcon: IconButton(
-            icon: Icon(
-              _confirmPasswordVisible
-                  ? Icons.visibility_off_outlined
-                  : Icons.visibility_outlined,
-              color: Colors.grey,
+            InputFormField(
+              controller: lastNamecontroller,
+              obscure: false,
+              label: 'Last Name',
+              textCapitalization: TextCapitalization.words,
+              validator: (value) {
+                if (value.isEmpty) {
+                  return 'Please input your Lastname';
+                }
+                return null;
+              },
             ),
-            onPressed: () {
-              setState(() {
-                _confirmPasswordVisible = !_confirmPasswordVisible;
-              });
-            },
-          ),
-        ),
-        TextFormFeildWidget(
-          obscureText: false,
-          controller: referralcontroller,
-          lableText: "Referral code",
-        ),
-        SizedBox(
-          height: 20,
-        ),
-        ButtonReusable(
-          name: "Sign Up",
-          onpressed: () async {
-            FocusScope.of(context).unfocus();
-            register(user, context);
-          },
-        ),
-        SizedBox(height: 20),
+            InputFormField(
+              controller: emailcontroller,
+              label: "Email",
+              obscure: false,
+              keyboardType: TextInputType.emailAddress,
+              validator: (value) {
+                if (value.isEmpty) {
+                  return 'Please input an email';
+                }
+                return null;
+              },
+            ),
+            InputFormField(
+              obscure: false,
+              label: "Phone number",
+              controller: phoneNumbercontroller,
+              keyboardType: TextInputType.phone,
+              validator: (value) {
+                if (value.isEmpty) {
+                  return 'Please input a phone number';
+                }
+                return null;
+              },
+            ),
+            InputFormField(
+              label: "Gender",
+              obscure: false,
+              textCapitalization: TextCapitalization.words,
+              controller: gendercontroller,
+              validator: (value) {
+                if (value.isEmpty) {
+                  return 'Please input gender';
+                }
+                return null;
+              },
+            ),
+            InputFormField(
+              controller: passwordcontroller,
+              obscure: _passwordVisible,
+              label: 'Password',
+              validator: (value) {
+                if (value.isEmpty) {
+                  return 'Please put in your Password';
+                }
+                return null;
+              },
+              prefixIcon: Icon(Icons.lock_outlined, color: Colors.grey),
+              suffixIcon: IconButton(
+                icon: Icon(
+                  _passwordVisible
+                      ? Icons.visibility_off_outlined
+                      : Icons.visibility_outlined,
+                  color: Colors.grey,
+                ),
+                onPressed: () {
+                  setState(() {
+                    _passwordVisible = !_passwordVisible;
+                  });
+                },
+              ),
+            ),
+            InputFormField(
+              controller: confirmPasswordcontroller,
+              obscure: _confirmPasswordVisible,
+              label: 'Confirm Password',
+              validator: (value) {
+                if (value.isEmpty) {
+                  return 'Please confirm the Password';
+                } else if (value != passwordcontroller.text) {
+                  return 'Password do not match';
+                }
+                return null;
+              },
+              prefixIcon: Icon(Icons.lock_outlined, color: Colors.grey),
+              suffixIcon: IconButton(
+                icon: Icon(
+                  _confirmPasswordVisible
+                      ? Icons.visibility_off_outlined
+                      : Icons.visibility_outlined,
+                  color: Colors.grey,
+                ),
+                onPressed: () {
+                  setState(() {
+                    _confirmPasswordVisible = !_confirmPasswordVisible;
+                  });
+                },
+              ),
+            ),
+            InputFormField(
+              obscure: false,
+              controller: referralcontroller,
+              label: "Referral code",
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            ButtonReusable(
+              name: "Sign Up",
+              onpressed: () async {
+                FocusScope.of(context).unfocus();
+                register(user, context);
+              },
+            ),
+                   SizedBox(height: 20),
         InkWell(
             onTap: () {
               Navigator.pop(context);
@@ -238,7 +240,9 @@ class _SignUpPageState extends State<SignUpPage> {
               "Already have an account? Sign In",
             )),
             SizedBox(height: 8),
-      ]),
+          ]),
+       
+
     ));
   }
 

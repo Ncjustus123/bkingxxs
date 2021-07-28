@@ -34,8 +34,8 @@ String getNairaSign() {
 
 
 
-class TextFormFeildWidget extends StatelessWidget {
-  final String lableText;
+class TextFormFieldWidget extends StatelessWidget {
+  final String labelText;
   final Function validator;
   final TextEditingController controller;
   final bool obscureText;
@@ -44,9 +44,9 @@ class TextFormFeildWidget extends StatelessWidget {
   final TextInputType keyboardType;
   final TextCapitalization textCapitalization;
 
-  const TextFormFeildWidget({
+  const TextFormFieldWidget({
     this.controller,
-    this.lableText,
+    this.labelText,
     this.validator,
     this.obscureText,
     this.suffixIcon,
@@ -90,7 +90,7 @@ class TextFormFeildWidget extends StatelessWidget {
                 borderRadius: BorderRadius.all(Radius.circular(10)),
                 borderSide:
                     BorderSide(color: Colors.red.withOpacity(0.6), width: 0.6)),
-            labelText: lableText,
+            labelText: labelText,
             labelStyle: TextStyle(color: Colors.grey),
             contentPadding: EdgeInsets.symmetric(vertical: 8, horizontal: 20),
           ),

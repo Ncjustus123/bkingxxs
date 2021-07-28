@@ -78,10 +78,10 @@ class BusHIreDetailsPage extends StatelessWidget {
           SizedBox(
             height: 10,
           ),
-          TextFormFeildWidget(
+          TextFormFieldWidget(
             obscureText: false,
             controller: fullNameController,
-            lableText: 'Full Name',
+            labelText: 'Full Name',
             validator: (value) {
               if (value.isEmpty) {
                 return 'Please input your FullName';
@@ -89,11 +89,11 @@ class BusHIreDetailsPage extends StatelessWidget {
               return null;
             },
           ),
-          TextFormFeildWidget(
+          TextFormFieldWidget(
             obscureText: false,
             controller: phoneNumberController,
             keyboardType: TextInputType.phone,
-            lableText: 'Phone Number',
+            labelText: 'Phone Number',
             validator: (value) {
               if (value.isEmpty) {
                 return 'Please input your Phone Number';
@@ -101,11 +101,11 @@ class BusHIreDetailsPage extends StatelessWidget {
               return null;
             },
           ),
-          TextFormFeildWidget(
+          TextFormFieldWidget(
             obscureText: false,
             controller: numBusesController,
             keyboardType: TextInputType.emailAddress,
-            lableText: 'Email',
+            labelText: 'Email',
             validator: (value) {
               if (value.isEmpty) {
                 return 'Please input your Phone Number';
@@ -113,11 +113,11 @@ class BusHIreDetailsPage extends StatelessWidget {
               return null;
             },
           ),
-          TextFormFeildWidget(
+          TextFormFieldWidget(
             obscureText: false,
             controller: phoneNumberController,
             keyboardType: TextInputType.number,
-            lableText: 'Number of Buses',
+            labelText: 'Number of Buses',
             validator: (value) {
               if (value.isEmpty) {
                 return 'Please input the Number of Buses';
@@ -135,11 +135,11 @@ class BusHIreDetailsPage extends StatelessWidget {
           SizedBox(
             height: 10,
           ),
-          TextFormFeildWidget(
+          TextFormFieldWidget(
             obscureText: false,
             controller: nextKinNameController,
             keyboardType: TextInputType.emailAddress,
-            lableText: 'Full Name',
+            labelText: 'Full Name',
             validator: (value) {
               if (value.isEmpty) {
                 return 'Please input the Name of Your Next Of Kin ';
@@ -147,11 +147,11 @@ class BusHIreDetailsPage extends StatelessWidget {
               return null;
             },
           ),
-          TextFormFeildWidget(
+          TextFormFieldWidget(
             obscureText: false,
             controller: nextKinPhoneController,
             keyboardType: TextInputType.number,
-            lableText: 'Phone Number',
+            labelText: 'Phone Number',
             validator: (value) {
               if (value.isEmpty) {
                 return 'Please input your Next Of Kin Phone Number';

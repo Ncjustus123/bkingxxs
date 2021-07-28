@@ -169,7 +169,7 @@ class BookingRepository with ChangeNotifier {
     booking.isSub = false;
     booking.isLoggedIn = true;
     booking.bookingType = 2;
-    booking.paymentMethod= 5;
+    booking.paymentMethod = 5;
 
     Response response = await ApiCalls().searchBuses(getBuses.toJson());
     print(getBuses.toJson());
@@ -183,12 +183,11 @@ class BookingRepository with ChangeNotifier {
         EasyLoading.dismiss();
         Dialogs.showErrorSnackBar('Oops!',
             'There are no buses available on this route at the moment');
-      } else if(getBusesResponseModel.object.departures.isEmpty){
+      } else if (getBusesResponseModel.object.departures.isEmpty) {
         EasyLoading.dismiss();
         Dialogs.showErrorSnackBar('Oops!',
             'There are no buses available on this route, kindly check the detail you provided.');
-      }
-      else {
+      } else {
         EasyLoading.dismiss();
         currentBookingStatus = CurrentBookingStatus.Departure;
         Navigator.of(context).pushNamed(busSearch);
@@ -244,7 +243,8 @@ class BookingRepository with ChangeNotifier {
 
     final response = await ApiCalls().postBooking(booking.toJson());
     print("booking");
-    print(booking.toJson()); print("response");
+    print(booking.toJson());
+    print("response");
     print(response);
 
     if (response.statusCode == 200) {
@@ -328,3 +328,13 @@ class BookingRepository with ChangeNotifier {
 }
 
 enum CurrentBookingStatus { Departure, Arrival }
+
+showFetchingData(text) {
+  return showLoading(
+      progressColor: Colors.red,
+      indicatorColor: Colors.red,
+      backgroundColor: Colors.white,
+      textColor: Colors.red,
+      indicatorType: EasyLoadingIndicatorType.fadingCircle,
+      status: "\n$text...");
+}

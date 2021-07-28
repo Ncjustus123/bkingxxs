@@ -35,7 +35,7 @@ class _BookASeatPageState extends State<BookASeatPage>
   List<String> arrivalOptions;
   List<String> departureOptions;
   List<int> departureIds;
-  List<int> arrivalIds;
+  List<int> allArrivals;
   List<int> allArrivalIds;
   int indexOfRoute = 0;
   String tripOption = 'One Way';
@@ -43,8 +43,23 @@ class _BookASeatPageState extends State<BookASeatPage>
   String selectedTo = '';
   int departureId;
   int arrivalId;
-  List<String> allArrivals;
-  
+
+
+  List<String> nyscArrivalOptions;
+  filterNysc(arrivalOptions) {
+    if (arrivalOptions != null && arrivalOptions != []) {
+      nyscArrivalOptions = arrivalOptions
+          .where((i) =>
+      i.contains('NYSC') ||
+          i == null)
+          .toList();
+
+      print('nyscArrival List');
+      print(nyscArrivalOptions);
+    } else {
+      print('no nysc arrival list list');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -219,7 +234,8 @@ class _BookASeatPageState extends State<BookASeatPage>
                                 isScrollControlled: true,
                                 backgroundColor: Colors.transparent,
                                 builder: (context) => SingleChildScrollView(
-                                    child: bottomRouteSheet(context)),
+                                  child: bottomRouteSheet(context),
+                                ),
                               );
                             },
                             child: InputFormField(
@@ -472,6 +488,7 @@ class _BookASeatPageState extends State<BookASeatPage>
     );
   }
 
+
   void selectFromOption(String option, id) {
     setState(() {
       selectedFrom = option;
@@ -491,6 +508,8 @@ class _BookASeatPageState extends State<BookASeatPage>
       arrivalId = id;
       
     });
+
+
     Get.back();
     print("arrivalId" + arrivalId.toString());
   }
