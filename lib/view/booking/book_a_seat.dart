@@ -447,7 +447,7 @@ class _BookASeatPageState extends State<BookASeatPage>
                             ? selectFromOption(
                                 departureOptions[index], departureIds[index])
                             : selectToOption(
-                                arrivalOptions[index], arrivalIds[index]);
+                                arrivalOptions[index], allArrivals[index]);
                       },
                       title: Text(
                         direction == 'from'
