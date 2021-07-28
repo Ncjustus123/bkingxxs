@@ -35,7 +35,7 @@ class _BookASeatPageState extends State<BookASeatPage>
   List<String> arrivalOptions;
   List<String> departureOptions;
   List<int> departureIds;
-  List<int> allArrivals;
+  List<String> allArrivals;
   List<int> allArrivalIds;
   int indexOfRoute = 0;
   String tripOption = 'One Way';
@@ -87,7 +87,7 @@ class _BookASeatPageState extends State<BookASeatPage>
               (DestinationObject object) => object.id,
             )
             .toList();
-    allArrivals = (booking.destinationTerminalModel == null)
+    arrivalOptions = (booking.destinationTerminalModel == null)
         ? []
         : booking.destinationTerminalModel.object
             .map((DestinationObject object) => object.name)
@@ -447,7 +447,7 @@ class _BookASeatPageState extends State<BookASeatPage>
                             ? selectFromOption(
                                 departureOptions[index], departureIds[index])
                             : selectToOption(
-                                arrivalOptions[index], allArrivals[index]);
+                                arrivalOptions[index], allArrivalIds[index]);
                       },
                       title: Text(
                         direction == 'from'

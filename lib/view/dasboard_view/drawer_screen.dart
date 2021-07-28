@@ -1,4 +1,5 @@
 import 'package:Libmot_Mobile/controllers/user_repository.dart';
+import 'package:Libmot_Mobile/view/booking/check_booking_status.dart';
 import 'package:Libmot_Mobile/view/help_support/help_support_page.dart';
 import 'package:Libmot_Mobile/view/login/login_page.dart';
 import 'package:Libmot_Mobile/view/login/sign_up_page.dart';
@@ -131,7 +132,7 @@ class _DrawerScreenState extends State<DrawerScreen> {
                   icon: 'icons/coupons.png',
                   title: 'Check Booking Status',
                   onTap: () {
-                    Navigator.of(context).pushNamed("/checkBookingStatus");
+                    Get.to(CheckBooking());
                   },
                 ),
                 menuOption(

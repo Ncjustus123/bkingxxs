@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:Libmot_Mobile/Reusables/appBar.dart';
 import 'package:Libmot_Mobile/Reusables/buttons.dart';
 import 'package:Libmot_Mobile/Reusables/text_field.dart';
+import 'package:Libmot_Mobile/constants/constants.dart';
 import 'package:Libmot_Mobile/constants/dialogs/dialog.dart';
 import 'package:Libmot_Mobile/controllers/booking_repository.dart';
 import 'package:Libmot_Mobile/controllers/booking_status_repository.dart';
@@ -12,6 +13,7 @@ import 'package:Libmot_Mobile/view/dasboard_view/dashboard_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 // ignore: must_be_immutable
@@ -60,8 +62,7 @@ class _CheckBookingState extends State<CheckBooking> {
                         BorderRadius.vertical(top: Radius.circular(45))),
                 child: SingleChildScrollView(
                     child: loading
-                        ?
-                    Column(
+                        ? Column(
                             children: [
                               Form(
                                 key: _bookingForm,
@@ -88,34 +89,24 @@ class _CheckBookingState extends State<CheckBooking> {
                                     }
                                   })
                             ],
-                          ):
-                    Column(
+                          )
+                        : Column(
                             children: [
                               SizedBox(height: 10),
-                              getRow(
-                                  "Referral Code",
-                                  bookingResponse.object
-                                      .bookingReferenceCode),
+                              getRow("Referral Code",
+                                  bookingResponse.object.bookingReferenceCode),
                               divider,
-                              getRow("Name:",
-                                  bookingResponse.object.fullName),
+                              getRow("Name:", bookingResponse.object.fullName),
                               divider,
                               getRow(
-                                  "Route:",
-                                 bookingResponse.object.routeName),
+                                  "Route:", bookingResponse.object.routeName),
                               divider,
-                              getRow(
-                                  "Travel Date:",
-                                  bookingResponse.object.dateCreated),
+                              getRow("Travel Date:", date),
                               divider,
-                              getRow(
-                                  "Time:",
-                                  bookingResponse.object.dateCreated),
+                              getRow("Time:", time),
                               divider,
-                              getRow(
-                                  "Fare:",
-                                  bookingResponse.object.amount
-                                      .toString()),
+                              getRow("Fare:",
+                                  "${getNairaSign()}${bookingResponse.object.amount}"),
                               SizedBox(height: 40),
                               Buttons.coloredButton(
                                 context: context,
@@ -125,8 +116,7 @@ class _CheckBookingState extends State<CheckBooking> {
                                 },
                               ),
                             ],
-                          )
-                ),
+                          )),
               ),
             ),
           ],
@@ -135,6 +125,8 @@ class _CheckBookingState extends State<CheckBooking> {
     );
   }
 
+  String date;
+  String time;
   CheckBookingDetailsResponse bookingResponse = CheckBookingDetailsResponse();
 
   Future getBookingStatus(String bookingRef) async {
@@ -153,8 +145,14 @@ class _CheckBookingState extends State<CheckBooking> {
           bookingResponse = CheckBookingDetailsResponse.fromJson(responseData);
           loading = false;
         });
-        EasyLoading.dismiss();
+         print("mn");
+        print(bookingResponse.object.dateCreated);
 
+        var parsedtime = DateTime.parse(bookingResponse.object.dateCreated);
+        date = DateFormat('yMMMd').format(parsedtime).toString();
+        time = DateFormat('jm').format(parsedtime).toString();
+
+        EasyLoading.dismiss();
       }
     } else {
       EasyLoading.dismiss();
@@ -175,7 +173,7 @@ class _CheckBookingState extends State<CheckBooking> {
               flex: 2,
               child: Text(
                 value,
-                style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500),
+                style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500,fontFamily: "Monserrat",),
               )),
         ],
       ),
