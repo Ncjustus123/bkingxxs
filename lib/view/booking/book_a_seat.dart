@@ -36,12 +36,16 @@ class _BookASeatPageState extends State<BookASeatPage>
   List<String> departureOptions;
   List<int> departureIds;
   List<int> arrivalIds;
+  List<int> allArrivalIds;
   int indexOfRoute = 0;
   String tripOption = 'One Way';
   String selectedFrom = '';
   String selectedTo = '';
   int departureId;
   int arrivalId;
+  List<String> allArrivals;
+  
+
   @override
   Widget build(BuildContext context) {
     booking = Provider.of<BookingRepository>(context);
@@ -61,18 +65,19 @@ class _BookASeatPageState extends State<BookASeatPage>
               (RouteItems route) => route.id,
             )
             .toList();
-    arrivalIds = (booking.destinationTerminalModel == null)
+    allArrivalIds = (booking.destinationTerminalModel == null)
         ? []
         : booking.destinationTerminalModel.object
             .map(
               (DestinationObject object) => object.id,
             )
             .toList();
-    arrivalOptions = (booking.destinationTerminalModel == null)
+    allArrivals = (booking.destinationTerminalModel == null)
         ? []
         : booking.destinationTerminalModel.object
             .map((DestinationObject object) => object.name)
             .toList();
+            
     //TODO: show loading screen
     return Scaffold(
       key: _scaffoldKey,
@@ -334,7 +339,6 @@ class _BookASeatPageState extends State<BookASeatPage>
                                           .toString() ==
                                       '0')
                               ? Container()
-
                               : Buttons.coloredButton(
                                   context: context,
                                   title: "Search",
@@ -349,10 +353,10 @@ class _BookASeatPageState extends State<BookASeatPage>
                                     print(arrivaldateController.text);
                                     print(departuredateController.text);
                                     print(arrivaldateController.text);
-                                    if (depatureController.text == '')
-                                   {  Dialogs.showErrorSnackBar('Error!',
-                                          'Select a departure terminal');}
-                                    else
+                                    if (depatureController.text == '') {
+                                      Dialogs.showErrorSnackBar('Error!',
+                                          'Select a departure terminal');
+                                    } else
                                       searchBus();
                                   }),
                           SizedBox(height: 20),
@@ -475,6 +479,7 @@ class _BookASeatPageState extends State<BookASeatPage>
       departureId = id;
     });
     booking.getDestinationTerminals(departureId);
+    // filterNysc(arrivalOptions);
     print('depatureId' + departureId.toString());
     Get.back();
   }
@@ -484,14 +489,29 @@ class _BookASeatPageState extends State<BookASeatPage>
       selectedTo = option;
       arrivalController.text = selectedTo;
       arrivalId = id;
+      
     });
     Get.back();
     print("arrivalId" + arrivalId.toString());
   }
+  // filterNysc(arrivalOptions) {
+  //   if(nyscOption == 'general'){
+  //     setState(() {
+  //       arrivalOptions = allArrivals;
+  //     arrivalIds = allArrivalIds;
+  //     });
+      
+  //   }else{
+  //   if (allArrivals != null && allArrivals != []) {
+  //     arrivalOptions =
+  //         arrivalOptions.where((i) => i.contains("NYSC") || i == null).toList();
+  //   } else {}}
+  // }
 
   @override
   void afterFirstLayout(BuildContext context) {
     // TODO: implement afterFirstLayout
     booking.getAllRoute();
+   
   }
 }

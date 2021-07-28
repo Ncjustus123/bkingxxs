@@ -1,3 +1,4 @@
+import 'package:Libmot_Mobile/Reusables/appBar.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -10,20 +11,44 @@ class HelpSupportPage extends StatelessWidget {
   final liveChatUrl = "https://libmot.com";
   @override
   Widget build(BuildContext context) {
+    final _width = MediaQuery.of(context).size.width;
+    final _height = MediaQuery.of(context).size.height;
     return Scaffold(
-      body: SafeArea(
-          child: Column(
-        children: [
-          Text(initialText),
-          Divider(),
-          liveChat(),
-          callCustomerCare(),
-          emailCustomerCare(),
-          termsCondition(),
-          faqs(),
-          complaints(context),
-        ],
-      )),
+      body: Container(
+        decoration: BoxDecoration(
+          color: Theme.of(context).primaryColor,
+        ),
+        width: _width,
+        height: _height,
+        child: Column(
+          children: [
+            myAppBar(context, 'Help & Support'),
+            Expanded(
+              child: GestureDetector(
+                onTap: () {
+                  FocusScope.of(context).unfocus();
+                },
+                  child: Container(
+                     padding: const EdgeInsets.all(23.0),
+                  decoration: BoxDecoration(
+                      color: Theme.of(context).scaffoldBackgroundColor,
+                      borderRadius:
+                          BorderRadius.vertical(top: Radius.circular(45))),
+                child: Column(children: [
+                  Text(initialText),
+                  Divider(),
+                  liveChat(),
+                  callCustomerCare(),
+                  emailCustomerCare(),
+                  termsCondition(),
+                  faqs(),
+                  complaints(context),
+                ]),
+              )),
+            ),
+          ],
+        ),
+      ),
     );
   }
 

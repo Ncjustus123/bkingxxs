@@ -50,7 +50,6 @@ class _DashBoardScreen extends State<DashBoardScreen> {
                     : Color(0xFFFFFFF).withOpacity(0.2),
                 BlendMode.srcOver),
           ),
-          // color: Colors.white,
           borderRadius: isDrawerOpen
               ? BorderRadius.circular(40)
               : BorderRadius.circular(0),
@@ -159,7 +158,8 @@ class _DashBoardScreen extends State<DashBoardScreen> {
                                 color: Theme.of(context).primaryColor,
                                 title: 'Ticket Booking',
                                 onTap: () {
-                                  Get.to(() => BookASeatPage());
+                                  Get.to(() => BookASeatPage(),
+                                      arguments: {'nyscOption': "general"});
                                 },
                                 icon: Icon(
                                   Icons.airport_shuttle_outlined,
@@ -189,9 +189,7 @@ class _DashBoardScreen extends State<DashBoardScreen> {
                                 context: context,
                                 color: Color(0xFF359939),
                                 title: 'Become an Agent',
-                                onTap: () {
-                                  // Navigator.of(context).pushNamed(getTicketPage);
-                                },
+                                onTap: () {},
                                 icon: Icon(
                                   Icons.support_agent,
                                   color: Colors.white,
@@ -204,7 +202,8 @@ class _DashBoardScreen extends State<DashBoardScreen> {
                                 color: Color(0xFF0B5475),
                                 title: "Copper Wee",
                                 onTap: () {
-                                  // Navigator.of(context).pushNamed(getTicketPage);
+                                  Get.to(() => BookASeatPage(),
+                                      arguments: {'nyscOption': "nysc"});
                                 },
                                 icon: Icon(
                                   Icons.stream,
@@ -234,9 +233,7 @@ class _DashBoardScreen extends State<DashBoardScreen> {
                                 context: context,
                                 color: Color(0xFF95A19D),
                                 title: "Libmot Drive",
-                                onTap: () {
-                                  // Navigator.of(context).pushNamed(getTicketPage);
-                                },
+                                onTap: () {},
                                 icon: Icon(
                                   Icons.drive_eta_rounded,
                                   color: Colors.white,

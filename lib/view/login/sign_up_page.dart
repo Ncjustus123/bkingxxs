@@ -2,7 +2,9 @@ import 'package:Libmot_Mobile/Reusables/text_field.dart';
 import 'package:Libmot_Mobile/constants/constants.dart';
 import 'package:Libmot_Mobile/models/sign_up_model.dart';
 import 'package:Libmot_Mobile/controllers/user_repository.dart';
+import 'package:Libmot_Mobile/view/login/login_page.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:Libmot_Mobile/services/networking/internet_utils.dart';
 import 'package:Libmot_Mobile/constants/dialogs/dialog.dart';
@@ -73,13 +75,10 @@ class _SignUpPageState extends State<SignUpPage> {
                             padding: const EdgeInsets.only(bottom: 10),
                             child: Text("Sign Up",
                                 style: TextStyle(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 25)),
+                                    fontWeight: FontWeight.w500, fontSize: 25)),
                           ),
                           Text("Sign up with your email and password",
-                              style: TextStyle(
-                                  color: Colors.black54, fontSize: 13)),
+                              style: TextStyle(fontSize: 13)),
                           Center(
                             child: _formPage(user, context),
                           ),
@@ -98,183 +97,171 @@ class _SignUpPageState extends State<SignUpPage> {
 
   Widget _formPage(UserRepository user, context) {
     return SingleChildScrollView(
-      child: Form(
-        key: _formKeyLogin,
-        child: Column(
-          children: <Widget>[
-            SizedBox(height: 20),
-            TextFormFeildWidget(
-              obscureText: false,
-              controller: firstNamecontroller,
-              textCapitalization: TextCapitalization.words,
-              lableText: 'First Name',
-              validator: (value) {
-                if (value.isEmpty) {
-                  return 'Please input your Firstname';
-                }
-                return null;
-              },
-            ),
-            TextFormFeildWidget(
-              controller: lastNamecontroller,
-              obscureText: false,
-              lableText: 'Last Name',
-              textCapitalization: TextCapitalization.words,
-              validator: (value) {
-                if (value.isEmpty) {
-                  return 'Please input your Lastname';
-                }
-                return null;
-              },
-            ),
-            TextFormFeildWidget(
-              controller: emailcontroller,
-              lableText: "Email",
-              obscureText: false,
-              keyboardType: TextInputType.emailAddress,
-              validator: (value) {
-                if (value.isEmpty) {
-                  return 'Please input an email';
-                }
-                return null;
-              },
-            ),
-            TextFormFeildWidget(
-              obscureText: false,
-              lableText: "Phone number",
-              controller: phoneNumbercontroller,
-              keyboardType: TextInputType.phone,
-              validator: (value) {
-                if (value.isEmpty) {
-                  return 'Please input a phone number';
-                }
-                return null;
-              },
-            ),
-            TextFormFeildWidget(
-              lableText: "Gender",
-              obscureText: false,
-              textCapitalization: TextCapitalization.words,
-              controller: gendercontroller,
-              validator: (value) {
-                if (value.isEmpty) {
-                  return 'Please input gender';
-                }
-                return null;
-              },
-            ),
-            TextFormFeildWidget(
-              controller: passwordcontroller,
-              obscureText: _passwordVisible,
-              lableText: 'Password',
-              validator: (value) {
-                if (value.isEmpty) {
-                  return 'Please put in your Password';
-                }
-                return null;
-              },
-              prefixIcon: Icon(Icons.lock_outlined, color: Colors.grey),
-              suffixIcon: IconButton(
-                icon: Icon(
-                  _passwordVisible
-                      ? Icons.visibility_off_outlined
-                      : Icons.visibility_outlined,
-                  color: Colors.grey,
-                ),
-                onPressed: () {
-                  setState(() {
-                    _passwordVisible = !_passwordVisible;
-                  });
-                },
-              ),
-            ),
-            TextFormFeildWidget(
-              controller: confirmPasswordcontroller,
-              obscureText: _confirmPasswordVisible,
-              lableText: 'Confirm Password',
-              validator: (value) {
-                if (value.isEmpty) {
-                  return 'Please confirm the Password';
-                } else if (value != passwordcontroller.text) {
-                  return 'Password do not match';
-                }
-                return null;
-              },
-              prefixIcon: Icon(Icons.lock_outlined, color: Colors.grey),
-              suffixIcon: IconButton(
-                icon: Icon(
-                  _confirmPasswordVisible
-                      ? Icons.visibility_off_outlined
-                      : Icons.visibility_outlined,
-                  color: Colors.grey,
-                ),
-                onPressed: () {
-                  setState(() {
-                    _confirmPasswordVisible = !_confirmPasswordVisible;
-                  });
-                },
-              ),
-            ),
-            TextFormFeildWidget(
-              obscureText: false,
-              controller: referralcontroller,
-              lableText: "Referral code",
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            ButtonReusable(
-              name: "Sign Up",
-              onpressed: () async {
-                FocusScope.of(context).unfocus();
-                register(user, context);
-              },
-            ),
-            SizedBox(height: 25),
-            InkWell(
-              onTap: () {
-                Navigator.pop(context);
-                register(user, context);
-              },
-              child:
-                  Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                RichText(
-                    text: TextSpan(children: [
-                  TextSpan(
-                      text: "Already have an account?",
-                      style: TextStyle(color: Colors.grey, fontSize: 13)),
-                  TextSpan(
-                      text: " Sign In",
-                      style: TextStyle(color: Colors.black, fontSize: 14)),
-                ])),
-              ]),
-            ),
-          ],
+        child: Form(
+      key: _formKeyLogin,
+      child: Column(children: <Widget>[
+        SizedBox(height: 20),
+        TextFormFeildWidget(
+          obscureText: false,
+          controller: firstNamecontroller,
+          textCapitalization: TextCapitalization.words,
+          lableText: 'First Name',
+          validator: (value) {
+            if (value.isEmpty) {
+              return 'Please input your Firstname';
+            }
+            return null;
+          },
         ),
-      ),
-    );
+        TextFormFeildWidget(
+          controller: lastNamecontroller,
+          obscureText: false,
+          lableText: 'Last Name',
+          textCapitalization: TextCapitalization.words,
+          validator: (value) {
+            if (value.isEmpty) {
+              return 'Please input your Lastname';
+            }
+            return null;
+          },
+        ),
+        TextFormFeildWidget(
+          controller: emailcontroller,
+          lableText: "Email",
+          obscureText: false,
+          keyboardType: TextInputType.emailAddress,
+          validator: (value) {
+            if (value.isEmpty) {
+              return 'Please input an email';
+            }
+            return null;
+          },
+        ),
+        TextFormFeildWidget(
+          obscureText: false,
+          lableText: "Phone number",
+          controller: phoneNumbercontroller,
+          keyboardType: TextInputType.phone,
+          validator: (value) {
+            if (value.isEmpty) {
+              return 'Please input a phone number';
+            }
+            return null;
+          },
+        ),
+        TextFormFeildWidget(
+          lableText: "Gender",
+          obscureText: false,
+          textCapitalization: TextCapitalization.words,
+          controller: gendercontroller,
+          validator: (value) {
+            if (value.isEmpty) {
+              return 'Please input gender';
+            }
+            return null;
+          },
+        ),
+        TextFormFeildWidget(
+          controller: passwordcontroller,
+          obscureText: _passwordVisible,
+          lableText: 'Password',
+          validator: (value) {
+            if (value.isEmpty) {
+              return 'Please put in your Password';
+            }
+            return null;
+          },
+          prefixIcon: Icon(Icons.lock_outlined, color: Colors.grey),
+          suffixIcon: IconButton(
+            icon: Icon(
+              _passwordVisible
+                  ? Icons.visibility_off_outlined
+                  : Icons.visibility_outlined,
+              color: Colors.grey,
+            ),
+            onPressed: () {
+              setState(() {
+                _passwordVisible = !_passwordVisible;
+              });
+            },
+          ),
+        ),
+        TextFormFeildWidget(
+          controller: confirmPasswordcontroller,
+          obscureText: _confirmPasswordVisible,
+          lableText: 'Confirm Password',
+          validator: (value) {
+            if (value.isEmpty) {
+              return 'Please confirm the Password';
+            } else if (value != passwordcontroller.text) {
+              return 'Password do not match';
+            }
+            return null;
+          },
+          prefixIcon: Icon(Icons.lock_outlined, color: Colors.grey),
+          suffixIcon: IconButton(
+            icon: Icon(
+              _confirmPasswordVisible
+                  ? Icons.visibility_off_outlined
+                  : Icons.visibility_outlined,
+              color: Colors.grey,
+            ),
+            onPressed: () {
+              setState(() {
+                _confirmPasswordVisible = !_confirmPasswordVisible;
+              });
+            },
+          ),
+        ),
+        TextFormFeildWidget(
+          obscureText: false,
+          controller: referralcontroller,
+          lableText: "Referral code",
+        ),
+        SizedBox(
+          height: 20,
+        ),
+        ButtonReusable(
+          name: "Sign Up",
+          onpressed: () async {
+            FocusScope.of(context).unfocus();
+            register(user, context);
+          },
+        ),
+        SizedBox(height: 20),
+        InkWell(
+            onTap: () {
+              Navigator.pop(context);
+              Get.to(LoginPage());
+            },
+            child: Text(
+              "Already have an account? Sign In",
+            )),
+            SizedBox(height: 8),
+      ]),
+    ));
   }
 
   register(UserRepository user, context) async {
     if (await InternetUtils.checkConnectivity()) {
       if (_formKeyLogin.currentState.validate()) {
-
         // showLoading(
-      //     progressColor: Colors.red,
-      //     indicatorColor: Colors.red,
-      //     backgroundColor: Colors.white,
-      //     textColor: Colors.red,
-      //     indicatorType: EasyLoadingIndicatorType.foldingCube,
-      //     status: "\nSubmitting.....");
+        //     progressColor: Colors.red,
+        //     indicatorColor: Colors.red,
+        //     backgroundColor: Colors.white,
+        //     textColor: Colors.red,
+        //     indicatorType: EasyLoadingIndicatorType.foldingCube,
+        //     status: "\nSubmitting.....");
 
-      Map requestObject = SignUpCustomersObject(
-        firstName: firstNamecontroller.text,
-        lastName: lastNamecontroller.text,
-        email: emailcontroller.text,
-        referralCode: referralcontroller.text==''?null:referralcontroller.text,
-        password: passwordcontroller.text,
-        phoneNumber: phoneNumbercontroller.text,
-      ).toJson();
+        Map requestObject = SignUpCustomersObject(
+          firstName: firstNamecontroller.text,
+          lastName: lastNamecontroller.text,
+          email: emailcontroller.text,
+          referralCode:
+              referralcontroller.text == '' ? null : referralcontroller.text,
+          password: passwordcontroller.text,
+          phoneNumber: phoneNumbercontroller.text,
+        ).toJson();
         await user.signUpCustomer(context, requestObject);
         // if (user.loggedInStatus == LoggedInStatus.LoggedIn) {
         //   // Navigator.of(context).pushNamed(dashboardPage);

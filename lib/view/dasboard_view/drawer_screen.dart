@@ -1,22 +1,26 @@
 import 'package:Libmot_Mobile/controllers/user_repository.dart';
+import 'package:Libmot_Mobile/view/help_support/help_support_page.dart';
 import 'package:Libmot_Mobile/view/login/login_page.dart';
 import 'package:Libmot_Mobile/view/login/sign_up_page.dart';
+import 'package:Libmot_Mobile/view/rate_us_page/rate_us.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:Libmot_Mobile/view/login/profile_page.dart';
+import 'package:rate_my_app/rate_my_app.dart';
 import 'package:share/share.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class DrawerScreen extends StatefulWidget {
-  DrawerScreen({@required this.name});
+  DrawerScreen({
+    @required this.name,
+    this.rateMyApp,
+  });
 
   final String name;
   static final loginpage = "/login";
-   String text = '';
-  String subject = '';
-  List<String> imagePaths = [];
-
+  final RateMyApp rateMyApp;
   @override
   _DrawerScreenState createState() => _DrawerScreenState();
 }
@@ -25,7 +29,6 @@ class _DrawerScreenState extends State<DrawerScreen> {
   static getInitial(String name) => name.isNotEmpty
       ? name.trim().split(' ').map((l) => l[0]).take(2).join()
       : '';
-
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<UserRepository>(context);
@@ -139,7 +142,9 @@ class _DrawerScreenState extends State<DrawerScreen> {
                 menuOption(
                   icon: 'icons/help.png',
                   title: 'Help & Support',
-                  onTap: () {},
+                  onTap: () {
+                    Get.to(HelpSupportPage());
+                  },
                 ),
                 user.profile == null
                     ? SizedBox()
@@ -151,12 +156,16 @@ class _DrawerScreenState extends State<DrawerScreen> {
                 menuOption(
                   icon: 'icons/rate us.png',
                   title: 'Rate Us',
-                  onTap: () {},
+                  onTap: () {
+                    launch("https://play.google.com/store/apps/details?id=com.libramotors.libmot");
+                  },
                 ),
                 menuOption(
                   icon: 'icons/share.png',
                   title: 'Share App',
-                  onTap: () {},
+                  onTap: () {
+                    _onShare(context);
+                  },
                 ),
                 SizedBox(
                   height: 15,
@@ -190,27 +199,14 @@ class _DrawerScreenState extends State<DrawerScreen> {
       ),
     );
   }
-  _onShare(BuildContext context) async {
-    // A builder is used to retrieve the context immediately
-    // surrounding the ElevatedButton.
-    //
-    // The context's `findRenderObject` returns the first
-    // RenderObject in its descendent tree when it's not
-    // a RenderObjectWidget. The ElevatedButton's RenderObject
-    // has its position and size after it's built.
-    final RenderBox box = context.findRenderObject() as RenderBox;
 
-    if (imagePaths.isNotEmpty) {
-      await Share.shareFiles(imagePaths,
-          text: "text",
-          subject: "subject",
-          sharePositionOrigin: box.localToGlobal(Offset.zero) & box.size);
-    } else {
-      await Share.share("text",
-          subject: "subject",
-          sharePositionOrigin: box.localToGlobal(Offset.zero) & box.size);
-    }
+  _onShare(BuildContext context) async {
+    final RenderBox box = context.findRenderObject() as RenderBox;
+    await Share.share("...",
+        subject: "subject",
+        sharePositionOrigin: box.localToGlobal(Offset.zero) & box.size);
   }
+
   InkWell menuOption({icon, onTap, title}) {
     return InkWell(
       onTap: onTap,
