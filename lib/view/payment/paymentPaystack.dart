@@ -317,7 +317,7 @@ class _PaymentPaystackState extends State<PaymentPaystack> {
 
       dialog(context, "Payment Successful",
           "Your booking 0f ${getNairaSign()}${booking.totalestimate} was successful",
-          () {
+          onpressed: () {
         Get.to(BookingConfirmation());
       });
     } else {

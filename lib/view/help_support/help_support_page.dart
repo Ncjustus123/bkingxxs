@@ -29,13 +29,16 @@ class HelpSupportPage extends StatelessWidget {
                   FocusScope.of(context).unfocus();
                 },
                   child: Container(
-                     padding: const EdgeInsets.all(23.0),
+                     padding: const EdgeInsets.fromLTRB(10,25,20,20),
                   decoration: BoxDecoration(
                       color: Theme.of(context).scaffoldBackgroundColor,
                       borderRadius:
                           BorderRadius.vertical(top: Radius.circular(45))),
                 child: Column(children: [
-                  Text(initialText),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(15,10,15,0),
+                    child: Text(initialText,textAlign: TextAlign.center,),
+                  ),
                   Divider(),
                   liveChat(),
                   callCustomerCare(),

@@ -44,6 +44,7 @@ class HireBusModel {
     data['nextOfKinPhoneNumber'] = this.nextOfKinPhoneNumber;
     data['numberOfBuses'] = this.numberOfBuses;
     data['departureDate'] = this.departureDate;
+    data['requestDate'] = this.requestDate;
     data['departure'] = this.departure;
     data['departure'] = this.departure;
     data['destination'] = this.destination;

@@ -58,6 +58,7 @@ class ApiCalls {
   Future<http.Response> postHireBus(Map<String, dynamic> body) async {
     final header = await init();
     final url = Uri.parse(baseInstance.base.baseUrl + EndPoints.postHireBus);
+    print(url);
     final response =
         await http.post(url, body: json.encode(body), headers: header);
     return response;

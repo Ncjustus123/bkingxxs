@@ -1,6 +1,8 @@
 import 'package:Libmot_Mobile/Reusables/appBar.dart';
+import 'package:Libmot_Mobile/Reusables/buttons.dart';
 import 'package:Libmot_Mobile/controllers/booking_status_repository.dart';
 import 'package:Libmot_Mobile/controllers/user_repository.dart';
+import 'package:Libmot_Mobile/view/dasboard_view/dashboard_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -77,22 +79,57 @@ class _BookingHistoryDetailState extends State<BookingHistoryDetail> {
                           padding: const EdgeInsets.all(8.0),
                           child: Column(
                             children: [
-                              Text('BOOKING DETAIL', style: TextStyle(fontWeight: FontWeight.w600,fontSize: 15),),
-                              Text('$bookingType', style: TextStyle(color: Colors.black54),),
+                              Text(
+                                'BOOKING DETAIL',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.w600, fontSize: 15),
+                              ),
+                              Text(
+                                '$bookingType',
+                                style: TextStyle(color: Colors.black54),
+                              ),
                             ],
                           ),
                         ),
-                        detailItem('Departure Terminal','${SplitTerminal.getInitials(route)}'),
-                        detailItem('Arrival Terminal','${SplitTerminal.getLast(route)}'),
-                        detailItem('Departure Date',departureDate),
-                        detailItem('Arrival Date',arrivalDate),
-                        detailItem('Time',time),
-                        detailItem('Seat Number',seatNumber),
-                        detailItem('Phone Number',phone),
-                        detailItem('Name',name),
-                        detailItem('Next of Kin',nextOfKinName),
-                        detailItem('Reference code',reference),
-                        detailItem('Status',status),
+                        detailItem('Departure Terminal',
+                            '${SplitTerminal.getInitials(route)}'),
+                        detailItem('Arrival Terminal',
+                            '${SplitTerminal.getLast(route)}'),
+                        detailItem('Departure Date', departureDate),
+                        detailItem('Arrival Date', arrivalDate),
+                        detailItem('Time', time),
+                        detailItem('Seat Number', seatNumber),
+                        detailItem('Phone Number', phone),
+                        detailItem('Name', name),
+                        detailItem('Next of Kin', nextOfKinName),
+                        detailItem('Reference code', reference),
+                        detailItem('Status', status),
+                        SizedBox(height: 25),
+
+                        Buttons.coloredButton(
+                            context: context,
+                            title: 'Go Home',
+                            onTap: () {
+                              Get.to(() => DashboardPage());
+                            }),
+                        SizedBox(height: 15),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: RichText(
+                            text: TextSpan(children: [
+                              TextSpan(
+                                text: "Have any complain?",
+                                style: TextStyle(color: Colors.black54),
+                              ),
+                              TextSpan(
+                                text: " Reach us.",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.w600,
+                                    color: Theme.of(context).primaryColor),
+                              ),
+                            ]),
+                          ),
+                        ),
                       ],
                     ),
                   )),
@@ -103,15 +140,20 @@ class _BookingHistoryDetailState extends State<BookingHistoryDetail> {
     );
   }
 
-  Padding detailItem(title,desc) {
+  Padding detailItem(title, desc) {
     return Padding(
-                        padding: const EdgeInsets.fromLTRB(20,5,20,5),
-                        child: Row(
-                          children: [
-                            Expanded(child: Text('$title')),
-                            Expanded(child: Text( '$desc',textAlign:TextAlign.justify,style: TextStyle(fontWeight: FontWeight.w600),)),
-                          ],
-                        ),
-                      );
+      padding: const EdgeInsets.fromLTRB(20, 5, 20, 5),
+      child: Row(
+        children: [
+          Expanded(child: Text('$title')),
+          Expanded(
+              child: Text(
+            '$desc',
+            textAlign: TextAlign.justify,
+            style: TextStyle(fontWeight: FontWeight.w600),
+          )),
+        ],
+      ),
+    );
   }
 }

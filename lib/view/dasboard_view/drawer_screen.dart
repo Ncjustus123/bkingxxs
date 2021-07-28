@@ -1,27 +1,22 @@
 import 'package:Libmot_Mobile/controllers/user_repository.dart';
-import 'package:Libmot_Mobile/view/booking/check_booking_status.dart';
+import 'package:Libmot_Mobile/view/booking/booking_history.dart';
 import 'package:Libmot_Mobile/view/help_support/help_support_page.dart';
 import 'package:Libmot_Mobile/view/login/login_page.dart';
 import 'package:Libmot_Mobile/view/login/sign_up_page.dart';
-import 'package:Libmot_Mobile/view/rate_us_page/rate_us.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:Libmot_Mobile/view/login/profile_page.dart';
-import 'package:rate_my_app/rate_my_app.dart';
 import 'package:share/share.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class DrawerScreen extends StatefulWidget {
-  DrawerScreen({
-    @required this.name,
-    this.rateMyApp,
-  });
+  DrawerScreen({@required this.name});
 
   final String name;
   static final loginpage = "/login";
-  final RateMyApp rateMyApp;
+
   @override
   _DrawerScreenState createState() => _DrawerScreenState();
 }
@@ -30,6 +25,19 @@ class _DrawerScreenState extends State<DrawerScreen> {
   static getInitial(String name) => name.isNotEmpty
       ? name.trim().split(' ').map((l) => l[0]).take(2).join()
       : '';
+
+  String text = 'Libra Motors';
+  String subject =
+      'I travel conveniently with Libra Motors,\nYou can make booking online using the web https://libmot.com/ , or get the mobile app on\n\nAndroid playstore https://play.google.com/store/apps/details?id=com.libramotors.libmot&hl=en&gl=US or\n\niOS appstore https://apps.apple.com/ng/app/libmot-com/id1463064075';
+
+  _onShare({context}) async {
+    final RenderBox box = context.findRenderObject() as RenderBox;
+
+    await Share.share(subject,
+        subject: subject,
+        sharePositionOrigin: box.localToGlobal(Offset.zero) & box.size);
+  }
+
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<UserRepository>(context);
@@ -87,10 +95,10 @@ class _DrawerScreenState extends State<DrawerScreen> {
                           context,
                           MaterialPageRoute(
                               builder: (BuildContext context) => ProfilePage(
-                                    name: user.profile != null
-                                        ? '${user.profile.object.lastName ?? 'Guest'}'
-                                        : 'Guest',
-                                  )));
+                                name: user.profile != null
+                                    ? '${user.profile.object.lastName ?? 'Guest'}'
+                                    : 'Guest',
+                              )));
                     },
                     child: Text(
                       '${toBeginningOfSentenceCase(widget.name ?? 'Guest')}',
@@ -101,113 +109,133 @@ class _DrawerScreenState extends State<DrawerScreen> {
               ),
             ),
             SizedBox(height: 40),
-            Column(
-              children: <Widget>[
-                user.profile == null
-                    ? menuOption(
-                        icon: 'icons/login.jpg',
-                        title: 'Log in',
-                        onTap: () {
-                          Get.offAll(LoginPage());
-                        },
-                      )
-                    : SizedBox(),
-                user.profile == null
-                    ? SizedBox()
-                    : menuOption(
-                        icon: 'icons/history.png',
-                        title: 'Booking History',
-                        onTap: () {},
-                      ),
-                user.profile == null
-                    ? menuOption(
-                        icon: 'icons/signup.png',
-                        title: 'Sign Up',
-                        onTap: () {
-                          Get.offAll(SignUpPage());
-                        },
-                      )
-                    : SizedBox(),
-                menuOption(
-                  icon: 'icons/coupons.png',
-                  title: 'Check Booking Status',
-                  onTap: () {
-                    Get.to(CheckBooking());
-                  },
-                ),
-                menuOption(
-                  icon: 'icons/notification.png',
-                  title: 'Notification',
-                  onTap: () {},
-                ),
-                menuOption(
-                  icon: 'icons/help.png',
-                  title: 'Help & Support',
-                  onTap: () {
-                    Get.to(HelpSupportPage());
-                  },
-                ),
-                user.profile == null
-                    ? SizedBox()
-                    : menuOption(
-                        icon: 'icons/coupons.png',
-                        title: 'My Coupons',
-                        onTap: () {},
-                      ),
-                menuOption(
-                  icon: 'icons/rate us.png',
-                  title: 'Rate Us',
-                  onTap: () {
-                    launch("https://play.google.com/store/apps/details?id=com.libramotors.libmot");
-                  },
-                ),
-                menuOption(
-                  icon: 'icons/share.png',
-                  title: 'Share App',
-                  onTap: () {
-                    _onShare(context);
-                  },
-                ),
-                SizedBox(
-                  height: 15,
-                ),
-              ],
+            Expanded(
+              child: Column(
+                children: <Widget>[
+                  user.profile == null
+                      ? menuOption(
+                    icon: 'icons/login.jpg',
+                    title: 'Log in',
+                    onTap: () {
+                      Get.offAll(() => LoginPage());
+                    },
+                  )
+                      : SizedBox(),
+                  user.profile == null
+                      ? SizedBox()
+                      : menuOption(
+                    icon: 'icons/history.png',
+                    title: 'Booking History',
+                    onTap: () {
+                      Get.to(() => BookingHistory());
+                    },
+                  ),
+                  user.profile == null
+                      ? menuOption(
+                    icon: 'icons/signup.png',
+                    title: 'Sign Up',
+                    onTap: () {
+                      Get.offAll(() => SignUpPage());
+                    },
+                  )
+                      : SizedBox(),
+                  menuOption(
+                    icon: 'icons/coupons.png',
+                    title: 'Check Booking Status',
+                    onTap: () {
+                      Navigator.of(context).pushNamed("/checkBookingStatus");
+                    },
+                  ),
+                  menuOption(
+                    icon: 'icons/notification.png',
+                    title: 'Notification',
+                    onTap: () {},
+                  ),
+                  menuOption(
+                    icon: 'icons/help.png',
+                    title: 'Help & Support',
+                    onTap: () {
+                      Get.to(() => HelpSupportPage());
+
+                    },
+                  ),
+                  user.profile == null
+                      ? SizedBox()
+                      : menuOption(
+                    icon: 'icons/coupons.png',
+                    title: 'My Coupons',
+                    onTap: () {},
+                  ),
+                  menuOption(
+                    icon: 'icons/rate us.png',
+                    title: 'Rate Us',
+                    onTap: () {                    launch("https://play.google.com/store/apps/details?id=com.libramotors.libmot");
+                    },
+                  ),
+                  menuOption(
+                    icon: 'icons/share.png',
+                    title: 'Share App',
+                    onTap: () {
+                      _onShare(context: context);
+                    },
+                  ),
+                  SizedBox(
+                    height: 15,
+                  ),
+                ],
+              ),
             ),
             user.profile == null
                 ? SizedBox()
                 : Row(
-                    children: [
-                      Expanded(
-                        child: InkWell(
-                          onTap: () {
-                            print("log out");
-                            user.logout();
-                          },
-                          child: Container(
-                            decoration: BoxDecoration(color: Colors.black),
-                            child: Padding(
-                              padding: const EdgeInsets.all(17.0),
-                              child: Text(
-                                'Log out',
-                                style: TextStyle(color: Colors.white),
-                              ),
-                            ),
-                          ),
+              children: [
+                Expanded(
+                  child: InkWell(
+                    onTap: () {
+                      print("log out");
+                      user.logout();
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(color: Colors.black),
+                      child: Padding(
+                        padding: const EdgeInsets.all(17.0),
+                        child: Text(
+                          'Log out',
+                          style: TextStyle(color: Colors.white),
                         ),
                       ),
-                    ],
+                    ),
                   ),
+                ),
+              ],
+            ),
+            // Row(
+            //   children: <Widget>[
+            //     Icon(
+            //       Icons.logout,
+            //       color: Colors.white.withOpacity(0.5),
+            //     ),
+            //     SizedBox(
+            //       width: 10,
+            //     ),
+            //     GestureDetector(
+            //       onTap: () {
+            //         user.logout();
+            //         if (user.loggedInStatus == LoggedInStatus.LoggedOut) {
+            //           Navigator.of(context).pushNamed("/welcome");
+            //         }
+            //       },
+            //       child: Text(
+            //         'Log out',
+            //         style: TextStyle(color: Colors.white.withOpacity(0.5)),
+            //       ),
+            //     )
+            //   ],
+            // )
           ],
         ),
       ),
     );
-  }
-
-  _onShare(BuildContext context) async {
-    final RenderBox box = context.findRenderObject() as RenderBox;
-    await Share.share("...",
-        subject: "subject",
-        sharePositionOrigin: box.localToGlobal(Offset.zero) & box.size);
   }
 
   InkWell menuOption({icon, onTap, title}) {
@@ -232,9 +260,9 @@ class _DrawerScreenState extends State<DrawerScreen> {
             SizedBox(width: 15),
             Expanded(
                 child: Text(
-              title,
-              style: TextStyle(fontSize: 16),
-            )),
+                  title,
+                  style: TextStyle(fontSize: 16),
+                )),
           ],
         ),
       ),

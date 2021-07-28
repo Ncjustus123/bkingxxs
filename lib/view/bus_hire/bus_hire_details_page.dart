@@ -1,17 +1,18 @@
-
-
 import 'package:Libmot_Mobile/Reusables/appBar.dart';
 import 'package:Libmot_Mobile/Reusables/buttons.dart';
 import 'package:Libmot_Mobile/constants/constants.dart';
+import 'package:Libmot_Mobile/controllers/booking_repository.dart';
 import 'package:Libmot_Mobile/controllers/hire_bus_repository.dart';
 import 'package:Libmot_Mobile/constants/dialogs/dialog.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 // ignore: must_be_immutable
 class BusHIreDetailsPage extends StatelessWidget {
   final _formKeyBusHireDetail = GlobalKey<FormState>();
-  final fullNameController = TextEditingController();
+  final firstNameController = TextEditingController();
   final lastNameController = TextEditingController();
   final phoneNumberController = TextEditingController();
   final emailController = TextEditingController();
@@ -43,7 +44,6 @@ class BusHIreDetailsPage extends StatelessWidget {
                 FocusScope.of(context).unfocus();
               },
               child: Container(
-                padding: const EdgeInsets.all(15.0),
                 decoration: BoxDecoration(
                     color: Theme.of(context).scaffoldBackgroundColor,
                     borderRadius:
@@ -52,7 +52,35 @@ class BusHIreDetailsPage extends StatelessWidget {
                 child: SingleChildScrollView(
                   child: Column(
                     children: [
-                      _formPage(context),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(25, 10, 25, 0),
+                        child: Container(
+                          decoration: BoxDecoration(
+                              color: Theme.of(context).scaffoldBackgroundColor,
+                              borderRadius: BorderRadius.circular(5),
+                              boxShadow: <BoxShadow>[
+                                BoxShadow(
+                                    color: Colors.grey.shade500,
+                                    offset: Offset(0.4, 0.4),
+                                    blurRadius: 1)
+                              ]),
+                          child: Column(
+                            children: [
+                              SizedBox(
+                                height: 10,
+                              ),
+                              hireItem('DEPARTURE', hireBus.hireBus.departure),
+                              hireItem('ARRIVAL', hireBus.hireBus.destination),
+                              hireItem(
+                                  'DATE NEEDED', hireBus.hireBus.departureDate),
+                            ],
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(15.0),
+                        child: _formPage(context),
+                      ),
                     ],
                   ),
                 ),
@@ -67,21 +95,24 @@ class BusHIreDetailsPage extends StatelessWidget {
   Widget _formPage(context) {
     return SingleChildScrollView(
       child: Form(
+        key: _formKeyBusHireDetail,
         child: Column(children: [
-          SizedBox(
-            height: 10,
-          ),
-          Text(
-            "Destination: Lagos to PH  Date: June 12",
-            style: textStyle2,
-          ),
-          SizedBox(
-            height: 10,
+          SizedBox(height: 5),
+          TextFormFieldWidget(
+            obscureText: false,
+            controller: firstNameController,
+            labelText: 'First Name',
+            validator: (value) {
+              if (value.isEmpty) {
+                return 'Please input your FullName';
+              }
+              return null;
+            },
           ),
           TextFormFieldWidget(
             obscureText: false,
-            controller: fullNameController,
-            labelText: 'Full Name',
+            controller: lastNameController,
+            labelText: 'Last Name',
             validator: (value) {
               if (value.isEmpty) {
                 return 'Please input your FullName';
@@ -103,7 +134,7 @@ class BusHIreDetailsPage extends StatelessWidget {
           ),
           TextFormFieldWidget(
             obscureText: false,
-            controller: numBusesController,
+            controller: emailController,
             keyboardType: TextInputType.emailAddress,
             labelText: 'Email',
             validator: (value) {
@@ -115,7 +146,7 @@ class BusHIreDetailsPage extends StatelessWidget {
           ),
           TextFormFieldWidget(
             obscureText: false,
-            controller: phoneNumberController,
+            controller: numBusesController,
             keyboardType: TextInputType.number,
             labelText: 'Number of Buses',
             validator: (value) {
@@ -166,42 +197,62 @@ class BusHIreDetailsPage extends StatelessWidget {
               context: context,
               title: "Get A Quote",
               onTap: () {
-                dialog(
-                    context,
-                    'Thank You Taiwo',
-                    "We are processing your request. A member of our team will get in toudh with you soon.\n\n"
-                        "For quick information you can send an email to support@libmot.com or call +2349031565022\n\n"
-                        "Thank you for choosing LIBMOT.COM",
-                    () {});
+                String today =
+                    ('${DateTime.now().year}-${DateTime.now().month}-${DateTime.now().day + 1}')
+                        .toString();
+                print(today);
+                if (_formKeyBusHireDetail.currentState.validate()) {
+                  _formKeyBusHireDetail.currentState.save();
+                  showFetchingData('Making Reservation\nPlease wait');
+
+                  hireBus.hireBus.firstName = firstNameController.text;
+                  hireBus.hireBus.lastName = lastNameController.text;
+                  hireBus.hireBus.email = emailController.text;
+                  hireBus.hireBus.phoneNumber = phoneNumberController.text;
+                  hireBus.hireBus.numberOfBuses =
+                      int.tryParse(numBusesController.text);
+                  hireBus.hireBus.nextOfKinName = nextKinNameController.text;
+                  hireBus.hireBus.nextOfKinPhoneNumber =
+                      nextKinPhoneController.text;
+                  hireBus.hireBus.address = "";
+                  hireBus.hireBus.gender = "";
+                  hireBus.hireBus.middleName = "";
+                  hireBus.hireBus.requestDate = today;
+
+                  hireBus.hireBus.departureDate = hireBus.hireBus.departureDate;
+                  print(hireBus.hireBus.toJson());
+                  hireBus.postHireBus(context,name:hireBus.hireBus.firstName);
+                }
+
+                // dialog(
+                //     context,
+                //     'Thank You Taiwo',
+                //     "We are processing your request. A member of our team will get in toudh with you soon.\n\n"
+                //         "For quick information you can send an email to support@libmot.com or call +2349031565022\n\n"
+                //         "Thank you for choosing LIBMOT.COM", () {
+                //   Get.back();
+                // });
               }),
         ]),
       ),
     );
   }
 
-  // Widget getAQuote() {
-  //   return ElevatedButton(
-  //     child: Text("Get a Quote"),
-  //     onPressed: () {
-  //       if (_formKeyBusHireDetail.currentState.validate()) {
-  //         hireBus.hireBus.firstName = firstNameController.text;
-  //         hireBus.hireBus.lastName = lastNameController.text;
-  //         hireBus.hireBus.email = emailController.text;
-  //         hireBus.hireBus.phoneNumber = phoneNumberController.text;
-  //         hireBus.hireBus.numberOfBuses = int.tryParse(numBusesController.text);
-  //         hireBus.hireBus.nextOfKinName = nextKinNameController.text;
-  //         hireBus.hireBus.nextOfKinPhoneNumber = nextKinPhoneController.text;
-  //         hireBus.hireBus.address = "";
-  //         hireBus.hireBus.gender = "";
-  //         hireBus.hireBus.middleName = "";
-  //         hireBus.hireBus.requestDate = hireBus.hireBus.departureDate;
-  //         //'${DateFormat('dd MMMM yyyy').format(DateTime.now())}';
-
-  //         hireBus.hireBus.requestDate = "12 March, 2021";
-  //         hireBus.hireBus.departureDate = "12 March, 2021";
-  //         hireBus.postHireBus();
-  //       }
-  //     },
-  //   );
-  // }
+  Padding hireItem(title, desc) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Row(
+        children: [
+          Expanded(
+              child: Text(
+            '$title : ',
+            textAlign: TextAlign.right,
+            style: TextStyle(fontWeight: FontWeight.w600),
+          )),
+          SizedBox(width: 10),
+          Expanded(child: Text('$desc')),
+        ],
+      ),
+    );
+  }
 }

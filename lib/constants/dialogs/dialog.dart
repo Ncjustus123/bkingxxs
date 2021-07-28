@@ -5,7 +5,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:Libmot_Mobile/constants/Buttons/buttons.dart';
 
-dialog(context, String title, content, onpressed) {
+dialog(context, String title, content, {onpressed}) {
   showDialog(
     context: context,
     barrierDismissible: false,
@@ -14,45 +14,53 @@ dialog(context, String title, content, onpressed) {
         margin: EdgeInsets.all(10),
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10), color: Colors.white),
-        height: 300,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
+
+        child: Wrap(
+          // mainAxisAlignment: MainAxisAlignment.center,
+          // crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             SizedBox(
               height: 10,
             ),
-            Icon(
-              Icons.check_circle,
-              color: Colors.green,
-              size: 90,
+            Center(
+              child: Icon(
+                Icons.check_circle,
+                color: Colors.green,
+                size: 90,
+              ),
             ),
             SizedBox(
               height: 10,
             ),
-            Text(
-              title,
-              style: TextStyle(
-                  fontWeight: FontWeight.normal,
-                  fontSize: 15,
-                  color: Colors.black),
+            Center(
+              child: Text(
+                title,
+                style: TextStyle(
+                    fontWeight: FontWeight.normal,
+                    fontSize: 15,
+                    color: Colors.black),
+              ),
             ),
             SizedBox(
               height: 10,
             ),
-            Text(
-              content,
-              style: TextStyle(
-                  fontSize: 13, color: Colors.black, fontFamily: 'Monserrat'),
-              textAlign: TextAlign.center,
+            Center(
+              child: Text(
+                content,
+                style: TextStyle(
+                    fontSize: 13, color: Colors.black, fontFamily: 'Monserrat'),
+                textAlign: TextAlign.center,
+              ),
             ),
             SizedBox(
               height: 10,
             ),
             Spacer(),
-            SmallButtonReusable(
-              name: "Okay",
-              onpressed: onpressed,
+            Center(
+              child: SmallButtonReusable(
+                name: "Okay",
+                onpressed: onpressed,
+              ),
             ),
           ],
         ),

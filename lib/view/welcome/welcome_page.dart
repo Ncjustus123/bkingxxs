@@ -82,8 +82,8 @@ class _WelcomePageState extends State<WelcomePage>
                 //   ),
                 // ),
                 Text("LIBMOT",
-                    style: GoogleFonts.libreBaskerville(
-                        color: Colors.red,
+                    style: GoogleFonts.archivo(
+                        color: Theme.of(context).primaryColor,
                         fontWeight: FontWeight.bold,
                         fontSize: 50)),
                 //
