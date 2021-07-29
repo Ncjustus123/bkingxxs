@@ -119,6 +119,7 @@ class BookingRepository with ChangeNotifier {
       return null;
     }
   }
+   
 
   getDestinationTerminals(int id) async {
     showFetchingData('Fetching destination');

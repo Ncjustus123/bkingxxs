@@ -273,7 +273,7 @@ class _PaymentPaystackState extends State<PaymentPaystack> {
 
   void initializePayment(Charge c, context) async {
     print(c.card.number);
-    final response = await plugin.chargeCard(context, charge: c);
+    final response = await plugin.checkout(context, charge: c);
     print('response');
     //if message: Duplicate Transaction Reference, show a snackbarr
     print(response);

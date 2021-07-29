@@ -57,7 +57,6 @@ class _BookingHistoryState extends State<BookingHistory> {
         });
       } else {
         EasyLoading.dismiss();
-
         print(responseData['object'][0]);
         print(responseData['object'].length);
         setState(() {
@@ -143,6 +142,7 @@ class _BookingHistoryState extends State<BookingHistory> {
                                                 ),
                                                 Text(
                                                   // '${item['routeName']}',
+                                                  
                                                   '${SplitTerminal.getLast(item['routeName'])}',
                                                   style: TextStyle(
                                                       fontSize: 15,
@@ -197,7 +197,7 @@ class _BookingHistoryState extends State<BookingHistory> {
                                                               FontWeight.w500),
                                                     ),
                                                     Text(
-                                                      'Booking Ref.',
+                                                      'Booking Status',
                                                       style: TextStyle(
                                                           color: Colors.grey,
                                                           fontSize: 12),

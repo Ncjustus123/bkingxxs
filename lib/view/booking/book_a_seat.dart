@@ -33,6 +33,8 @@ class _BookASeatPageState extends State<BookASeatPage>
 
   BookingRepository booking;
   List<String> arrivalOptions;
+  List<String>arrivalOptionsnysc;
+  List<String> generalArrivalOptions;
   List<String> departureOptions;
   List<int> departureIds;
   List<String> allArrivals;
@@ -43,24 +45,21 @@ class _BookASeatPageState extends State<BookASeatPage>
   String selectedTo = '';
   int departureId;
   int arrivalId;
+ 
+ 
 
-
-  List<String> nyscArrivalOptions;
-  filterNysc(arrivalOptions) {
-    if (arrivalOptions != null && arrivalOptions != []) {
-      nyscArrivalOptions = arrivalOptions
-          .where((i) =>
-      i.contains('NYSC') ||
-          i == null)
-          .toList();
-
-      print('nyscArrival List');
-      print(nyscArrivalOptions);
-    } else {
-      print('no nysc arrival list list');
-    }
+  String nyscOption ;
+   @override
+  void initState() {
+    var arg = Get.arguments;
+    print(arg);
+    setState(() {
+      nyscOption = arg["nyscOption"];
+    });
+    print(arg["nyscOption"]);
+    // TODO: implement initState
+    super.initState();
   }
-
   @override
   Widget build(BuildContext context) {
     booking = Provider.of<BookingRepository>(context);
@@ -91,9 +90,11 @@ class _BookASeatPageState extends State<BookASeatPage>
         ? []
         : booking.destinationTerminalModel.object
             .map((DestinationObject object) => object.name)
-            .toList();
-            
-    //TODO: show loading screen
+            .toList();      
+     arrivalOptionsnysc =
+          arrivalOptions.where((i) => i.contains("NYSC") || i == null).toList();
+      generalArrivalOptions = arrivalOptions.where((i) => i.contains("NYSC") || i == null).toList();        
+         
     return Scaffold(
       key: _scaffoldKey,
       body: GestureDetector(
@@ -401,6 +402,7 @@ class _BookASeatPageState extends State<BookASeatPage>
   }
 
   Widget bottomRouteSheet(BuildContext context) {
+   
     booking = Provider.of<BookingRepository>(context);
     //int index = booking.getRouteModel.object.items.length;
     final _width = MediaQuery.of(context).size.width;
@@ -440,19 +442,19 @@ class _BookASeatPageState extends State<BookASeatPage>
                   children: List<Widget>.generate(
                       direction == 'from'
                           ? departureOptions.length
-                          : arrivalOptions.length, (index) {
+                          : nyscOption == 'general'? arrivalOptions.length : arrivalOptionsnysc.length, (index) {
                     return new ListTile(
                       onTap: () {
                         direction == 'from'
                             ? selectFromOption(
                                 departureOptions[index], departureIds[index])
                             : selectToOption(
-                                arrivalOptions[index], allArrivalIds[index]);
+                               nyscOption == 'general'? arrivalOptions[index]:arrivalOptionsnysc[index], allArrivalIds[index]);
                       },
                       title: Text(
                         direction == 'from'
                             ? departureOptions[index]
-                            : arrivalOptions[index],
+                            : nyscOption == 'general'?arrivalOptions[index]:arrivalOptionsnysc[index],
                         softWrap: true,
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
@@ -513,24 +515,13 @@ class _BookASeatPageState extends State<BookASeatPage>
     Get.back();
     print("arrivalId" + arrivalId.toString());
   }
-  // filterNysc(arrivalOptions) {
-  //   if(nyscOption == 'general'){
-  //     setState(() {
-  //       arrivalOptions = allArrivals;
-  //     arrivalIds = allArrivalIds;
-  //     });
-      
-  //   }else{
-  //   if (allArrivals != null && allArrivals != []) {
-  //     arrivalOptions =
-  //         arrivalOptions.where((i) => i.contains("NYSC") || i == null).toList();
-  //   } else {}}
-  // }
+ 
 
   @override
   void afterFirstLayout(BuildContext context) {
     // TODO: implement afterFirstLayout
     booking.getAllRoute();
+    
    
   }
 }
