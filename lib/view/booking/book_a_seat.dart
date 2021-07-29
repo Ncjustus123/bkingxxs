@@ -33,11 +33,12 @@ class _BookASeatPageState extends State<BookASeatPage>
 
   BookingRepository booking;
   List<String> arrivalOptions;
-  List<String>arrivalOptionsnysc;
+  List<String> arrivalOptionsnysc;
   List<String> generalArrivalOptions;
   List<String> departureOptions;
   List<int> departureIds;
   List<String> allArrivals;
+  List<String> departureList;
   List<int> allArrivalIds;
   int indexOfRoute = 0;
   String tripOption = 'One Way';
@@ -45,11 +46,10 @@ class _BookASeatPageState extends State<BookASeatPage>
   String selectedTo = '';
   int departureId;
   int arrivalId;
- 
- 
 
-  String nyscOption ;
-   @override
+  String nyscOption;
+
+  @override
   void initState() {
     var arg = Get.arguments;
     print(arg);
@@ -60,6 +60,7 @@ class _BookASeatPageState extends State<BookASeatPage>
     // TODO: implement initState
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     booking = Provider.of<BookingRepository>(context);
@@ -72,6 +73,7 @@ class _BookASeatPageState extends State<BookASeatPage>
               (RouteItems route) => route.name,
             )
             .toList();
+    departureList =  departureOptions.where((i) => !i.toString().toLowerCase().contains("nysc") || i == null).toList();
     departureIds = (booking.getRouteModel == null)
         ? []
         : booking.getRouteModel.object.items
@@ -90,11 +92,16 @@ class _BookASeatPageState extends State<BookASeatPage>
         ? []
         : booking.destinationTerminalModel.object
             .map((DestinationObject object) => object.name)
-            .toList();      
-     arrivalOptionsnysc =
-          arrivalOptions.where((i) => i.contains("NYSC") || i == null).toList();
-      generalArrivalOptions = arrivalOptions.where((i) => i.contains("NYSC") || i == null).toList();        
-         
+            .toList();
+    arrivalOptionsnysc =
+        arrivalOptions.where((i) => i.toString().toLowerCase().contains("nysc") || i == null).toList();
+    print('arrivalOptions');
+    print(arrivalOptions);   print('arrivalOptionsnysc');
+    print(arrivalOptionsnysc);
+    generalArrivalOptions =arrivalOptions.where((i) => !i.toString().toLowerCase().contains("nysc") || i == null).toList();
+    print('generalArrivalOptions');
+    print(generalArrivalOptions);
+
     return Scaffold(
       key: _scaffoldKey,
       body: GestureDetector(
@@ -402,7 +409,6 @@ class _BookASeatPageState extends State<BookASeatPage>
   }
 
   Widget bottomRouteSheet(BuildContext context) {
-   
     booking = Provider.of<BookingRepository>(context);
     //int index = booking.getRouteModel.object.items.length;
     final _width = MediaQuery.of(context).size.width;
@@ -441,26 +447,33 @@ class _BookASeatPageState extends State<BookASeatPage>
                 child: Column(
                   children: List<Widget>.generate(
                       direction == 'from'
-                          ? departureOptions.length
-                          : nyscOption == 'general'? arrivalOptions.length : arrivalOptionsnysc.length, (index) {
+                          ? departureList.length
+                          : nyscOption == 'general'
+                              ? generalArrivalOptions.length
+                              : arrivalOptionsnysc.length, (index) {
                     return new ListTile(
                       onTap: () {
                         direction == 'from'
                             ? selectFromOption(
-                                departureOptions[index], departureIds[index])
+                            departureList[index], departureIds[index])
                             : selectToOption(
-                               nyscOption == 'general'? arrivalOptions[index]:arrivalOptionsnysc[index], allArrivalIds[index]);
+                                nyscOption == 'general'
+                                    ? generalArrivalOptions[index]
+                                    : arrivalOptionsnysc[index],
+                                allArrivalIds[index]);
                       },
                       title: Text(
                         direction == 'from'
-                            ? departureOptions[index]
-                            : nyscOption == 'general'?arrivalOptions[index]:arrivalOptionsnysc[index],
+                            ? departureList[index]
+                            : nyscOption == 'general'
+                                ? generalArrivalOptions[index]
+                                : arrivalOptionsnysc[index],
                         softWrap: true,
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
                           fontSize: 15,
                           fontWeight: direction == 'from'
-                              ? selectedFrom == departureOptions[index]
+                              ? selectedFrom == departureList[index]
                                   ? FontWeight.w600
                                   : FontWeight.w500
                               : selectedTo == arrivalOptions[index]
@@ -469,7 +482,7 @@ class _BookASeatPageState extends State<BookASeatPage>
                         ),
                       ),
                       trailing: direction == 'from'
-                          ? selectedFrom == departureOptions[index]
+                          ? selectedFrom == departureList[index]
                               ? Icon(Icons.check,
                                   size: 15,
                                   color: Theme.of(context).primaryColor)
@@ -491,6 +504,7 @@ class _BookASeatPageState extends State<BookASeatPage>
   }
 
 
+
   void selectFromOption(String option, id) {
     setState(() {
       selectedFrom = option;
@@ -508,20 +522,15 @@ class _BookASeatPageState extends State<BookASeatPage>
       selectedTo = option;
       arrivalController.text = selectedTo;
       arrivalId = id;
-      
     });
-
 
     Get.back();
     print("arrivalId" + arrivalId.toString());
   }
- 
 
   @override
   void afterFirstLayout(BuildContext context) {
     // TODO: implement afterFirstLayout
     booking.getAllRoute();
-    
-   
   }
 }
