@@ -35,6 +35,7 @@ class MyApp extends StatelessWidget {
       
       child: GetMaterialApp(
         defaultTransition: Transition.zoom,
+        transitionDuration:Duration(milliseconds: 250),
         theme: MyThemes.lightTheme,
         debugShowCheckedModeBanner: false,
         title: "Libmot Mobile",

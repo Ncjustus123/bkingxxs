@@ -68,7 +68,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     ),
                   ),
                   child: Padding(
-                    padding: const EdgeInsets.only(top: 35.0),
+                    padding: const EdgeInsets.only(top: 30.0),
                     child: SingleChildScrollView(
                       child: Column(
                         children: [
@@ -100,147 +100,170 @@ class _SignUpPageState extends State<SignUpPage> {
     return SingleChildScrollView(
       child: Form(
         key: _formKeyLogin,
-        child: Column(
-          children: <Widget>[
-            SizedBox(height: 20),
-            InputFormField(
-              obscure: false,
-              controller: firstNamecontroller,
-              textCapitalization: TextCapitalization.words,
-              label: 'First Name',
-              validator: (value) {
-                if (value.isEmpty) {
-                  return 'Please input your Firstname';
-                }
-                return null;
-              },
-            ),
-            InputFormField(
-              controller: lastNamecontroller,
-              obscure: false,
-              label: 'Last Name',
-              textCapitalization: TextCapitalization.words,
-              validator: (value) {
-                if (value.isEmpty) {
-                  return 'Please input your Lastname';
-                }
-                return null;
-              },
-            ),
-            InputFormField(
-              controller: emailcontroller,
-              label: "Email",
-              obscure: false,
-              keyboardType: TextInputType.emailAddress,
-              validator: (value) {
-                if (value.isEmpty) {
-                  return 'Please input an email';
-                }
-                return null;
-              },
-            ),
-            InputFormField(
-              obscure: false,
-              label: "Phone number",
-              controller: phoneNumbercontroller,
-              keyboardType: TextInputType.phone,
-              validator: (value) {
-                if (value.isEmpty) {
-                  return 'Please input a phone number';
-                }
-                return null;
-              },
-            ),
-            InputFormField(
-              label: "Gender",
-              obscure: false,
-              textCapitalization: TextCapitalization.words,
-              controller: gendercontroller,
-              validator: (value) {
-                if (value.isEmpty) {
-                  return 'Please input gender';
-                }
-                return null;
-              },
-            ),
-            InputFormField(
-              controller: passwordcontroller,
-              obscure: _passwordVisible,
-              label: 'Password',
-              validator: (value) {
-                if (value.isEmpty) {
-                  return 'Please put in your Password';
-                }
-                return null;
-              },
-              prefixIcon: Icon(Icons.lock_outlined, color: Colors.grey),
-              suffixIcon: IconButton(
-                icon: Icon(
-                  _passwordVisible
-                      ? Icons.visibility_off_outlined
-                      : Icons.visibility_outlined,
-                  color: Colors.grey,
-                ),
-                onPressed: () {
-                  setState(() {
-                    _passwordVisible = !_passwordVisible;
-                  });
+        child: Padding(
+          padding: const EdgeInsets.all(15.0),
+          child: Column(
+            children: <Widget>[
+              InputFormField(
+                obscure: false,
+                controller: firstNamecontroller,
+                textCapitalization: TextCapitalization.words,
+                label: 'First Name',
+                validator: (value) {
+                  if (value.isEmpty) {
+                    return 'Please input your Firstname';
+                  }
+                  return null;
                 },
               ),
-            ),
-            InputFormField(
-              controller: confirmPasswordcontroller,
-              obscure: _confirmPasswordVisible,
-              label: 'Confirm Password',
-              validator: (value) {
-                if (value.isEmpty) {
-                  return 'Please confirm the Password';
-                } else if (value != passwordcontroller.text) {
-                  return 'Password do not match';
-                }
-                return null;
-              },
-              prefixIcon: Icon(Icons.lock_outlined, color: Colors.grey),
-              suffixIcon: IconButton(
-                icon: Icon(
-                  _confirmPasswordVisible
-                      ? Icons.visibility_off_outlined
-                      : Icons.visibility_outlined,
-                  color: Colors.grey,
-                ),
-                onPressed: () {
-                  setState(() {
-                    _confirmPasswordVisible = !_confirmPasswordVisible;
-                  });
+              InputFormField(
+                controller: lastNamecontroller,
+                obscure: false,
+                label: 'Last Name',
+                textCapitalization: TextCapitalization.words,
+                validator: (value) {
+                  if (value.isEmpty) {
+                    return 'Please input your Lastname';
+                  }
+                  return null;
                 },
               ),
-            ),
-            InputFormField(
-              obscure: false,
-              controller: referralcontroller,
-              label: "Referral code",
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            ButtonReusable(
-              name: "Sign Up",
-              onpressed: () async {
-                FocusScope.of(context).unfocus();
-                register(user, context);
+              InputFormField(
+                controller: emailcontroller,
+                label: "Email",
+                obscure: false,
+                keyboardType: TextInputType.emailAddress,
+                validator: (value) {
+                  if (value.isEmpty) {
+                    return 'Please input an email';
+                  }
+                  return null;
+                },
+              ),
+              InputFormField(
+                obscure: false,
+                label: "Phone number",
+                controller: phoneNumbercontroller,
+                keyboardType: TextInputType.phone,
+                validator: (value) {
+                  if (value.isEmpty) {
+                    return 'Please input a phone number';
+                  }
+                  return null;
+                },
+              ),
+              Row(
+                children: [
+                  Expanded(
+                    child: InkWell(
+                      onTap: (){
+                        showModalBottomSheet(
+                          context: context,
+                          isScrollControlled: true,
+                          backgroundColor: Colors.transparent,
+                          builder: (context) => SingleChildScrollView(
+                              child: bottomRouteSheet(context)),
+                        );
+                      },
+                      child: InputFormField(
+                        label: "Gender",
+                        obscure: false,
+                        enabled: false,
+                        textCapitalization: TextCapitalization.words,
+                        controller: gendercontroller,
+                        suffixIcon: Icon(Icons.expand_more),
+                        validator: (value) {
+                          if (value.isEmpty) {
+                            return 'Please input gender';
+                          }
+                          return null;
+                        },
+                      ),
+                    ),
+                  ),
+                  SizedBox(width: 8),
+                  Expanded(child:   InputFormField(
+                    obscure: false,
+                    controller: referralcontroller,
+                    label: "Referral code",
+                  ),),
+                ],
+              ),
+              InputFormField(
+                controller: passwordcontroller,
+                obscure: _passwordVisible,
+                label: 'Password',
+                validator: (value) {
+                  if (value.isEmpty) {
+                    return 'Please put in your Password';
+                  }
+                  return null;
+                },
+                prefixIcon: Icon(Icons.lock_outlined, color: Colors.grey),
+                suffixIcon: IconButton(
+                  icon: Icon(
+                    _passwordVisible
+                        ? Icons.visibility_off_outlined
+                        : Icons.visibility_outlined,
+                    color: Colors.grey,
+                  ),
+                  onPressed: () {
+                    setState(() {
+                      _passwordVisible = !_passwordVisible;
+                    });
+                  },
+                ),
+              ),
+              InputFormField(
+                controller: confirmPasswordcontroller,
+                obscure: _confirmPasswordVisible,
+                label: 'Confirm Password',
+                validator: (value) {
+                  if (value.isEmpty) {
+                    return 'Please confirm the Password';
+                  } else if (value != passwordcontroller.text) {
+                    return 'Password do not match';
+                  }
+                  return null;
+                },
+                prefixIcon: Icon(Icons.lock_outlined, color: Colors.grey),
+                suffixIcon: IconButton(
+                  icon: Icon(
+                    _confirmPasswordVisible
+                        ? Icons.visibility_off_outlined
+                        : Icons.visibility_outlined,
+                    color: Colors.grey,
+                  ),
+                  onPressed: () {
+                    setState(() {
+                      _confirmPasswordVisible = !_confirmPasswordVisible;
+                    });
+                  },
+                ),
+              ),
+
+              SizedBox(
+                height: 20,
+              ),
+              ButtonReusable(
+                name: "Sign Up",
+                onpressed: () async {
+                  FocusScope.of(context).unfocus();
+                  register(user, context);
+                },
+              ),
+                     SizedBox(height: 20),
+          InkWell(
+              onTap: () {
+                Navigator.pop(context);
+                Get.to(LoginPage());
               },
-            ),
-                   SizedBox(height: 20),
-        InkWell(
-            onTap: () {
-              Navigator.pop(context);
-              Get.to(LoginPage());
-            },
-            child: Text(
-              "Already have an account? Sign In",
-            )),
-            SizedBox(height: 8),
-          ]),
+              child: Text(
+                "Already have an account? Sign In",
+              )),
+              SizedBox(height: 8),
+            ]),
+        ),
        
 
     ));
@@ -282,5 +305,84 @@ class _SignUpPageState extends State<SignUpPage> {
     } else
       Dialogs.showErrorSnackBar(
           'Sorry!', "You do not have internet connection at the moment");
+  }
+
+  List<String>genderList = ['Male','Female'];
+  Widget bottomRouteSheet(BuildContext context) {
+    final _height = MediaQuery.of(context).size.height;
+    //int type;
+    return Container(
+      padding:
+      EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+      height: _height * 0.3,
+      decoration: BoxDecoration(
+        color: Colors.transparent,
+      ),
+      child: buildDropList(),
+    );
+  }
+
+  buildDropList() {
+    return Container(
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.vertical(top: Radius.circular(25)),
+          color: Theme.of(context).scaffoldBackgroundColor),
+      child: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+             'Select Gender',
+              style: TextStyle(fontWeight: FontWeight.w700, fontSize: 20),
+            ),
+          ),
+          Divider(),
+          Expanded(
+            child: SingleChildScrollView(
+              child: Padding(
+                padding: EdgeInsets.symmetric(vertical: 5, horizontal: 8),
+                child: Column(
+                  children: List<Widget>.generate(
+                      genderList.length, (index) {
+                    return new ListTile(
+                      onTap: () {
+                        selectFromOption(
+                            genderList[index]);
+                      },
+                      title: Text(
+                        genderList[index],
+                        softWrap: true,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          fontSize: 15,
+                          fontWeight: gendercontroller.text == genderList[index]
+                              ? FontWeight.w600
+                              : FontWeight.w500,
+
+                        ),
+                      ),
+                      trailing:  gendercontroller.text == genderList[index]
+                          ? Icon(Icons.check,
+                          size: 15,
+                          color: Theme.of(context).primaryColor)
+                          : Text(''),
+                    );
+                  }),
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void selectFromOption(String option) {
+    setState(() {
+      gendercontroller.text = option;
+
+    });
+
+    Get.back();
   }
 }
