@@ -15,14 +15,13 @@ const Color kRed = Color(0xFFF44336);
 //TextStyle
 
 const textStyle =
-    TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.w600);
- TextStyle confirmationTextsstyle = TextStyle(fontSize: 12, color: MyThemes.darkTheme != null?Color(0xFF85000D) : Colors.black54);
+    TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w600);
+ TextStyle confirmationTextStyle = TextStyle(fontSize: 12, color: MyThemes.darkTheme != null?Color(0xFF85000D) : Colors.black54);
 const textStyleHeading =
     TextStyle(color: Colors.black, fontSize: 18, fontWeight: FontWeight.w500);
 const textStyle1 = TextStyle(fontSize: 20, fontWeight: FontWeight.bold);
 const textStyle2 = TextStyle(
-  
-  fontSize: 14,
+  fontSize: 13,
   fontWeight: FontWeight.w500,
   fontFamily: 'Monserrat',
 );

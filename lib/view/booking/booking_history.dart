@@ -94,7 +94,6 @@ class _BookingHistoryState extends State<BookingHistory> {
                         itemCount: historyItem.length,
                         itemBuilder: (context, index) {
                           var item = historyItem[index];
-
                           return Padding(
                             padding: const EdgeInsets.fromLTRB(0, 8, 0, 8),
                             child: InkWell(

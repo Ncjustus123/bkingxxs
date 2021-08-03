@@ -5,6 +5,7 @@ import 'package:Libmot_Mobile/controllers/user_repository.dart';
 import 'package:Libmot_Mobile/view/welcome/welcome_page.dart';
 import 'package:Libmot_Mobile/view/dasboard_view/dashboard_page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -166,17 +167,8 @@ class _LoginPageState extends State<LoginPage> {
                                     onTap: () {
                                       loginForAndroidIos(user);
                                     },
-                                    child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          Text("Continue as guest",
-                                              style: TextStyle(fontSize: 13)),
-                                          Icon(
-                                            Icons.arrow_right_alt,
-                                            color: Colors.grey,
-                                          )
-                                        ]),
+                                    child: Text("Continue as guest",
+                                        style: TextStyle(fontSize: 13)),
                                   ),
                             SizedBox(height: 70),
                             InkWell(
@@ -227,10 +219,10 @@ class _LoginPageState extends State<LoginPage> {
               obscure: _emailVisible,
               prefixIcon: Icon(Icons.person_outlined, color: Colors.grey),
               controller: emailController,
-              label: 'Email or Phone Number',
+              label: 'Email',
               validator: (value) {
-                if (value.isEmpty) {
-                  return 'Please put in your email';
+                if (value.isEmpty || !value.contains('@')||!value.contains('.')) {
+                  return 'Please put in valid email';
                 }
                 return null;
               },
@@ -320,24 +312,19 @@ class _LoginPageState extends State<LoginPage> {
         Dialogs.showLoadingDialog(context: context, text: 'SIGNING IN...');
         await user.loginRepo(
             context, emailController.text, passwordController.text);
-        if (user.loggedInStatus == LoggedInStatus.LoggedIn) {
-          // Navigator.of(context).pushNamed(dashboardPage);
-          Get.offAll(() => LoginAnim());
 
-          Get.back();
-        } else {
-          print("An errorOccurred");
-          Get.back();
-        }
       } else {
         print("validation not done");
-        // EasyLoading.dismiss();
+        EasyLoading.dismiss();
       }
     } else
       Dialogs.showNoInternetSnackBar('No Internet Connection',
           'Check your internet connection and try again.');
   }
+
+
 }
+
 
 class LoginAnim extends StatefulWidget {
   @override

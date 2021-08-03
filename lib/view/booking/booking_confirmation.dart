@@ -81,7 +81,7 @@ mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: [
                                       Text(
                                         "Date",
-                                        style: confirmationTextsstyle,
+                                        style: confirmationTextStyle,
                                       ),
                                       Text(booking.getBuses.departureDate),
                                     ],
@@ -92,7 +92,7 @@ mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: [
                                       Text(
                                         "Trip time",
-                                        style: confirmationTextsstyle,
+                                        style: confirmationTextStyle,
                                       ),
                                       Text(booking.departureSelectedBus
                                           .departureTime),
@@ -110,7 +110,7 @@ mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   child: Column(
                                     children: [
                                       Text("Name of Traveller",
-                                          style: confirmationTextsstyle),
+                                          style: confirmationTextStyle),
                                       Text(
                                         '${booking.booking.firstName.toString().toUpperCase()} ${booking.booking.lastName.toString().toUpperCase()}',
                                         textAlign: TextAlign.center,
@@ -129,7 +129,7 @@ mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 child: Column(
                                   children: [
                                     Text("No.of Travellers",
-                                        style: confirmationTextsstyle),
+                                        style: confirmationTextStyle),
                                     Text(booking.totalTravellers.toString()),
                                   ],
                                 ),
@@ -141,7 +141,7 @@ mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 child: Column(
                                   children: [
                                     Text("Trip fare",
-                                        style: confirmationTextsstyle),
+                                        style: confirmationTextStyle),
                                     Text(
                                       '\u20A6${booking.totalestimate.toString()}',
                                       style:
@@ -163,7 +163,7 @@ mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: [
                                       Text(
                                         "Booking Status",
-                                        style: confirmationTextsstyle,
+                                        style: confirmationTextStyle,
                                       ),
                                       Text(booking.postBookingResponse.object
                                           .response),
@@ -178,7 +178,7 @@ mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: [
                                       Text(
                                         "Booking Reference",
-                                        style: confirmationTextsstyle,
+                                        style: confirmationTextStyle,
                                       ),
                                       Text(booking.postBookingResponse.object
                                           .bookingReferenceCode),

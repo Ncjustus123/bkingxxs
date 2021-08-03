@@ -40,6 +40,8 @@ class BookingRepository with ChangeNotifier {
   String name;
   double totalestimate;
   int totalTravellers;
+  var allArrivalIds;
+  var arrivalOptions;
 
   updatePassenger({numberAdult, numberChildren}) {
     getBuses.numberOfAdults = int.parse(numberAdult);
@@ -119,20 +121,34 @@ class BookingRepository with ChangeNotifier {
       return null;
     }
   }
-   
+
+  var arrivals;
 
   getDestinationTerminals(int id) async {
     showFetchingData('Fetching destination');
-    print('gbntyen');
-    print(id);
+    // print('Fetching general arrival');
+    // print(id);
     destinationTerminalModel = null;
     notifyListeners();
     final response = await ApiCalls().getDestinationTerminals(id);
-    print(response.body);
+    print('General Arrival list');
+
     if (response.statusCode == 200) {
       final Map<String, dynamic> responseData = json.decode(response.body);
       destinationTerminalModel =
           DestinationTerminalModel.fromJson(responseData);
+      EasyLoading.dismiss();
+
+      arrivals = (destinationTerminalModel == null)
+          ? []
+          : destinationTerminalModel.object.toList();
+      print(arrivals);
+
+      if (arrivals.isEmpty)
+        Dialogs.showErrorSnackBar(
+            'Oops!', 'There is no bus heading this direction at the moment');
+      print(arrivals.runtimeType);
+
       EasyLoading.dismiss();
 
       notifyListeners();

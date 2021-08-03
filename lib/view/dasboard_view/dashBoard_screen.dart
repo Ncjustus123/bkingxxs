@@ -1,4 +1,5 @@
 import 'package:Libmot_Mobile/constants/constants.dart';
+import 'package:Libmot_Mobile/constants/dialogs/dialog.dart';
 import 'package:Libmot_Mobile/controllers/theme_provider.dart';
 import 'package:Libmot_Mobile/view/booking/book_a_seat.dart';
 import 'package:flutter/material.dart';
@@ -170,7 +171,7 @@ class _DashBoardScreen extends State<DashBoardScreen> {
                               SizedBox(width: 15),
                               dashboardCard(
                                 context: context,
-                                color: Color(0xFF555354),
+                                color: Color(0xFF470FF4),
                                 title: 'Hire a Bus',
                                 onTap: () {
                                   Navigator.of(context).pushNamed(hireAbus);
@@ -187,9 +188,12 @@ class _DashBoardScreen extends State<DashBoardScreen> {
                             children: [
                               dashboardCard(
                                 context: context,
-                                color: Color(0xFF359939),
+                                color: Color(0xFF0B5475),
                                 title: 'Become an Agent',
-                                onTap: () {},
+                                onTap: () {
+                                  Dialogs.showErrorSnackBar('Sorry!',
+                                      'This is not available at the moment');
+                                },
                                 icon: Icon(
                                   Icons.support_agent,
                                   color: Colors.white,
@@ -199,7 +203,7 @@ class _DashBoardScreen extends State<DashBoardScreen> {
                               SizedBox(width: 15),
                               dashboardCard(
                                 context: context,
-                                color: Color(0xFF0B5475),
+                                color: Color(0xFF29BF12),
                                 title: "Copper Wee",
                                 onTap: () {
                                   Get.to(() => BookASeatPage(),
@@ -228,12 +232,23 @@ class _DashBoardScreen extends State<DashBoardScreen> {
                                   height: 40,
                                 ),
                               ),
+
+                              // Container(
+                              //   height: 165,
+                              //
+                              //   child: Banner(
+                              //       message: "Have a nice day!", location: BannerLocation.topEnd),
+                              //
+                              // ),
                               SizedBox(width: 15),
                               dashboardCard(
                                 context: context,
-                                color: Color(0xFF95A19D),
+                                color: Color(0xFF3D348B),
                                 title: "Libmot Drive",
-                                onTap: () {},
+                                onTap: () {
+                                  Dialogs.showErrorSnackBar('Sorry!',
+                                      'This is not available at the moment');
+                                },
                                 icon: Icon(
                                   Icons.drive_eta_rounded,
                                   color: Colors.white,
@@ -284,6 +299,16 @@ class _DashBoardScreen extends State<DashBoardScreen> {
       ),
     );
   }
+}
+
+@override
+void paint(Canvas canvas, Size size) {
+  final p1 = Offset(50, 50);
+  final p2 = Offset(250, 150);
+  final paint = Paint()
+    ..color = Colors.black
+    ..strokeWidth = 4;
+  canvas.drawLine(p1, p2, paint);
 }
 
 class Item1 extends StatelessWidget {

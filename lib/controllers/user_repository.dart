@@ -5,7 +5,9 @@ import 'package:Libmot_Mobile/models/get_token_model.dart';
 import 'package:Libmot_Mobile/models/profile_model.dart';
 import 'package:Libmot_Mobile/models/sign_up_model.dart';
 import 'package:Libmot_Mobile/services/database/user_preference.dart';
+import 'package:Libmot_Mobile/view/login/login_page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart' as route;
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -45,7 +47,6 @@ class UserRepository with ChangeNotifier {
   checkLogin(BuildContext context) async {
     final preference = await UserPreference.getInstance();
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    
 
     bool loggedIn = preference.isLoggedIn() ?? false;
     final newUser = prefs.getString('isNewUser');
@@ -64,8 +65,8 @@ class UserRepository with ChangeNotifier {
         // Navigator.of(context).pushNamed(welcomeRoute);
       }
     } else
-    await prefs.clear();
-      route.Get.offAll(() => OnBoardingPage());
+      await prefs.clear();
+    route.Get.offAll(() => OnBoardingPage());
 
     // if (loggedIn) {
     //   _loggedInStatus = LoggedInStatus.LoggedIn;
@@ -81,7 +82,7 @@ class UserRepository with ChangeNotifier {
     pref.deleteProfile();
 
     _loggedInStatus = LoggedInStatus.LoggedOut;
-    
+
     Get.offAll(() => WelcomePage());
     notifyListeners();
   }
@@ -107,17 +108,18 @@ class UserRepository with ChangeNotifier {
         preference.saveProfile(profile);
         loginForAndroidIos(context);
         _loggedInStatus = LoggedInStatus.LoggedIn;
+        Get.offAll(() => LoginAnim());
+
         notifyListeners();
       } else {
 
         print('error');
+        print('error');
         print('${tokenData.shortDescription}');
-        Dialogs.showErrorSnackBar('Oops!', "${tokenData.shortDescription}");
-
-        Get.back();
-
         if ("${tokenData.shortDescription}" ==
             "Account not active. Please activate your acccount to continue.") {
+          Get.back();
+
           showDialog(
             context: context,
             builder: (BuildContext context) {
@@ -150,12 +152,20 @@ class UserRepository with ChangeNotifier {
             barrierDismissible: false,
           );
         }
+        else {
+          Get.back();
+
+          Dialogs.showErrorSnackBar('Oops!', "${tokenData.shortDescription}");
+
+        }
       }
     } else if (response.statusCode == 400) {
       Get.back();
-
+      Dialogs.showErrorSnackBar('Oops!', "Failed to login Try again");
+      EasyLoading.dismiss();
     } else {
       Get.back();
+      Dialogs.showErrorSnackBar('Sorry!', "Try again later");
 
       _loggedInStatus = LoggedInStatus.LoggedOut;
       notifyListeners();
@@ -208,7 +218,6 @@ class UserRepository with ChangeNotifier {
     profile.object = await preference.getProfile();
     notifyListeners();
     return profile;
-    
   }
 
   signUpCustomer(context, signUp) async {

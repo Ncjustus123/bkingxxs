@@ -56,51 +56,73 @@ class _BookASeatPageState extends State<BookASeatPage>
     setState(() {
       nyscOption = arg["nyscOption"];
     });
-    print(arg["nyscOption"]);
-    // TODO: implement initState
     super.initState();
+  }
+
+  boot(context) {
+    booking = Provider.of<BookingRepository>(context);
+    // departureList = (booking.getRouteModel == null)
+    //     ? []
+    //     : booking.getRouteModel.object.items
+    //         .map(
+    //           (RouteItems route) => route.name,
+    //         )
+    //         .toList();
+    departureItems = (booking.getRouteModel == null)
+        ? []
+        : booking.getRouteModel.object.items.toList();
+
+    arrivalItems = booking.arrivals;
+    // print('departureList');
+    // print(departure);
+    //
+    // departureOptions = departureList
+    //     .where((i) => !i.toString().toLowerCase().contains("nysc") || i == null)
+    //     .toList();
+    // print('departureList');
+    // print(departureList);
+    // departureIds = (booking.getRouteModel == null)
+    //     ? []
+    //     : booking.getRouteModel.object.items
+    //         .map(
+    //           (RouteItems route) => route.id,
+    //         )
+    //         .toList();
+
+    // allArrivalIds = (booking.destinationTerminalModel == null)
+    //     ? []
+    //     : booking.destinationTerminalModel.object
+    //         .map(
+    //           (DestinationObject object) => object.id,
+    //         )
+    //         .toList();
+    // arrivalOptions = (booking.destinationTerminalModel == null)
+    //     ? []
+    //     : booking.destinationTerminalModel.object
+    //         .map((DestinationObject object) => object.name)
+    //         .toList();
+    // print('arrivalList');
+    // print(arrivalOptions);
+    // arrivalOptionsnysc = arrivalOptions
+    //     .where((i) => i.toString().toLowerCase().contains("nysc") || i == null)
+    //     .toList();
+    // print('arrivalOptions');
+    // print(arrivalOptions);
+    // print('arrivalOptionsnysc');
+    // print(arrivalOptionsnysc);
+    // generalArrivalOptions = arrivalOptions
+    //     .where((i) => !i.toString().toLowerCase().contains("nysc") || i == null)
+    //     .toList();
+    // print('generalArrivalOptions');
+    // print(generalArrivalOptions);
   }
 
   @override
   Widget build(BuildContext context) {
-    booking = Provider.of<BookingRepository>(context);
+    boot(context);
+    // booking = Provider.of<BookingRepository>(context);
     final _width = MediaQuery.of(context).size.width;
     final _height = MediaQuery.of(context).size.height;
-    departureOptions = (booking.getRouteModel == null)
-        ? []
-        : booking.getRouteModel.object.items
-            .map(
-              (RouteItems route) => route.name,
-            )
-            .toList();
-    departureList =  departureOptions.where((i) => !i.toString().toLowerCase().contains("nysc") || i == null).toList();
-    departureIds = (booking.getRouteModel == null)
-        ? []
-        : booking.getRouteModel.object.items
-            .map(
-              (RouteItems route) => route.id,
-            )
-            .toList();
-    allArrivalIds = (booking.destinationTerminalModel == null)
-        ? []
-        : booking.destinationTerminalModel.object
-            .map(
-              (DestinationObject object) => object.id,
-            )
-            .toList();
-    arrivalOptions = (booking.destinationTerminalModel == null)
-        ? []
-        : booking.destinationTerminalModel.object
-            .map((DestinationObject object) => object.name)
-            .toList();
-    arrivalOptionsnysc =
-        arrivalOptions.where((i) => i.toString().toLowerCase().contains("nysc") || i == null).toList();
-    print('arrivalOptions');
-    print(arrivalOptions);   print('arrivalOptionsnysc');
-    print(arrivalOptionsnysc);
-    generalArrivalOptions =arrivalOptions.where((i) => !i.toString().toLowerCase().contains("nysc") || i == null).toList();
-    print('generalArrivalOptions');
-    print(generalArrivalOptions);
 
     return Scaffold(
       key: _scaffoldKey,
@@ -373,10 +395,7 @@ class _BookASeatPageState extends State<BookASeatPage>
                                         departureId;
                                     booking.getBuses.destinationTerminalId =
                                         arrivalId;
-                                    print(depatureController.text.length);
-                                    print(arrivaldateController.text);
-                                    print(departuredateController.text);
-                                    print(arrivaldateController.text);
+
                                     if (depatureController.text == '') {
                                       Dialogs.showErrorSnackBar('Error!',
                                           'Select a departure terminal');
@@ -404,9 +423,14 @@ class _BookASeatPageState extends State<BookASeatPage>
       Dialogs.showErrorSnackBar('Error!', 'Select a departure date');
     else if (indexOfRoute != 0 && arrivaldateController.text == '')
       Dialogs.showErrorSnackBar('Error!', 'Select a arrival date');
-    else
+    else {
       booking.searchBuses(_scaffoldKey, context);
+      booking.getBuses.toJson();
+    }
   }
+
+  var departureItems;
+  var arrivalItems;
 
   Widget bottomRouteSheet(BuildContext context) {
     booking = Provider.of<BookingRepository>(context);
@@ -447,47 +471,46 @@ class _BookASeatPageState extends State<BookASeatPage>
                 child: Column(
                   children: List<Widget>.generate(
                       direction == 'from'
-                          ? departureList.length
+                          ? departureItems.length
                           : nyscOption == 'general'
-                              ? generalArrivalOptions.length
-                              : arrivalOptionsnysc.length, (index) {
+                              ? arrivalItems.length
+                              : arrivalItems.length, (index) {
                     return new ListTile(
                       onTap: () {
                         direction == 'from'
-                            ? selectFromOption(
-                            departureList[index], departureIds[index])
+                            ? selectFromOption(departureItems[index])
                             : selectToOption(
                                 nyscOption == 'general'
-                                    ? generalArrivalOptions[index]
-                                    : arrivalOptionsnysc[index],
-                                allArrivalIds[index]);
+                                    ? arrivalItems[index]
+                                    : arrivalItems[index],
+                              );
                       },
                       title: Text(
                         direction == 'from'
-                            ? departureList[index]
+                            ? departureItems[index].name
                             : nyscOption == 'general'
-                                ? generalArrivalOptions[index]
-                                : arrivalOptionsnysc[index],
+                                ? arrivalItems[index].name
+                                : arrivalItems[index].name,
                         softWrap: true,
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
                           fontSize: 15,
                           fontWeight: direction == 'from'
-                              ? selectedFrom == departureList[index]
+                              ? selectedFrom == departureItems[index].name
                                   ? FontWeight.w600
                                   : FontWeight.w500
-                              : selectedTo == arrivalOptions[index]
+                              : selectedTo == arrivalItems[index].name
                                   ? FontWeight.w600
                                   : FontWeight.w500,
                         ),
                       ),
                       trailing: direction == 'from'
-                          ? selectedFrom == departureList[index]
+                          ? selectedFrom == departureItems[index].name
                               ? Icon(Icons.check,
                                   size: 15,
                                   color: Theme.of(context).primaryColor)
                               : Text('')
-                          : selectedTo == arrivalOptions[index]
+                          : selectedTo == arrivalItems[index].name
                               ? Icon(Icons.check,
                                   size: 15,
                                   color: Theme.of(context).primaryColor)
@@ -503,29 +526,52 @@ class _BookASeatPageState extends State<BookASeatPage>
     );
   }
 
-
-
-  void selectFromOption(String option, id) {
+  void selectFromOption(dynamic option) {
     setState(() {
-      selectedFrom = option;
+      selectedFrom = option.name;
       depatureController.text = selectedFrom;
-      departureId = id;
+      departureId = option.id;
     });
+    print('departure');
+    print(selectedFrom + '  ' + '$departureId');
     booking.getDestinationTerminals(departureId);
-    // filterNysc(arrivalOptions);
-    print('depatureId' + departureId.toString());
     Get.back();
+    // var arrivals= (booking.destinationTerminalModel == null)
+    //        ? []
+    //        : booking.destinationTerminalModel.object
+    //            .toList();
+    //  print('arrivals');
+    //  print(arrivals);
+    // if (arrivals != null) {
+    //   arrivalOptions = booking.arrivalOptions;
+    //   arrivalOptionsnysc = arrivalOptions
+    //       .where(
+    //           (i) => i.toString().toLowerCase().contains("nysc") || i == null)
+    //       .toList();
+    //   generalArrivalOptions = arrivalOptions == []
+    //       ? []
+    //       : arrivalOptions
+    //           .where((i) =>
+    //               !i.toString().toLowerCase().contains("nysc") || i == null)
+    //           .toList();
+    //   allArrivalIds = booking.allArrivalIds;
+    //   print('arrivalOptions');
+    //   print(arrivalOptions);
+    // }
+    // print('departureId ' + departureId.toString());
+    // print('departureTerminal ' + selectedFrom.toString());
   }
 
-  void selectToOption(String option, id) {
+  void selectToOption(dynamic option) {
     setState(() {
-      selectedTo = option;
+      selectedTo = option.name;
       arrivalController.text = selectedTo;
-      arrivalId = id;
+      arrivalId = option.id;
     });
 
     Get.back();
-    print("arrivalId" + arrivalId.toString());
+    print('destination');
+    print(selectedTo + '  ' + '$arrivalId');
   }
 
   @override
