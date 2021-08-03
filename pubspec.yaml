@@ -58,7 +58,7 @@ dependencies:
   local_auth: ^1.1.6
   share: ^2.0.4
   rate_my_app: ^1.1.1
-  # flutter_local_notifications: ^6.0.0
+  flutter_local_notifications:
   # paystack_manager: ^1.0.4
   # webview_flutter: ^2.0.7
 
