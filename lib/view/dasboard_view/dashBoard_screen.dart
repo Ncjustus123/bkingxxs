@@ -171,7 +171,7 @@ class _DashBoardScreen extends State<DashBoardScreen> {
                               SizedBox(width: 15),
                               dashboardCard(
                                 context: context,
-                                color: Color(0xFF470FF4),
+                                color: Colors.grey[600],
                                 title: 'Hire a Bus',
                                 onTap: () {
                                   Navigator.of(context).pushNamed(hireAbus);

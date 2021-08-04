@@ -3,6 +3,7 @@ import 'package:Libmot_Mobile/controllers/user_repository.dart';
 import 'package:Libmot_Mobile/view/dasboard_view/dashBoard_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:Libmot_Mobile/view/dasboard_view/drawer_screen.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 // ignore: must_be_immutable
@@ -62,7 +63,7 @@ class _DashboardPageState extends State<DashboardPage> {
             ElevatedButton(
               onPressed: () {
                 print("tapped");
-                onWillPop;
+                SystemNavigator.pop();
               },
               child: Text("Yes",
                   style: TextStyle(

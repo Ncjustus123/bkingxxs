@@ -6,6 +6,8 @@ class GetBase {
   // final base = new LiveData(); // Live
 
   static const kGoogleApiKey = "AIzaSyD6mAOR2Bp-obgXHVCb_iyhTbQliRfhFZM";
+  static const String appPackageAndroid = "com.libramotors.libmot";
+  static const String appIDIOS = "";
 }
 
 final baseInstance = GetBase();

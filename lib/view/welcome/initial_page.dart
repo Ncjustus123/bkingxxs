@@ -5,6 +5,7 @@ import 'package:Libmot_Mobile/view/onboarding/onboarding_page.dart';
 import 'package:Libmot_Mobile/view/welcome/welcome_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:new_version/new_version.dart';
 import 'package:provider/provider.dart';
 
 class InitialPage extends StatefulWidget {
@@ -20,11 +21,23 @@ class _InitialPageState extends State<InitialPage> {
   void initState() {
     Future.delayed(Duration(seconds: 2), () {
       // getSecureStorage();
+      checkVersion();
       Get.offAll(() => OnBoardingPage());
     });
     super.initState();
   }
-
+  void checkVersion()async{
+    final newVersion = NewVersion(
+      androidId: "com.libramotors.libmot",
+      iOSId: "",
+    );
+    final status = await newVersion.getVersionStatus();
+    newVersion.showUpdateDialog(
+        context: context,
+        versionStatus: status);
+    print("device :" + status.localVersion);
+    print("store :" + status.storeVersion);
+  }
   void getSecureStorage() async {
     if (await InternetUtils.checkConnectivity()) {
       user.checkLogin(context);
@@ -37,6 +50,7 @@ class _InitialPageState extends State<InitialPage> {
             Get.offAll(() => InitialPage());
           });
     }
+
     // SharedPreferences prefs = await SharedPreferences.getInstance();
     // final newUser = prefs.getString('isNewUser');
     // final preference = await UserPreference.getInstance();

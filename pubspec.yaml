@@ -59,6 +59,9 @@ dependencies:
   share: ^2.0.4
   rate_my_app: ^1.1.1
   flutter_local_notifications:
+  store_redirect:
+  package_info:
+  new_version: ^0.2.2
   # paystack_manager: ^1.0.4
   # webview_flutter: ^2.0.7
 

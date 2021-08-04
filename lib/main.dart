@@ -7,6 +7,7 @@ import 'package:Libmot_Mobile/controllers/user_repository.dart';
 import 'package:Libmot_Mobile/services/firebase/flutter_local_notification.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
@@ -15,6 +16,9 @@ import 'controllers/booking_repository.dart';
 import 'routes.dart';
 import 'package:Libmot_Mobile/controllers/theme_provider.dart';
 
+
+RemoteConfig _config;
+bool hasLogged = false;
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
@@ -65,4 +69,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-
