@@ -53,9 +53,8 @@ dialog(context, String title, content, {onpressed}) {
               ),
             ),
             SizedBox(
-              height: 10,
+              height: 50,
             ),
-            Spacer(),
             Center(
               child: SmallButtonReusable(
                 name: "Okay",
@@ -113,6 +112,41 @@ class NetworkDialog {
               Spacer(),
               SmallButtonReusable(
                 name: "Retry",
+                onpressed: onpressed,
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class BannerDialog {
+  static noNetwork(context, Image image, onpressed) {
+    showDialog(
+      context: context,
+      barrierDismissible: true,
+      builder: (context) => Dialog(
+        child: Container(
+          margin: EdgeInsets.all(10),
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10), color: Colors.white),
+          height: 300,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              SizedBox(
+                height: 10,
+              ),
+              image,
+              SizedBox(
+                height: 10,
+              ),
+              Spacer(),
+              SmallButtonReusable(
+                name: "okay",
                 onpressed: onpressed,
               ),
             ],

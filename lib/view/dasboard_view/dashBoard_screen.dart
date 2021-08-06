@@ -1,6 +1,8 @@
 import 'package:Libmot_Mobile/constants/constants.dart';
 import 'package:Libmot_Mobile/constants/dialogs/dialog.dart';
+import 'package:Libmot_Mobile/controllers/booking_history_provider.dart';
 import 'package:Libmot_Mobile/controllers/theme_provider.dart';
+import 'package:Libmot_Mobile/view/Agent/agent.dart';
 import 'package:Libmot_Mobile/view/booking/book_a_seat.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -140,6 +142,12 @@ class _DashBoardScreen extends State<DashBoardScreen> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
+                          GestureDetector(
+                              onTap: () => Get.to(FireCore()),
+                              child: Icon(
+                                Icons.login_outlined,
+                                size: 30,
+                              )),
                           Padding(
                             padding: const EdgeInsets.symmetric(
                                 vertical: 20.0, horizontal: 8),
@@ -191,8 +199,7 @@ class _DashBoardScreen extends State<DashBoardScreen> {
                                 color: Color(0xFF0B5475),
                                 title: 'Become an Agent',
                                 onTap: () {
-                                  Dialogs.showErrorSnackBar('Sorry!',
-                                      'This is not available at the moment');
+                                  Get.to(AgentPage());
                                 },
                                 icon: Icon(
                                   Icons.support_agent,

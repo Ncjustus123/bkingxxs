@@ -99,7 +99,7 @@ class ApiCalls {
     final response = await http.get(url, headers: header);
     return response;
   }
-  
+
   Future<http.Response> getTripHistory(String phonenumber) async {
     final header = await init();
     final url = Uri.parse(
@@ -131,6 +131,15 @@ class ApiCalls {
     final header = await init();
     final url =
         Uri.parse(baseInstance.base.baseUrl + EndPoints.payStackPayment);
+    final response =
+        await http.post(url, body: json.encode(body), headers: header);
+    return response;
+  }
+
+  Future<http.Response> agentRegister(Map<String, dynamic> body) async {
+    final header = await init();
+    final url = Uri.parse(baseInstance.base.baseUrl + EndPoints.agentRegister);
+    //final body = json.encode(body);
     final response =
         await http.post(url, body: json.encode(body), headers: header);
     return response;

@@ -1,9 +1,12 @@
+import 'package:Libmot_Mobile/controllers/booking_history_provider.dart';
 import 'package:Libmot_Mobile/controllers/theme_provider.dart';
 import 'package:Libmot_Mobile/controllers/user_repository.dart';
 import 'package:Libmot_Mobile/view/dasboard_view/dashBoard_screen.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:Libmot_Mobile/view/dasboard_view/drawer_screen.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 
 // ignore: must_be_immutable
@@ -37,6 +40,30 @@ class _DashboardPageState extends State<DashboardPage> {
                     ? user.profile.object.firstName ?? 'Guest'
                     : 'Guest',
               ),
+              //FireCore(),
+
+              // StreamBuilder(
+              //   stream: FirebaseFirestore.instance.collection("courses").snapshots(),
+              //   builder: (context,snapshot){
+              //     return ListView(
+              //       children: snapshot.data.documents.map((document) {
+              //         return Center(
+              //           child: Container(
+              //             width: MediaQuery.of(context).size.width / 1.2,
+              //             height: MediaQuery.of(context).size.height / 6,
+              //             child:Image.network(document['banner']),
+              //           ),
+              //         );
+              //       }).toList(),
+              //     );
+                  // return ListView.builder(
+                  //     itemCount: snapshot.data.documents.lenght,
+                  //     itemBuilder: (context,index){
+                  //       DocumentSnapshot libmot = snapshot.data.documents[index];
+                  //       return Image.network(libmot['banner']);
+                  //     });
+                //},
+              //),
             ],
           ),
         ),
