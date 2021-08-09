@@ -21,7 +21,7 @@ class _InitialPageState extends State<InitialPage> {
   void initState() {
     Future.delayed(Duration(seconds: 2), () {
       // getSecureStorage();
-      checkVersion();
+      //checkVersion();
       Get.offAll(() => OnBoardingPage());
     });
     super.initState();

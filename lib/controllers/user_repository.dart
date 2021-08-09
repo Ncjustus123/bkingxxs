@@ -41,6 +41,7 @@ class UserRepository with ChangeNotifier {
   TextEditingController otp = TextEditingController();
 
   Status get status => _status;
+    var time;
 
   LoggedInStatus get loggedInStatus => _loggedInStatus;
 

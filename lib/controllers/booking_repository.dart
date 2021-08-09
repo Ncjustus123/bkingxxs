@@ -42,6 +42,7 @@ class BookingRepository with ChangeNotifier {
   int totalTravellers;
   var allArrivalIds;
   var arrivalOptions;
+  var time;
 
   updatePassenger({numberAdult, numberChildren}) {
     getBuses.numberOfAdults = int.parse(numberAdult);

@@ -83,7 +83,7 @@ class _AgentPageState extends State<AgentPage> {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(right: 80),
+                  padding: EdgeInsets.only(right: 160),
                   child: Text("Register as:", style:TextStyle( fontWeight:FontWeight.w700,
                       fontSize: 15,
                       color: Colors.white),),
@@ -95,7 +95,7 @@ class _AgentPageState extends State<AgentPage> {
                   child: DefaultTabController(
                     length: 2,
                     child: Container(
-                      height: 35,
+                      height: 30,
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(35),
@@ -148,6 +148,7 @@ class _AgentPageState extends State<AgentPage> {
                         child: Column(
                             children: [
                               SizedBox(height: 20,),
+                              indexOfRoute == 0 ?
                               InputFormField(
                                 label: 'First Name',
                                 textCapitalization: TextCapitalization.words,
@@ -157,7 +158,8 @@ class _AgentPageState extends State<AgentPage> {
                                   }
                                   return null;
                                 },
-                              ),
+                              ): SizedBox(),
+                              indexOfRoute == 0 ?
                               InputFormField(
                                 label: 'Middle Name',
                                 textCapitalization: TextCapitalization.words,
@@ -167,9 +169,9 @@ class _AgentPageState extends State<AgentPage> {
                                   }
                                   return null;
                                 },
-                              ),
+                              ):SizedBox(),
                               InputFormField(
-                                label: 'last Name',
+                                label: indexOfRoute == 0 ?'last Name':"Comapany Name",
                                 textCapitalization: TextCapitalization.words,
                                 validator: (value) {
                                   if (value.isEmpty) {
@@ -179,7 +181,7 @@ class _AgentPageState extends State<AgentPage> {
                                 },
                               ),
                               InputFormField(
-                                label: 'Address',
+                                label:indexOfRoute == 0 ? 'Address':'Nature of Business',
                                 textCapitalization: TextCapitalization.words,
                                 validator: (value) {
                                   if (value.isEmpty) {
@@ -189,7 +191,7 @@ class _AgentPageState extends State<AgentPage> {
                                 },
                               ),
                               InputFormField(
-                                label: 'Phone number',
+                                label: indexOfRoute == 0 ?'Phone number':'Company Address',
                                 textCapitalization: TextCapitalization.words,
                                 validator: (value) {
                                   if (value.isEmpty) {
@@ -199,7 +201,17 @@ class _AgentPageState extends State<AgentPage> {
                                 },
                               ),
                               InputFormField(
-                                label: 'Email',
+                                label:indexOfRoute == 0 ? 'Email':'Company Phone no',
+                                textCapitalization: TextCapitalization.words,
+                                validator: (value) {
+                                  if (value.isEmpty) {
+                                    return 'error';
+                                  }
+                                  return null;
+                                },
+                              ),
+                              InputFormField(
+                                label: indexOfRoute == 0 ?'Gender':'Company Email',
                                 textCapitalization: TextCapitalization.words,
                                 validator: (value) {
                                   if (value.isEmpty) {
@@ -209,10 +221,11 @@ class _AgentPageState extends State<AgentPage> {
                                 },
                               ),
                               SizedBox(height: 10,),
-                              Text("Next of Kin Informtion", style:TextStyle( fontWeight:FontWeight.w700,
+                             indexOfRoute == 0 ? Text("Next of Kin Informtion", style:TextStyle( fontWeight:FontWeight.w700,
                                   fontSize: 17,
-                                  color: Colors.black),),
+                                  color: Colors.black),):SizedBox(),
                               SizedBox(height: 5,),
+                              indexOfRoute == 0 ?
                               InputFormField(
                                 label: 'Full Name',
                                 textCapitalization: TextCapitalization.words,
@@ -222,7 +235,8 @@ class _AgentPageState extends State<AgentPage> {
                                   }
                                   return null;
                                 },
-                              ),
+                              ):SizedBox(),
+                              indexOfRoute == 0 ?
                               InputFormField(
                                 label: 'Phone Number',
                                 textCapitalization: TextCapitalization.words,
@@ -232,7 +246,7 @@ class _AgentPageState extends State<AgentPage> {
                                   }
                                   return null;
                                 },
-                              ),
+                              ):SizedBox(),
                               SizedBox(height: 20,),
                               Buttons.coloredButton(
                                 context: context,

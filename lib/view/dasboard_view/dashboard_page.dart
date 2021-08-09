@@ -20,6 +20,26 @@ class DashboardPage extends StatefulWidget {
 class _DashboardPageState extends State<DashboardPage> {
   GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   DateTime currentBackPressTime;
+  buildDialog(context) {
+    return showDialog(
+      barrierDismissible: true,
+      context: context,
+      builder: (context) => AlertDialog(
+        backgroundColor: Colors.transparent,
+        content: FireCore(),
+      ),
+    );
+  }
+
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Future.delayed(Duration(seconds: 3)).then((_) => buildDialog(context));
+    });
+    // TODO: implement initState
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<UserRepository>(context);
@@ -56,13 +76,13 @@ class _DashboardPageState extends State<DashboardPage> {
               //         );
               //       }).toList(),
               //     );
-                  // return ListView.builder(
-                  //     itemCount: snapshot.data.documents.lenght,
-                  //     itemBuilder: (context,index){
-                  //       DocumentSnapshot libmot = snapshot.data.documents[index];
-                  //       return Image.network(libmot['banner']);
-                  //     });
-                //},
+              // return ListView.builder(
+              //     itemCount: snapshot.data.documents.lenght,
+              //     itemBuilder: (context,index){
+              //       DocumentSnapshot libmot = snapshot.data.documents[index];
+              //       return Image.network(libmot['banner']);
+              //     });
+              //},
               //),
             ],
           ),
