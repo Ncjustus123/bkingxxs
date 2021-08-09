@@ -42,7 +42,10 @@ class BookingRepository with ChangeNotifier {
   int totalTravellers;
   var allArrivalIds;
   var arrivalOptions;
-  var time;
+  int time;
+  
+
+ 
 
   updatePassenger({numberAdult, numberChildren}) {
     getBuses.numberOfAdults = int.parse(numberAdult);
@@ -226,7 +229,7 @@ class BookingRepository with ChangeNotifier {
         initialDate: now.add(Duration(days: 1)),
         //tomorrow initial date
         firstDate: now,
-        lastDate: now.add(Duration(days: 14)),
+        lastDate: now.add(Duration(days: time)),
         //TODO days from firebase//open for only two weeks
         helpText: "Select travelling date");
   }

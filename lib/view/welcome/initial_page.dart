@@ -1,4 +1,5 @@
 import 'package:Libmot_Mobile/constants/Buttons/buttons.dart';
+import 'package:Libmot_Mobile/controllers/booking_history_provider.dart';
 import 'package:Libmot_Mobile/controllers/user_repository.dart';
 import 'package:Libmot_Mobile/services/networking/internet_utils.dart';
 import 'package:Libmot_Mobile/view/onboarding/onboarding_page.dart';
@@ -22,10 +23,13 @@ class _InitialPageState extends State<InitialPage> {
     Future.delayed(Duration(seconds: 2), () {
       // getSecureStorage();
       //checkVersion();
+      
+     
       Get.offAll(() => OnBoardingPage());
     });
     super.initState();
   }
+  
   void checkVersion()async{
     final newVersion = NewVersion(
       androidId: "com.libramotors.libmot",

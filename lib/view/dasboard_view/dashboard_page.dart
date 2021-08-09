@@ -1,3 +1,4 @@
+import 'package:Libmot_Mobile/constants/dialogs/dialog.dart';
 import 'package:Libmot_Mobile/controllers/booking_history_provider.dart';
 import 'package:Libmot_Mobile/controllers/theme_provider.dart';
 import 'package:Libmot_Mobile/controllers/user_repository.dart';
@@ -8,6 +9,7 @@ import 'package:Libmot_Mobile/view/dasboard_view/drawer_screen.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
+import 'package:Libmot_Mobile/controllers/booking_repository.dart';
 
 // ignore: must_be_immutable
 class DashboardPage extends StatefulWidget {
@@ -20,14 +22,17 @@ class DashboardPage extends StatefulWidget {
 class _DashboardPageState extends State<DashboardPage> {
   GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   DateTime currentBackPressTime;
+  UserRepository user;
   buildDialog(context) {
     return showDialog(
       barrierDismissible: true,
       context: context,
-      builder: (context) => AlertDialog(
-        backgroundColor: Colors.transparent,
-        content: FireCore(),
-      ),
+      builder: (context) => Container(height:MediaQuery.of(context).size.height,child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          FireCore(),
+        ],
+      )),
     );
   }
 
@@ -60,36 +65,15 @@ class _DashboardPageState extends State<DashboardPage> {
                     ? user.profile.object.firstName ?? 'Guest'
                     : 'Guest',
               ),
-              //FireCore(),
-
-              // StreamBuilder(
-              //   stream: FirebaseFirestore.instance.collection("courses").snapshots(),
-              //   builder: (context,snapshot){
-              //     return ListView(
-              //       children: snapshot.data.documents.map((document) {
-              //         return Center(
-              //           child: Container(
-              //             width: MediaQuery.of(context).size.width / 1.2,
-              //             height: MediaQuery.of(context).size.height / 6,
-              //             child:Image.network(document['banner']),
-              //           ),
-              //         );
-              //       }).toList(),
-              //     );
-              // return ListView.builder(
-              //     itemCount: snapshot.data.documents.lenght,
-              //     itemBuilder: (context,index){
-              //       DocumentSnapshot libmot = snapshot.data.documents[index];
-              //       return Image.network(libmot['banner']);
-              //     });
-              //},
-              //),
+            
             ],
           ),
         ),
       ),
     );
+    
   }
+   
 
   Future<bool> onWillPop() {
     DateTime now = DateTime.now();

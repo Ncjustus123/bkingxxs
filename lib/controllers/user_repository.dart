@@ -39,11 +39,22 @@ class UserRepository with ChangeNotifier {
   SignUpCustomersObject signUp = new SignUpCustomersObject();
   SignUpCustomers signedUpCustomers;
   TextEditingController otp = TextEditingController();
+  Image image;
 
   Status get status => _status;
     var time;
 
   LoggedInStatus get loggedInStatus => _loggedInStatus;
+  buildDialog(context) {
+    return showDialog(
+      barrierDismissible: true,
+      context: context,
+      builder: (context) => Dialog(
+        backgroundColor: Colors.transparent,
+        child: image,
+      ),
+    );
+  }
 
   checkLogin(BuildContext context) async {
     final preference = await UserPreference.getInstance();
