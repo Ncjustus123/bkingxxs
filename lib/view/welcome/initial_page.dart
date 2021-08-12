@@ -42,6 +42,7 @@ class _InitialPageState extends State<InitialPage> {
     print("device :" + status.localVersion);
     print("store :" + status.storeVersion);
   }
+
   void getSecureStorage() async {
     if (await InternetUtils.checkConnectivity()) {
       user.checkLogin(context);

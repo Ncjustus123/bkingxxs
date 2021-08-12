@@ -25,11 +25,11 @@ bool hasLogged = false;
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  FirebaseMessaging.onBackgroundMessage(backgroundhandeler);
+  FirebaseMessaging.onBackgroundMessage(backgroundHandler);
   runApp(MyApp());
 }
 
-Future<void> backgroundhandeler(RemoteMessage message) async {
+Future<void> backgroundHandler(RemoteMessage message) async {
   LocalNotification.display(message);
 }
 

@@ -10,6 +10,7 @@ class LocalNotification {
     final InitializationSettings initializationSettings =
     InitializationSettings(
       android: AndroidInitializationSettings("@mipmap/launcher_icon"),
+      iOS: IOSInitializationSettings(),
     );
     flutterLocalNotificationsPlugin.initialize(initializationSettings,onSelectNotification:(String route)async{
       if (route != null){
@@ -25,6 +26,7 @@ class LocalNotification {
         android: AndroidNotificationDetails(
             "libmotapp", "libmotappchannel", "this is our channel",
             importance: Importance.max, priority: Priority.high),
+        iOS: IOSNotificationDetails(),
       );
       await flutterLocalNotificationsPlugin.show(
         id.toInt(),

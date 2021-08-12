@@ -127,6 +127,7 @@ class BookingRepository with ChangeNotifier {
   }
 
   var arrivals;
+  var newArrivalList;
 
   getDestinationTerminals(int id) async {
     showFetchingData('Fetching destination');
@@ -147,6 +148,15 @@ class BookingRepository with ChangeNotifier {
           ? []
           : destinationTerminalModel.object.toList();
       print(arrivals);
+     newArrivalList = arrivals
+        .where((i) => i.name.toString().toLowerCase().contains('nysc') && i.name != null)
+        .toList();
+
+    print('newArrivalList');
+    print(newArrivalList);
+    // gateway = newGatewayList[0]['gateway'];
+    // print('gateway');
+    // print(gateway);
 
       if (arrivals.isEmpty)
         Dialogs.showErrorSnackBar(

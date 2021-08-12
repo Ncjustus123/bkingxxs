@@ -4,7 +4,6 @@ import 'package:Libmot_Mobile/controllers/user_repository.dart';
 import 'package:Libmot_Mobile/services/networking/internet_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:new_version/new_version.dart';
 import 'package:provider/provider.dart';
 
 class WelcomePage extends StatefulWidget {

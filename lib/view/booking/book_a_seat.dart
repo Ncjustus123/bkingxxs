@@ -73,6 +73,11 @@ class _BookASeatPageState extends State<BookASeatPage>
         : booking.getRouteModel.object.items.toList();
 
     arrivalItems = booking.arrivals;
+    nyscArrivalItems = booking.newArrivalList;
+
+
+
+
     // print('departureList');
     // print(departure);
     //
@@ -116,6 +121,7 @@ class _BookASeatPageState extends State<BookASeatPage>
     // print('generalArrivalOptions');
     // print(generalArrivalOptions);
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -429,8 +435,9 @@ class _BookASeatPageState extends State<BookASeatPage>
     }
   }
 
-  var departureItems;
-  var arrivalItems;
+  var departureItems=[];
+  var arrivalItems=[];
+  var nyscArrivalItems=[];
 
   Widget bottomRouteSheet(BuildContext context) {
     booking = Provider.of<BookingRepository>(context);
@@ -474,7 +481,7 @@ class _BookASeatPageState extends State<BookASeatPage>
                           ? departureItems.length
                           : nyscOption == 'general'
                               ? arrivalItems.length
-                              : arrivalItems.length, (index) {
+                              : nyscArrivalItems.length, (index) {
                     return new ListTile(
                       onTap: () {
                         direction == 'from'
@@ -482,7 +489,7 @@ class _BookASeatPageState extends State<BookASeatPage>
                             : selectToOption(
                                 nyscOption == 'general'
                                     ? arrivalItems[index]
-                                    : arrivalItems[index],
+                                    : nyscArrivalItems[index],
                               );
                       },
                       title: Text(
@@ -490,7 +497,7 @@ class _BookASeatPageState extends State<BookASeatPage>
                             ? departureItems[index].name
                             : nyscOption == 'general'
                                 ? arrivalItems[index].name
-                                : arrivalItems[index].name,
+                                : nyscArrivalItems[index].name,
                         softWrap: true,
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
@@ -499,9 +506,11 @@ class _BookASeatPageState extends State<BookASeatPage>
                               ? selectedFrom == departureItems[index].name
                                   ? FontWeight.w600
                                   : FontWeight.w500
-                              : selectedTo == arrivalItems[index].name
+                              : nyscOption == 'general'
+                              ?selectedTo == arrivalItems[index].name
                                   ? FontWeight.w600
-                                  : FontWeight.w500,
+                                  : FontWeight.w500: selectedTo == nyscArrivalItems[index].name?FontWeight.w600
+                              : FontWeight.w500,
                         ),
                       ),
                       trailing: direction == 'from'
@@ -510,11 +519,16 @@ class _BookASeatPageState extends State<BookASeatPage>
                                   size: 15,
                                   color: Theme.of(context).primaryColor)
                               : Text('')
-                          : selectedTo == arrivalItems[index].name
+                          : nyscOption == 'general'
+                          ?selectedTo == arrivalItems[index].name
                               ? Icon(Icons.check,
                                   size: 15,
                                   color: Theme.of(context).primaryColor)
-                              : Text(''),
+                              : Text(''):selectedTo == nyscArrivalItems[index].name
+                          ? Icon(Icons.check,
+                          size: 15,
+                          color: Theme.of(context).primaryColor)
+                          : Text(''),
                     );
                   }),
                 ),
