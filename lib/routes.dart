@@ -1,4 +1,5 @@
 
+import 'package:Libmot_Mobile/view/Agent/agent.dart';
 import 'package:Libmot_Mobile/view/booking/apply_coupon_page.dart';
 import 'package:Libmot_Mobile/view/booking/passenger_info_page.dart';
 import 'package:Libmot_Mobile/view/booking/check_booking_status.dart';
@@ -140,7 +141,7 @@ Route routes(RouteSettings settings) {
       break;
     case "/becomeAnAgentPage":
       {
-        return MaterialPageRoute(builder: (context) => BecomeAnAgent());
+        return MaterialPageRoute(builder: (context) => AgentPage());
       }
       break;
       case "/paymentpage":

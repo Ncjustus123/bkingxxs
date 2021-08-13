@@ -338,7 +338,7 @@ class _BecomeAnAgentState extends State<BecomeAnAgent> {
 
     agentRegistration.agentType = index;
 
-    agentProvider.agentRequest(agentRegistration);
+    //agentProvider.agentRequest(agentRegistration);
   }
 
   fillCoporationRegistrationModel() {
@@ -360,7 +360,7 @@ class _BecomeAnAgentState extends State<BecomeAnAgent> {
 
     agentRegistration.agentType = index;
 
-    agentProvider.agentRequest(agentRegistration);
+    //agentProvider.agentRequest(agentRegistration);
   }
 
   @override

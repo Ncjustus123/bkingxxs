@@ -58,7 +58,7 @@ class _BookASeatPageState extends State<BookASeatPage>
     });
     super.initState();
   }
-
+  var newDepature;
   boot(context) {
     booking = Provider.of<BookingRepository>(context);
     // departureList = (booking.getRouteModel == null)
@@ -71,8 +71,10 @@ class _BookASeatPageState extends State<BookASeatPage>
     departureItems = (booking.getRouteModel == null)
         ? []
         : booking.getRouteModel.object.items.toList();
+    newDepature = departureItems .where((i) => !i.name.toString().toLowerCase().contains('nysc') && i.name != null)
+        .toList();
 
-    arrivalItems = booking.arrivals;
+    arrivalItems = booking.generalarrivalList;
     nyscArrivalItems = booking.newArrivalList;
 
 
@@ -476,16 +478,16 @@ class _BookASeatPageState extends State<BookASeatPage>
               child: Padding(
                 padding: EdgeInsets.symmetric(vertical: 5, horizontal: 8),
                 child: Column(
-                  children: List<Widget>.generate(
+                  children: List<Widget>.generate(  //departureItems.length
                       direction == 'from'
-                          ? departureItems.length
+                          ? newDepature.length
                           : nyscOption == 'general'
                               ? arrivalItems.length
                               : nyscArrivalItems.length, (index) {
                     return new ListTile(
                       onTap: () {
                         direction == 'from'
-                            ? selectFromOption(departureItems[index])
+                            ? selectFromOption(newDepature[index])
                             : selectToOption(
                                 nyscOption == 'general'
                                     ? arrivalItems[index]
@@ -494,7 +496,7 @@ class _BookASeatPageState extends State<BookASeatPage>
                       },
                       title: Text(
                         direction == 'from'
-                            ? departureItems[index].name
+                            ? newDepature[index].name
                             : nyscOption == 'general'
                                 ? arrivalItems[index].name
                                 : nyscArrivalItems[index].name,
@@ -503,7 +505,7 @@ class _BookASeatPageState extends State<BookASeatPage>
                         style: TextStyle(
                           fontSize: 15,
                           fontWeight: direction == 'from'
-                              ? selectedFrom == departureItems[index].name
+                              ? selectedFrom == newDepature[index].name
                                   ? FontWeight.w600
                                   : FontWeight.w500
                               : nyscOption == 'general'
@@ -514,7 +516,7 @@ class _BookASeatPageState extends State<BookASeatPage>
                         ),
                       ),
                       trailing: direction == 'from'
-                          ? selectedFrom == departureItems[index].name
+                          ? selectedFrom == newDepature[index].name
                               ? Icon(Icons.check,
                                   size: 15,
                                   color: Theme.of(context).primaryColor)

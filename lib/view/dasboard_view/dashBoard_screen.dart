@@ -142,12 +142,6 @@ class _DashBoardScreen extends State<DashBoardScreen> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          GestureDetector(
-                              onTap: () => Get.to(FireCore()),
-                              child: Icon(
-                                Icons.login_outlined,
-                                size: 30,
-                              )),
                           Padding(
                             padding: const EdgeInsets.symmetric(
                                 vertical: 20.0, horizontal: 8),
