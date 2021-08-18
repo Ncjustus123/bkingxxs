@@ -7,6 +7,7 @@ import 'package:Libmot_Mobile/models/get_buses_model.dart';
 import 'package:Libmot_Mobile/models/get_buses_response.dart';
 import 'package:Libmot_Mobile/models/get_route.dart';
 import 'package:Libmot_Mobile/models/post_booking_response.dart';
+import 'package:Libmot_Mobile/services/networking/getBase.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -275,7 +276,7 @@ class BookingRepository with ChangeNotifier {
     }
 
     //TODO: CHECK IF TWENTY MINUTES HAVE NOT ELAPSED AND THE BOOKING REFERENCE IS AVAILABLE.
-    showFetchingData('Checking coupon');
+    showFetchingData('Processing...');
 
     final response = await ApiCalls().postBooking(booking.toJson());
     print("booking");
@@ -293,7 +294,7 @@ class BookingRepository with ChangeNotifier {
 
       //show dialog box
       EasyLoading.dismiss();
-      Navigator.of(context).pushNamed("/paymentpage");
+      Navigator.of(context).pushNamed("/paystackpage");
     }
   }
 
@@ -305,12 +306,12 @@ class BookingRepository with ChangeNotifier {
       String fullName, String txref, String phoneNumber) async {
     final Flutterwave flutterwave = Flutterwave.forUIPayment(
       context: context,
-      //encryptionKey: baseInstance.base.flutterwaveEncryptionKey,
-      encryptionKey: "26c03b274b07e6a19b179978",
-      //publicKey: baseInstance.base.flutterwavePublicKey,
-      publicKey: "FLWPUBK-add64679c55bac888696922e372cecb5-X",
+      encryptionKey: baseInstance.base.flutterwaveEncryptionKey,
+      //encryptionKey: "26c03b274b07e6a19b179978",
+      publicKey: baseInstance.base.flutterwavePublicKey,
+      //publicKey: "FLWPUBK-add64679c55bac888696922e372cecb5-X",
       currency: "NGN",
-      amount: "50",
+      amount: amount,
       email: email,
       fullName: fullName,
       txRef: txref,

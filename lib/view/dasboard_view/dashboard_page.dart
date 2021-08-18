@@ -39,7 +39,7 @@ class _DashboardPageState extends State<DashboardPage> {
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      Future.delayed(Duration(seconds: 3)).then((_) => buildDialog(context));
+      Future.delayed(Duration(seconds: 1)).then((_) => buildDialog(context));
     });
     // TODO: implement initState
     super.initState();

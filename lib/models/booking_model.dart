@@ -6,7 +6,7 @@ class BookingModel {
   int passengerType;
   String firstName;
   String lastName;
-  int gender;
+  int gender ;
   int routeId;
   bool isSub;
   bool isSubReturn;

@@ -181,7 +181,6 @@ class _PassengerInfoPageState extends State<PassengerInfoPage>
                               InputFormField(
                                 label: 'Gender',
                                 keyboardType: TextInputType.name,
-                                suffixIcon: Icon(Icons.expand_more),
                                 textCapitalization: TextCapitalization.words,
                                 controller: genderController,
                                 onSaved: (value) => booking.booking.gender =
@@ -192,7 +191,9 @@ class _PassengerInfoPageState extends State<PassengerInfoPage>
                                   }
                                   return null;
                                 },
+
                               ),
+
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Text(
@@ -242,6 +243,8 @@ class _PassengerInfoPageState extends State<PassengerInfoPage>
                                 context: context,
                                 title: "Proceed",
                                 onTap: () async {
+                                  print(booking.booking.gender);
+                                  print(genderController.text);
                                   if (_formKey.currentState.validate()) {
                                     _formKey.currentState.save();
                                     booking.booking.beneficiaries = [
