@@ -191,9 +191,7 @@ class _PassengerInfoPageState extends State<PassengerInfoPage>
                                   }
                                   return null;
                                 },
-
                               ),
-
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Text(
@@ -243,8 +241,6 @@ class _PassengerInfoPageState extends State<PassengerInfoPage>
                                 context: context,
                                 title: "Proceed",
                                 onTap: () async {
-                                  print(booking.booking.gender);
-                                  print(genderController.text);
                                   if (_formKey.currentState.validate()) {
                                     _formKey.currentState.save();
                                     booking.booking.beneficiaries = [
