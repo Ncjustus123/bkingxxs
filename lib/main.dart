@@ -33,7 +33,6 @@ Future<void> backgroundHandler(RemoteMessage message) async {
   LocalNotification.display(message);
 }
 
-
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

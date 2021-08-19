@@ -7,7 +7,6 @@ import 'package:Libmot_Mobile/view/help_support/complaints_page.dart';
 import 'package:Libmot_Mobile/view/help_support/help_support_page.dart';
 import 'package:Libmot_Mobile/view/booking/select_bus_page.dart';
 import 'package:Libmot_Mobile/view/login/sign_up_page.dart';
-import 'package:Libmot_Mobile/view/payment/paymentPaystack.dart';
 import 'package:flutter/material.dart';
 import 'view/become_agent/become_an_agent.dart';
 import 'view/booking/book_a_seat.dart';
@@ -148,11 +147,6 @@ Route routes(RouteSettings settings) {
       case "/paymentpage":
       {
         return MaterialPageRoute(builder: (context) => PaymentPage());
-      }
-      break;
-    case "/paystackpage":
-      {
-        return MaterialPageRoute(builder: (context) => PaymentPaystack());
       }
       break;
     default:

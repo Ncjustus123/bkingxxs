@@ -213,7 +213,7 @@ class _PaymentPageState extends State<PaymentPage> {
                           onTap: () {
                             booking.beginFlutterwavePayment(
                                 context,
-                                booking.totalestimate
+                                booking.postBookingResponse.object.amount
                                     .toString(),
                                 booking.booking.email,
                                 booking.booking.firstName,
@@ -223,7 +223,7 @@ class _PaymentPageState extends State<PaymentPage> {
                           },
                           child: Image.asset(
                             "images/flutterwave.png",
-                            height: 82,
+                            height: 60,
                           ),
                         ),
                       ),
@@ -231,9 +231,15 @@ class _PaymentPageState extends State<PaymentPage> {
                         child: GestureDetector(
                           onTap: () => Get.to(PaymentPaystack()),
 
+                          // Navigator.pushReplacement(
+                          //     context,
+                          //     MaterialPageRoute(
+                          //         builder: (BuildContext context) =>
+                          //             PaymentPaystack()));
+
                           child: Image.asset(
                             "images/paystack.png",
-                            height: 82,
+                            height: 60,
                           ),
                         ),
                       ),
