@@ -101,7 +101,7 @@ class _DrawerScreenState extends State<DrawerScreen> {
                               )));
                     },
                     child: Text(
-                      '${toBeginningOfSentenceCase(widget.name ?? 'Guest')}',
+                      '${toBeginningOfSentenceCase(widget.name)}',
                       style: TextStyle(fontSize: 16),
                     ),
                   ),
@@ -193,7 +193,7 @@ class _DrawerScreenState extends State<DrawerScreen> {
                   child: InkWell(
                     onTap: () {
                       print("log out");
-                      user.logout();
+                      user.logout(context);
                     },
                     child: Container(
                       decoration: BoxDecoration(color: Colors.black),
