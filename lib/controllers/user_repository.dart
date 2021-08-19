@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart' as route;
 import 'package:get/get.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../services/networking/api_calls.dart';
 import 'package:Libmot_Mobile/view/dasboard_view/dashboard_page.dart';
@@ -89,11 +90,12 @@ class UserRepository with ChangeNotifier {
     // }
   }
 
-  logout() async {
+  logout(context) async {
     final pref = await UserPreference.getInstance();
     pref.deleteProfile();
-
     _loggedInStatus = LoggedInStatus.LoggedOut;
+    Provider.of<UserRepository>(context,listen: false).profile=null;
+
 
     Get.offAll(() => WelcomePage());
     notifyListeners();
