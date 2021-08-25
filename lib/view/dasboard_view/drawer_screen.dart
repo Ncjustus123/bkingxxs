@@ -169,7 +169,7 @@ class _DrawerScreenState extends State<DrawerScreen> {
                   menuOption(
                     icon: 'icons/rate us.png',
                     title: 'Rate Us',
-                    onTap: () {                    launch("https://play.google.com/store/apps/details?id=com.libramotors.libmot");
+                    onTap: () {   launch("https://play.google.com/store/apps/details?id=com.libramotors.libmot");
                     },
                   ),
                   menuOption(

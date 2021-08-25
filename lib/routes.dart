@@ -24,6 +24,8 @@ import 'package:Libmot_Mobile/view/booking/roundtrip_bus_page.dart';
 import 'package:Libmot_Mobile/view/booking/roundtrip_selectseat.dart';
 import 'package:Libmot_Mobile/view/payment/payment.dart';
 
+import 'view/payment/paymentPaystack.dart';
+
 
 Route routes(RouteSettings settings) {
   final args = settings.arguments;
@@ -146,9 +148,10 @@ Route routes(RouteSettings settings) {
       break;
       case "/paymentpage":
       {
-        return MaterialPageRoute(builder: (context) => PaymentPage());
+        return MaterialPageRoute(builder: (context) => PaymentPaystack());
       }
       break;
+
     default:
       {
          return MaterialPageRoute(builder: (context) => InitialPage());  //404 page

@@ -275,7 +275,7 @@ class BookingRepository with ChangeNotifier {
     }
 
     //TODO: CHECK IF TWENTY MINUTES HAVE NOT ELAPSED AND THE BOOKING REFERENCE IS AVAILABLE.
-    showFetchingData('Checking coupon');
+    showFetchingData('Processing ..');
 
     final response = await ApiCalls().postBooking(booking.toJson());
     print("booking");
