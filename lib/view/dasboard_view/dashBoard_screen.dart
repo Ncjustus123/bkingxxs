@@ -247,8 +247,8 @@ class _DashBoardScreen extends State<DashBoardScreen> {
                                 color: Color(0xFF3D348B),
                                 title: "Libmot Drive",
                                 onTap: () {
-                                  Dialogs.showErrorSnackBar('Sorry!',
-                                      'This is not available at the moment');
+                                  Dialogs.showErrorSnackBar('Opps!',
+                                      'Libmot Drive Coming Soon');
                                 },
                                 icon: Icon(
                                   Icons.drive_eta_rounded,
