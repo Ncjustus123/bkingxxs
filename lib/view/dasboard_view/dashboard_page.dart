@@ -58,12 +58,12 @@ class _DashboardPageState extends State<DashboardPage> {
               DrawerScreen(
                 name: user.profile != null
                     ? '${user.profile.object.firstName} ${user.profile.object.lastName}'
-                    : 'Guest',
+                    : 'Guest User',
               ),
               DashBoardScreen(
                 name: user.profile != null
-                    ? user.profile.object.firstName ?? 'Guest'
-                    : 'Guest',
+                    ? user.profile.object.firstName ?? 'Guest User'
+                    : 'Guest User',
               ),
             
             ],

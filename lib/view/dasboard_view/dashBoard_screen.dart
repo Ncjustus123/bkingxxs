@@ -4,6 +4,7 @@ import 'package:Libmot_Mobile/controllers/booking_history_provider.dart';
 import 'package:Libmot_Mobile/controllers/theme_provider.dart';
 import 'package:Libmot_Mobile/view/Agent/agent.dart';
 import 'package:Libmot_Mobile/view/booking/book_a_seat.dart';
+import 'package:Libmot_Mobile/view/bus_hire/bus_hire_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -115,19 +116,28 @@ class _DashBoardScreen extends State<DashBoardScreen> {
                       },
                       child: Padding(
                         padding: const EdgeInsets.fromLTRB(8, 0, 0, 8),
-                        child: Get.isDarkMode
-                            ? Image.asset(
-                                'icons/dark_mode.png',
-                                color: Colors.white,
-                                height: 35,
-                                width: 35,
-                              )
-                            : Image.asset(
-                                'icons/light_mode.png',
-                                color: Colors.white,
-                                height: 35,
-                                width: 35,
-                              ),
+                        child: Column(
+                          children: [
+                            Get.isDarkMode
+                                ? Image.asset(
+                                    'icons/dark_mode.png',
+                                    color: Colors.white,
+                                    height: 35,
+                                    width: 35,
+                                  )
+                                : Image.asset(
+                                    'icons/light_mode.png',
+                                    color: Colors.white,
+                                    height: 35,
+                                    width: 35,
+                                  ),
+                            Text(
+                              'Theme',
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 12),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ],
@@ -176,7 +186,8 @@ class _DashBoardScreen extends State<DashBoardScreen> {
                                 color: Colors.grey[600],
                                 title: 'Hire a Bus',
                                 onTap: () {
-                                  Navigator.of(context).pushNamed(hireAbus);
+                                  // Navigator.of(context).pushNamed(hireAbus);
+                                  Get.to(() => BusHirePage());
                                 },
                                 icon: Icon(
                                   Icons.bus_alert,
@@ -193,7 +204,7 @@ class _DashBoardScreen extends State<DashBoardScreen> {
                                 color: Color(0xFF0B5475),
                                 title: 'Become an Agent',
                                 onTap: () {
-                                  Get.to(AgentPage());
+                                  Get.to(()=>AgentPage());
                                 },
                                 icon: Icon(
                                   Icons.support_agent,
@@ -247,8 +258,8 @@ class _DashBoardScreen extends State<DashBoardScreen> {
                                 color: Color(0xFF3D348B),
                                 title: "Libmot Drive",
                                 onTap: () {
-                                  Dialogs.showErrorSnackBar('Opps!',
-                                      'Libmot Drive Coming Soon');
+                                  Dialogs.showErrorSnackBar(
+                                      'Opps!', 'Libmot Drive Coming Soon');
                                 },
                                 icon: Icon(
                                   Icons.drive_eta_rounded,

@@ -1,15 +1,13 @@
 import 'package:Libmot_Mobile/Reusables/text_field.dart';
-import 'package:Libmot_Mobile/constants/constants.dart';
-import 'package:Libmot_Mobile/models/sign_up_model.dart';
+import 'package:Libmot_Mobile/constants/Buttons/buttons.dart';
+import 'package:Libmot_Mobile/constants/dialogs/dialog.dart';
 import 'package:Libmot_Mobile/controllers/user_repository.dart';
+import 'package:Libmot_Mobile/models/sign_up_model.dart';
+import 'package:Libmot_Mobile/services/networking/internet_utils.dart';
 import 'package:Libmot_Mobile/view/login/login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
-import 'package:Libmot_Mobile/services/networking/internet_utils.dart';
-import 'package:Libmot_Mobile/constants/dialogs/dialog.dart';
-import 'package:Libmot_Mobile/constants/Buttons/buttons.dart';
-import 'package:Libmot_Mobile/Reusables/text_field.dart';
 
 // ignore: must_be_immutable
 class SignUpPage extends StatefulWidget {
@@ -26,6 +24,8 @@ class _SignUpPageState extends State<SignUpPage> {
   final passwordcontroller = TextEditingController();
   final confirmPasswordcontroller = TextEditingController();
   final referralcontroller = TextEditingController();
+  final customerController = TextEditingController();
+
   bool _passwordVisible = true;
   bool _confirmPasswordVisible = true;
   UserRepository userRepository;
@@ -68,12 +68,12 @@ class _SignUpPageState extends State<SignUpPage> {
                     ),
                   ),
                   child: Padding(
-                    padding: const EdgeInsets.only(top: 30.0),
+                    padding: const EdgeInsets.only(top: 25.0),
                     child: SingleChildScrollView(
                       child: Column(
                         children: [
                           Padding(
-                            padding: const EdgeInsets.only(bottom: 10),
+                            padding: const EdgeInsets.only(bottom: 8),
                             child: Text("Sign Up",
                                 style: TextStyle(
                                     fontWeight: FontWeight.w500, fontSize: 25)),
@@ -98,174 +98,206 @@ class _SignUpPageState extends State<SignUpPage> {
 
   Widget _formPage(UserRepository user, context) {
     return SingleChildScrollView(
-      child: Form(
-        key: _formKeyLogin,
-        child: Padding(
-          padding: const EdgeInsets.all(15.0),
-          child: Column(
-            children: <Widget>[
-              InputFormField(
-                obscure: false,
-                controller: firstNamecontroller,
-                textCapitalization: TextCapitalization.words,
-                label: 'First Name',
-                validator: (value) {
-                  if (value.isEmpty) {
-                    return 'Please input your Firstname';
-                  }
-                  return null;
-                },
+        child: Form(
+      key: _formKeyLogin,
+      child: Padding(
+        padding: const EdgeInsets.all(15.0),
+        child: Column(children: <Widget>[
+          Row(
+            children: [
+              Expanded(
+                child: InputFormField(
+                  obscure: false,
+                  controller: firstNamecontroller,
+                  textCapitalization: TextCapitalization.words,
+                  label: 'First Name',
+                  validator: (value) {
+                    if (value.isEmpty) {
+                      return 'Please input your Firstname';
+                    }
+                    return null;
+                  },
+                ),
               ),
-              InputFormField(
-                controller: lastNamecontroller,
-                obscure: false,
-                label: 'Last Name',
-                textCapitalization: TextCapitalization.words,
-                validator: (value) {
-                  if (value.isEmpty) {
-                    return 'Please input your Lastname';
-                  }
-                  return null;
-                },
+              Expanded(
+                child: InputFormField(
+                  controller: lastNamecontroller,
+                  obscure: false,
+                  label: 'Last Name',
+                  textCapitalization: TextCapitalization.words,
+                  validator: (value) {
+                    if (value.isEmpty) {
+                      return 'Please input your Lastname';
+                    }
+                    return null;
+                  },
+                ),
               ),
-              InputFormField(
-                controller: emailcontroller,
-                label: "Email",
-                obscure: false,
-                keyboardType: TextInputType.emailAddress,
-                validator: (value) {
-                  if (value.isEmpty) {
-                    return 'Please input an email';
-                  }
-                  return null;
-                },
-              ),
-              InputFormField(
-                obscure: false,
-                label: "Phone number",
-                controller: phoneNumbercontroller,
-                keyboardType: TextInputType.phone,
-                validator: (value) {
-                  if (value.isEmpty) {
-                    return 'Please input a phone number';
-                  }
-                  return null;
-                },
-              ),
-              Row(
-                children: [
-                  Expanded(
-                    child: InkWell(
-                      onTap: (){
-                        showModalBottomSheet(
-                          context: context,
-                          isScrollControlled: true,
-                          backgroundColor: Colors.transparent,
-                          builder: (context) => SingleChildScrollView(
-                              child: bottomRouteSheet(context)),
-                        );
-                      },
-                      child: InputFormField(
-                        label: "Gender",
-                        obscure: false,
-                        enabled: false,
-                        textCapitalization: TextCapitalization.words,
-                        controller: gendercontroller,
-                        suffixIcon: Icon(Icons.expand_more),
-                        validator: (value) {
-                          if (value.isEmpty) {
-                            return 'Please input gender';
-                          }
-                          return null;
-                        },
-                      ),
-                    ),
-                  ),
-                  SizedBox(width: 8),
-                  Expanded(child:   InputFormField(
+            ],
+          ),
+          InputFormField(
+            controller: emailcontroller,
+            label: "Email",
+            obscure: false,
+            keyboardType: TextInputType.emailAddress,
+            validator: (value) {
+              if (value.isEmpty) {
+                return 'Please input an email';
+              }
+              return null;
+            },
+          ),
+          InputFormField(
+            obscure: false,
+            label: "Phone number",
+            controller: phoneNumbercontroller,
+            keyboardType: TextInputType.phone,
+            validator: (value) {
+              if (value.isEmpty) {
+                return 'Please input a phone number';
+              }
+              return null;
+            },
+          ),
+          Row(
+            children: [
+              Expanded(
+                child: InkWell(
+                  onTap: () {
+                    showModalBottomSheet(
+                      context: context,
+                      isScrollControlled: true,
+                      backgroundColor: Colors.transparent,
+                      builder: (context) => SingleChildScrollView(
+                          child: bottomRouteSheet(context)),
+                    );
+                  },
+                  child: InputFormField(
+                    label: "Gender",
                     obscure: false,
-                    controller: referralcontroller,
-                    label: "Referral code",
-                  ),),
-                ],
-              ),
-              InputFormField(
-                controller: passwordcontroller,
-                obscure: _passwordVisible,
-                label: 'Password',
-                validator: (value) {
-                  if (value.isEmpty) {
-                    return 'Please put in your Password';
-                  }
-                  return null;
-                },
-                prefixIcon: Icon(Icons.lock_outlined, color: Colors.grey),
-                suffixIcon: IconButton(
-                  icon: Icon(
-                    _passwordVisible
-                        ? Icons.visibility_off_outlined
-                        : Icons.visibility_outlined,
-                    color: Colors.grey,
+                    enabled: false,
+                    textCapitalization: TextCapitalization.words,
+                    controller: gendercontroller,
+                    suffixIcon: Icon(Icons.expand_more),
+                    validator: (value) {
+                      if (value.isEmpty) {
+                        return 'Please input gender';
+                      }
+                      return null;
+                    },
                   ),
-                  onPressed: () {
-                    setState(() {
-                      _passwordVisible = !_passwordVisible;
-                    });
-                  },
                 ),
               ),
-              InputFormField(
-                controller: confirmPasswordcontroller,
-                obscure: _confirmPasswordVisible,
-                label: 'Confirm Password',
-                validator: (value) {
-                  if (value.isEmpty) {
-                    return 'Please confirm the Password';
-                  } else if (value != passwordcontroller.text) {
-                    return 'Password do not match';
-                  }
-                  return null;
-                },
-                prefixIcon: Icon(Icons.lock_outlined, color: Colors.grey),
-                suffixIcon: IconButton(
-                  icon: Icon(
-                    _confirmPasswordVisible
-                        ? Icons.visibility_off_outlined
-                        : Icons.visibility_outlined,
-                    color: Colors.grey,
-                  ),
-                  onPressed: () {
-                    setState(() {
-                      _confirmPasswordVisible = !_confirmPasswordVisible;
-                    });
-                  },
+              SizedBox(width: 8),
+              Expanded(
+                child: InputFormField(
+                  obscure: false,
+                  controller: referralcontroller,
+                  label: "Referral code",
                 ),
               ),
+            ],
+          ),
+           InkWell(
+            onTap: () {
+              showModalBottomSheet(
+                context: context,
+                isScrollControlled: true,
+                backgroundColor: Colors.transparent,
+                builder: (context) => SingleChildScrollView(
+                    child: _showCustomerType(context)),
+              );
+            },
+            child: InputFormField(
+              label: "Customer tye",
+              obscure: false,
+              enabled: false,
+              textCapitalization: TextCapitalization.words,
+              controller: customerController,
+              suffixIcon: Icon(Icons.expand_more),
+              validator: (value) {
+                if (value.isEmpty) {
+                  return 'Please a type of customer';
+                }
+                return null;
+              },
+            ),
+          ),
 
-              SizedBox(
-                height: 20,
+          InputFormField(
+            controller: passwordcontroller,
+            obscure: _passwordVisible,
+            label: 'Password',
+            validator: (value) {
+              if (value.isEmpty) {
+                return 'Please put in your Password';
+              }
+              return null;
+            },
+            prefixIcon: Icon(Icons.lock_outlined, color: Colors.grey),
+            suffixIcon: IconButton(
+              icon: Icon(
+                _passwordVisible
+                    ? Icons.visibility_off_outlined
+                    : Icons.visibility_outlined,
+                color: Colors.grey,
               ),
-              ButtonReusable(
-                name: "Sign Up",
-                onpressed: () async {
-                  FocusScope.of(context).unfocus();
-                  register(user, context);
-                },
+              onPressed: () {
+                setState(() {
+                  _passwordVisible = !_passwordVisible;
+                });
+              },
+            ),
+          ),
+          InputFormField(
+            controller: confirmPasswordcontroller,
+            obscure: _confirmPasswordVisible,
+            label: 'Confirm Password',
+            validator: (value) {
+              if (value.isEmpty) {
+                return 'Please confirm the Password';
+              } else if (value != passwordcontroller.text) {
+                return 'Password do not match';
+              }
+              return null;
+            },
+            prefixIcon: Icon(Icons.lock_outlined, color: Colors.grey),
+            suffixIcon: IconButton(
+              icon: Icon(
+                _confirmPasswordVisible
+                    ? Icons.visibility_off_outlined
+                    : Icons.visibility_outlined,
+                color: Colors.grey,
               ),
-                     SizedBox(height: 20),
+              onPressed: () {
+                setState(() {
+                  _confirmPasswordVisible = !_confirmPasswordVisible;
+                });
+              },
+            ),
+          ),
+          SizedBox(
+            height: 20,
+          ),
+          ButtonReusable(
+            name: "Sign Up",
+            onpressed: () async {
+              FocusScope.of(context).unfocus();
+              register(user, context);
+            },
+          ),
+          SizedBox(height: 20),
           InkWell(
               onTap: () {
                 Navigator.pop(context);
-                Get.to(LoginPage());
+                Get.to(() => LoginPage());
               },
               child: Text(
                 "Already have an account? Sign In",
               )),
-              SizedBox(height: 8),
-            ]),
-        ),
-       
-
+          SizedBox(height: 8),
+        ]),
+      ),
     ));
   }
 
@@ -307,13 +339,15 @@ class _SignUpPageState extends State<SignUpPage> {
           'Sorry!', "You do not have internet connection at the moment");
   }
 
-  List<String>genderList = ['Male','Female'];
+  List<String> genderList = ['Male', 'Female'];
+  List<String> customerTypeList = ['Employee', 'Business Class','Student','Others'];
+
   Widget bottomRouteSheet(BuildContext context) {
     final _height = MediaQuery.of(context).size.height;
     //int type;
     return Container(
       padding:
-      EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+          EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
       height: _height * 0.3,
       decoration: BoxDecoration(
         color: Colors.transparent,
@@ -332,7 +366,7 @@ class _SignUpPageState extends State<SignUpPage> {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Text(
-             'Select Gender',
+              'Select Gender',
               style: TextStyle(fontWeight: FontWeight.w700, fontSize: 20),
             ),
           ),
@@ -342,12 +376,10 @@ class _SignUpPageState extends State<SignUpPage> {
               child: Padding(
                 padding: EdgeInsets.symmetric(vertical: 5, horizontal: 8),
                 child: Column(
-                  children: List<Widget>.generate(
-                      genderList.length, (index) {
+                  children: List<Widget>.generate(genderList.length, (index) {
                     return new ListTile(
                       onTap: () {
-                        selectFromOption(
-                            genderList[index]);
+                        selectFromOption(genderList[index]);
                       },
                       title: Text(
                         genderList[index],
@@ -358,13 +390,11 @@ class _SignUpPageState extends State<SignUpPage> {
                           fontWeight: gendercontroller.text == genderList[index]
                               ? FontWeight.w600
                               : FontWeight.w500,
-
                         ),
                       ),
-                      trailing:  gendercontroller.text == genderList[index]
+                      trailing: gendercontroller.text == genderList[index]
                           ? Icon(Icons.check,
-                          size: 15,
-                          color: Theme.of(context).primaryColor)
+                              size: 15, color: Theme.of(context).primaryColor)
                           : Text(''),
                     );
                   }),
@@ -380,9 +410,79 @@ class _SignUpPageState extends State<SignUpPage> {
   void selectFromOption(String option) {
     setState(() {
       gendercontroller.text = option;
-
     });
+    Get.back();
+  }
 
+  Widget _showCustomerType(BuildContext context) {
+    final _height = MediaQuery.of(context).size.height;
+    //int type;
+    return Container(
+      padding:
+      EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+      height: _height * 0.35,
+      decoration: BoxDecoration(
+        color: Colors.transparent,
+      ),
+      child: customerListSheet(),
+    );
+  }
+
+  customerListSheet() {
+    return Container(
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.vertical(top: Radius.circular(25)),
+          color: Theme.of(context).scaffoldBackgroundColor),
+      child: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              'Select Customer Type',
+              style: TextStyle(fontWeight: FontWeight.w700, fontSize: 20),
+            ),
+          ),
+          Divider(),
+          Expanded(
+            child: SingleChildScrollView(
+              child: Padding(
+                padding: EdgeInsets.symmetric(vertical: 5, horizontal: 8),
+                child: Column(
+                  children: List<Widget>.generate(customerTypeList.length, (index) {
+                    return new ListTile(
+                      onTap: () {
+                        selectCustomerType(customerTypeList[index]);
+                      },
+                      title: Text(
+                        customerTypeList[index],
+                        softWrap: true,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          fontSize: 15,
+                          fontWeight: customerController.text == customerTypeList[index]
+                              ? FontWeight.w600
+                              : FontWeight.w500,
+                        ),
+                      ),
+                      trailing: customerController.text == customerTypeList[index]
+                          ? Icon(Icons.check,
+                          size: 15, color: Theme.of(context).primaryColor)
+                          : Text(''),
+                    );
+                  }),
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void selectCustomerType(String option) {
+    setState(() {
+      customerController.text = option;
+    });
     Get.back();
   }
 }

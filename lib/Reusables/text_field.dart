@@ -57,7 +57,7 @@ class InputFormField extends StatelessWidget {
         obscureText: obscure ?? false,
         decoration: InputDecoration(
           filled: true,
-          fillColor: Get.isDarkMode ? Color(0xFF020504) : Color(0xFFFFFFFF),
+          fillColor: Get.isDarkMode ? Color(0xFF55555) : Color(0xFFFFFFFF),
           border: InputBorder.none,
           enabledBorder: buildOutlineBorder(context),
           disabledBorder: buildOutlineBorder(context),

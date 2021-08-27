@@ -15,17 +15,13 @@ class WelcomePage extends StatefulWidget {
   _WelcomePageState createState() => _WelcomePageState();
 }
 
-class _WelcomePageState extends State<WelcomePage>
-    with SingleTickerProviderStateMixin {
-  AnimationController _controller;
+class _WelcomePageState extends State<WelcomePage> {
+
   UserRepository user;
 
   @override
   void initState() {
-    _controller = AnimationController(
-        duration: const Duration(milliseconds: 1700), vsync: this);
 
-    _controller.forward();
 
     super.initState();
   }
@@ -33,7 +29,6 @@ class _WelcomePageState extends State<WelcomePage>
   @override
   void dispose() {
     super.dispose();
-    _controller.dispose();
   }
 
   @override
@@ -51,7 +46,7 @@ class _WelcomePageState extends State<WelcomePage>
           ),
           Container(
             decoration: BoxDecoration(
-              color: Colors.grey.withOpacity(0.6),
+              color: Colors.black.withOpacity(0.4),
             ),
           ),
           Padding(
@@ -59,42 +54,25 @@ class _WelcomePageState extends State<WelcomePage>
             child: Column(
               children: [
                 Spacer(flex: 1),
-                // SizedBox(
-                //   width: 250.0,
-                //   height: 50,
-                //   child: Center(
-                //     child: DefaultTextStyle(
-                //       style: const TextStyle(
-                //         fontSize: 17.0,
-                //         color: Colors.red,
-                //       ),
-                //       child: AnimatedTextKit(
-                //         totalRepeatCount: 1,
-                //         pause: Duration(milliseconds: 500),
-                //         animatedTexts: [
-                //           ScaleAnimatedText('Travel'),
-                //           ScaleAnimatedText('conveniently'),
-                //         ],
-                //         onTap: () {
-                //           print("Tap Event");
-                //         },
-                //       ),
-                //     ),
-                //   ),
-                // ),
-                Text("LIBMOT",
-                    style: GoogleFonts.archivo(
-                        color: Theme.of(context).primaryColor,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 50)),
-                //
-                Text("Travel conveniently...",
-                    style: TextStyle(
-                        fontStyle: FontStyle.italic,
-                        color: Colors.white,
-                        letterSpacing: 0.5,
-                        fontWeight: FontWeight.w100,
-                        fontSize: 14)),
+                Stack(
+                  children: [
+                    Text("LIBMOT",
+                        style: GoogleFonts.signika(
+                            color: Theme.of(context).primaryColor,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 65)),
+                    Positioned(
+                      bottom: 0,
+                      right:0,
+                      child: Text(" Travel conveniently...  ",
+                          style: TextStyle(
+                              color: Colors.white,
+                              letterSpacing: 0.3,
+                              fontWeight: FontWeight.w600,
+                              fontSize: 12)),
+                    ),
+                  ],
+                ),
                 Spacer(flex: 2),
                 Buttons.coloredButton(
                   context: context,

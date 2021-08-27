@@ -7,6 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 class UserPreference {
   static UserPreference instance;
   SharedPreferences preferences;
+
   UserPreference({this.preferences});
 
   static Future<UserPreference> getInstance() async {
@@ -17,7 +18,6 @@ class UserPreference {
       return UserPreference(preferences: preferences);
     }
   }
-
 
   static final String token = "token";
   static final String refreshToken = "refreshToken";
@@ -51,33 +51,35 @@ class UserPreference {
     preferences.setString(expiresIn, tokenResponse.object.expires);
   }
 
-  void saveLogin(email) async {
+  void saveLogin(email, password) async {
     preferences.setString('email', email);
-
+    preferences.setString('password', password);
+    preferences.setString('useBiometric', 'true');
   }
 
-  void firstTimeUser(){
+  void firstTimeUser() {
     preferences.setString('isNewUser', 'No');
     Get.to(() => WelcomePage());
+    print(preferences);
   }
 
   void saveProfile(Profile profile) {
     preferences.setString(firstName, profile.object.firstName ?? "");
-    preferences.setString(lastName, profile.object.lastName?? "");
-    preferences.setString(email, profile.object.email?? "");
-    preferences.setString(phoneNumber, profile.object.phoneNumber?? "");
-    preferences.setString(gender, profile.object.gender?? "");
-    preferences.setString(nextOfKin, profile.object.nextOfKin?? "");
-    preferences.setString(nextOfKinPhone, profile.object.nextOfKinPhone?? "");
-    preferences.setString(referralCode, profile.object.referralCode?? "");
-    preferences.setString(dateJoined, profile.object.dateJoined?? "");
-    preferences.setInt(userType, profile.object.userType ??-1);
-    preferences.setInt(companyId, profile.object.companyId?? -1);
+    preferences.setString(lastName, profile.object.lastName ?? "");
+    preferences.setString(email, profile.object.email ?? "");
+    preferences.setString(phoneNumber, profile.object.phoneNumber ?? "");
+    preferences.setString(gender, profile.object.gender ?? "");
+    preferences.setString(nextOfKin, profile.object.nextOfKin ?? "");
+    preferences.setString(nextOfKinPhone, profile.object.nextOfKinPhone ?? "");
+    preferences.setString(referralCode, profile.object.referralCode ?? "");
+    preferences.setString(dateJoined, profile.object.dateJoined ?? "");
+    preferences.setInt(userType, profile.object.userType ?? -1);
+    preferences.setInt(companyId, profile.object.companyId ?? -1);
   }
 
   Future<ProfileObject> getProfile() async {
     final profile = ProfileObject();
-   
+
     profile.firstName = preferences.getString(firstName);
     profile.lastName = preferences.getString(lastName);
     profile.email = preferences.getString(email);
@@ -103,7 +105,6 @@ class UserPreference {
     // tokenResponse.object.expires = getExpiresIn;
 
     // return tokenResponse;
-
   }
 
   void deleteProfile() {

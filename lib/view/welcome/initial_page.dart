@@ -21,11 +21,11 @@ class _InitialPageState extends State<InitialPage> {
   @override
   void initState() {
     Future.delayed(Duration(seconds: 2), () {
-      // getSecureStorage();
+      getSecureStorage();
       //checkVersion();
       
      
-      Get.offAll(() => OnBoardingPage());
+      // Get.offAll(() => OnBoardingPage());
     });
     super.initState();
   }

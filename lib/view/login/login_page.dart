@@ -5,9 +5,11 @@ import 'package:Libmot_Mobile/controllers/user_repository.dart';
 import 'package:Libmot_Mobile/view/welcome/welcome_page.dart';
 import 'package:Libmot_Mobile/view/dasboard_view/dashboard_page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:local_auth/local_auth.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:Libmot_Mobile/constants/dialogs/dialog.dart';
@@ -28,7 +30,6 @@ class _LoginPageState extends State<LoginPage> {
 
   bool _passwordVisible = true;
   bool _emailVisible = false;
-
   final _formKeyLogin = GlobalKey<FormState>();
 
   final String dashboardPage = "/dashboard";
@@ -36,16 +37,76 @@ class _LoginPageState extends State<LoginPage> {
   @override
   void initState() {
     getSecureStorage();
+    _checkBiometrics();
+
     super.initState();
   }
 
   void getSecureStorage() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     final userStoredEmail = prefs.getString('email');
+    // final useBiometric = prefs.getString('useBiometric');
+    final useBiometric = prefs.getString('usingBiometricLogin');
+    print(userStoredEmail);
+    print(useBiometric);
     setState(() {
       emailController.text = userStoredEmail;
+      userStoredBiometric = useBiometric == 'true';
     });
     print(emailController.text);
+  }
+
+  bool userStoredBiometric = false;
+  bool isUsingBio = false;
+
+  final LocalAuthentication auth = LocalAuthentication();
+  bool _authenticated;
+  bool touchId = false;
+  bool _canCheck = false;
+
+  Future<void> _checkBiometrics() async {
+    bool canCheck;
+    try {
+      canCheck = await auth.canCheckBiometrics;
+    } on PlatformException catch (e) {
+      print(e);
+    }
+    if (!mounted) return;
+    setState(() {
+      _canCheck = canCheck;
+      print('Biometric state: $_canCheck');
+    });
+  }
+
+  Future<void> _authenticate() async {
+    final user = Provider.of<UserRepository>(context, listen: false);
+
+    bool authenticated = false;
+    try {
+      authenticated = await auth.authenticate(
+          biometricOnly: true,
+          localizedReason: 'Scan your fingerprint to sign in',
+          useErrorDialogs: true,
+          stickyAuth: true);
+      if (authenticated) {
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        final userStoredEmail = prefs.getString('email');
+        final userStoredPassword = prefs.getString('password');
+        setState(() {
+          emailController.text = userStoredEmail;
+          passwordController.text = userStoredPassword;
+        });
+
+        onLoginPressed(user, context);
+      }
+    } on PlatformException catch (e) {
+      print(e);
+    }
+    if (!mounted) return;
+    setState(() {
+      _authenticated = authenticated;
+      print('Biometric: $_authenticated');
+    });
   }
 
   @override
@@ -93,7 +154,8 @@ class _LoginPageState extends State<LoginPage> {
                               child: Text("Login",
                                   style: TextStyle(
                                       color: Colors.black,
-                                      fontWeight: FontWeight.w700,letterSpacing: 0.8,
+                                      fontWeight: FontWeight.w700,
+                                      letterSpacing: 0.8,
                                       fontSize: 25)),
                             ),
                             Text(
@@ -116,9 +178,8 @@ class _LoginPageState extends State<LoginPage> {
                                 children: [
                                   GestureDetector(
                                       onTap: () {
-                                        
-                                         Navigator.of(context)
-                                             .pushNamed("/forget_password");
+                                        Navigator.of(context)
+                                            .pushNamed("/forget_password");
                                       },
                                       child: Padding(
                                         padding: const EdgeInsets.all(12.0),
@@ -218,10 +279,13 @@ class _LoginPageState extends State<LoginPage> {
             InputFormField(
               obscure: _emailVisible,
               prefixIcon: Icon(Icons.person_outlined, color: Colors.grey),
+              keyboardType:TextInputType.emailAddress,
               controller: emailController,
               label: 'Email',
               validator: (value) {
-                if (value.isEmpty || !value.contains('@')||!value.contains('.')) {
+                if (value.isEmpty ||
+                    !value.contains('@') ||
+                    !value.contains('.')) {
                   return 'Please put in valid email';
                 }
                 return null;
@@ -254,8 +318,49 @@ class _LoginPageState extends State<LoginPage> {
               ),
             ),
             SizedBox(
-              height: 20,
+              height: 10,
             ),
+            Center(
+              child: _canCheck
+                  ? Center(
+                      child: InkWell(
+                        onTap: () {
+                          userStoredBiometric == true
+                              ? _authenticate()
+                              : Dialogs.showMessage(
+                                  context: context,
+                                  message:
+                                      'Login to enable biometric authentication for yur next login',
+                                );
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: Icon(Icons.fingerprint,
+                              size: userStoredBiometric ? 50 : 35),
+                        ),
+                      ),
+                    )
+                  : Container(),
+            ),
+
+            // _canCheck
+            //     ? buildProfileOption(
+            //   toggle: Switch(
+            //     value: signIn,
+            //     onChanged: (newValue) {
+            //       setState(() {
+            //         signIn = newValue;
+            //         print(signIn);
+            //       });
+            //       if( _availableBiometrics.isNotEmpty)_authenticate();
+            //
+            //     },
+            //     activeColor: Theme.of(context).primaryColor,
+            //   ),
+            //   title: !signIn
+            //       ? 'Enable Biometric Login'
+            //       : 'Disable Biometric Login',
+
             ButtonReusable(
               onpressed: () async {
                 FocusScope.of(context).unfocus();
@@ -295,16 +400,40 @@ class _LoginPageState extends State<LoginPage> {
         isLoadingGuest = true;
       });
       user.loginForAndroidIos(context);
+
       Navigator.of(context)
           .pushNamedAndRemoveUntil(WelcomePage.dashboardPage, (route) => false);
       Dialogs.showWelcomeSnackBar(
-          'You are welcome to LIBMOT', "Travel conveniently...");
+          'Welcome to Libra Motors', "Travel conveniently...");
     } else {
       Dialogs.showNoInternetSnackBar('No Internet Connection',
           'Check your internet connection and try again.');
     }
   }
 
+  Future<void> _regAuthenticate() async {
+    bool authenticated = false;
+    try {
+      authenticated = await auth.authenticate(
+          biometricOnly: true,
+          localizedReason: 'Scan your fingerprint to enable biometric sign in',
+          useErrorDialogs: true,
+          stickyAuth: true);
+      if (authenticated) {
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        await prefs.setString('usingBiometricLogin', 'true');
+      }
+    } on PlatformException catch (e) {
+      print(e);
+    }
+    if (!mounted) return;
+    setState(() {
+      _authenticated = authenticated;
+      print('Biometric: $_authenticated');
+    });
+    Dialogs.showSuccessSnackBar('Biometric Enrolled',
+        'you have successfully enrolled your biometric for sign in');
+  }
 
   onLoginPressed(UserRepository user, context) async {
     if (await InternetUtils.checkConnectivity()) {
@@ -312,7 +441,7 @@ class _LoginPageState extends State<LoginPage> {
         Dialogs.showLoadingDialog(context: context, text: 'SIGNING IN...');
         await user.loginRepo(
             context, emailController.text, passwordController.text);
-
+        if (_canCheck && !userStoredBiometric) _regAuthenticate();
       } else {
         print("validation not done");
         EasyLoading.dismiss();
@@ -321,10 +450,7 @@ class _LoginPageState extends State<LoginPage> {
       Dialogs.showNoInternetSnackBar('No Internet Connection',
           'Check your internet connection and try again.');
   }
-
-
 }
-
 
 class LoginAnim extends StatefulWidget {
   @override
@@ -376,18 +502,25 @@ class _LoginAnimState extends State<LoginAnim>
       child: Column(
         children: [
           Spacer(),
-          Text("LIBMOT",
-              style: GoogleFonts.libreBaskerville(
-                  color: Colors.red,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 50)),
-          Text("Travel conveniently...",
-              style: TextStyle(
-                  fontStyle: FontStyle.italic,
-                  color: Colors.white,
-                  letterSpacing: 0.5,
-                  fontWeight: FontWeight.w100,
-                  fontSize: 12)),
+          Stack(
+            children: [
+              Text("LIBMOT",
+                  style: GoogleFonts.signika(
+                      color: Theme.of(context).primaryColor,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 65)),
+              Positioned(
+                bottom: 0,
+                right: 0,
+                child: Text(" Travel conveniently...  ",
+                    style: TextStyle(
+                        color: Colors.white,
+                        letterSpacing: 0.3,
+                        fontWeight: FontWeight.w600,
+                        fontSize: 12)),
+              ),
+            ],
+          ),
           Spacer(),
           SlideTransition(
               position: _offsetAnimation,

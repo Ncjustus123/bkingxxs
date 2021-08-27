@@ -6,6 +6,7 @@ import 'package:Libmot_Mobile/models/profile_model.dart';
 import 'package:Libmot_Mobile/models/sign_up_model.dart';
 import 'package:Libmot_Mobile/services/database/user_preference.dart';
 import 'package:Libmot_Mobile/view/login/login_page.dart';
+import 'package:Libmot_Mobile/view/login/sign_up_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart' as route;
@@ -43,9 +44,10 @@ class UserRepository with ChangeNotifier {
   Image image;
 
   Status get status => _status;
-    var time;
+  var time;
 
   LoggedInStatus get loggedInStatus => _loggedInStatus;
+
   buildDialog(context) {
     return showDialog(
       barrierDismissible: true,
@@ -58,46 +60,40 @@ class UserRepository with ChangeNotifier {
   }
 
   checkLogin(BuildContext context) async {
-    final preference = await UserPreference.getInstance();
+    // final preference = await UserPreference.getInstance();
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    bool loggedIn = preference.isLoggedIn() ?? false;
+    // bool loggedIn = preference.isLoggedIn() ?? false;
     final newUser = prefs.getString('isNewUser');
+    print('newUser');
+    print(newUser);
 
     if (newUser == 'No') {
-      if (loggedIn) {
-        _loggedInStatus = LoggedInStatus.LoggedIn;
-        route.Get.offAll(() => DashboardPage());
+      print('I am here');
+      // if (loggedIn) {
+      _loggedInStatus = LoggedInStatus.LoggedIn;
+      // route.Get.offAll(() => DashboardPage());
 
-        // Navigator.of(context).pushNamed(dashboardRoute);
-      } else {
-        _loggedInStatus = LoggedInStatus.LoggedOut;
-        await prefs.clear();
-        route.Get.offAll(() => WelcomePage());
+      // } else {
+      //   _loggedInStatus = LoggedInStatus.LoggedOut;
+      //   await prefs.clear();
+      route.Get.offAll(() => LoginPage());
 
-        // Navigator.of(context).pushNamed(welcomeRoute);
-      }
-    } else
-      await prefs.clear();
-    route.Get.offAll(() => OnBoardingPage());
-
-    // if (loggedIn) {
-    //   _loggedInStatus = LoggedInStatus.LoggedIn;
-    //   Navigator.of(context).pushNamed(dashboardRoute);
-    // } else {
-    //   _loggedInStatus = LoggedInStatus.LoggedOut;
-    //   Navigator.of(context).pushNamed(welcomeRoute);
-    // }
+      //
+      // }
+    } else {
+      // await prefs.clear();
+      route.Get.offAll(() => OnBoardingPage());
+    }
   }
 
   logout(context) async {
-    final pref = await UserPreference.getInstance();
-    pref.deleteProfile();
+    // final pref = await UserPreference.getInstance();
+    // pref.deleteProfile();
     _loggedInStatus = LoggedInStatus.LoggedOut;
-    Provider.of<UserRepository>(context,listen: false).profile=null;
+    Provider.of<UserRepository>(context, listen: false).profile = null;
 
-
-    Get.offAll(() => WelcomePage());
+    Get.offAll(() => LoginPage());
     notifyListeners();
   }
 
@@ -116,17 +112,17 @@ class UserRepository with ChangeNotifier {
       if (tokenData.code == "200") {
         final preference = await UserPreference.getInstance();
         preference.saveToken(tokenData);
-        preference.saveLogin(email);
+        preference.saveLogin(email,password);
         profile = await getProfile(tokenData.object.token);
         preference.setLoggedInState(true);
         preference.saveProfile(profile);
         loginForAndroidIos(context);
         _loggedInStatus = LoggedInStatus.LoggedIn;
+
         Get.offAll(() => LoginAnim());
 
         notifyListeners();
       } else {
-
         print('error');
         print('error');
         print('${tokenData.shortDescription}');
@@ -165,12 +161,10 @@ class UserRepository with ChangeNotifier {
             },
             barrierDismissible: false,
           );
-        }
-        else {
+        } else {
           Get.back();
 
           Dialogs.showErrorSnackBar('Oops!', "${tokenData.shortDescription}");
-
         }
       }
     } else if (response.statusCode == 400) {

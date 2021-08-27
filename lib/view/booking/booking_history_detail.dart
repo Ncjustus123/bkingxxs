@@ -43,7 +43,7 @@ class _BookingHistoryDetailState extends State<BookingHistoryDetail> {
         amount = history['amount'].toString();
         name = history['fullName'].toString();
         phone = history['phoneNumber'].toString();
-        status = history['routeName'].toString();
+        status = history['status'].toString();
         nextOfKinName = history['nextOfKinName'].toString();
         bookingType = history['bookingType'].toString();
       });

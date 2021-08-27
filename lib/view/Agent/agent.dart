@@ -32,8 +32,23 @@ class _AgentPageState extends State<AgentPage> {
   final companyaddress = TextEditingController();
   final companyphoneno = TextEditingController();
   final companyemail = TextEditingController();
+  final agentController = TextEditingController();
 
   AgentProvider agent;
+
+  List<String> agentTypes = ['Individual', 'Corporate'];
+  List<int> agentIndex = [0, 1];
+
+  void _selectVehicle(type, index) {
+    Get.back();
+    setState(() {
+      agentController.text = type;
+      agentType = index;
+      indexOfRoute = agentType;
+    });
+    print(type);
+    print(index);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -89,55 +104,54 @@ class _AgentPageState extends State<AgentPage> {
                     ],
                   ),
                 ),
-                Padding(
-                  padding: EdgeInsets.only(right: 160),
-                  child: Text(
-                    "Register as:",
-                    style: TextStyle(
-                        fontWeight: FontWeight.w700,
-                        fontSize: 15,
-                        color: Colors.white),
-                  ),
-                ),
-                SizedBox(width: 20),
-                Padding(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 15, horizontal: 30),
-                  child: DefaultTabController(
-                    length: 2,
-                    child: Container(
-                      height: 30,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(35),
-                      ),
-                      child: TabBar(
-                        indicator: BubbleTabIndicator(
-                            tabBarIndicatorSize: TabBarIndicatorSize.tab,
-                            indicatorHeight: 20,
-                            indicatorRadius: 20,
-                            indicatorColor: Theme.of(context).primaryColor),
-                        labelStyle: TextStyle(
-                          fontSize: 15,
-                        ),
-                        labelColor: Colors.white,
-                        unselectedLabelColor: Theme.of(context).primaryColor,
-                        tabs: [
-                          Text("An Individual"),
-                          Text("A Cooperation"),
-                        ],
-                        onTap: (index) {
-                          setState(() {
-                            indexOfRoute = index;
-                            agentType = index;
-                          });
-                          // booking.getBuses.tripType = index ?? 0 ;
-                          // booking.tripTypeChange(index);
-                        },
-                      ),
-                    ),
-                  ),
-                ),
+                // Padding(
+                //   padding: EdgeInsets.only(right: 160),
+                //   child: Text(
+                //     "Register as:",
+                //     style: TextStyle(
+                //         fontWeight: FontWeight.w700,
+                //         fontSize: 15,
+                //         color: Colors.white),
+                //   ),
+                // ),
+                // Padding(
+                //   padding:
+                //       const EdgeInsets.symmetric(vertical: 15, horizontal: 30),
+                //   child: DefaultTabController(
+                //     length: 2,
+                //     child: Container(
+                //       height: 45,
+                //       decoration: BoxDecoration(
+                //         color: Colors.white,
+                //         borderRadius: BorderRadius.circular(25),
+                //       ),
+                //       child: TabBar(
+                //         indicator: BubbleTabIndicator(
+                //             tabBarIndicatorSize: TabBarIndicatorSize.tab,
+                //             indicatorHeight: 40,
+                //             indicatorRadius: 20,
+                //             indicatorColor: Theme.of(context).primaryColor),
+                //         labelStyle: TextStyle(
+                //           fontSize: 15,
+                //         ),
+                //         labelColor: Colors.white,
+                //         unselectedLabelColor: Theme.of(context).primaryColor,
+                //         tabs: [
+                //           Text("An Individual"),
+                //           Text("A Cooperation"),
+                //         ],
+                //         onTap: (index) {
+                //           setState(() {
+                //             indexOfRoute = index;
+                //             agentType = index;
+                //           });
+                //           // booking.getBuses.tripType = index ?? 0 ;
+                //           // booking.tripTypeChange(index);
+                //         },
+                //       ),
+                //     ),
+                //   ),
+                // ),
                 SizedBox(height: 15),
                 Expanded(
                   child: GestureDetector(
@@ -154,6 +168,142 @@ class _AgentPageState extends State<AgentPage> {
                         child: Column(children: [
                           SizedBox(
                             height: 20,
+                          ),
+                          InkWell(
+                            onTap: () {
+                              showModalBottomSheet(
+                                  context: context,
+                                  isScrollControlled: true,
+                                  backgroundColor: Colors.transparent,
+                                  builder: (context) => SingleChildScrollView(
+                                        child: Container(
+                                          color: Colors.transparent,
+                                          padding: EdgeInsets.only(
+                                              bottom: MediaQuery.of(context)
+                                                  .viewInsets
+                                                  .bottom),
+                                          child: Container(
+                                            decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.vertical(
+                                                        top: Radius.circular(
+                                                            25)),
+                                                color: Theme.of(context)
+                                                    .scaffoldBackgroundColor),
+                                            height: MediaQuery.of(context)
+                                                    .size
+                                                    .height *
+                                                0.4,
+                                            width: MediaQuery.of(context)
+                                                .size
+                                                .width,
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 0.0),
+                                              child: Column(
+                                                children: [
+                                                  Padding(
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            25.0),
+                                                    child: InkWell(
+                                                      onTap: () {
+                                                        Get.back();
+                                                      },
+                                                      child: Container(
+                                                        width: 50,
+                                                        height: 4,
+                                                        color: Theme.of(context)
+                                                            .primaryColor,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  Text(
+                                                    'Register as: ',
+                                                    style: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.w700,
+                                                        fontSize: 16),
+                                                  ),
+                                                  SizedBox(height: 20),
+                                                  Expanded(
+                                                    child:
+                                                        SingleChildScrollView(
+                                                      child: Padding(
+                                                        padding: EdgeInsets
+                                                            .symmetric(
+                                                                vertical: 5,
+                                                                horizontal: 10),
+                                                        child: Column(
+                                                          children: List<
+                                                                  Widget>.generate(
+                                                              agentTypes.length,
+                                                              (index) {
+                                                            var item =
+                                                                agentTypes[
+                                                                    index];
+                                                            return new ListTile(
+                                                              onTap: () =>
+                                                                  _selectVehicle(
+                                                                      item,
+                                                                      agentIndex[
+                                                                          index]),
+                                                              title: Text(
+                                                                item,
+                                                                softWrap: true,
+                                                                overflow:
+                                                                    TextOverflow
+                                                                        .ellipsis,
+                                                                style:
+                                                                    TextStyle(
+                                                                  fontSize: 15,
+                                                                  fontWeight: agentController
+                                                                              .text ==
+                                                                          item
+                                                                      ? FontWeight
+                                                                          .w600
+                                                                      : FontWeight
+                                                                          .w500,
+                                                                ),
+                                                              ),
+                                                              trailing: agentController
+                                                                          .text ==
+                                                                      item
+                                                                  ? Icon(
+                                                                      Icons
+                                                                          .check,
+                                                                      size: 15,
+                                                                      color: Theme.of(
+                                                                              context)
+                                                                          .primaryColor)
+                                                                  : Text(''),
+                                                            );
+                                                          }),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ));
+                            },
+                            child: InputFormField(
+                              label: 'Agent type',
+                              textCapitalization: TextCapitalization.words,
+                              controller: agentController,
+                              suffixIcon: Icon(Icons.expand_more),
+                              enabled: false,
+                              validator: (value) {
+                                if (value.isEmpty) {
+                                  return 'error';
+                                }
+                                return null;
+                              },
+                            ),
                           ),
                           indexOfRoute == 0
                               ? InputFormField(
@@ -322,7 +472,7 @@ class _AgentPageState extends State<AgentPage> {
     agent.agentModel.middleName = middlename.text;
     agent.agentModel.nextOfKin = nextofkinfullname.text;
     agent.agentModel.nextOfKinPhone = nextofkinphonenumber.text;
-    agent.agentModel.gender = gender.text == "Male" ? 0: 1;
+    agent.agentModel.gender = gender.text == "Male" ? 0 : 1;
     agent.agentModel.natureOfBusiness = null;
     agent.agentModel.businessPhone = null;
     agent.agentModel.companyAddress = null;
