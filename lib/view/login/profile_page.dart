@@ -1,8 +1,10 @@
 import 'package:Libmot_Mobile/Reusables/text_field.dart';
+import 'package:Libmot_Mobile/controllers/booking_repository.dart';
 import 'package:Libmot_Mobile/controllers/user_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:provider/provider.dart';
 import 'package:Libmot_Mobile/constants/Buttons/buttons.dart';
@@ -37,7 +39,6 @@ class _ProfilePageState extends State<ProfilePage> {
   void initState() {
     super.initState();
   }
-
 
   Widget _showCustomerType(BuildContext context) {
     final _height = MediaQuery.of(context).size.height;
@@ -121,9 +122,11 @@ class _ProfilePageState extends State<ProfilePage> {
     'Student',
     'Others'
   ];
+  BookingRepository booking;
 
   @override
   Widget build(BuildContext context) {
+    booking = Provider.of<BookingRepository>(context);
     final _width = MediaQuery.of(context).size.width;
     final _height = MediaQuery.of(context).size.height;
     final user = Provider.of<UserRepository>(context);
@@ -321,6 +324,14 @@ class _ProfilePageState extends State<ProfilePage> {
                         prefixIcon: Icon(Icons.event_outlined),
                         label: 'Date of birth',
                         controller: dobController,
+                        ontap: () async {
+                          DateTime selectedTime =
+                              await booking.showDob(context);
+                          if (selectedTime != null) {
+                            dobController.text =
+                                '${DateFormat('yMMMd').format(selectedTime)}';
+                          }
+                        },
                       ),
 
                       SizedBox(
@@ -332,7 +343,9 @@ class _ProfilePageState extends State<ProfilePage> {
                               textcolor: Colors.black,
                               color: Theme.of(context).scaffoldBackgroundColor,
                               name: "Update profile",
-                              onpressed: update,
+                              onpressed: () {
+                                user.updateProfile(context);
+                              },
                             )
                           : ButtonReusable(
                               textcolor: Colors.black,
@@ -365,8 +378,6 @@ class _ProfilePageState extends State<ProfilePage> {
       ),
     );
   }
-
-  update() async {}
 }
 //
 //             SizedBox(height: 8.0),

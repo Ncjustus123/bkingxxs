@@ -64,6 +64,15 @@ class ApiCalls {
     return response;
   }
 
+  Future<http.Response> updateProfile(Map<String, dynamic> body) async {
+    final header = await init();
+    final url = Uri.parse(baseInstance.base.baseUrl + EndPoints.updateProfile);
+    print(url);
+    final response =
+    await http.post(url, body: json.encode(body), headers: header);
+    return response;
+  }
+
   Future<http.Response> getDestinationTerminals(int id) async {
     final header = await init();
     final url = Uri.parse(baseInstance.base.baseUrl +

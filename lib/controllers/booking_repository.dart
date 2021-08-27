@@ -248,6 +248,18 @@ class BookingRepository with ChangeNotifier {
         //TODO days from firebase//open for only two weeks
         helpText: "Select travelling date");
   }
+//Date of Birth
+  Future<DateTime> showDob(context) async {
+    final now = DateTime.now();
+    return await showDatePicker(
+        context: context,
+        initialDate: now.add(Duration(days: 1)),
+        //tomorrow initial date
+        firstDate: DateTime(1800),
+        lastDate: now.add(Duration(days: 30)),
+        //TODO days from firebase//open for only two weeks
+        helpText: "Select travelling date");
+  }
 
   /***
    * PASSENGER INFO CODE START
