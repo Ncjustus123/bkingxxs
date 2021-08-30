@@ -16,6 +16,12 @@
 @import connectivity;
 #endif
 
+#if __has_include(<device_info/FLTDeviceInfoPlugin.h>)
+#import <device_info/FLTDeviceInfoPlugin.h>
+#else
+@import device_info;
+#endif
+
 #if __has_include(<firebase_core/FLTFirebaseCorePlugin.h>)
 #import <firebase_core/FLTFirebaseCorePlugin.h>
 #else
@@ -129,6 +135,7 @@
 + (void)registerWithRegistry:(NSObject<FlutterPluginRegistry>*)registry {
   [FLTFirebaseFirestorePlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTFirebaseFirestorePlugin"]];
   [FLTConnectivityPlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTConnectivityPlugin"]];
+  [FLTDeviceInfoPlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTDeviceInfoPlugin"]];
   [FLTFirebaseCorePlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTFirebaseCorePlugin"]];
   [FLTFirebaseMessagingPlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTFirebaseMessagingPlugin"]];
   [FLTFirebaseRemoteConfigPlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTFirebaseRemoteConfigPlugin"]];

@@ -59,6 +59,7 @@ class _DrawerScreenState extends State<DrawerScreen> {
                       padding: const EdgeInsets.only(right: 250),
                       child: GestureDetector(
                         onTap: () {
+                          user.profile == null ?  Get.to(LoginPage()):
                           Navigator.push(
                               context,
                               MaterialPageRoute(
@@ -91,6 +92,7 @@ class _DrawerScreenState extends State<DrawerScreen> {
                   SizedBox(height: 10),
                   GestureDetector(
                     onTap: () {
+                      user.profile == null ?  Get.to(LoginPage()):
                       Navigator.push(
                           context,
                           MaterialPageRoute(
@@ -98,7 +100,7 @@ class _DrawerScreenState extends State<DrawerScreen> {
                                 name: user.profile != null
                                     ? '${user.profile.object.lastName ?? 'Guest'}'
                                     : 'Guest',
-                              )));
+                              ))) ;
                     },
                     child: Text(
                       '${toBeginningOfSentenceCase(widget.name)}',

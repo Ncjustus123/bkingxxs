@@ -18,6 +18,7 @@ import 'package:get/get.dart';
 import 'package:in_app_update/in_app_update.dart';
 import 'package:in_app_update/in_app_update.dart';
 import 'package:provider/provider.dart';
+import 'package:upgrader/upgrader.dart';
 
 import 'controllers/booking_repository.dart';
 import 'routes.dart';
@@ -77,6 +78,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     checkUpdate();
+    // UpgradeAlert(
+    //   countryCode: "NG",
+    //   dialogStyle: UpgradeDialogStyle.cupertino,
+    //   child: Center(child: Text("checking...")),
+    // );
     LocalNotification.initilize(context);
     FirebaseMessaging.onMessage.listen((message) {
       if (message.notification != null) {

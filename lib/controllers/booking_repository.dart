@@ -7,6 +7,7 @@ import 'package:Libmot_Mobile/models/get_buses_model.dart';
 import 'package:Libmot_Mobile/models/get_buses_response.dart';
 import 'package:Libmot_Mobile/models/get_route.dart';
 import 'package:Libmot_Mobile/models/post_booking_response.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -250,13 +251,12 @@ class BookingRepository with ChangeNotifier {
   }
 //Date of Birth
   Future<DateTime> showDob(context) async {
-    final now = DateTime.now();
     return await showDatePicker(
         context: context,
-        initialDate: now.add(Duration(days: 1)),
+        initialDate: DateTime(2010,12,31),
         //tomorrow initial date
-        firstDate: DateTime(1800),
-        lastDate: now.add(Duration(days: 30)),
+        firstDate: DateTime(1950,12,31),
+        lastDate:DateTime(2010,12,31),
         //TODO days from firebase//open for only two weeks
         helpText: "Select travelling date");
   }
