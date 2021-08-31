@@ -23,7 +23,7 @@ class FireCore extends StatelessWidget {
         builder: (context,AsyncSnapshot<QuerySnapshot>snapshot){
           if(!snapshot.hasData){
             return Center(
-              child: CircularProgressIndicator(color: Colors.red,),
+              child: CircularProgressIndicator(),
             );
           }
           return ListView(

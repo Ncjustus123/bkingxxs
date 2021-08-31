@@ -27,12 +27,12 @@ class _DashboardPageState extends State<DashboardPage> {
     return showDialog(
       barrierDismissible: true,
       context: context,
-      builder: (context) => Container(height:MediaQuery.of(context).size.height,child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          FireCore(),
-        ],
-      )),
+      builder: (context) => Padding(
+        padding: EdgeInsets.fromLTRB(15,60,15,60),
+        child: AlertDialog(
+          backgroundColor: Colors.transparent,
+            content: Center(child: FireCore())),
+      ),
     );
   }
 
@@ -65,15 +65,15 @@ class _DashboardPageState extends State<DashboardPage> {
                     ? user.profile.object.firstName ?? 'Guest User'
                     : 'Guest User',
               ),
-            
+
             ],
           ),
         ),
       ),
     );
-    
+
   }
-   
+
 
   Future<bool> onWillPop() {
     DateTime now = DateTime.now();
