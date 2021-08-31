@@ -236,15 +236,6 @@ class BusHIreDetailsPage extends StatelessWidget {
                   print(hireBus.hireBus.toJson());
                   hireBus.postHireBus(context,name:hireBus.hireBus.firstName);
                 }
-
-                // dialog(
-                //     context,
-                //     'Thank You Taiwo',
-                //     "We are processing your request. A member of our team will get in toudh with you soon.\n\n"
-                //         "For quick information you can send an email to support@libmot.com or call +2349031565022\n\n"
-                //         "Thank you for choosing LIBMOT.COM", () {
-                //   Get.back();
-                // });
               }),
         ]),
       ),
