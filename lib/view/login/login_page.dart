@@ -45,7 +45,6 @@ class _LoginPageState extends State<LoginPage> {
   void getSecureStorage() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     final userStoredEmail = prefs.getString('email');
-    // final useBiometric = prefs.getString('useBiometric');
     final useBiometric = prefs.getString('usingBiometricLogin');
     print(userStoredEmail);
     print(useBiometric);
@@ -196,26 +195,23 @@ class _LoginPageState extends State<LoginPage> {
                             ),
                             Padding(
                               padding:
-                                  const EdgeInsets.fromLTRB(65, 15.0, 65, 15),
-                              child: Row(
+                                  const EdgeInsets.fromLTRB(10, 15.0, 10, 15),
+                              child: Row(mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  Expanded(
-                                    child: Container(
-                                      color: Colors.grey,
-                                      height: 1,
-                                    ),
+                                  Container(
+                                    color: Colors.grey,
+                                    height: 1,width:55,
                                   ),
                                   Padding(
                                     padding: const EdgeInsets.all(12.0),
                                     child: Text("OR",
                                         style: TextStyle(
-                                            color: Colors.black, fontSize: 12)),
+                                            color: Colors.black, fontSize: 13)),
                                   ),
-                                  Expanded(
-                                    child: Container(
-                                      color: Colors.grey,
-                                      height: 1,
-                                    ),
+                                  Container(
+                                    color: Colors.grey,
+                                    height: 1,width:55,
+
                                   ),
                                 ],
                               ),

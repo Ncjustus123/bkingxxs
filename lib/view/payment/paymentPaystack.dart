@@ -8,6 +8,9 @@ import 'package:Libmot_Mobile/view/booking/booking_confirmation.dart';
 import 'package:flutter/material.dart';
 import 'package:flip_card/flip_card.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_credit_card/credit_card_form.dart';
+import 'package:flutter_credit_card/credit_card_model.dart';
+import 'package:flutter_credit_card/credit_card_widget.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_paystack/flutter_paystack.dart';
 import 'package:get/get.dart';
@@ -33,6 +36,9 @@ class _PaymentPaystackState extends State<PaymentPaystack> {
   final plugin = PaystackPlugin();
   BookingRepository booking;
   PaymentModelObject object;
+final formKey = GlobalKey<FormState>();
+bool _showBack = false;
+
   @override
   void initState() {
     plugin.initialize(publicKey: TestData().paystackPublicKey);
@@ -142,73 +148,132 @@ class _PaymentPaystackState extends State<PaymentPaystack> {
           Column(
             children: <Widget>[
               myWhiteAppBar(context, "Payment"),
-              _renderContent(context),
+              // _renderContent(context),
               Expanded(
                 child: SingleChildScrollView(
                   child: Column(
                     children: [
-                      InputFormField(
-                        label: 'Card Number',
-                        keyboardType: TextInputType.number,
-                        inputFormatters: [
-                          LengthLimitingTextInputFormatter(24),
-                          MaskedTextInputFormatter(
-                              mask: "XXXX XXXX XXXX XXXX XXXX", separator: " ")
-                        ],
-                        controller: cardNumbercontroller,
-                        onChanged: (value) {
-                          setState(() {
-                            cardNumber = cardNumbercontroller.text;
-                            value = cardNumbercontroller;
-                          });
-                        },
+                      CreditCardWidget(
+                        cardNumber: cardNumbercontroller.text,
+                        expiryDate: monthAndyearofCardExpiry.text,
+                        cardHolderName: cardHoldername.text,
+                        cvvCode: cvv.text,
+                        showBackView: _showBack,
+                        cardBgColor: Colors.black,
+                        obscureCardNumber: true,
+                        obscureCardCvv: true,
+                        height: 185,
+                        textStyle: TextStyle(color: Colors.grey),
+                        width: MediaQuery.of(context).size.width,
+                        animationDuration: Duration(milliseconds: 1000),
                       ),
-                      Row(
-                        children: [
-                          Expanded(
-                            child: InputFormField(
-                              maxlenght: 5,
-                              label: 'Expired Date',
+                      // CreditCardForm(
+                      //   formKey: formKey,
+                      //   // Required
+                      //   onCreditCardModelChange: (CreditCardModel data) {},
+                      //   // Required
+                      //   themeColor: Colors.red,
+                      //   obscureCvv: true,
+                      //   obscureNumber: true,
+                      //   cardNumberDecoration: const InputDecoration(
+                      //     border: OutlineInputBorder(),
+                      //     labelText: 'Number',
+                      //     hintText: 'XXXX XXXX XXXX XXXX',
+                      //   ),
+                      //   expiryDateDecoration: const InputDecoration(
+                      //     border: OutlineInputBorder(),
+                      //     labelText: 'Expired Date',
+                      //     hintText: 'XX/XX',
+                      //   ),
+                      //   cvvCodeDecoration: const InputDecoration(
+                      //     border: OutlineInputBorder(),
+                      //     labelText: 'CVV',
+                      //     hintText: 'XXX',
+                      //   ),
+                      //   cardHolderDecoration: const InputDecoration(
+                      //     border: OutlineInputBorder(),
+                      //     labelText: 'Card Holder',
+                      //   ),
+                      //   cardHolderName: '',
+                      //   cvvCode: '',
+                      //   cardNumber: '',
+                      //   expiryDate: '',
+                      // ),
+                      Padding(
+                        padding: const EdgeInsets.all(18.0),
+                        child: Column(
+                          children: [
+                            InputFormField(
+                              label: 'Card Number',
                               keyboardType: TextInputType.number,
-                              controller: monthAndyearofCardExpiry,
                               inputFormatters: [
-                                CVVMaskedTextInputFormatter(
-                                    mask: "XX XX", separator: "/")
+                                LengthLimitingTextInputFormatter(24),
+                                MaskedTextInputFormatter(
+                                    mask: "XXXX XXXX XXXX XXXX XXXX", separator: " ")
                               ],
+                              controller: cardNumbercontroller,
                               onChanged: (value) {
                                 setState(() {
-                                  monthAndyear = monthAndyearofCardExpiry.text;
-                                  value = monthAndyearofCardExpiry;
+                                  _showBack=false;
+                                  cardNumber = cardNumbercontroller.text;
+                                  value = cardNumbercontroller;
                                 });
                               },
                             ),
-                          ),
-                          Expanded(
-                            child: InputFormField(
-                              maxlenght: 3,
-                              label: 'CVV',
-                              keyboardType: TextInputType.number,
-                              controller: cvv,
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: InputFormField(
+                                    maxlenght: 5,
+                                    label: 'Expired Date',
+                                    keyboardType: TextInputType.number,
+                                    controller: monthAndyearofCardExpiry,
+                                    inputFormatters: [
+                                      CVVMaskedTextInputFormatter(
+                                          mask: "XX XX", separator: "/")
+                                    ],
+                                    onChanged: (value) {
+                                      setState(() {
+                                        _showBack=false;
+
+                                        monthAndyear = monthAndyearofCardExpiry.text;
+                                        value = monthAndyearofCardExpiry;
+                                      });
+                                    },
+                                  ),
+                                ),
+                                Expanded(
+                                  child: InputFormField(
+                                    maxlenght: 3,
+                                    label: 'CVV',
+                                    keyboardType: TextInputType.number,
+                                    controller: cvv,
+                                    onChanged: (value) {
+                                      setState(() {
+                                        _showBack=true;
+                                        cvvNumber = cvv.text;
+                                        value = cvv;
+                                      });
+                                    },
+                                  ),
+                                ),
+                              ],
+                            ),
+                            InputFormField(
+                              label: 'Card Holder',
+                              textCapitalization: TextCapitalization.words,
+                              controller: cardHoldername,
                               onChanged: (value) {
                                 setState(() {
-                                  cvvNumber = cvv.text;
-                                  value = cvv;
+                                  _showBack=false;
+
+                                  cardHolderName = cardHoldername.text;
+                                  value = cardHoldername;
                                 });
                               },
                             ),
-                          ),
-                        ],
-                      ),
-                      InputFormField(
-                        label: 'Card Holder',
-                        textCapitalization: TextCapitalization.words,
-                        controller: cardHoldername,
-                        onChanged: (value) {
-                          setState(() {
-                            cardHolderName = cardHoldername.text;
-                            value = cardHoldername;
-                          });
-                        },
+                          ],
+                        ),
                       ),
                       SmallButtonReusable(
                         name: "Proceed",
@@ -307,8 +372,7 @@ class _PaymentPaystackState extends State<PaymentPaystack> {
 
     print("object");
     print(object);
-    final response = await ApiCalls().payStackPayment(
-        object.toJson());
+    final response = await ApiCalls().payStackPayment(object.toJson());
     print('backend');
     print(response.body);
     if (response.statusCode == 200) {
@@ -332,6 +396,7 @@ class MaskedTextInputFormatter extends TextInputFormatter {
   final String separator;
 
   RegExp regExp;
+
   MaskedTextInputFormatter({
     @required this.mask,
     @required this.separator,
@@ -385,6 +450,7 @@ class MaskedTextInputFormatter extends TextInputFormatter {
 class CVVMaskedTextInputFormatter extends TextInputFormatter {
   final String mask;
   final String separator;
+
   CVVMaskedTextInputFormatter({
     @required this.mask,
     @required this.separator,

@@ -67,6 +67,7 @@ class _DashBoardScreen extends State<DashBoardScreen> {
                 margin: EdgeInsets.fromLTRB(20, 35, 20, 20),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     isDrawerOpen
                         ? GestureDetector(

@@ -65,8 +65,7 @@ dependencies:
   cloud_firestore: ^2.4.0
   in_app_update: ^2.0.0
   upgrader: ^3.5.1
-  # paystack_manager: ^1.0.4
-  # webview_flutter: ^2.0.7
+  flutter_credit_card: ^2.0.0
 
 
 dev_dependencies:

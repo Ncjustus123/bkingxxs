@@ -82,9 +82,10 @@ class _ApplyCouponState extends State<ApplyCoupon> {
                         ],
                       ),
                     ),
-                    SizedBox(height: 50),
+                    SizedBox(height: 34),
                     Row(
-                      children: [
+                      children: [                    SizedBox(width: 34),
+
                         Theme(
                           data: ThemeData(
                             unselectedWidgetColor: Colors.grey,
@@ -106,6 +107,7 @@ class _ApplyCouponState extends State<ApplyCoupon> {
                                 text: "I agree with the",
                                 style: TextStyle(
                                   fontSize: 10,
+                                  color: Colors.black54
                                 )),
                             TextSpan(
                                 text: " terms and condition",
@@ -116,6 +118,8 @@ class _ApplyCouponState extends State<ApplyCoupon> {
                         ),
                       ],
                     ),
+                    SizedBox(height: 34),
+
                     SizedBox(height: 10),
                     Buttons.coloredButton(
                       context: context,

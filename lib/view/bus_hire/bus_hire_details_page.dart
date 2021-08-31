@@ -98,27 +98,41 @@ class BusHIreDetailsPage extends StatelessWidget {
         key: _formKeyBusHireDetail,
         child: Column(children: [
           SizedBox(height: 5),
-          TextFormFieldWidget(
-            obscureText: false,
-            controller: firstNameController,
-            labelText: 'First Name',
-            validator: (value) {
-              if (value.isEmpty) {
-                return 'Please input your FullName';
-              }
-              return null;
-            },
-          ),
-          TextFormFieldWidget(
-            obscureText: false,
-            controller: lastNameController,
-            labelText: 'Last Name',
-            validator: (value) {
-              if (value.isEmpty) {
-                return 'Please input your FullName';
-              }
-              return null;
-            },
+          Row(
+            children: [
+              Expanded(
+                child: TextFormFieldWidget(
+                  obscureText: false,
+                  controller: firstNameController,
+
+                  keyboardType: TextInputType.text,
+                  textCapitalization: TextCapitalization.words,
+                  labelText: 'First Name',
+                  validator: (value) {
+                    if (value.isEmpty) {
+                      return 'Please input your FullName';
+                    }
+                    return null;
+                  },
+                ),
+              ),
+              Expanded(
+                child: TextFormFieldWidget(
+                  obscureText: false,
+                  controller: lastNameController,
+
+                  keyboardType: TextInputType.text,
+                  textCapitalization: TextCapitalization.words,
+                  labelText: 'Last Name',
+                  validator: (value) {
+                    if (value.isEmpty) {
+                      return 'Please input your FullName';
+                    }
+                    return null;
+                  },
+                ),
+              ),
+            ],
           ),
           TextFormFieldWidget(
             obscureText: false,
@@ -169,7 +183,8 @@ class BusHIreDetailsPage extends StatelessWidget {
           TextFormFieldWidget(
             obscureText: false,
             controller: nextKinNameController,
-            keyboardType: TextInputType.emailAddress,
+            keyboardType: TextInputType.text,
+            textCapitalization: TextCapitalization.words,
             labelText: 'Full Name',
             validator: (value) {
               if (value.isEmpty) {
@@ -197,9 +212,7 @@ class BusHIreDetailsPage extends StatelessWidget {
               context: context,
               title: "Get A Quote",
               onTap: () {
-                String today =
-                    ('${DateTime.now().year}-${DateTime.now().month}-${DateTime.now().day + 1}')
-                        .toString();
+                String today =DateTime.now().toString();
                 print(today);
                 if (_formKeyBusHireDetail.currentState.validate()) {
                   _formKeyBusHireDetail.currentState.save();
@@ -214,10 +227,10 @@ class BusHIreDetailsPage extends StatelessWidget {
                   hireBus.hireBus.nextOfKinName = nextKinNameController.text;
                   hireBus.hireBus.nextOfKinPhoneNumber =
                       nextKinPhoneController.text;
-                  hireBus.hireBus.address = "";
-                  hireBus.hireBus.gender = "";
-                  hireBus.hireBus.middleName = "";
-                  hireBus.hireBus.requestDate = today;
+                  hireBus.hireBus.address = " ";
+                  hireBus.hireBus.gender = " ";
+                  hireBus.hireBus.middleName = " ";
+                  hireBus.hireBus.requestDate = DateTime.parse(today);
 
                   hireBus.hireBus.departureDate = hireBus.hireBus.departureDate;
                   print(hireBus.hireBus.toJson());

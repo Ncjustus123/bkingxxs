@@ -9,7 +9,7 @@ class HireBusModel {
   String nextOfKinName;
   String nextOfKinPhoneNumber;
   int numberOfBuses;
-  String requestDate;
+  DateTime requestDate;
   String departureDate;
   String departure;
   String destination;

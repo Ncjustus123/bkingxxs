@@ -29,7 +29,8 @@ class HireBusRepository with ChangeNotifier {
 
   Future postHireBus(context, {name}) async {
     final response = await ApiCalls().postHireBus(hireBus.toJson());
-
+print('====>reponse');
+print(response.body);
     if (response.statusCode == 200) {
       final Map<String, dynamic> responseData = json.decode(response.body);
       print(responseData);
