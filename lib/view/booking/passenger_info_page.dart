@@ -14,6 +14,7 @@ import 'package:after_layout/after_layout.dart';
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 import 'apply_coupon_page.dart';
@@ -40,6 +41,7 @@ class _PassengerInfoPageState extends State<PassengerInfoPage>
   final nextOfkincontroller = TextEditingController();
   final kinNumbercontroller = TextEditingController();
   final genderController = TextEditingController();
+  final dobController = TextEditingController();
   var beneficiaryController = TextEditingController();
   List<Widget> adultBeneficiaryNames = [];
   List<Widget> childrenBeneficiaryNames = [];
@@ -177,6 +179,24 @@ class _PassengerInfoPageState extends State<PassengerInfoPage>
                                   }
                                   return null;
                                 },
+                              ),
+                              InkWell(
+                                onTap: () async {
+                                  DateTime selectedTime =
+                                  await booking.showDob(context);
+                                  if (selectedTime != null) {
+                                    dobController.text =
+                                    '${DateFormat('yMMMd').format(selectedTime)}';
+                                    booking.booking.DateOfBirth =
+                                    "${DateFormat('yyyy-MM-dd').format(selectedTime)}";
+                                  }
+                                },
+                                child: InputFormField(
+                                  enabled: false,
+                                  controller: dobController,
+                                  suffixIcon: Icon(Icons.event_note),
+                                  label: 'Date Of Birth ',
+                                ),
                               ),
                               InputFormField(
                                 label: 'Gender',
