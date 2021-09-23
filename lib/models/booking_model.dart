@@ -21,6 +21,7 @@ class BookingModel {
   String ticketNumber;
   String approvedBy;
   String email;
+  String DateOfBirth;
   String phoneNumber;
   String address;
   String nextOfKinName;
@@ -76,6 +77,7 @@ class BookingModel {
       this.ticketNumber,
       this.approvedBy,
       this.email,
+        this.DateOfBirth,
       this.phoneNumber,
       this.address,
       this.nextOfKinName,
@@ -132,6 +134,7 @@ class BookingModel {
     data['ticketNumber'] = this.ticketNumber;
     data['approvedBy'] = this.approvedBy;
     data['email'] = this.email;
+    data['DateOfBirth']= this.DateOfBirth;
     data['phoneNumber'] = this.phoneNumber;
     data['address'] = this.address;
     data['nextOfKinName'] = this.nextOfKinName;

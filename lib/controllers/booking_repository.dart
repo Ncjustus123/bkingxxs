@@ -249,6 +249,17 @@ class BookingRepository with ChangeNotifier {
         helpText: "Select travelling date");
   }
 
+  Future<DateTime> showDob(context) async {
+    return await showDatePicker(
+        context: context,
+        initialDate: DateTime(2010,12,31),
+        //tomorrow initial date
+        firstDate: DateTime(1950,12,31),
+        lastDate: DateTime(2010,12,31),
+        //TODO days from firebase//open for only two weeks
+        helpText: "Select travelling date");
+  }
+
   /***
    * PASSENGER INFO CODE START
    */

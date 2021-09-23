@@ -25,7 +25,7 @@ class MyThemes {
     scaffoldBackgroundColor: Colors.grey.shade900,
     colorScheme: ColorScheme.dark(),
     primarySwatch: Colors.red,
-    primaryColor: Color(0xFFFD1919),
+    primaryColor: Color(0xFFD41919),
     accentColor: Color(0xFFFCA800),
     hintColor: Colors.grey,
 
@@ -34,7 +34,7 @@ class MyThemes {
   static final lightTheme = ThemeData(
     scaffoldBackgroundColor: Color(0xFFEDF6FC),
     primarySwatch: Colors.red,
-    primaryColor: Color(0xFFFD1919),
+    primaryColor: Color(0xFFD41919),
     accentColor: Color(0xFFE7AA07),
     hintColor: Colors.black,
 

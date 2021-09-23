@@ -5,9 +5,11 @@ import 'package:Libmot_Mobile/controllers/user_repository.dart';
 import 'package:Libmot_Mobile/view/welcome/welcome_page.dart';
 import 'package:Libmot_Mobile/view/dasboard_view/dashboard_page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:local_auth/local_auth.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:Libmot_Mobile/constants/dialogs/dialog.dart';
@@ -36,17 +38,76 @@ class _LoginPageState extends State<LoginPage> {
   @override
   void initState() {
     getSecureStorage();
+    _checkBiometrics();
     super.initState();
   }
 
   void getSecureStorage() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     final userStoredEmail = prefs.getString('email');
+    final useBiometric = prefs.getString('usingBiometricLogin');
+    print(userStoredEmail);
+    print(useBiometric);
     setState(() {
       emailController.text = userStoredEmail;
+      userStoredBiometric = useBiometric == 'true';
     });
     print(emailController.text);
   }
+  bool userStoredBiometric = false;
+  bool isUsingBio = false;
+  final LocalAuthentication auth = LocalAuthentication();
+  bool _authenticated;
+  bool touchId = false;
+  bool _canCheck = false;
+
+
+
+  Future<void> _checkBiometrics() async {
+    bool canCheck;
+    try {
+      canCheck = await auth.canCheckBiometrics;
+    } on PlatformException catch (e) {
+      print(e);
+    }
+    if (!mounted) return;
+    setState(() {
+      _canCheck = canCheck;
+      print('Biometric state: $_canCheck');
+    });
+  }
+  Future<void> _authenticate() async {
+    final user = Provider.of<UserRepository>(context, listen: false);
+
+    bool authenticated = false;
+    try {
+      authenticated = await auth.authenticate(
+          biometricOnly: true,
+          localizedReason: 'Scan your fingerprint to sign in',
+          useErrorDialogs: true,
+          stickyAuth: true);
+      if (authenticated) {
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        final userStoredEmail = prefs.getString('email');
+        final userStoredPassword = prefs.getString('password');
+        setState(() {
+          emailController.text = userStoredEmail;
+          passwordController.text = userStoredPassword;
+        });
+
+        onLoginPressed(user, context);
+      }
+    } on PlatformException catch (e) {
+      print(e);
+    }
+    if (!mounted) return;
+    setState(() {
+      _authenticated = authenticated;
+      print('Biometric: $_authenticated');
+    });
+  }
+
+
 
   @override
   Widget build(BuildContext context) {
