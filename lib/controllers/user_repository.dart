@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:Libmot_Mobile/constants/dialogs/dialog.dart';
+import 'package:Libmot_Mobile/controllers/booking_repository.dart';
 import 'package:Libmot_Mobile/models/get_token_model.dart';
 import 'package:Libmot_Mobile/models/profile_model.dart';
 import 'package:Libmot_Mobile/models/sign_up_model.dart';
@@ -223,6 +224,31 @@ class UserRepository with ChangeNotifier {
       _status = Status.Error;
       notifyListeners();
       return null;
+    }
+  }
+
+  updateProfile(context)async{
+    showFetchingData('Processing ..');
+    final response = await _api.updateProfile(profile.toJson());
+
+    if (response.statusCode == 200) {
+      final Map<String, dynamic> responseData = json.decode(response.body);
+      print("responseData");
+      print(responseData);
+      profile = Profile.fromJson(responseData);
+
+      //TODO: end the first dialog box
+
+      //show dialog box
+      EasyLoading.dismiss();
+      Dialogs.showMessage(
+        context: context,
+        message:
+        'Profile Updated Successfully',
+      );
+    }
+    else{
+      Get.snackbar("oops", "Could not update profile");
     }
   }
 

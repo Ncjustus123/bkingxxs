@@ -68,6 +68,68 @@ dialog(context, String title, content, {onpressed}) {
     ),
   );
 }
+dialog1(context, String title, content, {onpressed}) {
+  showDialog(
+    context: context,
+    barrierDismissible: false,
+    builder: (context) => Dialog(
+      child: Container(
+        margin: EdgeInsets.all(10),
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10), color: Colors.white),
+
+        child: Wrap(
+          // mainAxisAlignment: MainAxisAlignment.center,
+          // crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            SizedBox(
+              height: 10,
+            ),
+            Center(
+              child: Icon(
+                Icons.cancel,
+                color: Colors.red,
+                size: 90,
+              ),
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Center(
+              child: Text(
+                title,
+                style: TextStyle(
+                    fontWeight: FontWeight.normal,
+                    fontSize: 15,
+                    color: Colors.black),
+              ),
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Center(
+              child: Text(
+                content,
+                style: TextStyle(
+                    fontSize: 13, color: Colors.black, fontFamily: 'Monserrat'),
+                textAlign: TextAlign.center,
+              ),
+            ),
+            SizedBox(
+              height: 50,
+            ),
+            Center(
+              child: SmallButtonReusable(
+                name: "Okay",
+                onpressed: onpressed,
+              ),
+            ),
+          ],
+        ),
+      ),
+    ),
+  );
+}
 
 class NetworkDialog {
   static noNetwork(context, String title, content, onpressed) {
@@ -201,6 +263,70 @@ class Dialogs {
       ),
       barrierDismissible: false,
     );
+  }
+  static showMessage({    String message,
+    BuildContext context,}) {
+    Get.dialog(
+      AlertDialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+        backgroundColor: Colors.transparent,
+        titlePadding: EdgeInsets.zero,
+        content: Container(
+          height: MediaQuery.of(context).size.height * 0.3,
+          width: MediaQuery.of(context).size.width * 0.9,
+          decoration: BoxDecoration(
+              color: Colors.white,
+              border: Border.all(
+                color: Theme.of(context).primaryColor.withOpacity(0.7),
+                width: 0.5,
+              ),
+              borderRadius: BorderRadius.circular(10)),
+          child: Center(
+            child: SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(
+                      Icons.fingerprint,
+                      color: Theme.of(context).primaryColor,
+                      size: 60,
+                    ),
+                    SizedBox(height: 20),
+                    Center(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 5.0, horizontal: 10),
+                        child: Text(
+                          message,
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              letterSpacing: 0.3,
+                              color: Colors.black87,
+                              fontSize: 13,
+                              fontWeight: FontWeight.w500),
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 15),
+                    ButtonReusable(
+                        color:Theme.of(context).primaryColor,
+                        textcolor: Colors.white,
+                        name: 'Ok',
+                        onpressed: () {
+                          Get.back();
+                        }),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+      barrierDismissible: false,
+    );
+
   }
 
   static Row loadingRow(BuildContext context, String text) {
@@ -359,3 +485,5 @@ void showLoading(
     ..dismissOnTap = false;
   EasyLoading.show(status: status);
 }
+
+
