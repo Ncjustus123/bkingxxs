@@ -41,7 +41,8 @@ class _PaymentPaystackState extends State<PaymentPaystack> {
 
   @override
   void initState() {
-    plugin.initialize(publicKey: TestData().paystackPublicKey);
+    //plugin.initialize(publicKey: TestData().paystackPublicKey);//TEST
+    plugin.initialize(publicKey: LiveData().paystackPublicKey);//LIVE
     super.initState();
   }
 
