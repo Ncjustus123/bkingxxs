@@ -205,12 +205,6 @@ class _PassengerInfoPageState extends State<PassengerInfoPage>
                                 controller: genderController,
                                 onSaved: (value) => booking.booking.gender =
                                     (value == "Male") ? 0 : 1,
-                                validator: (value) {
-                                  if (value.isEmpty) {
-                                    return 'error';
-                                  }
-                                  return null;
-                                },
                               ),
                               Padding(
                                 padding: const EdgeInsets.all(8.0),

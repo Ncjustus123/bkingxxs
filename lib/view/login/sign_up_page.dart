@@ -172,12 +172,6 @@ class _SignUpPageState extends State<SignUpPage> {
                         textCapitalization: TextCapitalization.words,
                         controller: gendercontroller,
                         suffixIcon: Icon(Icons.expand_more),
-                        validator: (value) {
-                          if (value.isEmpty) {
-                            return 'Please input gender';
-                          }
-                          return null;
-                        },
                       ),
                     ),
                   ),

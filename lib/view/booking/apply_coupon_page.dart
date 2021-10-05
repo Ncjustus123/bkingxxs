@@ -105,7 +105,8 @@ class _ApplyCouponState extends State<ApplyCoupon> {
                             TextSpan(
                                 text: "I agree with the",
                                 style: TextStyle(
-                                  fontSize: 10,
+                                  fontSize: 11,
+                                  color: Theme.of(context).primaryColor,
                                 )),
                             TextSpan(
                                 text: " terms and condition",
