@@ -96,8 +96,6 @@ class UserRepository with ChangeNotifier {
     pref.deleteProfile();
     _loggedInStatus = LoggedInStatus.LoggedOut;
     Provider.of<UserRepository>(context,listen: false).profile=null;
-
-
     Get.offAll(() => WelcomePage());
     notifyListeners();
   }

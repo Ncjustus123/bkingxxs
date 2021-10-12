@@ -1,4 +1,5 @@
 import 'package:Libmot_Mobile/controllers/user_repository.dart';
+import 'package:Libmot_Mobile/services/database/user_preference.dart';
 import 'package:Libmot_Mobile/view/booking/booking_history.dart';
 import 'package:Libmot_Mobile/view/help_support/help_support_page.dart';
 import 'package:Libmot_Mobile/view/login/login_page.dart';
@@ -26,17 +27,18 @@ class _DrawerScreenState extends State<DrawerScreen> {
   static getInitial(String name) => name.isNotEmpty
       ? name.trim().split(' ').map((l) => l[0]).take(2).join()
       : '';
-
+  bool loggedIn;
   String text = 'Libra Motors';
   String subject =
       'I travel conveniently with Libra Motors,\nYou can make booking online using the web https://libmot.com/ , or get the mobile app on\n\nAndroid playstore https://play.google.com/store/apps/details?id=com.libramotors.libmot&hl=en&gl=US or\n\niOS appstore https://apps.apple.com/ng/app/libmot-com/id1463064075';
 
   _onShare({context}) async {
     final RenderBox box = context.findRenderObject() as RenderBox;
-
+    final preference = await UserPreference.getInstance();
     await Share.share(subject,
         subject: subject,
         sharePositionOrigin: box.localToGlobal(Offset.zero) & box.size);
+    loggedIn = preference.isLoggedIn() ?? false;
   }
 
   @override
@@ -140,15 +142,20 @@ class _DrawerScreenState extends State<DrawerScreen> {
                     },
                   )
                       : SizedBox(),
-                  user.profile == null
-                      ? menuOption(
+
+                       menuOption(
                     icon: 'icons/wallet.png',
                     title: 'Wallet',
                     onTap: () {
-                      Get.to( WalletPage());
+                      if(user.profile != null) {
+                        print("loggedIn");
+                        Get.to( WalletPage());
+                      }else{
+                        Get.snackbar("Opps", "login to Access Wallet");
+                      }
+
                     },
-                  )
-                      : SizedBox(),
+                  ),
                   menuOption(
                     icon: 'icons/coupons.png',
                     title: 'Check Booking Status',
