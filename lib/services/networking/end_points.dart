@@ -16,7 +16,8 @@ class EndPoints {
   static const String resendOtp = "/api/Customer/SendActivationCode";
   static const String agentRegister = "api/Agents/AddApplicant";
   static const String updateProfile = "api/Account/UpdateProfile";
-
+  static const String getWalletInfo = "api/Account/UpdateProfile";
+  static const String getWalletTransactions = "api/Account/UpdateProfile";
 // DF2CBE57TAG
 //19B7A413OAG
 // @GET("api/Terminal/Get")

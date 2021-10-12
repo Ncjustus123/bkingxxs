@@ -1,7 +1,9 @@
+import 'dart:math';
 import 'dart:ui';
 
 import 'package:Libmot_Mobile/controllers/theme_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 //COLORS
 const Color kWhite = Color(0xFFFFFFFF);
@@ -13,6 +15,7 @@ const Color kGrey = Color(0xFF9E9E9E);
 const Color kRed = Color(0xFFF44336);
 
 //TextStyle
+
 
 const textStyle =
     TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w600);
@@ -29,6 +32,43 @@ const textStyle2 = TextStyle(
 String getNairaSign() {
   return "₦";
 }
+ String formatMoney(double amount, [int decimals = 0]) {
+print(amount);
+if (amount == null) {
+return "₦0";
+}
+if (amount < 1) {
+return "₦0";
+}
+return NumberFormat.currency(name: getNairaSign(), decimalDigits: decimals)
+    .format(amount);
+}
+
+ Color getRandomColor(index) {
+Random r = Random(index + 14);
+Random g = Random(index + 13);
+Random b = Random(index + 12);
+return Color.fromARGB(255, r.nextInt(255), g.nextInt(255), b.nextInt(255));
+}
+ Container getCardBackground(width, height, Color c) {
+return Container(
+child: ClipRRect(
+borderRadius: BorderRadius.all(Radius.circular(10)),
+child: ColorFiltered(
+colorFilter: ColorFilter.mode(c, BlendMode.hue),
+child: Image.asset(
+"assets/images/background.png",
+//          "https://placeimg.com/680/400/nature",
+fit: BoxFit.fill,
+width: width,
+height: height,
+),
+),
+),
+);
+}
+
+
 
 
 

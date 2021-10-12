@@ -107,29 +107,29 @@ class _DashBoardScreen extends State<DashBoardScreen> {
                       "",
                       style: TextStyle(color: Colors.white),
                     ),
-                    InkWell(
-                      onTap: () {
-                        Get.isDarkMode
-                            ? Get.changeTheme(MyThemes.lightTheme)
-                            : Get.changeTheme(MyThemes.darkTheme);
-                      },
-                      child: Padding(
-                        padding: const EdgeInsets.fromLTRB(8, 0, 0, 8),
-                        child: Get.isDarkMode
-                            ? Image.asset(
-                                'icons/dark_mode.png',
-                                color: Colors.white,
-                                height: 35,
-                                width: 35,
-                              )
-                            : Image.asset(
-                                'icons/light_mode.png',
-                                color: Colors.white,
-                                height: 35,
-                                width: 35,
-                              ),
-                      ),
-                    ),
+                    // InkWell(
+                    //   onTap: () {
+                    //     Get.isDarkMode
+                    //         ? Get.changeTheme(MyThemes.lightTheme)
+                    //         : Get.changeTheme(MyThemes.darkTheme);
+                    //   },
+                    //   child: Padding(
+                    //     padding: const EdgeInsets.fromLTRB(8, 0, 0, 8),
+                    //     child: Get.isDarkMode
+                    //         ? Image.asset(
+                    //             'icons/dark_mode.png',
+                    //             color: Colors.white,
+                    //             height: 35,
+                    //             width: 35,
+                    //           )
+                    //         : Image.asset(
+                    //             'icons/light_mode.png',
+                    //             color: Colors.white,
+                    //             height: 35,
+                    //             width: 35,
+                    //           ),
+                    //   ),
+                    // ),
                   ],
                 ),
               ),
@@ -226,7 +226,7 @@ class _DashBoardScreen extends State<DashBoardScreen> {
                                 title: "Libmot Express",
                                 onTap: () {
                                   launch(
-                                      "https://play.google.com/store/apps/details?id=com.libramotors.libmotexpress");
+                                      "https://apps.apple.com/ng/app/libmot-express-app/id1548969326");
                                 },
                                 icon: Image.asset(
                                   "images/Libmot Express Logo 1.png",

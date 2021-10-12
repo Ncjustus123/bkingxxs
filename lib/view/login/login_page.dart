@@ -224,13 +224,13 @@ class _LoginPageState extends State<LoginPage> {
                                 ? Center(
                                     child: CircularProgressIndicator(),
                                   )
-                                : InkWell(
-                                    onTap: () {
-                                      loginForAndroidIos(user);
-                                    },
-                                    child: Text("Continue as guest",
-                                        style: TextStyle(fontSize: 13)),
-                                  ),
+                                : FlatButton(
+                                onPressed: (){
+                                  loginForAndroidIos(user);
+                                },
+                                color: Theme.of(context).primaryColor,
+                                textColor: Colors.white,
+                                child: Text("Continue as Guest",)),
                             SizedBox(height: 70),
                             InkWell(
                               onTap: () {

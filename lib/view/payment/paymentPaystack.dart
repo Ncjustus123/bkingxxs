@@ -7,6 +7,7 @@ import 'package:Libmot_Mobile/services/networking/live_data.dart';
 import 'package:Libmot_Mobile/services/networking/test_data.dart';
 import 'package:Libmot_Mobile/view/booking/booking_confirmation.dart';
 import 'package:Libmot_Mobile/view/dasboard_view/dashboard_page.dart';
+import 'package:Libmot_Mobile/view/wallet/wallet.dart';
 import 'package:flutter/material.dart';
 import 'package:flip_card/flip_card.dart';
 import 'package:flutter/services.dart';
@@ -41,7 +42,8 @@ class _PaymentPaystackState extends State<PaymentPaystack> {
 
   @override
   void initState() {
-    plugin.initialize(publicKey: TestData().paystackPublicKey);
+    plugin.initialize(publicKey: LiveData().paystackPublicKey);//live
+    //plugin.initialize(publicKey: TestData().paystackPublicKey);//Test
     super.initState();
   }
 
@@ -56,30 +58,50 @@ class _PaymentPaystackState extends State<PaymentPaystack> {
             children: <Widget>[
               myWhiteAppBar(context, "Payment"),
               SizedBox(height: 10,),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
+              Column(
                 children: [
-                  InkWell(
-                    onTap: (){
-                      initializePayment(booking.totalestimate,booking.postBookingResponse.object.bookingReferenceCode);
-                    },
-                    child: Image.asset(
-                    'images/paystack.png',
-                      height: 80,
-                    ),
-                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      InkWell(
+                        onTap: (){
+                          initializePayment(booking.totalestimate,booking.postBookingResponse.object.bookingReferenceCode);
+                        },
+                        child: Image.asset(
+                        'images/paystack.png',
+                          height: 80,
+                        ),
+                      ),
+                      InkWell(
+                        onTap: (){
+                        Get.snackbar("Sorry!", "FlutterWave not available!");
+                        },
+                        child: Image.asset(
+                          'images/flutterwave.png',
+                          height: 80,
+                        ),
+                      ),
 
-                  InkWell(
-                    onTap: (){
-                    Get.snackbar("Sorry!", "FlutterWave not available!");
-                    },
-                    child: Image.asset(
-                      'images/flutterwave.png',
-                      height: 80,
-                    ),
+    ],),
+                  Padding(
+                    padding: const EdgeInsets.only(left:120,right: 120,top:30,bottom: 0),
+                    child: FlatButton(
+                      height: 50,
+                        onPressed: (){
+                        Get.to(WalletPage());
+                        },
+                        textColor: Colors.white,
+                        color: Theme.of(context).primaryColor,
+                        child: Row(
+                          children: [
+                            Icon(Icons.wallet_giftcard),
+                            SizedBox(width: 5,),
+                            Text("Pay with Wallet"),
+                          ],
+                        )),
                   ),
-
-    ],),],),],),);}
+                ],
+              ),],),],),);}
 
   void initializePayment(double amount, String reference) async {
     Charge c = Charge();

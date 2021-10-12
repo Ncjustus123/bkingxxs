@@ -195,22 +195,16 @@ class _PassengerInfoPageState extends State<PassengerInfoPage>
                                   enabled: false,
                                   controller: dobController,
                                   suffixIcon: Icon(Icons.event_note),
-                                  label: 'Date Of Birth ',
+                                  label: 'Date Of Birth-Optional',
                                 ),
                               ),
                               InputFormField(
-                                label: 'Gender',
+                                label: 'Gender-Optional',
                                 keyboardType: TextInputType.name,
                                 textCapitalization: TextCapitalization.words,
                                 controller: genderController,
                                 onSaved: (value) => booking.booking.gender =
                                     (value == "Male") ? 0 : 1,
-                                validator: (value) {
-                                  if (value.isEmpty) {
-                                    return 'error';
-                                  }
-                                  return null;
-                                },
                               ),
                               Padding(
                                 padding: const EdgeInsets.all(8.0),

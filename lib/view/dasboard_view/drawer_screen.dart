@@ -3,6 +3,7 @@ import 'package:Libmot_Mobile/view/booking/booking_history.dart';
 import 'package:Libmot_Mobile/view/help_support/help_support_page.dart';
 import 'package:Libmot_Mobile/view/login/login_page.dart';
 import 'package:Libmot_Mobile/view/login/sign_up_page.dart';
+import 'package:Libmot_Mobile/view/wallet/wallet.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -139,6 +140,15 @@ class _DrawerScreenState extends State<DrawerScreen> {
                     },
                   )
                       : SizedBox(),
+                  user.profile == null
+                      ? menuOption(
+                    icon: 'icons/wallet.png',
+                    title: 'Wallet',
+                    onTap: () {
+                      Get.to( WalletPage());
+                    },
+                  )
+                      : SizedBox(),
                   menuOption(
                     icon: 'icons/coupons.png',
                     title: 'Check Booking Status',
@@ -147,29 +157,11 @@ class _DrawerScreenState extends State<DrawerScreen> {
                     },
                   ),
                   menuOption(
-                    icon: 'icons/notification.png',
-                    title: 'Notification',
-                    onTap: () {},
-                  ),
-                  menuOption(
                     icon: 'icons/help.png',
                     title: 'Help & Support',
                     onTap: () {
                       Get.to(() => HelpSupportPage());
 
-                    },
-                  ),
-                  user.profile == null
-                      ? SizedBox()
-                      : menuOption(
-                    icon: 'icons/coupons.png',
-                    title: 'My Coupons',
-                    onTap: () {},
-                  ),
-                  menuOption(
-                    icon: 'icons/rate us.png',
-                    title: 'Rate Us',
-                    onTap: () {   launch("https://play.google.com/store/apps/details?id=com.libramotors.libmot");
                     },
                   ),
                   menuOption(

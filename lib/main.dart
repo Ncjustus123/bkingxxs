@@ -115,7 +115,7 @@ class MyApp extends StatelessWidget {
         title: "Libmot Mobile",
         initialRoute: "initial",
         themeMode: ThemeMode.system,
-        darkTheme: MyThemes.darkTheme,
+        darkTheme: MyThemes.lightTheme,
         onGenerateRoute: routes,
         builder: EasyLoading.init(),
       ),

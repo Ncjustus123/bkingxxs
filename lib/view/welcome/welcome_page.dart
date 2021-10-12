@@ -116,27 +116,14 @@ class _WelcomePageState extends State<WelcomePage>
                     ? Center(
                         child: CircularProgressIndicator(),
                       )
-                    : InkWell(
-                        onTap: () {
-                          loginForAndroidIos(user);
-                        },
-                        child: Center(
-                          child: Text(
-                            "Continue as guest",
-                            style: TextStyle(
-                              decoration: TextDecoration.underline,
-                              fontSize: 15,
-                              fontWeight: FontWeight.w500,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ),
-                        // onTap: () {
-                        //   user.loginForAndroidIos();
-                        //   Navigator.of(context).pushNamed(WelcomePage.dashboardPage);
+                    : FlatButton(
+                    onPressed: (){
+                      loginForAndroidIos(user);
+                    },
+                    color: Theme.of(context).primaryColor,
+                    textColor: Colors.white,
+                    child: Text("Continue as Guest",)),
 
-                        // },
-                      ),
                 Spacer(),
               ],
             ),

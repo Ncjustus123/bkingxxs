@@ -1,3 +1,6 @@
+import 'dart:convert';
+
+import 'package:Libmot_Mobile/models/dat_model.dart';
 import 'package:Libmot_Mobile/models/get_token_model.dart';
 import 'package:Libmot_Mobile/models/profile_model.dart';
 import 'package:Libmot_Mobile/view/welcome/welcome_page.dart';
@@ -36,6 +39,8 @@ class UserPreference {
   static final String userType = "userType";
   static final String companyId = "companyId";
   static final String dateJoined = "dateJoined";
+
+  static const String cards = "saved-cards";
 
   void setLoggedInState(bool isLoggedIn) {
     preferences.setBool(loggedIn, isLoggedIn);
@@ -108,5 +113,34 @@ class UserPreference {
 
   void deleteProfile() {
     preferences.clear();
+  }
+  double setDouble(String key, double value){
+     preferences.setDouble(key,value);
+  }
+  double getDouble(String key){
+    return preferences.getDouble(key);
+  }
+  List <CreditCard> getSavedCards(){
+    List <CreditCard> cardObjs = List();
+    List <String> list = preferences.getStringList(cards);
+    if(list != null)
+      for(String card in list){
+        try{
+          print(card);
+          cardObjs.add(CreditCard.fromJson(json.decode(card)));
+        }catch(e){
+          print(e);
+        }
+      }
+    return cardObjs;
+  }
+  void savedCards(List<CreditCard> list){
+    List<String> items= list.map<String>((obj){
+      return json.encode(obj.toJSON());
+    }).toList();
+    for(String d in items){
+      print(d);
+    }
+    preferences.setStringList(cards, items);
   }
 }

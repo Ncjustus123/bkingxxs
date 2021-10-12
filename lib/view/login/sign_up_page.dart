@@ -166,18 +166,12 @@ class _SignUpPageState extends State<SignUpPage> {
                         );
                       },
                       child: InputFormField(
-                        label: "Gender",
+                        label: "Sex-Optional",
                         obscure: false,
                         enabled: false,
                         textCapitalization: TextCapitalization.words,
                         controller: gendercontroller,
                         suffixIcon: Icon(Icons.expand_more),
-                        validator: (value) {
-                          if (value.isEmpty) {
-                            return 'Please input gender';
-                          }
-                          return null;
-                        },
                       ),
                     ),
                   ),
@@ -332,7 +326,7 @@ class _SignUpPageState extends State<SignUpPage> {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Text(
-             'Select Gender',
+             'Select Gender - optional',
               style: TextStyle(fontWeight: FontWeight.w700, fontSize: 20),
             ),
           ),

@@ -55,6 +55,20 @@ class ApiCalls {
     return response;
   }
 
+  Future<http.Response> getWalletInfo() async {
+    final header = await init();
+    final url = Uri.parse(baseInstance.base.baseUrl + EndPoints.getWalletInfo);
+    final response = await http.get(url, headers: header);
+    return response;
+  }
+
+  Future<http.Response> getWalletTransaction() async {
+    final header = await init();
+    final url = Uri.parse(baseInstance.base.baseUrl + EndPoints.getWalletTransactions);
+    final response = await http.get(url, headers: header);
+    return response;
+  }
+
   Future<http.Response> postHireBus(Map<String, dynamic> body) async {
     final header = await init();
     final url = Uri.parse(baseInstance.base.baseUrl + EndPoints.postHireBus);
