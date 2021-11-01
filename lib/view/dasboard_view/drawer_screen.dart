@@ -140,15 +140,20 @@ class _DrawerScreenState extends State<DrawerScreen> {
                     },
                   )
                       : SizedBox(),
-                  user.profile == null
-                      ? menuOption(
+                  menuOption(
                     icon: 'icons/wallet.png',
                     title: 'Wallet',
                     onTap: () {
-                      Get.to( WalletPage());
+                      if(user.profile != null) {
+                        print("loggedIn");
+                        Get.to( WalletPage());
+                      }else{
+                        Get.snackbar("Opps", "login to Access Wallet");
+                      }
+
                     },
-                  )
-                      : SizedBox(),
+                  ),
+
                   menuOption(
                     icon: 'icons/coupons.png',
                     title: 'Check Booking Status',
@@ -161,7 +166,6 @@ class _DrawerScreenState extends State<DrawerScreen> {
                     title: 'Help & Support',
                     onTap: () {
                       Get.to(() => HelpSupportPage());
-
                     },
                   ),
                   menuOption(
