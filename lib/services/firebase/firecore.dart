@@ -19,7 +19,7 @@ class FireCore extends StatelessWidget {
       height: MediaQuery.of(context).size.height*0.5,
       width: MediaQuery.of(context).size.width*0.8,
       child: StreamBuilder(
-        stream: FirebaseFirestore.instance.collection("courses").snapshots(),
+        stream: FirebaseFirestore.instance.collection("feeds").snapshots(),
         builder: (context,AsyncSnapshot<QuerySnapshot>snapshot){
           if(!snapshot.hasData){
             return Center(

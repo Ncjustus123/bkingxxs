@@ -11,6 +11,7 @@ class WelcomePage extends StatefulWidget {
   static final dashboardPage = "/dashboard";
   static final signUpPage = "/signUpPage";
 
+
   @override
   _WelcomePageState createState() => _WelcomePageState();
 }
@@ -19,13 +20,23 @@ class _WelcomePageState extends State<WelcomePage>
     with SingleTickerProviderStateMixin {
   AnimationController _controller;
   UserRepository user;
+  Animation<Offset> _offsetAnimation;
 
   @override
   void initState() {
     _controller = AnimationController(
-        duration: const Duration(milliseconds: 1700), vsync: this);
-
-    _controller.forward();
+        duration: const Duration(milliseconds: 3000),
+      vsync: this,
+    )..repeat(reverse: true);
+    _offsetAnimation = Tween<Offset>(
+      begin: Offset.zero,
+      end: const Offset(1.5, 0.0),
+    ).animate(CurvedAnimation(
+      parent: _controller,
+      curve: Curves.elasticIn,
+    ));
+    Future.delayed(Duration(seconds: 20), () {
+    });
 
     super.initState();
   }
@@ -51,7 +62,7 @@ class _WelcomePageState extends State<WelcomePage>
           ),
           Container(
             decoration: BoxDecoration(
-              color: Colors.grey.withOpacity(0.6),
+              color: Colors.black.withOpacity(0.8),
             ),
           ),
           Padding(
@@ -82,19 +93,24 @@ class _WelcomePageState extends State<WelcomePage>
                 //     ),
                 //   ),
                 // ),
-                Text("LIBMOT",
-                    style: GoogleFonts.archivo(
-                        color: Theme.of(context).primaryColor,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 50)),
-                //
-                Text("Travel conveniently...",
+                // Text("LIBMOT",
+                //     style: GoogleFonts.archivo(
+                //         color: Theme.of(context).primaryColor,
+                //         fontWeight: FontWeight.bold,
+                //         fontSize: 50)),
+                Padding(
+                  padding: const EdgeInsets.only(top: 10, bottom: 10),
+                  child: SlideTransition(
+                      position: _offsetAnimation,
+                      child: Image.asset('images/LIBMOT LOGO 1.png',height: 100,)),
+                ),
+                Text("WELCOME",
                     style: TextStyle(
                         fontStyle: FontStyle.italic,
                         color: Colors.white,
                         letterSpacing: 0.5,
-                        fontWeight: FontWeight.w100,
-                        fontSize: 14)),
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20)),
                 Spacer(flex: 2),
                 Buttons.coloredButton(
                   context: context,

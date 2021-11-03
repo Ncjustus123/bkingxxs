@@ -50,7 +50,7 @@ class _DashBoardScreen extends State<DashBoardScreen> {
             colorFilter: ColorFilter.mode(
                 Get.isDarkMode
                     ? Color(0x0000000).withOpacity(0.8)
-                    : Color(0xFFFFFFF).withOpacity(0.2),
+                    : Colors.black.withOpacity(0.7),
                 BlendMode.srcOver),
           ),
           borderRadius: isDrawerOpen

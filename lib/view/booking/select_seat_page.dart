@@ -33,6 +33,38 @@ class _SelectSeatPageState extends State<SelectSeatPage>
     seatSelection.selectedSeats.clear();
     setState(() {});
   }
+  buildDialog(context) {
+    return showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Row(
+          children: [
+            Icon(Icons.notifications_active,color: Colors.red,size: 40,),
+            new Text("Please Note",style: TextStyle(fontSize: 22),),
+          ],
+        ),
+        content: new Text("Passengers are entitled to have luggage allowance from 0 to 8kg per seat ",
+        style: TextStyle(fontSize: 20),),
+        actions: <Widget>[
+          new FlatButton(
+            child: new Text("OK"),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
+        ],
+      ),
+    );
+  }
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Future.delayed(Duration.zero).then((_) => buildDialog(context));
+    });
+    // TODO: implement initState
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {

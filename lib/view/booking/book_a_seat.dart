@@ -49,6 +49,7 @@ class _BookASeatPageState extends State<BookASeatPage>
 
   String nyscOption;
 
+
   @override
   void initState() {
     var arg = Get.arguments;
@@ -56,8 +57,12 @@ class _BookASeatPageState extends State<BookASeatPage>
     setState(() {
       nyscOption = arg["nyscOption"];
     });
+
+    //
     super.initState();
   }
+
+
   var newDepature;
   boot(context) {
     booking = Provider.of<BookingRepository>(context);

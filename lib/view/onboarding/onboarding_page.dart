@@ -40,16 +40,16 @@ class OnBoardingPage extends StatelessWidget {
     Size size = MediaQuery.of(context).size;
 
     return Scaffold(
+      backgroundColor: Colors.grey,
       body: Stack(
         children: [
-          Container(
-            height: size.height,
-            width: size.width,
-            child: Image.asset('images/background.png', fit: BoxFit.fill),
+          Padding(
+            padding: const EdgeInsets.only(left: 100,right: 100,top:100,bottom: 50),
+            child: Image.asset('images/LIBMOT LOGO 1.png',height: 100,),
           ),
           Container(
             decoration: BoxDecoration(
-              color: Colors.grey.withOpacity(0.6),
+              color: Colors.black.withOpacity(0.5),
             ),
           ),
           PageView.builder(

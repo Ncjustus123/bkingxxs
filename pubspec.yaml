@@ -67,6 +67,7 @@ dependencies:
   upgrader: ^3.5.1
   cloud_firestore: ^2.4.0
 
+
   # paystack_manager: ^1.0.4
   # webview_flutter: ^2.0.7
 

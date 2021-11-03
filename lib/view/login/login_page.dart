@@ -121,7 +121,7 @@ class _LoginPageState extends State<LoginPage> {
         child: Container(
           decoration: BoxDecoration(
             image: DecorationImage(
-              image: AssetImage("images/background.png"),
+              image: AssetImage("images/background1.png"),
               fit: BoxFit.cover,
               colorFilter: ColorFilter.mode(
                   Colors.red[100].withOpacity(0.2), BlendMode.srcOver),
@@ -428,7 +428,7 @@ class _LoginAnimState extends State<LoginAnim>
         body: Container(
       decoration: BoxDecoration(
         image: DecorationImage(
-          image: AssetImage("images/background.png"),
+          image: AssetImage("images/background1.png"),
           fit: BoxFit.cover,
           colorFilter: ColorFilter.mode(
               Colors.red[100].withOpacity(0.2), BlendMode.srcOver),
