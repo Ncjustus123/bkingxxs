@@ -42,8 +42,8 @@ class _PaymentPaystackState extends State<PaymentPaystack> {
 
   @override
   void initState() {
-    //plugin.initialize(publicKey: LiveData().paystackPublicKey);//live
-    plugin.initialize(publicKey: TestData().paystackPublicKey);//Test
+    plugin.initialize(publicKey: LiveData().paystackPublicKey);//live
+    //plugin.initialize(publicKey: TestData().paystackPublicKey);//Test
     super.initState();
   }
 
@@ -81,25 +81,24 @@ class _PaymentPaystackState extends State<PaymentPaystack> {
                           height: 80,
                         ),
                       ),
-
     ],),
-                  Padding(
-                    padding: const EdgeInsets.only(left:120,right: 120,top:30,bottom: 0),
-                    child: FlatButton(
-                      height: 50,
-                        onPressed: (){
-                        Get.to(WalletPage());
-                        },
-                        textColor: Colors.white,
-                        color: Theme.of(context).primaryColor,
-                        child: Row(
-                          children: [
-                            Icon(Icons.wallet_giftcard),
-                            SizedBox(width: 5,),
-                            Text("Pay with Wallet"),
-                          ],
-                        )),
-                  ),
+                  // Padding(
+                  //   padding: const EdgeInsets.only(left:120,right: 120,top:30,bottom: 0),
+                  //   child: FlatButton(
+                  //     height: 50,
+                  //       onPressed: (){
+                  //       Get.to(WalletPage());
+                  //       },
+                  //       textColor: Colors.white,
+                  //       color: Theme.of(context).primaryColor,
+                  //       child: Row(
+                  //         children: [
+                  //           Icon(Icons.wallet_giftcard),
+                  //           SizedBox(width: 5,),
+                  //           Text("Pay with Wallet"),
+                  //         ],
+                  //       )),
+                  // ),
                 ],
               ),],),],),);}
 
