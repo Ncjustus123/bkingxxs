@@ -1,40 +1,77 @@
 {
   "project_info": {
-    "project_number": "1070277239175",
-    "project_id": "newflutterlibmotapp",
-    "storage_bucket": "newflutterlibmotapp.appspot.com"
+    "project_number": "758828655798",
+    "firebase_url": "https://libmot-firebase.firebaseio.com",
+    "project_id": "libmot-firebase",
+    "storage_bucket": "libmot-firebase.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1070277239175:android:5cee36467cbeb7eee17322",
+        "mobilesdk_app_id": "1:758828655798:android:622635208f1a377c7ab217",
         "android_client_info": {
-          "package_name": "com.example.libmot_mobile_flutter"
+          "package_name": "com.libramotors.libmot"
         }
       },
       "oauth_client": [
         {
-          "client_id": "1070277239175-7afhvvvmta1uaj38jeohr0idnqibpsqr.apps.googleusercontent.com",
+          "client_id": "758828655798-515mqj2qk4q91qd8dn6vooelpfshomf5.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyANsHTUt1tXNh4VzFPAlYMFJu_yGow1UkQ"
+          "current_key": "AIzaSyB3mXHh-T6v3xqjNoguGDH9cEhfibUQ4Ac"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "1070277239175-7afhvvvmta1uaj38jeohr0idnqibpsqr.apps.googleusercontent.com",
+              "client_id": "758828655798-515mqj2qk4q91qd8dn6vooelpfshomf5.apps.googleusercontent.com",
               "client_type": 3
             },
             {
-              "client_id": "1070277239175-302fpbignrc6ool938cnu0a9cnsi4app.apps.googleusercontent.com",
+              "client_id": "758828655798-1jv97fk69qvatttjfnfge35m7mf1hd9f.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.example.libmotMobileFlutter"
+                "bundle_id": "com.libmot"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:758828655798:android:6a404d9818ebc77f7ab217",
+        "android_client_info": {
+          "package_name": "com.libramotors.libmotagent"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "758828655798-515mqj2qk4q91qd8dn6vooelpfshomf5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB3mXHh-T6v3xqjNoguGDH9cEhfibUQ4Ac"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "758828655798-515mqj2qk4q91qd8dn6vooelpfshomf5.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "758828655798-1jv97fk69qvatttjfnfge35m7mf1hd9f.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.libmot"
               }
             }
           ]

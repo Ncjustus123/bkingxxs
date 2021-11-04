@@ -60,19 +60,19 @@ class _FundWalletPageState extends State<FundWalletPage>
               ),
               height: 200,
               width: 400,
-              
+
             ),
             SizedBox(height: 30,),
             InputFormField(
               label: 'Email',
               keyboardType: TextInputType.name,
               textCapitalization: TextCapitalization.words,
-               controller: email,
+              controller: email,
             ),
             InputFormField(
               label: 'Amount',
               keyboardType: TextInputType.number,
-               controller: amount,
+              controller: amount,
               onChanged: (value){
                 setState(() {
                   value =amount;
@@ -85,11 +85,11 @@ class _FundWalletPageState extends State<FundWalletPage>
             ),
             SizedBox(height: 30,),
             Buttons.coloredButton(
-              context: context,
-              title: "Add Money",
-              onTap: () {
-                initializePayment(walletamount,ref);
-              }
+                context: context,
+                title: "Add Money",
+                onTap: () {
+                  initializePayment(walletamount,ref);
+                }
             ),
 
           ],

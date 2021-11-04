@@ -49,6 +49,7 @@ class _BookASeatPageState extends State<BookASeatPage>
 
   String nyscOption;
 
+
   @override
   void initState() {
     var arg = Get.arguments;
@@ -56,8 +57,12 @@ class _BookASeatPageState extends State<BookASeatPage>
     setState(() {
       nyscOption = arg["nyscOption"];
     });
+
+    //
     super.initState();
   }
+
+
   var newDepature;
   boot(context) {
     booking = Provider.of<BookingRepository>(context);
@@ -480,43 +485,43 @@ class _BookASeatPageState extends State<BookASeatPage>
                 child: Column(
                   children: List<Widget>.generate(  //departureItems.length
                       direction == 'from'
-                          ? newDepature.length
+                          ? departureItems.length
                           : nyscOption == 'general'
                               ? arrivalItems.length
-                              : nyscArrivalItems.length, (index) {
+                              : arrivalItems.length, (index) {
                     return new ListTile(
                       onTap: () {
                         direction == 'from'
-                            ? selectFromOption(newDepature[index])
+                            ? selectFromOption(departureItems[index])
                             : selectToOption(
                                 nyscOption == 'general'
                                     ? arrivalItems[index]
-                                    : nyscArrivalItems[index],
+                                    : arrivalItems[index],
                               );
                       },
                       title: Text(
                         direction == 'from'
-                            ? newDepature[index].name
+                            ? departureItems[index].name
                             : nyscOption == 'general'
                                 ? arrivalItems[index].name
-                                : nyscArrivalItems[index].name,
+                                : arrivalItems[index].name,
                         softWrap: true,
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
                           fontSize: 15,
                           fontWeight: direction == 'from'
-                              ? selectedFrom == newDepature[index].name
+                              ? selectedFrom == departureItems[index].name
                                   ? FontWeight.w600
                                   : FontWeight.w500
                               : nyscOption == 'general'
                               ?selectedTo == arrivalItems[index].name
                                   ? FontWeight.w600
-                                  : FontWeight.w500: selectedTo == nyscArrivalItems[index].name?FontWeight.w600
+                                  : FontWeight.w500: selectedTo == arrivalItems[index].name?FontWeight.w600
                               : FontWeight.w500,
                         ),
                       ),
                       trailing: direction == 'from'
-                          ? selectedFrom == newDepature[index].name
+                          ? selectedFrom == departureItems[index].name
                               ? Icon(Icons.check,
                                   size: 15,
                                   color: Theme.of(context).primaryColor)
@@ -526,7 +531,7 @@ class _BookASeatPageState extends State<BookASeatPage>
                               ? Icon(Icons.check,
                                   size: 15,
                                   color: Theme.of(context).primaryColor)
-                              : Text(''):selectedTo == nyscArrivalItems[index].name
+                              : Text(''):selectedTo == arrivalItems[index].name
                           ? Icon(Icons.check,
                           size: 15,
                           color: Theme.of(context).primaryColor)

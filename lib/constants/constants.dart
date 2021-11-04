@@ -57,7 +57,7 @@ borderRadius: BorderRadius.all(Radius.circular(10)),
 child: ColorFiltered(
 colorFilter: ColorFilter.mode(c, BlendMode.hue),
 child: Image.asset(
-"assets/images/background.png",
+"assets/images/background1.png",
 //          "https://placeimg.com/680/400/nature",
 fit: BoxFit.fill,
 width: width,

@@ -44,7 +44,7 @@ class _SignUpPageState extends State<SignUpPage> {
         child: Container(
           decoration: BoxDecoration(
             image: DecorationImage(
-              image: AssetImage("images/background.png"),
+              image: AssetImage("images/background1.png"),
               fit: BoxFit.cover,
               colorFilter: ColorFilter.mode(
                   Colors.red[100].withOpacity(0.2), BlendMode.srcOver),

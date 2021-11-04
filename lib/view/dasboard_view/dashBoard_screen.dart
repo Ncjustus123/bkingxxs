@@ -1,6 +1,6 @@
 import 'package:Libmot_Mobile/constants/constants.dart';
 import 'package:Libmot_Mobile/constants/dialogs/dialog.dart';
-import 'package:Libmot_Mobile/controllers/booking_history_provider.dart';
+import 'package:Libmot_Mobile/services/firebase/firecore.dart';
 import 'package:Libmot_Mobile/controllers/theme_provider.dart';
 import 'package:Libmot_Mobile/view/Agent/agent.dart';
 import 'package:Libmot_Mobile/view/booking/book_a_seat.dart';
@@ -50,7 +50,7 @@ class _DashBoardScreen extends State<DashBoardScreen> {
             colorFilter: ColorFilter.mode(
                 Get.isDarkMode
                     ? Color(0x0000000).withOpacity(0.8)
-                    : Color(0xFFFFFFF).withOpacity(0.2),
+                    : Colors.black.withOpacity(0.7),
                 BlendMode.srcOver),
           ),
           borderRadius: isDrawerOpen
