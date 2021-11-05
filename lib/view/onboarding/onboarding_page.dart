@@ -44,7 +44,7 @@ class OnBoardingPage extends StatelessWidget {
       body: Stack(
         children: [
           Padding(
-            padding: const EdgeInsets.only(left: 100,right: 100,top:100,bottom: 50),
+            padding: const EdgeInsets.only(left: 100,right: 100,top:70,bottom: 50),
             child: Image.asset('images/LIBMOT LOGO 1.png',height: 100,),
           ),
           Container(

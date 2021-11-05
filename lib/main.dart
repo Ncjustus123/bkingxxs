@@ -81,11 +81,6 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     checkUpdate();
-    // UpgradeAlert(
-    //   countryCode: "NG",
-    //   dialogStyle: UpgradeDialogStyle.cupertino,
-    //   child: Center(child: Text("checking...")),
-    // );
     LocalNotification.initilize(context);
     FirebaseMessaging.onMessage.listen((message) {
       if (message.notification != null) {
@@ -97,41 +92,6 @@ class MyApp extends StatelessWidget {
 
       //LocalNotification.display(message);
     });
-    Future<bool> checkConfig(BuildContext context) async {
-      PackageInfo packageInfo = await PackageInfo.fromPlatform();
-      String version = packageInfo.version;
-      print("version is $version");
-      if (Theme.of(context).platform == TargetPlatform.android) {
-        String currentVersion = config.getString("current_android_version");
-        bool isMandatory = config.getBool("android_update_mandatory");
-        if (!config.getBool("android_active")) {
-        }
-        if (!isUserAppCurrent(version, currentVersion)) {
-          // show dialog
-          print("current status $isMandatory");
-          showAndroidUpdateDialog(context, isMandatory);
-        }
-      }
-      return true;
-    }
-
-    Future<RemoteConfig> setupRemoteConfig() async {
-      final RemoteConfig remoteConfig = await RemoteConfig.instance;
-      remoteConfig.setConfigSettings(RemoteConfigSettings());
-      try {
-        await remoteConfig.notifyListeners();
-        await remoteConfig.fetch();
-        remoteConfig.setDefaults(<String, dynamic>{
-          'current_android_version': '1.0.0',
-          'android_active': true,
-          'android_update_mandatory': true,
-        });
-        print(remoteConfig.getBool("android_active"));
-        return remoteConfig;
-      } catch (e) {
-        return null;
-      }
-    }
 
 
 
@@ -148,19 +108,6 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => ThemeProvider()),
       ],
       child: GetMaterialApp(
-        home:FutureBuilder(
-          future: setupRemoteConfig(),
-          builder: (BuildContext context, AsyncSnapshot<RemoteConfig>snapshot){
-            return snapshot.hasData && (snapshot.connectionState == ConnectionState.done)
-                ?Provider(
-              remote: snapshot.data,
-              child: Builder(builder: (context){
-                Future.delayed(Duration(milliseconds: 500),()=> checkConfig(context));
-                return WelcomePage();
-              },),
-            ):Container();
-          },
-        ) ,
         defaultTransition: Transition.zoom,
         transitionDuration: Duration(milliseconds: 250),
         theme: MyThemes.lightTheme,
@@ -175,90 +122,6 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-
-class Provider extends InheritedWidget{
-  final RemoteConfig remote;
-  final Map appConfig = {};
-  Provider({
-    Key key,
-    Widget child,
-    this.remote,
-}):super(key: key,child:child);
-  @override
-  bool updateShouldNotify(covariant InheritedWidget oldWidget) {
-    return true;
-
-  }
-
-}
-bool isUserAppCurrent(String deviceVersion, String firebaseVersion) {
-  List deviceList = deviceVersion.split(".");
-  List firebaseList = firebaseVersion.split(".");
-
-  var unionLength = firebaseList.length > deviceList.length
-      ? firebaseList.length
-      : deviceList.length;
-
-  for (var i = 0; i < unionLength; i++) {
-    if (deviceList.length - 1 < i) {
-      return false;
-    }
-    if (firebaseList.length - 1 < i) {
-      return true;
-    }
-
-    if (int.parse(firebaseList[i]) > int.parse(deviceList[i])) {
-      return false;
-    }
-
-    if (int.parse(firebaseList[i]) == int.parse(deviceList[i]) &&
-        i == unionLength - 1) {
-      return true;
-    }
-  }
-
-  return false;
-}
-
-void showAndroidUpdateDialog(BuildContext context, bool mandatory) {
-  showDialog(
-      context: context,
-      barrierDismissible: !mandatory,
-      builder: (context) {
-        return WillPopScope(
-          onWillPop: () async {
-            return !mandatory;
-          },
-          child: AlertDialog(
-            contentPadding:
-            const EdgeInsets.only(bottom: 10, left: 20, right: 20, top: 10),
-            title: Text("New Version Available"),
-            content: Text(
-                "Your version of Libmot Self Service app is currently outdated, Please visit android store to get the latest version"),
-            actions: <Widget>[
-              (mandatory)
-                  ? Container()
-                  : FlatButton(
-                child: Text("Later"),
-                onPressed: () {
-                  Navigator.of(context, rootNavigator: true).pop();
-                },
-              ),
-
-              FlatButton(
-                child: Text("Update Now"),
-                onPressed: () {
-                  // StoreRedirect.redirect(
-                  //     androidAppId: SystemProperties.appPackageAndroid,
-                  //     iOSAppId: SystemProperties.appIDIOS);
-                },
-              ),
-            ],
-          ),
-        );
-      });
-}
-
 
 class NewDialogs{
   static showMessage({

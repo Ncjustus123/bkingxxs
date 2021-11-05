@@ -144,12 +144,13 @@ class _DrawerScreenState extends State<DrawerScreen> {
                     icon: 'icons/wallet.png',
                     title: 'Wallet',
                     onTap: () {
-                      if(user.profile != null) {
-                        print("loggedIn");
-                        Get.to( WalletPage());
-                      }else{
-                        Get.snackbar("Opps", "login to Access Wallet");
-                      }
+                      Get.snackbar("Opps", " Wallet Coming soon");
+                      // if(user.profile != null) {
+                      //   print("loggedIn");
+                      //   Get.to( WalletPage());
+                      // }else{
+                      //   Get.snackbar("Opps", "login to Access Wallet");
+                      // }
 
                     },
                   ),
