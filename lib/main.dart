@@ -89,6 +89,8 @@ class MyApp extends StatelessWidget {
             title: '${message.notification.title}',
             message: '${message.notification.body}');
       }
+
+      //LocalNotification.display(message);
     });
 
 
@@ -120,6 +122,7 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+
 class NewDialogs{
   static showMessage({
     message,
