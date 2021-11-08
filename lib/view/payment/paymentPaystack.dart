@@ -82,23 +82,28 @@ class _PaymentPaystackState extends State<PaymentPaystack> {
                         ),
                       ),
     ],),
-                  // Padding(
-                  //   padding: const EdgeInsets.only(left:120,right: 120,top:30,bottom: 0),
-                  //   child: FlatButton(
-                  //     height: 50,
-                  //       onPressed: (){
-                  //       Get.to(WalletPage());
-                  //       },
-                  //       textColor: Colors.white,
-                  //       color: Theme.of(context).primaryColor,
-                  //       child: Row(
-                  //         children: [
-                  //           Icon(Icons.wallet_giftcard),
-                  //           SizedBox(width: 5,),
-                  //           Text("Pay with Wallet"),
-                  //         ],
-                  //       )),
-                  // ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 90,right: 90,top: 30),
+                    child: SizedBox(
+                      height: 50,
+                      width: 550,
+                      child: RaisedButton(
+                          onPressed: (){
+                            Get.snackbar("Opps", "Wallet Coming soon");
+                          //Get.to(WalletPage());
+                          },
+                          textColor: Colors.white,
+                          color: Theme.of(context).primaryColor,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(Icons.wallet_giftcard),
+                              SizedBox(width: 5,),
+                              Text("Pay with Wallet"),
+                            ],
+                          )),
+                    ),
+                  ),
                 ],
               ),],),],),);}
 

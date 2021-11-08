@@ -488,7 +488,7 @@ class _BookASeatPageState extends State<BookASeatPage>
                           ? departureItems.length
                           : nyscOption == 'general'
                               ? arrivalItems.length
-                              : arrivalItems.length, (index) {
+                              : nyscArrivalItems.length, (index) {
                     return new ListTile(
                       onTap: () {
                         direction == 'from'
@@ -496,7 +496,7 @@ class _BookASeatPageState extends State<BookASeatPage>
                             : selectToOption(
                                 nyscOption == 'general'
                                     ? arrivalItems[index]
-                                    : arrivalItems[index],
+                                    : nyscArrivalItems[index],
                               );
                       },
                       title: Text(
@@ -504,7 +504,7 @@ class _BookASeatPageState extends State<BookASeatPage>
                             ? departureItems[index].name
                             : nyscOption == 'general'
                                 ? arrivalItems[index].name
-                                : arrivalItems[index].name,
+                                : nyscArrivalItems[index].name,
                         softWrap: true,
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
@@ -516,7 +516,7 @@ class _BookASeatPageState extends State<BookASeatPage>
                               : nyscOption == 'general'
                               ?selectedTo == arrivalItems[index].name
                                   ? FontWeight.w600
-                                  : FontWeight.w500: selectedTo == arrivalItems[index].name?FontWeight.w600
+                                  : FontWeight.w500: selectedTo == nyscArrivalItems[index].name?FontWeight.w600
                               : FontWeight.w500,
                         ),
                       ),
@@ -531,7 +531,7 @@ class _BookASeatPageState extends State<BookASeatPage>
                               ? Icon(Icons.check,
                                   size: 15,
                                   color: Theme.of(context).primaryColor)
-                              : Text(''):selectedTo == arrivalItems[index].name
+                              : Text(''):selectedTo == nyscArrivalItems[index].name
                           ? Icon(Icons.check,
                           size: 15,
                           color: Theme.of(context).primaryColor)
