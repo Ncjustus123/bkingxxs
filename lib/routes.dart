@@ -112,7 +112,7 @@ Route routes(RouteSettings settings) {
       break;
       case "/passengerInfomation":
       {
-        return MaterialPageRoute(builder: (context) => PassengerInfoPage());
+        return MaterialPageRoute(builder: (context) => PassengerInfoPage(bus : args,));
 
       }
       break;

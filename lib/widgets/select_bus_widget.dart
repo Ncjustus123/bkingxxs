@@ -15,6 +15,8 @@ class SelectBus extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+   //
+    // booking.bus = bus.vehicleName;
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 3),
       child: InkWell(

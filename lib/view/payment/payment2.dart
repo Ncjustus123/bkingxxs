@@ -20,12 +20,12 @@ import 'package:Libmot_Mobile/constants/dialogs/dialog.dart';
 import 'package:Libmot_Mobile/constants/Buttons/buttons.dart';
 import 'package:Libmot_Mobile/models/paymentPaystackModel.dart';
 
-class PaymentPaystack extends StatefulWidget {
+class PaymentPaystackTwo extends StatefulWidget {
   @override
-  _PaymentPaystackState createState() => _PaymentPaystackState();
+  _PaymentPaystackTwoState createState() => _PaymentPaystackTwoState();
 }
 
-class _PaymentPaystackState extends State<PaymentPaystack> {
+class _PaymentPaystackTwoState extends State<PaymentPaystackTwo> {
   final cardNumbercontroller = TextEditingController();
   final monthAndyearofCardExpiry = TextEditingController();
   final cardHoldername = TextEditingController();
@@ -50,6 +50,7 @@ class _PaymentPaystackState extends State<PaymentPaystack> {
   @override
   Widget build(BuildContext context) {
     booking = Provider.of<BookingRepository>(context);
+    var firstfare = booking.getBusesResponseModel.object.departures[0].adultFare;
     return Scaffold(
       body: Stack(
         fit: StackFit.expand,
@@ -65,23 +66,23 @@ class _PaymentPaystackState extends State<PaymentPaystack> {
                     children: [
                       InkWell(
                         onTap: (){
-                          initializePayment(booking.totalestimate,booking.postBookingResponse.object.bookingReferenceCode);
+                          initializePayment(booking.totalestimates,booking.postBookingResponse.object.bookingReferenceCode);
                         },
                         child: Image.asset(
-                        'images/paystack.png',
+                          'images/paystack.png',
                           height: 80,
                         ),
                       ),
                       InkWell(
                         onTap: (){
-                        Get.snackbar("Sorry!", "FlutterWave not available!");
+                          Get.snackbar("Sorry!", "FlutterWave not available!");
                         },
                         child: Image.asset(
                           'images/flutterwave.png',
                           height: 80,
                         ),
                       ),
-    ],),
+                    ],),
                   Padding(
                     padding: const EdgeInsets.only(left: 90,right: 90,top: 30),
                     child: SizedBox(
@@ -90,7 +91,7 @@ class _PaymentPaystackState extends State<PaymentPaystack> {
                       child: RaisedButton(
                           onPressed: (){
                             Get.snackbar("Opps", "Wallet Coming soon");
-                          //Get.to(WalletPage());
+                            //Get.to(WalletPage());
                           },
                           textColor: Colors.white,
                           color: Theme.of(context).primaryColor,
@@ -109,7 +110,7 @@ class _PaymentPaystackState extends State<PaymentPaystack> {
 
   void initializePayment(double amount, String reference) async {
     Charge c = Charge();
-    c.amount = (booking.postBookingResponse.object.amount * 100).toInt();
+    c.amount = (booking.totalestimates * 100).toInt();
     c.card = PaymentCard.empty();
     c.email = booking.booking.email;
     c.reference = booking.postBookingResponse.object.bookingReferenceCode;
@@ -139,7 +140,7 @@ class _PaymentPaystackState extends State<PaymentPaystack> {
     showFetchingData('Processing ..');
     object = PaymentModelObject(
       email: booking.booking.email,
-      amount: booking.postBookingResponse.object.amount.toInt(),
+      amount: booking.totalestimates.toInt(),
       refCode: booking.postBookingResponse.object.bookingReferenceCode,
       paystackrefrence: 5,
     );
@@ -152,7 +153,7 @@ class _PaymentPaystackState extends State<PaymentPaystack> {
       EasyLoading.dismiss();
       print("Payment Success");
       dialog(context, "Payment Successful",
-          "Your booking 0f ${getNairaSign()}${booking.totalestimate} was successful",
+          "Your booking 0f ${getNairaSign()}${booking.totalestimates} was successful",
           onpressed: () {
             Get.to(BookingConfirmation());
           });
@@ -160,7 +161,7 @@ class _PaymentPaystackState extends State<PaymentPaystack> {
       print("payment failed");
       EasyLoading.dismiss();
       dialog1(context, "Payment failed",
-          "Your booking 0f ${getNairaSign()}${booking.totalestimate} was unsuccessful",
+          "Your booking 0f ${getNairaSign()}${booking.totalestimates} was unsuccessful",
           onpressed: () {
             Get.offAll(()=>DashboardPage());
           });

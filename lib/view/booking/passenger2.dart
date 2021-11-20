@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:Libmot_Mobile/Reusables/appBar.dart';
 import 'package:Libmot_Mobile/Reusables/appBar_passenger_info.dart';
+import 'package:Libmot_Mobile/Reusables/appbar2.dart';
 import 'package:Libmot_Mobile/Reusables/buttons.dart';
 import 'package:Libmot_Mobile/Reusables/text_field.dart';
 import 'package:Libmot_Mobile/constants/constants.dart';
@@ -11,6 +12,7 @@ import 'package:Libmot_Mobile/controllers/seat_selection_repository.dart';
 import 'package:Libmot_Mobile/controllers/user_repository.dart';
 import 'package:Libmot_Mobile/models/booking_model.dart';
 import 'package:Libmot_Mobile/models/get_buses_response.dart';
+import 'package:Libmot_Mobile/view/booking/apply2.dart';
 import 'package:after_layout/after_layout.dart';
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/material.dart';
@@ -20,15 +22,15 @@ import 'package:provider/provider.dart';
 
 import 'apply_coupon_page.dart';
 
-class PassengerInfoPage extends StatefulWidget {
+class PassengerInfoPageTwo extends StatefulWidget {
   final Buses bus;
-  PassengerInfoPage({this.bus,});
+  PassengerInfoPageTwo({this.bus,});
   @override
-  _PassengerInfoPageState createState() => _PassengerInfoPageState();
+  _PassengerInfoPageTwoState createState() => _PassengerInfoPageTwoState();
 }
 
-class _PassengerInfoPageState extends State<PassengerInfoPage>
-    with AfterLayoutMixin<PassengerInfoPage>, SingleTickerProviderStateMixin {
+class _PassengerInfoPageTwoState extends State<PassengerInfoPageTwo>
+    with AfterLayoutMixin<PassengerInfoPageTwo>, SingleTickerProviderStateMixin {
   List<String> genderType = [
     'Male',
     'Female',
@@ -91,7 +93,7 @@ class _PassengerInfoPageState extends State<PassengerInfoPage>
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               myWhiteAppBar(context, 'Travel Detail'),
-              CustomAppBar(),
+              CustomAppBarTwo(),
               Expanded(
                 child: Container(
                   // padding: const EdgeInsets.all(10.0),
@@ -137,7 +139,7 @@ class _PassengerInfoPageState extends State<PassengerInfoPage>
                                 textCapitalization: TextCapitalization.words,
                                 controller: lastNamecontroller,
                                 onSaved: (value) =>
-                                    booking.booking.lastName = value,
+                                booking.booking.lastName = value,
                                 validator: (value) {
                                   if (value.isEmpty) {
                                     return 'error';
@@ -162,7 +164,7 @@ class _PassengerInfoPageState extends State<PassengerInfoPage>
                                 keyboardType: TextInputType.phone,
                                 controller: phoneNumbercontroller,
                                 onSaved: (value) =>
-                                    booking.booking.phoneNumber = value,
+                                booking.booking.phoneNumber = value,
                                 validator: (value) {
                                   if (value.isEmpty) {
                                     return 'error';
@@ -177,7 +179,7 @@ class _PassengerInfoPageState extends State<PassengerInfoPage>
                                 keyboardType: TextInputType.emailAddress,
                                 controller: emailcontroller,
                                 onSaved: (value) =>
-                                    booking.booking.email = value,
+                                booking.booking.email = value,
                                 validator: (value) {
                                   if (value.isEmpty) {
                                     return 'error';
@@ -209,7 +211,7 @@ class _PassengerInfoPageState extends State<PassengerInfoPage>
                                 textCapitalization: TextCapitalization.words,
                                 controller: genderController,
                                 onSaved: (value) => booking.booking.gender =
-                                    (value == "Male") ? 0 : 1,
+                                (value == "Male") ? 0 : 1,
                               ),
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
@@ -223,7 +225,7 @@ class _PassengerInfoPageState extends State<PassengerInfoPage>
                                 textCapitalization: TextCapitalization.words,
                                 controller: nextOfkincontroller,
                                 onSaved: (value) =>
-                                    booking.booking.nextOfKinName = value,
+                                booking.booking.nextOfKinName = value,
                                 validator: (value) {
                                   if (value.isEmpty) {
                                     return 'error';
@@ -247,7 +249,7 @@ class _PassengerInfoPageState extends State<PassengerInfoPage>
                                 keyboardType: TextInputType.phone,
                                 controller: kinNumbercontroller,
                                 onSaved: (value) =>
-                                    booking.booking.nextOfKinPhone = value,
+                                booking.booking.nextOfKinPhone = value,
                                 validator: (value) {
                                   if (value.isEmpty) {
                                     return 'error';
@@ -268,10 +270,10 @@ class _PassengerInfoPageState extends State<PassengerInfoPage>
                                     ];
                                   }
                                   if (booking.getBuses.numberOfAdults - 1 ==
-                                          adultBeneficiaryNames.length &&
+                                      adultBeneficiaryNames.length &&
                                       booking.getBuses.numberOfChildren ==
                                           childrenBeneficiary.length) {
-                                    Get.to(() => ApplyCoupon());
+                                    Get.to(() => ApplyCouponTwo());
                                   } else {
                                     Get.snackbar("Oops",
                                         "You need to add beneficiaries");
@@ -338,7 +340,7 @@ class _PassengerInfoPageState extends State<PassengerInfoPage>
     return Container(
       color: Colors.transparent,
       padding:
-          EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+      EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
       child: Container(
         decoration: BoxDecoration(
             borderRadius: BorderRadius.vertical(top: Radius.circular(35)),
@@ -512,36 +514,36 @@ class _PassengerInfoPageState extends State<PassengerInfoPage>
       children: [
         (booking.getBuses.numberOfAdults > 1)
             ? Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  (noOfAdultBeneficiaries == adultBeneficiaryNames.length)
-                      ? beneficiaryHeader('Adults', Colors.indigo)
-                      : Container(),
-                  ...adultBeneficiaryNames,
-                  (noOfAdultBeneficiaries > adultBeneficiaryNames.length)
-                      ? travllersContainer(
-                          _height,
-                          _width,
-                          BeneficiaryType.adult,
-                        )
-                      : SizedBox()
-                ],
-              )
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            (noOfAdultBeneficiaries == adultBeneficiaryNames.length)
+                ? beneficiaryHeader('Adults', Colors.indigo)
+                : Container(),
+            ...adultBeneficiaryNames,
+            (noOfAdultBeneficiaries > adultBeneficiaryNames.length)
+                ? travllersContainer(
+              _height,
+              _width,
+              BeneficiaryType.adult,
+            )
+                : SizedBox()
+          ],
+        )
             : SizedBox(),
         (noOfChildrenBeneficiaries > 0)
             ? Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  (noOfChildrenBeneficiaries == childrenBeneficiaryNames.length)
-                      ? beneficiaryHeader('Child(ren)', Colors.blueAccent)
-                      : Container(),
-                  ...childrenBeneficiaryNames,
-                  (noOfChildrenBeneficiaries > childrenBeneficiaryNames.length)
-                      ? travllersContainer(
-                          _height, _width, BeneficiaryType.children)
-                      : SizedBox(),
-                ],
-              )
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            (noOfChildrenBeneficiaries == childrenBeneficiaryNames.length)
+                ? beneficiaryHeader('Child(ren)', Colors.blueAccent)
+                : Container(),
+            ...childrenBeneficiaryNames,
+            (noOfChildrenBeneficiaries > childrenBeneficiaryNames.length)
+                ? travllersContainer(
+                _height, _width, BeneficiaryType.children)
+                : SizedBox(),
+          ],
+        )
             : SizedBox(),
       ],
     );
@@ -595,7 +597,7 @@ class TravellersContainer extends StatelessWidget {
           ),
         ),
         decoration:
-            BoxDecoration(color: Colors.blueGrey, boxShadow: <BoxShadow>[
+        BoxDecoration(color: Colors.blueGrey, boxShadow: <BoxShadow>[
           BoxShadow(
               spreadRadius: 2,
               blurRadius: 2,

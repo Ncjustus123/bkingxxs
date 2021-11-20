@@ -2,6 +2,7 @@
 import 'package:Libmot_Mobile/models/get_buses_response.dart';
 import 'package:Libmot_Mobile/controllers/booking_repository.dart';
 import 'package:Libmot_Mobile/controllers/seat_selection_repository.dart';
+import 'package:Libmot_Mobile/view/booking/passenger2.dart';
 import 'package:Libmot_Mobile/view/booking/passenger_info_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -20,11 +21,13 @@ class TwelveSeaterBus extends StatelessWidget {
   BookingRepository booking;
   SeatSelectionRepository seatSelection;
 
+
   @override
   Widget build(BuildContext context) {
     booking = Provider.of<BookingRepository>(context);
     seatSelection = Provider.of<SeatSelectionRepository>(context);
     seatSelection.initialSetUp(bus);
+    booking.bus = bus.adultFare;
     return Expanded(
       child: Container(
         padding: const EdgeInsets.all(18.0),
@@ -120,7 +123,7 @@ class TwelveSeaterBus extends StatelessWidget {
                    booking.booking.seatRegistrations = guid;
                     booking.booking.routeId = bus.routeId;
                   (booking.getBusesResponseModel.object.tripType == 0)
-                      ? Get.to(() => PassengerInfoPage())
+                      ? Get.to(() => PassengerInfoPageTwo())
                       : Navigator.of(context).pushNamed(roundTripSearch);
                 },
                 name: "Continue",

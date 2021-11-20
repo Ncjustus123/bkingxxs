@@ -4,13 +4,13 @@ import 'package:Libmot_Mobile/controllers/booking_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class CustomAppBar extends StatefulWidget implements PreferredSizeWidget {
-   Buses buss;
-  CustomAppBar({this.buss}) : preferredSize = Size.fromHeight(100);
+class CustomAppBarTwo extends StatefulWidget implements PreferredSizeWidget {
+  Buses buss;
+  CustomAppBarTwo({this.buss}) : preferredSize = Size.fromHeight(100);
   @override
   final Size preferredSize;
 
-  _CustomAppBarState createState() => _CustomAppBarState();
+  _CustomAppBarTwoState createState() => _CustomAppBarTwoState();
 }
 
 //  int index;
@@ -18,34 +18,35 @@ List<Buses> bus;
 BookingRepository booking;
 int index;
 
-class _CustomAppBarState extends State<CustomAppBar> {
+class _CustomAppBarTwoState extends State<CustomAppBarTwo> {
   @override
   Widget build(BuildContext context) {
     booking = Provider.of<BookingRepository>(context);
+    double firstfare = booking.getBusesResponseModel.object.departures[0].adultFare;
+    double childfirstfare = booking.getBusesResponseModel.object.departures[0].childFare;
     var busName =booking.getBusesResponseModel.object.departures;
     int totalTravellers =
         booking.getBuses.numberOfChildren + booking.getBuses.numberOfAdults;
     double estimatedAdultfare = (booking.getBusesResponseModel.object.tripType == 0)
         ? booking.getBuses.numberOfAdults *
-            booking.departureSelectedBus.adultFare
+        firstfare
         : booking.getBuses.numberOfAdults *
-                booking.departureSelectedBus.adultFare +
-            booking.getBuses.numberOfAdults *
-                booking.arrivalSelectedBus.adultFare;
+        booking.getBuses.numberOfAdults *
+        firstfare;
     double estimateChildfare =(booking.getBusesResponseModel.object.tripType == 0)
         ? booking.getBuses.numberOfChildren *
-            booking.departureSelectedBus.childFare
+        childfirstfare
         : booking.getBuses.numberOfChildren *
-                booking.departureSelectedBus.childFare +
-            booking.getBuses.numberOfChildren *
-                booking.arrivalSelectedBus.childFare;
+        childfirstfare+
+        booking.getBuses.numberOfChildren *
+            childfirstfare;
 
-    double totalEstimate = estimatedAdultfare + estimateChildfare;
-    booking.totalestimate = totalEstimate;
+    double totalEstimates = estimatedAdultfare + estimateChildfare;
+    booking.totalestimates = totalEstimates;
     booking.totalTravellers = totalTravellers;
     print("${booking.getBusesResponseModel.object.departures[0].adultFare}");
     print("${booking.getBusesResponseModel.object.departures[0].vehicleName}");
-    var firstfare = booking.getBusesResponseModel.object.departures[0].adultFare;
+    //double firstfare = booking.getBusesResponseModel.object.departures[0].adultFare;
     var secondfare = booking.getBusesResponseModel.object.departures[1].adultFare;
     print("${booking.getBusesResponseModel.object.departures[1].adultFare}");
     print("${booking.getBusesResponseModel.object.departures[1].vehicleName}");
@@ -128,8 +129,8 @@ class _CustomAppBarState extends State<CustomAppBar> {
                       fadedContainer(
                           title: 'Fare price',
                           context: context,
-                          bottom:Text(
-                            "${getNairaSign()}${totalEstimate}",
+                          bottom: Text(
+                            "${getNairaSign()}${totalEstimates}",
                             style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 25,

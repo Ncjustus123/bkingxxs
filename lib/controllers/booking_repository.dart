@@ -39,12 +39,12 @@ class BookingRepository with ChangeNotifier {
   int routeid;
   String name;
   double totalestimate;
+  double totalestimates;
   int totalTravellers;
   var allArrivalIds;
   var arrivalOptions;
   int time;
-  
-
+  var bus;
  
 
   updatePassenger({numberAdult, numberChildren}) {

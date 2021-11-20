@@ -7,19 +7,18 @@ import 'package:Libmot_Mobile/controllers/booking_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class ApplyCoupon extends StatefulWidget {
+class ApplyCouponTwo extends StatefulWidget {
   @override
-  _ApplyCouponState createState() => _ApplyCouponState();
+  _ApplyCouponTwoState createState() => _ApplyCouponTwoState();
 }
 
-class _ApplyCouponState extends State<ApplyCoupon> {
+class _ApplyCouponTwoState extends State<ApplyCouponTwo> {
   bool checkValue = false;
   BookingRepository repository;
 
   @override
   Widget build(BuildContext context) {
     repository = Provider.of<BookingRepository>(context);
-    var firstfare = repository.getBusesResponseModel.object.departures[0].adultFare;
     final _width = MediaQuery.of(context).size.width;
     final _height = MediaQuery.of(context).size.height;
     return Scaffold(
@@ -35,7 +34,7 @@ class _ApplyCouponState extends State<ApplyCoupon> {
               decoration: BoxDecoration(
                   color: Theme.of(context).scaffoldBackgroundColor,
                   borderRadius:
-                      BorderRadius.vertical(top: Radius.circular(45))),
+                  BorderRadius.vertical(top: Radius.circular(45))),
               child: SingleChildScrollView(
                 child: Column(
                   children: [
@@ -72,7 +71,7 @@ class _ApplyCouponState extends State<ApplyCoupon> {
                                     fontSize: 18, fontWeight: FontWeight.w600)),
                           ),
                           Expanded(
-                            child: Text("${getNairaSign()}${repository.totalestimate}",
+                            child: Text("${getNairaSign()}${repository.totalestimates}",
                                 textAlign: TextAlign.right,
                                 style: TextStyle(
                                     fontSize: 18,
